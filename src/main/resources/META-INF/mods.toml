@@ -31,7 +31,7 @@ logoFile="createdeco_ico.png" #optional
 # A text field displayed in the mod UI
 credits="Thanks to the Create team for their awesome work!" #optional
 # A text field displayed in the mod UI
-authors="Talrey [code] & Kayla [Art]" #optional
+authors="Talrey [code] & Kayladillo [Art]" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Create Deco, for when your intricate spinning factory needs a little more beauty.
@@ -39,7 +39,7 @@ Create Deco, for when your intricate spinning factory needs a little more beauty
 Adds several varieties of decorative blocks to fill out Create's palette.
 '''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
-[[dependencies.examplemod]] #optional
+[[dependencies.createdeco]] #optional
     # the modid of the dependency
     modId="forge" #mandatory
     # Does this dependency have to exist - if not, ordering below must be specified
@@ -51,10 +51,16 @@ Adds several varieties of decorative blocks to fill out Create's palette.
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
     side="BOTH"
 # Here's another dependency
-[[dependencies.examplemod]]
+[[dependencies.createdeco]]
     modId="minecraft"
     mandatory=true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
     versionRange="[1.16.5,1.17)"
     ordering="NONE"
+    side="BOTH"
+[[dependencies.createdeco]]
+    modId="create"
+    mandatory=false
+    versionRange="[1.16.2,)"
+    ordering="AFTER"
     side="BOTH"
