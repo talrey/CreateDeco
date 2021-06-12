@@ -1,0 +1,162 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "1"
+                  }
+                }
+              ],
+              "count": 1
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "2"
+                  }
+                }
+              ],
+              "count": 2
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "3"
+                  }
+                }
+              ],
+              "count": 3
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "4"
+                  }
+                }
+              ],
+              "count": 4
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "5"
+                  }
+                }
+              ],
+              "count": 5
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "6"
+                  }
+                }
+              ],
+              "count": 6
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "7"
+                  }
+                }
+              ],
+              "count": 7
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        },
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "createdeco:iron_coinstack_block",
+                  "properties": {
+                    "layers": "8"
+                  }
+                }
+              ],
+              "count": 8
+            }
+          ],
+          "name": "createdeco:iron_coinstack"
+        }
+      ]
+    }
+  ]
+}
