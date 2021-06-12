@@ -1,0 +1,13 @@
+{
+  "block.createdeco.blue_bricks": "s\u029E\u0254\u0131\u0279\u15FA \u01DDn\u05DF\u15FA",
+  "block.createdeco.dean_bricks": "s\u029E\u0254\u0131\u0279\u15FA u\u0250\u01DD\u15E1",
+  "block.createdeco.dusk_bricks": "s\u029E\u0254\u0131\u0279\u15FA \u029Esn\u15E1",
+  "block.createdeco.pearl_bricks": "s\u029E\u0254\u0131\u0279\u15FA \u05DF\u0279\u0250\u01DD\u0500",
+  "block.createdeco.red_bricks": "s\u029E\u0254\u0131\u0279\u15FA p\u01DD\u1D1A",
+  "item.createdeco.blue_brick": "\u029E\u0254\u0131\u0279\u15FA \u01DDn\u05DF\u15FA",
+  "item.createdeco.dean_brick": "\u029E\u0254\u0131\u0279\u15FA u\u0250\u01DD\u15E1",
+  "item.createdeco.dusk_brick": "\u029E\u0254\u0131\u0279\u15FA \u029Esn\u15E1",
+  "item.createdeco.pearl_brick": "\u029E\u0254\u0131\u0279\u15FA \u05DF\u0279\u0250\u01DD\u0500",
+  "item.createdeco.red_brick": "\u029E\u0254\u0131\u0279\u15FA p\u01DD\u1D1A",
+  "itemGroup.createdeco": "o\u0254\u01DDp\u01DD\u0287\u0250\u01DD\u0279\u0254"
+}

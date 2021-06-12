@@ -31,7 +31,7 @@ logoFile="createdeco_ico.png" #optional
 # A text field displayed in the mod UI
 credits="Thanks to the Create team for their awesome work!" #optional
 # A text field displayed in the mod UI
-authors="Talrey [code] & Kayladillo [Art]" #optional
+authors="Talrey [Code] & Kayladillo [Art]" #optional
 # The description text for the mod (multi line!) (#mandatory)
 description='''
 Create Deco, for when your intricate spinning factory needs a little more beauty.
@@ -60,7 +60,7 @@ Adds several varieties of decorative blocks to fill out Create's palette.
     side="BOTH"
 [[dependencies.createdeco]]
     modId="create"
-    mandatory=false
-    versionRange="[1.16.2,)"
+    mandatory=true
+    versionRange="[mc1.16.5_v0.3.1c,)"
     ordering="AFTER"
     side="BOTH"

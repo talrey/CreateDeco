@@ -1,0 +1,13 @@
+{
+  "block.createdeco.blue_bricks": "Blue Bricks",
+  "block.createdeco.dean_bricks": "Dean Bricks",
+  "block.createdeco.dusk_bricks": "Dusk Bricks",
+  "block.createdeco.pearl_bricks": "Pearl Bricks",
+  "block.createdeco.red_bricks": "Red Bricks",
+  "item.createdeco.blue_brick": "Blue Brick",
+  "item.createdeco.dean_brick": "Dean Brick",
+  "item.createdeco.dusk_brick": "Dusk Brick",
+  "item.createdeco.pearl_brick": "Pearl Brick",
+  "item.createdeco.red_brick": "Red Brick",
+  "itemGroup.createdeco": "createdeco"
+}
