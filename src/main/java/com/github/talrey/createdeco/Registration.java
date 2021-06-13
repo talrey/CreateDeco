@@ -1,9 +1,12 @@
 package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
+import com.github.talrey.createdeco.items.CoinStackItem;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.advancements.criterion.CriterionInstance;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -15,7 +18,6 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,13 +31,13 @@ public class Registration {
   private static HashMap<DyeColor, String> BRICK_COLOR_NAMES = new HashMap<>();
   private static ArrayList<String> COIN_TYPES = new ArrayList<>();
 
-  public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK        = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static BlockEntry<Block> WORN_BRICK;
-  public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS = new HashMap<>();
+  public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
 
-  public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM           = new HashMap<>();
-  public static HashMap<String, ItemEntry<Item>> COIN_ITEM              = new HashMap<>();
-  public static HashMap<String, ItemEntry<Item>> COINSTACK_ITEM         = new HashMap<>();
+  public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
+  public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
+  public static HashMap<String, ItemEntry<CoinStackItem>> COINSTACK_ITEM = new HashMap<>();
 
   public Registration () {
     BRICK_COLOR_NAMES.put(DyeColor.BLACK, "Dusk");
@@ -65,7 +67,9 @@ public class Registration {
       .recipe((ctx, prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get())
         .patternLine("bb")
         .patternLine("bb")
-        .key('b', ()->BRICK_ITEM.get(dye).get())
+        .key('b', BRICK_ITEM.get(dye).get())
+        .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BRICK_ITEM.get(dye).get()))
+        .build(prov)
       )
       .defaultLoot()
       .simpleItem()
@@ -79,11 +83,12 @@ public class Registration {
           prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_bottom"),
           prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_top")
         )))
+        .lang(metal + " Stack Block")
         .loot((table, block) -> {
           LootTable.Builder builder = LootTable.builder();
           LootPool.Builder pool     = LootPool.builder();
           for (int layer = 1; layer<=8; layer++) {
-            pool.addEntry(ItemLootEntry.builder(COINSTACK_ITEM.get(metal.toLowerCase()).asStack().getItem())
+            pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(block)
               .acceptFunction(SetCount.builder(ConstantRange.of(layer)).acceptCondition(
                 BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
                   .exactMatch(BlockStateProperties.LAYERS_1_8, layer)
@@ -93,7 +98,6 @@ public class Registration {
           }
           table.registerLootTable(block, builder.addLootPool(pool));
         })
-        .lang(metal + " Stack")
         .register())
     );
   }
@@ -111,10 +115,13 @@ public class Registration {
       COIN_ITEM.put(metal.toLowerCase(), reg.item(metal.toLowerCase() + "_coin", Item::new)
         .lang(metal + " Coin")
         .register());
-      COINSTACK_ITEM.put(metal.toLowerCase(), reg.item(metal.toLowerCase() + "_coinstack", Item::new)
+      COINSTACK_ITEM.put(metal.toLowerCase(), reg.item(metal.toLowerCase() + "_coinstack", CoinStackItem::new)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
           .addIngredient(COIN_ITEM.get(metal.toLowerCase()).get(), 4)
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(COIN_ITEM.get(metal.toLowerCase()).get()))
+          .build(prov)
         )
+        .lang(metal + " Coinstack")
         .register());
     }
   }
