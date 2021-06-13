@@ -153,7 +153,7 @@ reobf {
 
 shadowJar {
     configurations = [project.configurations.shade]
-    relocate 'com.tterrag.registrate', 'com.railwayteam.railways.repack.registrate'
+    relocate 'com.tterrag.registrate', 'com.github.talrey.createdeco.repack.registrate'
 }
 
 repositories {
