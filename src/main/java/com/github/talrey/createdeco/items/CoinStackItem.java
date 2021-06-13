@@ -59,9 +59,9 @@ public class CoinStackItem extends Item {
   @Override
   public ActionResultType onItemUse(ItemUseContext ctx) {
     if (placeBlock (ctx)) {
-      LogManager.getLogger(CreateDecoMod.MODID).debug("success, decrementing stack of " + ctx.getItem().getCount());
+      //LogManager.getLogger(CreateDecoMod.MODID).debug("success, decrementing stack of " + ctx.getItem().getCount());
       ctx.getItem().shrink(1);
-      LogManager.getLogger(CreateDecoMod.MODID).debug("now at " + ctx.getItem().getCount());
+      //LogManager.getLogger(CreateDecoMod.MODID).debug("now at " + ctx.getItem().getCount());
       return ActionResultType.SUCCESS;
     }
     return super.onItemUse(ctx);

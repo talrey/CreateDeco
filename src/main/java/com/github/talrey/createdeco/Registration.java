@@ -18,6 +18,7 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,11 +79,16 @@ public class Registration {
 
     COIN_TYPES.forEach(metal ->
       COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
-        .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeBottomTop(ctx.getName(),
-          prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_side"),
-          prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_bottom"),
-          prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_top")
-        )))
+        .properties(props -> props.nonOpaque())
+        .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
+          int layer = state.get(BlockStateProperties.LAYERS_1_8);
+          return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
+            ctx.getName() + "_" + layer, prov.modLoc("block/layers_bottom_top_" + layer)
+          )
+          .texture("side",   prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_side"))
+          .texture("bottom", prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_bottom"))
+          .texture("top",    prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_top"))
+        ).build(); }))
         .lang(metal + " Stack Block")
         .loot((table, block) -> {
           LootTable.Builder builder = LootTable.builder();

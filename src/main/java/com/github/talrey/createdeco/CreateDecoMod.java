@@ -1,12 +1,17 @@
 package com.github.talrey.createdeco;
 
+import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -58,8 +63,9 @@ public class CreateDecoMod
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        // do something that can only be done on the client
-        //LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().options);
+        for (BlockEntry<CoinStackBlock> entry : Registration.COIN_BLOCKS.values()) {
+            RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+        }
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

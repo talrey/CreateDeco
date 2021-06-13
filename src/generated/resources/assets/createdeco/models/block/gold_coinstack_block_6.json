@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "createdeco:block/layers_bottom_top_6",
   "textures": {
     "side": "createdeco:block/gold_coinstack_side",
     "bottom": "createdeco:block/gold_coinstack_bottom",
