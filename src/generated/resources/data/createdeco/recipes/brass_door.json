@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mm",
+    "mm",
+    "mm"
+  ],
+  "key": {
+    "m": {
+      "item": "create:brass_ingot"
+    }
+  },
+  "result": {
+    "item": "createdeco:brass_door"
+  }
+}

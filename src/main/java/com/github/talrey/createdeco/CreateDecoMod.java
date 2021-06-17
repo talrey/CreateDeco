@@ -58,12 +58,15 @@ public class CreateDecoMod
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+      //  LOGGER.info("HELLO FROM PREINIT");
+      //  LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         for (BlockEntry<CoinStackBlock> entry : Registration.COIN_BLOCKS.values()) {
+            RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+        }
+        for (BlockEntry<?> entry : Registration.DOOR_BLOCKS.values()) {
             RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
         }
     }
@@ -95,7 +98,7 @@ public class CreateDecoMod
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
-            LOGGER.info("HELLO from Register Block");
+          //  LOGGER.info("HELLO from Register Block");
         }
     }
 }

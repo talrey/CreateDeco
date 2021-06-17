@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "texture": "createdeco:item/zinc_door"
+  }
+}

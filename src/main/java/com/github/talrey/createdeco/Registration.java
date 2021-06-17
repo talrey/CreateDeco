@@ -135,7 +135,9 @@ public class Registration {
           .build(prov)
         )
         .item()
-          .model((ctx,prov) -> prov.withExistingParent(ctx.getName() + "_top", prov.mcLoc("item/oak_door")))
+          .model((ctx,prov) ->
+            prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"), prov.modLoc("item/" + ctx.getName()))
+          )
           .build()
         .register())
     );
