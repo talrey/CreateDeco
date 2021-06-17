@@ -2,14 +2,15 @@ package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
+import com.simibubi.create.AllItems;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraft.advancements.criterion.CriterionInstance;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
@@ -19,6 +20,7 @@ import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.common.ToolType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,12 +31,15 @@ public class Registration {
     public ItemStack createIcon() { return new ItemStack(Blocks.BRICKS); } //BRICK_BLOCK.get(DyeColor.BLUE).get()); }
   };
 
-  private static HashMap<DyeColor, String> BRICK_COLOR_NAMES = new HashMap<>();
-  private static ArrayList<String> COIN_TYPES = new ArrayList<>();
+  private static HashMap<DyeColor, String> BRICK_COLOR_NAMES                     = new HashMap<>();
+  private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
+  private static HashMap<String,
+    com.simibubi.create.repack.registrate.util.entry.ItemEntry<Item>> DOOR_TYPES = new HashMap<>();
 
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static BlockEntry<Block> WORN_BRICK;
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
+  public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS       = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
@@ -53,6 +58,11 @@ public class Registration {
     COIN_TYPES.add("Iron");
     COIN_TYPES.add("Gold");
     COIN_TYPES.add("Netherite");
+
+    DOOR_TYPES.put("Andesite", AllItems.ANDESITE_ALLOY);
+    DOOR_TYPES.put("Copper",   AllItems.COPPER_INGOT);
+    DOOR_TYPES.put("Zinc",     AllItems.ZINC_INGOT);
+    DOOR_TYPES.put("Brass",    AllItems.BRASS_INGOT);
   }
 
   public static void registerBlocks (Registrate reg) {
@@ -61,6 +71,7 @@ public class Registration {
     BRICK_COLOR_NAMES.forEach((dye, name)->
       BRICK_BLOCK.put(dye, reg.block(name.toLowerCase() + "_bricks", Block::new)
       .initialProperties(Material.ROCK, dye)
+      .properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
       .blockstate((ctx,prov) -> prov.simpleBlock(ctx.get(), prov.models().cubeAll(
         ctx.getName(), prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + (name.equals("Red") ? "" : name.toLowerCase()+"_") + "bricks")
       )))
@@ -79,7 +90,7 @@ public class Registration {
 
     COIN_TYPES.forEach(metal ->
       COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
-        .properties(props -> props.nonOpaque())
+        .properties(props -> props.nonOpaque().hardnessAndResistance(0.5f))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
           int layer = state.get(BlockStateProperties.LAYERS_1_8);
           return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
@@ -94,7 +105,7 @@ public class Registration {
           LootTable.Builder builder = LootTable.builder();
           LootPool.Builder pool     = LootPool.builder();
           for (int layer = 1; layer<=8; layer++) {
-            pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(block)
+            pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(COINSTACK_ITEM.get(metal.toLowerCase()).get())
               .acceptFunction(SetCount.builder(ConstantRange.of(layer)).acceptCondition(
                 BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
                   .exactMatch(BlockStateProperties.LAYERS_1_8, layer)
@@ -104,6 +115,28 @@ public class Registration {
           }
           table.registerLootTable(block, builder.addLootPool(pool));
         })
+        .register())
+    );
+
+    DOOR_TYPES.forEach((metal,ingot) ->
+      DOOR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_door", DoorBlock::new)
+        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5))
+        .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(),
+          prov.modLoc("block/" + metal.toLowerCase() + "_door_bottom"),
+          prov.modLoc("block/" + metal.toLowerCase() + "_door_top"))
+        )
+        .lang(metal + " Door")
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get())
+          .patternLine("mm")
+          .patternLine("mm")
+          .patternLine("mm")
+          .key('m', ingot.get())
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(ingot.get()))
+          .build(prov)
+        )
+        .item()
+          .model((ctx,prov) -> prov.withExistingParent(ctx.getName() + "_top", prov.mcLoc("item/oak_door")))
+          .build()
         .register())
     );
   }

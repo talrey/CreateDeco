@@ -21,7 +21,7 @@
               "count": 1
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         },
         {
           "type": "minecraft:item",
@@ -40,7 +40,7 @@
               "count": 2
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         },
         {
           "type": "minecraft:item",
@@ -59,7 +59,7 @@
               "count": 3
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         },
         {
           "type": "minecraft:item",
@@ -78,7 +78,7 @@
               "count": 4
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         },
         {
           "type": "minecraft:item",
@@ -97,7 +97,7 @@
               "count": 5
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         },
         {
           "type": "minecraft:item",
@@ -116,7 +116,7 @@
               "count": 6
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         },
         {
           "type": "minecraft:item",
@@ -135,7 +135,7 @@
               "count": 7
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         },
         {
           "type": "minecraft:item",
@@ -154,7 +154,7 @@
               "count": 8
             }
           ],
-          "name": "minecraft:air"
+          "name": "createdeco:gold_coinstack"
         }
       ]
     }
