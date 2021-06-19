@@ -185,14 +185,15 @@ public class Registration {
          */
         .blockstate((ctx,prov) -> {
           MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
+
           BlockModelBuilder sideModel = prov.models().withExistingParent(
             ctx.getName()+"_side", prov.mcLoc("block/iron_bars_side"))
             .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
-            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()));
+            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")));
           BlockModelBuilder sideAltModel = prov.models().withExistingParent(
             ctx.getName()+"_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
             .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
-            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()));
+            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")));
 
           builder.part().modelFile(
             prov.models().withExistingParent(ctx.getName()+"_post", prov.mcLoc("block/iron_bars_post"))
@@ -203,6 +204,11 @@ public class Registration {
             .condition(BlockStateProperties.EAST, false)
             .condition(BlockStateProperties.WEST, false)
           .end();
+          builder.part().modelFile(
+            prov.models().withExistingParent(
+          ctx.getName()+"_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
+            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")))
+          ).addModel().end();
           builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
           builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
           builder.part().modelFile(sideAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();

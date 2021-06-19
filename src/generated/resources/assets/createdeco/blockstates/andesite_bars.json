@@ -12,6 +12,11 @@
       }
     },
     {
+      "apply": {
+        "model": "createdeco:block/andesite_bars_post_ends"
+      }
+    },
+    {
       "when": {
         "north": "true"
       },

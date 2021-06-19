@@ -12,6 +12,11 @@
       }
     },
     {
+      "apply": {
+        "model": "createdeco:block/netherite_bars_post_ends"
+      }
+    },
+    {
       "when": {
         "north": "true"
       },

@@ -2,6 +2,6 @@
   "parent": "minecraft:block/iron_bars_side_alt",
   "textures": {
     "bars": "createdeco:block/palettes/metal_bars/netherite_bars",
-    "edge": "createdeco:block/palettes/metal_bars/netherite_bars"
+    "edge": "createdeco:block/palettes/metal_bars/netherite_bars_post"
   }
 }
