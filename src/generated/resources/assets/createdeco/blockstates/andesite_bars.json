@@ -1,0 +1,54 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "createdeco:block/andesite_bars_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/andesite_bars_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/andesite_bars_side",
+        "y": 180,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/andesite_bars_side",
+        "y": 270,
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/andesite_bars_side",
+        "y": 90,
+        "uvlock": true
+      }
+    }
+  ]
+}

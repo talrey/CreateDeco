@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "texture": "createdeco:item/andesite_door"
+    "layer0": "createdeco:item/andesite_door"
   }
 }

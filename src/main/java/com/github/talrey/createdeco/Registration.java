@@ -2,7 +2,9 @@ package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
+import com.mojang.datafixers.TypeRewriteRule;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllTags;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -11,6 +13,7 @@ import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DoorBlock;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
@@ -19,11 +22,14 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.ToolType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Function;
 
 public class Registration {
   public static ItemGroup itemGroup = new ItemGroup(CreateDecoMod.MODID) {
@@ -35,11 +41,14 @@ public class Registration {
   private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
   private static HashMap<String,
     com.simibubi.create.repack.registrate.util.entry.ItemEntry<Item>> DOOR_TYPES = new HashMap<>();
+  private static HashMap<String, Function<String, Item>> BAR_TYPES               = new HashMap<>();
 
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static BlockEntry<Block> WORN_BRICK;
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
   public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS       = new HashMap<>();
+  public static HashMap<String, BlockEntry<PaneBlock>> BAR_BLOCKS        = new HashMap<>();
+  public static HashMap<String, BlockEntry<PaneBlock>> BAR_PANEL_BLOCKS  = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
@@ -63,6 +72,14 @@ public class Registration {
     DOOR_TYPES.put("Copper",   AllItems.COPPER_INGOT);
     DOOR_TYPES.put("Zinc",     AllItems.ZINC_INGOT);
     DOOR_TYPES.put("Brass",    AllItems.BRASS_INGOT);
+
+    BAR_TYPES.put("Andesite",  (str) -> AllItems.ANDESITE_ALLOY.get());
+    BAR_TYPES.put("Zinc",      (str) -> AllItems.ZINC_INGOT.get());
+    BAR_TYPES.put("Copper",    (str) -> AllItems.COPPER_INGOT.get());
+    BAR_TYPES.put("Brass",     (str) -> AllItems.BRASS_INGOT.get());
+    BAR_TYPES.put("Iron",      (str) -> Items.IRON_INGOT);
+    BAR_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
+    BAR_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
   }
 
   public static void registerBlocks (Registrate reg) {
@@ -136,8 +153,64 @@ public class Registration {
         )
         .item()
           .model((ctx,prov) ->
-            prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"), prov.modLoc("item/" + ctx.getName()))
-          )
+            prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
+              "layer0", prov.modLoc("item/" + ctx.getName())
+          ))
+          .build()
+        .register())
+    );
+
+    BAR_TYPES.forEach((metal,getter) ->
+      BAR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_bars", PaneBlock::new)
+        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 6))
+        /*
+        .blockstate((ctx,prov) -> prov.paneBlock(ctx.get(),
+          prov.models().panePost(ctx.getName()+"_post",
+            prov.modLoc("block/palettes/metal_bars/" + ctx.getName()),
+            prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal == "Brass" || metal == "Netherite"? "_top" : ""))
+          ),
+          prov.models().paneSide(ctx.getName()+"_side",
+            prov.modLoc("block/palettes/metal_bars/" + ctx.getName()),
+            prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal == "Brass" || metal == "Netherite"? "_top" : ""))
+          ),
+          prov.models().paneSideAlt(ctx.getName()+"_side_alt",
+            prov.modLoc("block/palettes/metal_bars/" + ctx.getName()),
+            prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal == "Brass" || metal == "Netherite"? "_top" : ""))
+          ),
+          prov.models().paneNoSide(ctx.getName()+"_noside", prov.modLoc("block/palettes/metal_bars/" + ctx.getName())),
+          prov.models().paneNoSideAlt(ctx.getName()+"_noside_alt", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
+        ))
+         */
+        .blockstate((ctx,prov) -> {
+          MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
+          builder.part().modelFile(
+            prov.models().withExistingParent(ctx.getName()+"_post", prov.mcLoc("block/iron_bars_post"))
+            .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")))
+          ).addModel()
+            .condition(BlockStateProperties.NORTH, false)
+            .condition(BlockStateProperties.SOUTH, false)
+            .condition(BlockStateProperties.EAST, false)
+            .condition(BlockStateProperties.WEST, false)
+          .end();
+          prov.fourWayMultipart(builder,
+            prov.models().withExistingParent(ctx.getName()+"_side", prov.mcLoc("block/iron_bars_side"))
+            .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
+            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
+          );
+        })
+        .lang(metal + " Bars")
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
+          .patternLine("mmm")
+          .patternLine("mmm")
+          .key('m', getter.apply(metal))
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(getter.apply(metal)))
+          .build(prov)
+        )
+        .item()
+          .model((ctx,prov) ->
+            prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
+              "layer0", prov.modLoc("block/palettes/metal_bars/" + ctx.getName())
+          ))
           .build()
         .register())
     );

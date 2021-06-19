@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "createdeco:item/copper_door"
+    "layer0": "createdeco:block/palettes/metal_bars/iron_bars"
   }
 }

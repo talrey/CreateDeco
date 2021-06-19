@@ -69,6 +69,9 @@ public class CreateDecoMod
         for (BlockEntry<?> entry : Registration.DOOR_BLOCKS.values()) {
             RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
         }
+        for (BlockEntry<?> entry : Registration.BAR_BLOCKS.values()) {
+            RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+        }
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mmm",
+    "mmm"
+  ],
+  "key": {
+    "m": {
+      "item": "create:copper_ingot"
+    }
+  },
+  "result": {
+    "item": "createdeco:copper_bars",
+    "count": 16
+  }
+}
