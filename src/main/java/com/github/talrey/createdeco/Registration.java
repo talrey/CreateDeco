@@ -109,6 +109,72 @@ public class Registration {
       .simpleItem();
   }
 
+  private static BlockBuilder<PaneBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
+    String base = metal.toLowerCase() + "_bars";
+    String suf  = suffix.equals("") ? "" : "_" + suffix.replace(' ','_').toLowerCase();
+    String post = "block/palettes/metal_bars/" + base + (metal == "Brass" || metal == "Netherite" ? "_post" : "");
+    return reg.block(base + suf, PaneBlock::new)
+      .properties(props -> props.nonOpaque().hardnessAndResistance(5, 6))
+      .blockstate((ctx, prov) -> {
+        MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
+
+        BlockModelBuilder sideModel = prov.models().withExistingParent(
+          base + "_side", prov.mcLoc("block/iron_bars_side"))
+          .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base))
+          .texture("edge", prov.modLoc(post));
+        BlockModelBuilder sideAltModel = prov.models().withExistingParent(
+          base + "_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
+          .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base))
+          .texture("edge", prov.modLoc(post));
+
+        builder.part().modelFile(prov.models().withExistingParent(base + "_post", prov.mcLoc("block/iron_bars_post"))
+          .texture("bars", prov.modLoc(post))
+        ).addModel()
+          .condition(BlockStateProperties.NORTH, false)
+          .condition(BlockStateProperties.SOUTH, false)
+          .condition(BlockStateProperties.EAST, false)
+          .condition(BlockStateProperties.WEST, false)
+          .end();
+        builder.part().modelFile(
+          prov.models().withExistingParent(base + "_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
+            .texture("edge", prov.modLoc(post))
+        ).addModel().end();
+          builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
+          builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
+          builder.part().modelFile(sideAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
+          builder.part().modelFile(sideAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
+
+          if (!suf.equals("")) {
+            BlockModelBuilder sideOverlayModel = prov.models().withExistingParent(
+              base + suf, prov.mcLoc("block/iron_bars_side"))
+              .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
+              .texture("edge", prov.modLoc(post));
+            BlockModelBuilder sideOverlayAltModel = prov.models().withExistingParent(
+              base + suf + "_alt", prov.mcLoc("block/iron_bars_side_alt"))
+              .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
+              .texture("edge", prov.modLoc(post));
+
+            builder.part().modelFile(sideOverlayModel).addModel().condition(BlockStateProperties.NORTH, true).end();
+            builder.part().modelFile(sideOverlayModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
+            builder.part().modelFile(sideOverlayAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
+            builder.part().modelFile(sideOverlayAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
+          }
+      })
+      .lang(metal + " Bars" + (suffix.equals("")?"":" " + suffix))
+      .item()
+        .model((ctx, prov) -> {
+          if (suf.equals("")) {
+            prov.singleTexture(base, prov.mcLoc("item/generated"),"layer0", prov.modLoc("block/palettes/metal_bars/" + base));
+          }
+          else {
+            prov.withExistingParent(base + suf, prov.mcLoc("item/generated"))
+              .texture("layer0", prov.modLoc("block/palettes/metal_bars/" + base))
+              .texture("layer1", prov.modLoc("block/palettes/metal_bars/" + base + suf));
+          }
+        })
+        .build();
+  }
+
   public static void registerBlocks (Registrate reg) {
     //reg.itemGroup(()->itemGroup, CreateDecoMod.MODID);
 
@@ -207,41 +273,8 @@ public class Registration {
         .register())
     );
 
-    BAR_TYPES.forEach((metal,getter) ->
-      BAR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_bars", PaneBlock::new)
-        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 6))
-        .blockstate((ctx,prov) -> {
-          MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
-
-          BlockModelBuilder sideModel = prov.models().withExistingParent(
-            ctx.getName()+"_side", prov.mcLoc("block/iron_bars_side"))
-            .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
-            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")));
-          BlockModelBuilder sideAltModel = prov.models().withExistingParent(
-            ctx.getName()+"_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
-            .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
-            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")));
-
-          builder.part().modelFile(
-            prov.models().withExistingParent(ctx.getName()+"_post", prov.mcLoc("block/iron_bars_post"))
-            .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")))
-          ).addModel()
-            .condition(BlockStateProperties.NORTH, false)
-            .condition(BlockStateProperties.SOUTH, false)
-            .condition(BlockStateProperties.EAST, false)
-            .condition(BlockStateProperties.WEST, false)
-          .end();
-          builder.part().modelFile(
-            prov.models().withExistingParent(
-          ctx.getName()+"_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
-            .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal=="Brass"||metal=="Netherite"?"_post":"")))
-          ).addModel().end();
-          builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
-          builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
-          builder.part().modelFile(sideAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
-          builder.part().modelFile(sideAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
-        })
-        .lang(metal + " Bars")
+    BAR_TYPES.forEach((metal,getter) -> {
+      BAR_BLOCKS.put(metal, buildBars(reg, metal, getter, "")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
           .patternLine("mmm")
           .patternLine("mmm")
@@ -249,14 +282,9 @@ public class Registration {
           .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(getter.apply(metal)))
           .build(prov)
         )
-        .item()
-          .model((ctx,prov) ->
-            prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
-              "layer0", prov.modLoc("block/palettes/metal_bars/" + ctx.getName())
-          ))
-          .build()
-        .register())
-    );
+        .register());
+      BAR_PANEL_BLOCKS.put(metal, buildBars(reg, metal, getter, "Panel").register());
+    });
   }
 
   public static void registerItems (Registrate reg) {

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/iron_bars_side",
+  "textures": {
+    "bars": "createdeco:block/palettes/metal_bars/gold_bars_panel",
+    "edge": "createdeco:block/palettes/metal_bars/gold_bars"
+  }
+}
