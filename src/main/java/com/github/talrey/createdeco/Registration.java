@@ -62,6 +62,8 @@ public class Registration {
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_BLOCKS        = new HashMap<>();
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_PANEL_BLOCKS  = new HashMap<>();
 
+  public static HashMap<String, BlockEntry<Block>> SHEET_METAL_BLOCKS    = new HashMap<>();
+
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
   public static ItemEntry<Item> WORN_BRICK_ITEM;
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
@@ -271,6 +273,17 @@ public class Registration {
         )
         .register());
       BAR_PANEL_BLOCKS.put(metal, buildBars(reg, metal, getter, "Panel").register());
+
+      SHEET_METAL_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_sheet_metal", Block::new)
+        .initialProperties(Material.IRON)
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
+          prov.modLoc("block/palettes/sheet_metal/" + ctx.getName())
+        )))
+        .lang(metal + " Sheet Metal")
+        .defaultLoot()
+        .simpleItem()
+        .register());
     });
   }
 
