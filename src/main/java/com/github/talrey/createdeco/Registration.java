@@ -2,10 +2,10 @@ package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
-import com.mojang.datafixers.TypeRewriteRule;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllTags;
 import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
@@ -22,10 +22,8 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.ToolType;
 
@@ -46,13 +44,26 @@ public class Registration {
   private static HashMap<String, Function<String, Item>> BAR_TYPES               = new HashMap<>();
 
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> TILE_BRICK_BLOCK    = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> LONG_BRICK_BLOCK    = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> SHORT_BRICK_BLOCK   = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> CRACKED_BRICK_BLOCK = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> CRACKED_TILE_BLOCK  = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> CRACKED_LONG_BLOCK  = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> CRACKED_SHORT_BLOCK = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_BRICK_BLOCK   = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_TILE_BLOCK    = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_LONG_BLOCK    = new HashMap<>();
+  public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_SHORT_BLOCK   = new HashMap<>();
   public static BlockEntry<Block> WORN_BRICK;
+
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
   public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS       = new HashMap<>();
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_BLOCKS        = new HashMap<>();
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_PANEL_BLOCKS  = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
+  public static ItemEntry<Item> WORN_BRICK_ITEM;
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
   public static HashMap<String, ItemEntry<CoinStackItem>> COINSTACK_ITEM = new HashMap<>();
 
@@ -84,28 +95,62 @@ public class Registration {
     BAR_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
   }
 
+  private static BlockBuilder<Block,?> buildBrick (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
+    String suf = suffix.replace(' ', '_').toLowerCase();
+    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
+    return reg.block(pre + name.toLowerCase() + "_" + suf, Block::new)
+      .initialProperties(Material.ROCK, dye)
+      .properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+      .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
+      )))
+      .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix)
+      .defaultLoot()
+      .simpleItem();
+  }
+
   public static void registerBlocks (Registrate reg) {
     //reg.itemGroup(()->itemGroup, CreateDecoMod.MODID);
 
-    BRICK_COLOR_NAMES.forEach((dye, name)->
-      BRICK_BLOCK.put(dye, reg.block(name.toLowerCase() + "_bricks", Block::new)
-      .initialProperties(Material.ROCK, dye)
+    BRICK_COLOR_NAMES.forEach((dye, name)-> {
+      BRICK_BLOCK.put(dye,         buildBrick(reg, dye, "", name, "Bricks")
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get())
+          .patternLine("bb")
+          .patternLine("bb")
+          .key('b', BRICK_ITEM.get(dye).get())
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BRICK_ITEM.get(dye).get()))
+          .build(prov)
+        ).register());
+      TILE_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Brick Tiles").register());
+      LONG_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Long Bricks").register());
+      SHORT_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "", name, "Short Bricks").register());
+      CRACKED_BRICK_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Bricks").register());
+      CRACKED_TILE_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Brick Tiles").register());
+      CRACKED_LONG_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Long Bricks").register());
+      CRACKED_SHORT_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Short Bricks").register());
+      MOSSY_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Bricks").register());
+      MOSSY_TILE_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Brick Tiles").register());
+      MOSSY_LONG_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Long Bricks").register());
+      MOSSY_SHORT_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Short Bricks").register());
+    });
+
+    WORN_BRICK = reg.block("worn_bricks", Block::new)
+      .initialProperties(Material.ROCK)
       .properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
-      .blockstate((ctx,prov) -> prov.simpleBlock(ctx.get(), prov.models().cubeAll(
-        ctx.getName(), prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + (name.equals("Red") ? "" : name.toLowerCase()+"_") + "bricks")
+      .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(
+        ctx.getName(), prov.modLoc("block/palettes/bricks/worn/" + ctx.getName())
       )))
-      .lang(name + " Bricks")
-      .recipe((ctx, prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get())
+      .lang("Worn Bricks")
+      .recipe((ctx,prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get())
         .patternLine("bb")
         .patternLine("bb")
-        .key('b', BRICK_ITEM.get(dye).get())
-        .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BRICK_ITEM.get(dye).get()))
+        .key('b', WORN_BRICK_ITEM.get())
+        .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(WORN_BRICK_ITEM.get()))
         .build(prov)
       )
       .defaultLoot()
       .simpleItem()
-      .register())
-    );
+      .register();
 
     COIN_TYPES.forEach(metal ->
       COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
@@ -165,24 +210,6 @@ public class Registration {
     BAR_TYPES.forEach((metal,getter) ->
       BAR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_bars", PaneBlock::new)
         .properties(props -> props.nonOpaque().hardnessAndResistance(5, 6))
-        /*
-        .blockstate((ctx,prov) -> prov.paneBlock(ctx.get(),
-          prov.models().panePost(ctx.getName()+"_post",
-            prov.modLoc("block/palettes/metal_bars/" + ctx.getName()),
-            prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal == "Brass" || metal == "Netherite"? "_top" : ""))
-          ),
-          prov.models().paneSide(ctx.getName()+"_side",
-            prov.modLoc("block/palettes/metal_bars/" + ctx.getName()),
-            prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal == "Brass" || metal == "Netherite"? "_top" : ""))
-          ),
-          prov.models().paneSideAlt(ctx.getName()+"_side_alt",
-            prov.modLoc("block/palettes/metal_bars/" + ctx.getName()),
-            prov.modLoc("block/palettes/metal_bars/" + ctx.getName() + (metal == "Brass" || metal == "Netherite"? "_top" : ""))
-          ),
-          prov.models().paneNoSide(ctx.getName()+"_noside", prov.modLoc("block/palettes/metal_bars/" + ctx.getName())),
-          prov.models().paneNoSideAlt(ctx.getName()+"_noside_alt", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
-        ))
-         */
         .blockstate((ctx,prov) -> {
           MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
 
@@ -213,11 +240,6 @@ public class Registration {
           builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
           builder.part().modelFile(sideAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
           builder.part().modelFile(sideAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
-        //  prov.fourWayMultipart(builder,
-        //    prov.models().withExistingParent(ctx.getName()+"_side", prov.mcLoc("block/iron_bars_side"))
-        //    .texture("bars", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
-        //    .texture("edge", prov.modLoc("block/palettes/metal_bars/" + ctx.getName()))
-        //  );
         })
         .lang(metal + " Bars")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
@@ -240,11 +262,24 @@ public class Registration {
   public static void registerItems (Registrate reg) {
     reg.itemGroup(()->itemGroup, CreateDecoMod.MODID);
 
-    BRICK_COLOR_NAMES.forEach((dye, name)->
+    BRICK_COLOR_NAMES.forEach((dye, name)-> {
       BRICK_ITEM.put(dye, reg.item(name.toLowerCase() + "_brick", Item::new)
         .lang(name + " Brick")
-        .register())
-    );
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get())
+          .patternLine("bbb")
+          .patternLine("bCb")
+          .patternLine("bbb")
+          .key('b', Items.BRICK)
+          .key('C', DyeItem.getItem(dye))
+        )
+        .register());
+      
+    });
+
+    WORN_BRICK_ITEM = reg.item("worn_brick", Item::new)
+      .lang("Worn Brick")
+      .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
+      .register();
 
     for (String metal : COIN_TYPES) {
       COIN_ITEM.put(metal.toLowerCase(), reg.item(metal.toLowerCase() + "_coin", Item::new)
