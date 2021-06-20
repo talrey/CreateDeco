@@ -73,6 +73,7 @@ public class Registration {
     BRICK_COLOR_NAMES.put(DyeColor.RED, "Red");
     BRICK_COLOR_NAMES.put(DyeColor.YELLOW, "Dean");
     BRICK_COLOR_NAMES.put(DyeColor.LIGHT_BLUE, "Blue");
+    BRICK_COLOR_NAMES.put(null, "Worn"); // this is funky but it works, I swear.
 
     COIN_TYPES.add("Zinc");
     COIN_TYPES.add("Copper");
@@ -98,9 +99,13 @@ public class Registration {
   private static BlockBuilder<Block,?> buildBrick (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
     String suf = suffix.replace(' ', '_').toLowerCase();
     String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
-    return reg.block(pre + name.toLowerCase() + "_" + suf, Block::new)
-      .initialProperties(Material.ROCK, dye)
-      .properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+    BlockBuilder<Block,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf, Block::new);
+    if (dye != null) {
+      ret.initialProperties(Material.ROCK, dye);
+    } else {
+      ret.initialProperties(Material.ROCK);
+    }
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
       .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
       )))
@@ -200,24 +205,6 @@ public class Registration {
       MOSSY_SHORT_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Short Bricks").register());
     });
 
-    WORN_BRICK = reg.block("worn_bricks", Block::new)
-      .initialProperties(Material.ROCK)
-      .properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
-      .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(
-        ctx.getName(), prov.modLoc("block/palettes/bricks/worn/" + ctx.getName())
-      )))
-      .lang("Worn Bricks")
-      .recipe((ctx,prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get())
-        .patternLine("bb")
-        .patternLine("bb")
-        .key('b', WORN_BRICK_ITEM.get())
-        .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(WORN_BRICK_ITEM.get()))
-        .build(prov)
-      )
-      .defaultLoot()
-      .simpleItem()
-      .register();
-
     COIN_TYPES.forEach(metal ->
       COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
         .properties(props -> props.nonOpaque().hardnessAndResistance(0.5f))
@@ -291,23 +278,23 @@ public class Registration {
     reg.itemGroup(()->itemGroup, CreateDecoMod.MODID);
 
     BRICK_COLOR_NAMES.forEach((dye, name)-> {
-      BRICK_ITEM.put(dye, reg.item(name.toLowerCase() + "_brick", Item::new)
-        .lang(name + " Brick")
-        .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get())
-          .patternLine("bbb")
-          .patternLine("bCb")
-          .patternLine("bbb")
-          .key('b', Items.BRICK)
-          .key('C', DyeItem.getItem(dye))
-        )
-        .register());
-      
+      if (dye == null) {
+        BRICK_ITEM.put(null, reg.item(name.toLowerCase() + "_brick", Item::new)
+          .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
+          .register());
+      } else {
+        BRICK_ITEM.put(dye, reg.item(name.toLowerCase() + "_brick", Item::new)
+          .lang(name + " Brick")
+          .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get())
+            .patternLine("bbb")
+            .patternLine("bCb")
+            .patternLine("bbb")
+            .key('b', Items.BRICK)
+            .key('C', DyeItem.getItem(dye))
+          )
+          .register());
+      }
     });
-
-    WORN_BRICK_ITEM = reg.item("worn_brick", Item::new)
-      .lang("Worn Brick")
-      .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
-      .register();
 
     for (String metal : COIN_TYPES) {
       COIN_ITEM.put(metal.toLowerCase(), reg.item(metal.toLowerCase() + "_coin", Item::new)
