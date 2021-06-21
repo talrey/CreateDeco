@@ -120,5 +120,7 @@
   "item.createdeco.worn_brick": "Worn Brick",
   "item.createdeco.zinc_coin": "Zinc Coin",
   "item.createdeco.zinc_coinstack": "Zinc Coinstack",
-  "itemGroup.createdeco": "createdeco"
+  "itemGroup.createdeco.bricks": "CreateDeco Bricks",
+  "itemGroup.createdeco.metals": "CreateDeco Metals",
+  "itemGroup.createdeco.props": "CreateDeco Props"
 }

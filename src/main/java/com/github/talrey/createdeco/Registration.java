@@ -3,6 +3,7 @@ package com.github.talrey.createdeco;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllTags;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
@@ -11,7 +12,6 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.PaneBlock;
 import net.minecraft.block.material.Material;
@@ -30,12 +30,9 @@ import net.minecraftforge.common.ToolType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Registration {
-  public static ItemGroup itemGroup = new ItemGroup(CreateDecoMod.MODID) {
-    @Override
-    public ItemStack createIcon() { return new ItemStack(Blocks.BRICKS); } //BRICK_BLOCK.get(DyeColor.BLUE).get()); }
-  };
 
   private static HashMap<DyeColor, String> BRICK_COLOR_NAMES                     = new HashMap<>();
   private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
@@ -55,7 +52,6 @@ public class Registration {
   public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_TILE_BLOCK    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_LONG_BLOCK    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_SHORT_BLOCK   = new HashMap<>();
-  public static BlockEntry<Block> WORN_BRICK;
 
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
   public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS       = new HashMap<>();
@@ -65,9 +61,35 @@ public class Registration {
   public static HashMap<String, BlockEntry<Block>> SHEET_METAL_BLOCKS    = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
-  public static ItemEntry<Item> WORN_BRICK_ITEM;
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
   public static HashMap<String, ItemEntry<CoinStackItem>> COINSTACK_ITEM = new HashMap<>();
+
+  public static class DecoItemGroup extends ItemGroup {
+    private final Supplier<ItemStack> sup;
+    public DecoItemGroup (final String name, final Supplier<ItemStack> supplier) {
+      super(name);
+      sup = supplier;
+    }
+    @Override
+    public ItemStack createIcon () {
+      return sup.get();
+    }
+  }
+  public static final ItemGroup BRICKS_GROUP = new DecoItemGroup(
+    CreateDecoMod.MODID + ".bricks",
+    () -> BRICK_BLOCK.get(DyeColor.LIGHT_BLUE).asStack()
+  );
+  public static final ItemGroup METALS_GROUP = new DecoItemGroup(
+    CreateDecoMod.MODID + ".metals",
+    () -> BAR_BLOCKS.get("Brass").asStack()
+  );
+  public static final ItemGroup PROPS_GROUP = new DecoItemGroup(
+    CreateDecoMod.MODID + ".props",
+    () -> COINSTACK_ITEM.get("Brass").asStack()
+  );
+  private static final String BRICKS_NAME = "CreateDeco Bricks";
+  private static final String METALS_NAME = "CreateDeco Metals";
+  private static final String PROPS_NAME  = "CreateDeco Props";
 
   public Registration () {
     BRICK_COLOR_NAMES.put(DyeColor.BLACK, "Dusk");
@@ -183,7 +205,7 @@ public class Registration {
   }
 
   public static void registerBlocks (Registrate reg) {
-    //reg.itemGroup(()->itemGroup, CreateDecoMod.MODID);
+    reg.itemGroup(()->BRICKS_GROUP);
 
     BRICK_COLOR_NAMES.forEach((dye, name)-> {
       BRICK_BLOCK.put(dye,         buildBrick(reg, dye, "", name, "Bricks")
@@ -207,6 +229,7 @@ public class Registration {
       MOSSY_SHORT_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Short Bricks").register());
     });
 
+    reg.itemGroup(()->PROPS_GROUP);
     COIN_TYPES.forEach(metal ->
       COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
         .properties(props -> props.nonOpaque().hardnessAndResistance(0.5f))
@@ -224,7 +247,7 @@ public class Registration {
           LootTable.Builder builder = LootTable.builder();
           LootPool.Builder pool     = LootPool.builder();
           for (int layer = 1; layer<=8; layer++) {
-            pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(COINSTACK_ITEM.get(metal.toLowerCase()).get())
+            pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(COINSTACK_ITEM.get(metal).get())
               .acceptFunction(SetCount.builder(ConstantRange.of(layer)).acceptCondition(
                 BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
                   .exactMatch(BlockStateProperties.LAYERS_1_8, layer)
@@ -237,6 +260,7 @@ public class Registration {
         .register())
     );
 
+    reg.itemGroup(()->METALS_GROUP);
     DOOR_TYPES.forEach((metal,ingot) ->
       DOOR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_door", DoorBlock::new)
         .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5))
@@ -264,6 +288,7 @@ public class Registration {
 
     BAR_TYPES.forEach((metal,getter) -> {
       BAR_BLOCKS.put(metal, buildBars(reg, metal, getter, "")
+        .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
           .patternLine("mmm")
           .patternLine("mmm")
@@ -288,8 +313,7 @@ public class Registration {
   }
 
   public static void registerItems (Registrate reg) {
-    reg.itemGroup(()->itemGroup, CreateDecoMod.MODID);
-
+    reg.itemGroup(()->BRICKS_GROUP, BRICKS_NAME);
     BRICK_COLOR_NAMES.forEach((dye, name)-> {
       if (dye == null) {
         BRICK_ITEM.put(null, reg.item(name.toLowerCase() + "_brick", Item::new)
@@ -309,18 +333,21 @@ public class Registration {
       }
     });
 
+    reg.itemGroup(()->PROPS_GROUP, PROPS_NAME);
     for (String metal : COIN_TYPES) {
-      COIN_ITEM.put(metal.toLowerCase(), reg.item(metal.toLowerCase() + "_coin", Item::new)
+      COIN_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coin", Item::new)
         .lang(metal + " Coin")
         .register());
-      COINSTACK_ITEM.put(metal.toLowerCase(), reg.item(metal.toLowerCase() + "_coinstack", CoinStackItem::new)
+      COINSTACK_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coinstack", CoinStackItem::new)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
-          .addIngredient(COIN_ITEM.get(metal.toLowerCase()).get(), 4)
-          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(COIN_ITEM.get(metal.toLowerCase()).get()))
+          .addIngredient(COIN_ITEM.get(metal).get(), 4)
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(COIN_ITEM.get(metal).get()))
           .build(prov)
         )
         .lang(metal + " Coinstack")
         .register());
     }
+
+    reg.itemGroup(()->METALS_GROUP, METALS_NAME);
   }
 }
