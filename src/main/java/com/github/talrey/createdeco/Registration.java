@@ -59,6 +59,10 @@ public class Registration {
   public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_LONG_BLOCK    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_SHORT_BLOCK   = new HashMap<>();
 
+  public static HashMap<DyeColor, HashMap<String,BlockEntry<StairsBlock>>> BRICK_STAIRS_BLOCK     = new HashMap<>();
+  public static HashMap<DyeColor, HashMap<String,BlockEntry<SlabBlock>>> BRICK_SLAB_BLOCK         = new HashMap<>();
+  public static HashMap<DyeColor, HashMap<String,BlockEntry<VerticalSlabBlock>>> BRICK_VERT_BLOCK = new HashMap<>();
+
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
   public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS       = new HashMap<>();
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_BLOCKS        = new HashMap<>();
@@ -143,6 +147,81 @@ public class Registration {
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
       )))
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix)
+      .defaultLoot()
+      .simpleItem();
+  }
+
+  private static BlockBuilder<StairsBlock,?> buildBrickStairs (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
+    String suf = suffix.replace(' ', '_').toLowerCase();
+    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
+    BlockBuilder<StairsBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf + "_stairs",
+      (props)->new StairsBlock(Blocks.BRICK_STAIRS::getDefaultState, props));
+    if (dye != null) {
+      ret.initialProperties(Material.ROCK, dye);
+    } else {
+      ret.initialProperties(Material.ROCK);
+    }
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+      .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
+      ))
+      .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Stairs")
+      .defaultLoot()
+      .simpleItem();
+  }
+
+  private static BlockBuilder<SlabBlock,?> buildBrickSlabs (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
+    String suf = suffix.replace(' ', '_').toLowerCase();
+    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
+    BlockBuilder<SlabBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf  + "_slab", SlabBlock::new);
+    if (dye != null) {
+      ret.initialProperties(Material.ROCK, dye);
+    } else {
+      ret.initialProperties(Material.ROCK);
+    }
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+      .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
+        prov.modLoc("block/" + pre + name.toLowerCase() + (suf.equals("")?"":"_"+suf)),
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
+      ))
+      .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Slab")
+      .defaultLoot()
+      .simpleItem();
+  }
+
+  private static BlockBuilder<VerticalSlabBlock,?> buildBrickVerts (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
+    String suf = suffix.replace(' ', '_').toLowerCase();
+    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
+    BlockBuilder<VerticalSlabBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf  + "_slab_vert", VerticalSlabBlock::new);
+    if (dye != null) {
+      ret.initialProperties(Material.ROCK, dye);
+    } else {
+      ret.initialProperties(Material.ROCK);
+    }
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+      .blockstate((ctx,prov)-> {
+        String texLoc = "block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf;
+        ResourceLocation tex = prov.modLoc(texLoc);
+        BlockModelBuilder half = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/vertical_slab"))
+        .texture("side", tex);
+        BlockModelBuilder both = prov.models().cubeAll(ctx.getName()+"_double", tex);
+
+        int y = 0;
+        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
+          switch (dir) {
+            case NORTH: y =   0; break;
+            case SOUTH: y = 180; break;
+            case WEST:  y = -90; break;
+            case EAST:  y =  90; break;
+          }
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(half).rotationY(y).addModel()
+          .condition(BlockStateProperties.SLAB_TYPE, SlabType.BOTTOM)
+          .condition(BlockStateProperties.HORIZONTAL_FACING, dir).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(both).rotationY(y).addModel()
+          .condition(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE).end();
+        }
+      })
+      .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + "Vertical Slab")
       .defaultLoot()
       .simpleItem();
   }
@@ -236,6 +315,23 @@ public class Registration {
       MOSSY_TILE_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Brick Tiles").register());
       MOSSY_LONG_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Long Bricks").register());
       MOSSY_SHORT_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Short Bricks").register());
+
+      String[] prefs = { "", "Cracked", "Mossy" };
+      String[] sufs  = { "Bricks", "Brick Tiles", "Long Bricks", "Short Bricks"};
+      HashMap<String, BlockEntry<StairsBlock>>       stair = new HashMap<>();
+      HashMap<String, BlockEntry<SlabBlock>>         slab  = new HashMap<>();
+      HashMap<String, BlockEntry<VerticalSlabBlock>> vert  = new HashMap<>();
+      for (String pre : prefs) {
+        for (String suf : sufs) {
+          if (pre.equals("") && suf.equals("Bricks")) continue;
+          stair.put(pre + " " + name + suf, buildBrickStairs(reg, dye, pre, name, suf).register());
+          slab.put( pre + " " + name + suf, buildBrickSlabs( reg, dye, pre, name, suf).register());
+          vert.put( pre + " " + name + suf, buildBrickVerts( reg, dye, pre, name, suf).register());
+        }
+      }
+      BRICK_STAIRS_BLOCK.put(dye, stair);
+      BRICK_SLAB_BLOCK.put(dye, slab);
+      BRICK_VERT_BLOCK.put(dye, vert);
     });
 
     reg.itemGroup(()->PROPS_GROUP);
