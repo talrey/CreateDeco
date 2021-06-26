@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "side": "createdeco:block/palettes/sheet_metal/andesite_sheet_metal",
+    "bottom": "createdeco:block/palettes/sheet_metal/andesite_sheet_metal",
+    "top": "createdeco:block/palettes/sheet_metal/andesite_sheet_metal"
+  }
+}

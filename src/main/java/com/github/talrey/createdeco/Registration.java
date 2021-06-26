@@ -1,27 +1,33 @@
 package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
+import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
-import net.minecraft.block.Block;
-import net.minecraft.block.DoorBlock;
-import net.minecraft.block.PaneBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.*;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.SlabType;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.Direction;
+import net.minecraft.util.IItemProvider;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
@@ -38,7 +44,7 @@ public class Registration {
   private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
   private static HashMap<String,
     com.simibubi.create.repack.registrate.util.entry.ItemEntry<Item>> DOOR_TYPES = new HashMap<>();
-  private static HashMap<String, Function<String, Item>> BAR_TYPES               = new HashMap<>();
+  private static HashMap<String, Function<String, Item>> METAL_TYPES             = new HashMap<>();
 
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> TILE_BRICK_BLOCK    = new HashMap<>();
@@ -59,6 +65,9 @@ public class Registration {
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_PANEL_BLOCKS  = new HashMap<>();
 
   public static HashMap<String, BlockEntry<Block>> SHEET_METAL_BLOCKS    = new HashMap<>();
+  public static HashMap<String, BlockEntry<StairsBlock>> SHEET_STAIRS    = new HashMap<>();
+  public static HashMap<String, BlockEntry<SlabBlock>> SHEET_SLABS       = new HashMap<>();
+  public static HashMap<String, BlockEntry<VerticalSlabBlock>> SHEET_VERT_SLABS = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
@@ -111,13 +120,13 @@ public class Registration {
     DOOR_TYPES.put("Zinc",     AllItems.ZINC_INGOT);
     DOOR_TYPES.put("Brass",    AllItems.BRASS_INGOT);
 
-    BAR_TYPES.put("Andesite",  (str) -> AllItems.ANDESITE_ALLOY.get());
-    BAR_TYPES.put("Zinc",      (str) -> AllItems.ZINC_INGOT.get());
-    BAR_TYPES.put("Copper",    (str) -> AllItems.COPPER_INGOT.get());
-    BAR_TYPES.put("Brass",     (str) -> AllItems.BRASS_INGOT.get());
-    BAR_TYPES.put("Iron",      (str) -> Items.IRON_INGOT);
-    BAR_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
-    BAR_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
+    METAL_TYPES.put("Andesite",  (str) -> AllItems.ANDESITE_ALLOY.get());
+    METAL_TYPES.put("Zinc",      (str) -> AllItems.ZINC_INGOT.get());
+    METAL_TYPES.put("Copper",    (str) -> AllItems.COPPER_INGOT.get());
+    METAL_TYPES.put("Brass",     (str) -> AllItems.BRASS_INGOT.get());
+    METAL_TYPES.put("Iron",      (str) -> Items.IRON_INGOT);
+    METAL_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
+    METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
   }
 
   private static BlockBuilder<Block,?> buildBrick (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
@@ -286,7 +295,7 @@ public class Registration {
         .register())
     );
 
-    BAR_TYPES.forEach((metal,getter) -> {
+    METAL_TYPES.forEach((metal, getter) -> {
       BAR_BLOCKS.put(metal, buildBars(reg, metal, getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
@@ -308,6 +317,72 @@ public class Registration {
         .lang(metal + " Sheet Metal")
         .defaultLoot()
         .simpleItem()
+        .register());
+
+      SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",
+        (props)->new StairsBlock(Blocks.BRICK_STAIRS::getDefaultState, props))
+        .initialProperties(Material.IRON)
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .simpleItem()
+        .tag(BlockTags.STAIRS)
+        .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
+          prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
+        )
+        .lang(metal + " Sheet Stairs")
+        .register());
+
+      SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
+        .initialProperties(Material.IRON)
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .simpleItem()
+        .tag(BlockTags.SLABS)
+        .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
+          prov.modLoc("block/" + metal.toLowerCase() + "_sheet_metal"),
+          prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
+        )
+        .lang(metal + " Sheet Slab")
+        .register());
+
+      SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
+        .initialProperties(Material.IRON)
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .simpleItem()
+        .blockstate(((ctx,prov)-> {
+          String texLoc = "block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal";
+          ResourceLocation tex = prov.modLoc(texLoc);
+          BlockModelBuilder half = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/vertical_slab"))
+            .texture("side", tex);
+          BlockModelBuilder both = prov.models().cubeAll(ctx.getName()+"_double", tex);
+
+          int y = 0;
+          for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getAllowedValues()) {
+            switch (dir) {
+              case NORTH: y =   0; break;
+              case SOUTH: y = 180; break;
+              case WEST:  y = -90; break;
+              case EAST:  y =  90; break;
+            }
+            prov.getMultipartBuilder(ctx.get()).part().modelFile(half).rotationY(y).addModel()
+              .condition(BlockStateProperties.SLAB_TYPE, SlabType.BOTTOM)
+              .condition(BlockStateProperties.HORIZONTAL_FACING, dir).end();
+            prov.getMultipartBuilder(ctx.get()).part().modelFile(both).rotationY(y).addModel()
+              .condition(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE).end();
+          }
+        }))
+        .loot((table, block) -> {
+          LootTable.Builder builder = LootTable.builder();
+          LootPool.Builder pool     = LootPool.builder();
+          pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(block)  // extra slab drop if it's a double
+            .acceptFunction(SetCount.builder(ConstantRange.of(2)).acceptCondition(
+              BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
+                .exactMatch(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE)
+              )
+          )));
+          pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(block)
+            .acceptFunction(SetCount.builder(ConstantRange.of(1))
+          ));
+          table.registerLootTable(block, builder.addLootPool(pool));
+        })
         .register());
     });
   }

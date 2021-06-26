@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "createdeco:block/brass_sheet_slab_top"
+    },
+    "type=bottom": {
+      "model": "createdeco:block/brass_sheet_slab"
+    },
+    "type=double": {
+      "model": "createdeco:block/brass_sheet_metal"
+    }
+  }
+}
