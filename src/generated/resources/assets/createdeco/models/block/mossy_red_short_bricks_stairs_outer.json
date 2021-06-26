@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "createdeco:block/palettes/bricks/red/mossy_short_bricks",
+    "bottom": "createdeco:block/palettes/bricks/red/mossy_short_bricks",
+    "top": "createdeco:block/palettes/bricks/red/mossy_short_bricks"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "side": "createdeco:block/palettes/bricks/pearl/cracked_pearl_short_bricks",
+    "bottom": "createdeco:block/palettes/bricks/pearl/cracked_pearl_short_bricks",
+    "top": "createdeco:block/palettes/bricks/pearl/cracked_pearl_short_bricks"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "createdeco:block/cracked_red_brick_tiles_slab_top"
+    },
+    "type=bottom": {
+      "model": "createdeco:block/cracked_red_brick_tiles_slab"
+    },
+    "type=double": {
+      "model": "createdeco:block/cracked_red_brick_tiles"
+    }
+  }
+}
