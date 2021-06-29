@@ -1,0 +1,20 @@
+{
+	"textures": {
+		"face": "createdeco:block/palettes/decal/white_decal"
+	},
+	"elements": [
+		{
+			"from": [ 1,  1, 0],
+			"to":   [15, 15, 1],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 9, 8]},
+			"faces": {
+				"north": { "uv": [ 1,  1, 15, 15], "texture": "#face"},
+				"east":  { "uv": [14,  1, 15, 15], "texture": "#face"},
+				"south": { "uv": [ 1,  1, 15, 15], "texture": "#face"},
+				"west":  { "uv": [ 1,  1,  2, 15], "texture": "#face"},
+				"up":    { "uv": [ 1,  1, 15,  2], "texture": "#face"},
+				"down":  { "uv": [ 1, 14, 15, 15], "texture": "#face"}
+			}
+		}
+	]
+}

@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
+import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllItems;
@@ -72,6 +73,8 @@ public class Registration {
   public static HashMap<String, BlockEntry<StairsBlock>> SHEET_STAIRS    = new HashMap<>();
   public static HashMap<String, BlockEntry<SlabBlock>> SHEET_SLABS       = new HashMap<>();
   public static HashMap<String, BlockEntry<VerticalSlabBlock>> SHEET_VERT_SLABS = new HashMap<>();
+
+  public static HashMap<DyeColor, BlockEntry<DecalBlock>> DECAL_BLOCKS   = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
@@ -364,6 +367,32 @@ public class Registration {
         })
         .register())
     );
+
+    for (DyeColor color : DyeColor.values()) {
+      DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase() + "_decal", DecalBlock::new)
+        .initialProperties(Material.IRON)
+        .properties(props-> props.nonOpaque().hardnessAndResistance(0.5f))
+        .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
+          int y = 0;
+          switch (state.get(BlockStateProperties.HORIZONTAL_FACING)) {
+            case NORTH: y =   0; break;
+            case SOUTH: y = 180; break;
+            case WEST:  y = -90; break;
+            case EAST:  y =  90; break;
+          }
+          return ConfiguredModel.builder().modelFile(prov.models()
+            .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
+            .texture("face", prov.modLoc("block/palettes/decal/" + ctx.getName()))
+          ).rotationY(y).build(); }))
+        .lang(color.name() + " Decal")
+        .item()
+          .model((ctx,prov)-> prov.singleTexture(ctx.getName(),
+            prov.mcLoc("item/generated"),
+            "layer0", prov.modLoc("block/palettes/decal/" + ctx.getName())
+          ))
+          .build()
+        .register());
+    }
 
     reg.itemGroup(()->METALS_GROUP);
     DOOR_TYPES.forEach((metal,ingot) ->

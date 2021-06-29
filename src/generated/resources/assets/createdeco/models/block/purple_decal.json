@@ -1,0 +1,6 @@
+{
+  "parent": "createdeco:block/decal",
+  "textures": {
+    "face": "createdeco:block/palettes/decal/purple_decal"
+  }
+}
