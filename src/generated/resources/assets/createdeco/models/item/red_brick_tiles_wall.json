@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "createdeco:block/palettes/bricks/red/brick_tiles"
+  }
+}
