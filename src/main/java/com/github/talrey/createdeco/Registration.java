@@ -67,6 +67,7 @@ public class Registration {
 
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
   public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS       = new HashMap<>();
+  public static HashMap<String, BlockEntry<DoorBlock>> LOCK_DOOR_BLOCKS  = new HashMap<>();
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_BLOCKS        = new HashMap<>();
   public static HashMap<String, BlockEntry<PaneBlock>> BAR_PANEL_BLOCKS  = new HashMap<>();
 
@@ -426,7 +427,8 @@ public class Registration {
     reg.itemGroup(()->METALS_GROUP);
     DOOR_TYPES.forEach((metal,ingot) ->
       DOOR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_door", DoorBlock::new)
-        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5))
+        .initialProperties(Material.NETHER_WOOD) // setting it to IRON locks it, and normal wood would burn probably
+        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5).harvestTool(ToolType.PICKAXE).requiresTool())
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(),
           prov.modLoc("block/" + metal.toLowerCase() + "_door_bottom"),
           prov.modLoc("block/" + metal.toLowerCase() + "_door_top"))
@@ -446,8 +448,31 @@ public class Registration {
               "layer0", prov.modLoc("item/" + ctx.getName())
           ))
           .build()
-        .register())
-    );
+        .register()));
+
+    DOOR_TYPES.forEach((metal, ingot)->
+      LOCK_DOOR_BLOCKS.put(metal.toLowerCase(), reg.block("locked_" + metal.toLowerCase() + "_door", DoorBlock::new)
+        .initialProperties(Material.IRON)
+        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5).harvestTool(ToolType.PICKAXE).requiresTool())
+        .blockstate((ctx, prov)-> prov.doorBlock(ctx.get(),
+          prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_bottom"),
+          prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_top"))
+        )
+        .lang("Locked " + metal + " Door")
+        .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
+          .addIngredient(Items.REDSTONE_TORCH, 1)
+          .addIngredient(DOOR_BLOCKS.get(metal.toLowerCase()).get(), 1)
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(
+            DOOR_BLOCKS.get(metal.toLowerCase()).asStack().getItem())
+          )
+          .build(prov)
+        )
+        .item()
+          .model((ctx, prov)-> prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
+            "layer0", prov.modLoc("item/" + ctx.getName())
+          ))
+          .build()
+        .register()));
 
     METAL_TYPES.forEach((metal, getter) -> {
       BAR_BLOCKS.put(metal, buildBars(reg, metal, getter, "")

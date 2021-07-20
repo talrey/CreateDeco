@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_rh",
+  "textures": {
+    "bottom": "createdeco:block/locked_andesite_door_bottom",
+    "top": "createdeco:block/locked_andesite_door_top"
+  }
+}
