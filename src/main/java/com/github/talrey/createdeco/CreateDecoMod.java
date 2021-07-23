@@ -4,25 +4,18 @@ import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("createdeco")
@@ -34,6 +27,8 @@ public class CreateDecoMod
     public static final String MODID = "createdeco";
     public static Registrate createDecoRegistrar;
     private static Registration registration;
+
+    private static ProcessingRecipeWrapper SPLASHING;
 
     public CreateDecoMod() {
         // Register the setup method for modloading
@@ -111,6 +106,14 @@ public class CreateDecoMod
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
             // register a new block here
           //  LOGGER.info("HELLO from Register Block");
+        }
+
+        @SubscribeEvent
+        public static void gatherData(GatherDataEvent gde) {
+            LOGGER.info("gather-data-event triggered");
+            DataGenerator gen = gde.getGenerator();
+            SPLASHING = new SplashingRecipes(gen);
+            gen.addProvider(SPLASHING);
         }
     }
 }

@@ -8,7 +8,6 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -18,6 +17,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
+import net.minecraft.data.SingleItemRecipeBuilder;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.loot.*;
@@ -27,12 +27,12 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,11 +41,14 @@ import java.util.function.Supplier;
 
 public class Registration {
 
+  private static SplashingRecipes SPLASHING;
+
   private static HashMap<DyeColor, String> BRICK_COLOR_NAMES                     = new HashMap<>();
   private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
   private static HashMap<String,
     com.simibubi.create.repack.registrate.util.entry.ItemEntry<Item>> DOOR_TYPES = new HashMap<>();
   private static HashMap<String, Function<String, Item>> METAL_TYPES             = new HashMap<>();
+  private static HashMap<String, Function<String, Item>> METAL_LOOKUP            = new HashMap<>();
 
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> TILE_BRICK_BLOCK    = new HashMap<>();
@@ -81,6 +84,10 @@ public class Registration {
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
   public static HashMap<String, ItemEntry<CoinStackItem>> COINSTACK_ITEM = new HashMap<>();
+
+  public static ItemEntry<Item> ZINC_SHEET;
+  public static ItemEntry<Item> NETHERITE_SHEET;
+  public static ItemEntry<Item> NETHERITE_NUGGET;
 
   public static class DecoItemGroup extends ItemGroup {
     private final Supplier<ItemStack> sup;
@@ -136,6 +143,18 @@ public class Registration {
     METAL_TYPES.put("Iron",      (str) -> Items.IRON_INGOT);
     METAL_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
     METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
+
+    METAL_LOOKUP.put("Andesite",  (str) -> AllItems.ANDESITE_ALLOY.get());
+    METAL_LOOKUP.put("Zinc",      (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:zinc_block")));
+    METAL_LOOKUP.put("Copper",    (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:copper_block")));
+    METAL_LOOKUP.put("Brass",     (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:brass_block")));
+    METAL_LOOKUP.put("Iron",      (str) -> Items.IRON_BLOCK);
+    METAL_LOOKUP.put("Gold",      (str) -> Items.GOLD_BLOCK);
+    METAL_LOOKUP.put("Netherite", (str) -> Items.NETHERITE_BLOCK);
+  }
+
+  public static String getBrickColorName (DyeColor color) {
+    return BRICK_COLOR_NAMES.getOrDefault(color, "");
   }
 
   private static BlockBuilder<Block,?> buildBrick (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
@@ -334,17 +353,51 @@ public class Registration {
           .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BRICK_ITEM.get(dye).get()))
           .build(prov)
         ).register());
-      TILE_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Brick Tiles").register());
-      LONG_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Long Bricks").register());
-      SHORT_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "", name, "Short Bricks").register());
-      CRACKED_BRICK_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Bricks").register());
-      CRACKED_TILE_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Brick Tiles").register());
-      CRACKED_LONG_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Long Bricks").register());
-      CRACKED_SHORT_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Short Bricks").register());
-      MOSSY_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Bricks").register());
-      MOSSY_TILE_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Brick Tiles").register());
-      MOSSY_LONG_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Long Bricks").register());
-      MOSSY_SHORT_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Short Bricks").register());
+      TILE_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Brick Tiles")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          BRICK_BLOCK.get(dye).get()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(BRICK_BLOCK.get(dye).get()))
+        ).register());
+      LONG_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Long Bricks")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          BRICK_BLOCK.get(dye).get()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(BRICK_BLOCK.get(dye).get()))
+        ).register());
+      SHORT_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "", name, "Short Bricks")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          BRICK_BLOCK.get(dye).get()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(BRICK_BLOCK.get(dye).get()))
+        ).register());
+      CRACKED_BRICK_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Bricks")
+        .recipe((ctx, prov)-> prov.blasting(DataIngredient.items(BRICK_BLOCK.get(dye).get()), ctx, 0.5f))
+        .register());
+      CRACKED_TILE_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Brick Tiles")
+        .recipe((ctx, prov)-> prov.blasting(DataIngredient.items(TILE_BRICK_BLOCK.get(dye).get()), ctx, 0.5f))
+        .register());
+      CRACKED_LONG_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Long Bricks")
+        .recipe((ctx, prov)-> prov.blasting(DataIngredient.items(LONG_BRICK_BLOCK.get(dye).get()), ctx, 0.5f))
+        .register());
+      CRACKED_SHORT_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Short Bricks")
+        .recipe((ctx, prov)-> prov.blasting(DataIngredient.items(SHORT_BRICK_BLOCK.get(dye).get()), ctx, 0.5f))
+        .register());
+      MOSSY_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Bricks")
+        // splashing recipes handled by wrapper class
+        .register());
+      MOSSY_TILE_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Brick Tiles")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          MOSSY_BRICK_BLOCK.get(dye).get()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(MOSSY_BRICK_BLOCK.get(dye).get()))
+        ).register());
+      MOSSY_LONG_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Long Bricks")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          MOSSY_BRICK_BLOCK.get(dye).get()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(MOSSY_BRICK_BLOCK.get(dye).get()))
+        ).register());
+      MOSSY_SHORT_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Short Bricks")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          MOSSY_BRICK_BLOCK.get(dye).get()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(MOSSY_BRICK_BLOCK.get(dye).get()))
+        ).register());
 
       String[] prefs = { "", "Cracked", "Mossy" };
       String[] sufs  = { "Bricks", "Brick Tiles", "Long Bricks", "Short Bricks"};
@@ -421,6 +474,12 @@ public class Registration {
             "layer0", prov.modLoc("block/palettes/decal/" + ctx.getName())
           ))
           .build()
+        .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
+          .addIngredient(AllItems.IRON_SHEET.get(), 1)
+          .addIngredient(DyeItem.getItem(color), 1)
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(AllItems.IRON_SHEET.get()))
+          .addCriterion("has_dye",  InventoryChangeTrigger.Instance.forItems(DyeItem.getItem(color)))
+        )
         .register());
     }
 
@@ -496,6 +555,10 @@ public class Registration {
         .lang(metal + " Sheet Metal")
         .defaultLoot()
         .simpleItem()
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          METAL_LOOKUP.get(metal).apply(metal).asItem()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(METAL_LOOKUP.get(metal).apply(metal)))
+        )
         .register());
 
       SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",
@@ -508,6 +571,10 @@ public class Registration {
           prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
         )
         .lang(metal + " Sheet Stairs")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          SHEET_METAL_BLOCKS.get(metal).asStack().getItem()), ctx.get()).addCriterion("has_item",
+            InventoryChangeTrigger.Instance.forItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()))
+        )
         .register());
 
       SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
@@ -520,6 +587,10 @@ public class Registration {
           prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
         )
         .lang(metal + " Sheet Slab")
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          SHEET_METAL_BLOCKS.get(metal).asStack().getItem()), ctx.get(), 2
+          ).addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()))
+        )
         .register());
 
       SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
@@ -562,6 +633,16 @@ public class Registration {
           ));
           table.registerLootTable(block, builder.addLootPool(pool));
         })
+        .recipe((ctx, prov)-> SingleItemRecipeBuilder.stonecuttingRecipe(Ingredient.fromItems(
+          SHEET_METAL_BLOCKS.get(metal).asStack().getItem()), ctx.get(), 2
+        ))
+        .recipe((ctx, prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get(), 3)
+          .patternLine("s")
+          .patternLine("s")
+          .patternLine("s")
+          .key('s', SHEET_SLABS.get(metal).get())
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()))
+        )
         .register());
     });
   }
