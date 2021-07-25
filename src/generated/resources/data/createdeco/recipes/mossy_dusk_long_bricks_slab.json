@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "createdeco:mossy_dusk_long_bricks"
+    }
+  },
+  "result": {
+    "item": "createdeco:mossy_dusk_long_bricks_slab",
+    "count": 6
+  }
+}

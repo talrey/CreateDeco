@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:dusk_bricks_slab_from_dusk_bricks_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_dusk_bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:dusk_bricks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:dusk_bricks_slab_from_dusk_bricks_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dusk_bricks",
+      "has_the_recipe"
+    ]
+  ]
+}

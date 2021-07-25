@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "create:brass_block"
+  },
+  "result": "createdeco:brass_sheet_metal",
+  "count": 1
+}

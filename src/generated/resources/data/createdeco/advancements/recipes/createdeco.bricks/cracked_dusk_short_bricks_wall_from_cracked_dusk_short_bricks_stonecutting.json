@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_dusk_short_bricks_wall_from_cracked_dusk_short_bricks_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_cracked_dusk_short_bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:cracked_dusk_short_bricks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:cracked_dusk_short_bricks_wall_from_cracked_dusk_short_bricks_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cracked_dusk_short_bricks",
+      "has_the_recipe"
+    ]
+  ]
+}

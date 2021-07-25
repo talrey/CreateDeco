@@ -1,0 +1,13 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "createdeco:red_bricks_slab"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:mossy_red_bricks_slab"
+    }
+  ]
+}

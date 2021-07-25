@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_red_brick_tiles_wall_from_red_brick_tiles_wall_blasting"
+    ]
+  },
+  "criteria": {
+    "has_red_brick_tiles_wall": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:red_brick_tiles_wall"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:cracked_red_brick_tiles_wall_from_red_brick_tiles_wall_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_red_brick_tiles_wall",
+      "has_the_recipe"
+    ]
+  ]
+}

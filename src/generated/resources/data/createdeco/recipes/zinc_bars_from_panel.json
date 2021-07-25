@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "createdeco:zinc_bars_panel"
+    }
+  ],
+  "result": {
+    "item": "createdeco:zinc_bars"
+  }
+}

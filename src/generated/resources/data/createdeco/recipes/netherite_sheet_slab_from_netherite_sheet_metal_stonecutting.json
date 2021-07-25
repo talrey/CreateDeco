@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "createdeco:netherite_sheet_metal"
+  },
+  "result": "createdeco:netherite_sheet_slab",
+  "count": 2
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:red_brick_tiles_wall"
+    ]
+  },
+  "criteria": {
+    "has_red_brick_tiles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:red_brick_tiles"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:red_brick_tiles_wall"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_red_brick_tiles",
+      "has_the_recipe"
+    ]
+  ]
+}

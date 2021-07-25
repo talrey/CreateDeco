@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "createdeco:copper_sheet_metal"
+    }
+  },
+  "result": {
+    "item": "createdeco:copper_sheet_stairs",
+    "count": 4
+  }
+}

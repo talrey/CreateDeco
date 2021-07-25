@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:brass_sheet_stairs"
+    ]
+  },
+  "criteria": {
+    "has_brass_sheet_metal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:brass_sheet_metal"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:brass_sheet_stairs"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_brass_sheet_metal",
+      "has_the_recipe"
+    ]
+  ]
+}

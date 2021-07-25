@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "createdeco:mossy_red_long_bricks"
+    }
+  },
+  "result": {
+    "item": "createdeco:mossy_red_long_bricks_stairs",
+    "count": 4
+  }
+}

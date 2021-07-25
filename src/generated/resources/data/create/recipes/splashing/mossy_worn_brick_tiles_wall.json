@@ -1,0 +1,13 @@
+{
+  "type": "create:splashing",
+  "ingredients": [
+    {
+      "item": "createdeco:worn_brick_tiles_wall"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:mossy_worn_brick_tiles_wall"
+    }
+  ]
+}

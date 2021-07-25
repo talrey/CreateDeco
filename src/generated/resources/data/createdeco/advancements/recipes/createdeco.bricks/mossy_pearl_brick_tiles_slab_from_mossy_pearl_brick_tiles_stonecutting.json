@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:mossy_pearl_brick_tiles_slab_from_mossy_pearl_brick_tiles_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_mossy_pearl_brick_tiles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:mossy_pearl_brick_tiles"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:mossy_pearl_brick_tiles_slab_from_mossy_pearl_brick_tiles_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_mossy_pearl_brick_tiles",
+      "has_the_recipe"
+    ]
+  ]
+}

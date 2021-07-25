@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:iron_sheet_stairs"
+    ]
+  },
+  "criteria": {
+    "has_iron_sheet_metal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:iron_sheet_metal"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:iron_sheet_stairs"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_sheet_metal",
+      "has_the_recipe"
+    ]
+  ]
+}

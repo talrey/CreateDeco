@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "createdeco:red_bricks"
+  },
+  "result": "createdeco:cracked_red_bricks",
+  "count": 1
+}

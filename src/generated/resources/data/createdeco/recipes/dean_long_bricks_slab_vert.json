@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s",
+    "s",
+    "s"
+  ],
+  "key": {
+    "s": {
+      "item": "createdeco:dean_long_bricks"
+    }
+  },
+  "result": {
+    "item": "createdeco:dean_long_bricks_slab_vert"
+  }
+}
