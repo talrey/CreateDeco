@@ -22,6 +22,7 @@ import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.BlockStateProperty;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
@@ -565,6 +566,15 @@ public class Registration {
           .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(ingot.get()))
           .build(prov)
         )
+        .loot((table, block)-> {
+          LootTable.Builder builder = LootTable.builder();
+          LootPool.Builder pool     = LootPool.builder();
+          pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(block))
+            .acceptCondition(BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
+              .exactMatch(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
+            ));
+          table.registerLootTable(block, builder.addLootPool(pool));
+          })
         .item()
           .model((ctx,prov) ->
             prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
@@ -581,6 +591,15 @@ public class Registration {
           prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_bottom"),
           prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_top"))
         )
+        .loot((table, block)-> {
+          LootTable.Builder builder = LootTable.builder();
+          LootPool.Builder pool     = LootPool.builder();
+          pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(block))
+            .acceptCondition(BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
+              .exactMatch(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
+            ));
+          table.registerLootTable(block, builder.addLootPool(pool));
+        })
         .lang("Locked " + metal + " Door")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
           .addIngredient(Items.REDSTONE_TORCH, 1)
@@ -760,8 +779,7 @@ public class Registration {
           .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(Items.NETHERITE_INGOT))
           .build(prov);
         prov.storage(ctx, ()->Items.NETHERITE_INGOT);
-      }
-      )
+      })
       .register();
 
     reg.itemGroup(()->PROPS_GROUP, PROPS_NAME);
