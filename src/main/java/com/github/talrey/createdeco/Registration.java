@@ -4,6 +4,8 @@ import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
+import com.google.common.base.Preconditions;
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.tterrag.registrate.Registrate;
@@ -33,6 +35,8 @@ import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -143,7 +147,7 @@ public class Registration {
     METAL_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
     METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 
-    METAL_LOOKUP.put("Andesite",  (str) -> AllItems.ANDESITE_ALLOY.get());
+    METAL_LOOKUP.put("Andesite",  (str) -> str.equals("sheet") ? AllBlocks.ANDESITE_CASING.get().asItem() : AllItems.ANDESITE_ALLOY.get());
     METAL_LOOKUP.put("Zinc",      (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:zinc_block")));
     METAL_LOOKUP.put("Copper",    (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:copper_block")));
     METAL_LOOKUP.put("Brass",     (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:brass_block")));
@@ -299,25 +303,45 @@ public class Registration {
   }
 
   private static BlockBuilder<PaneBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
-    String base = metal.toLowerCase() + "_bars";
-    String suf  = suffix.equals("") ? "" : "_" + suffix.replace(' ','_').toLowerCase();
+    String base = metal.replace(' ', '_').toLowerCase() + "_bars";
+    String suf = suffix.equals("") ? "" : "_" + suffix.replace(' ', '_').toLowerCase();
     String post = "block/palettes/metal_bars/" + base + (metal == "Brass" || metal == "Netherite" ? "_post" : "");
+
+    ResourceLocation barTexture, postTexture;
+    final ResourceLocation bartex, postex;
+    try {
+      barTexture = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/metal_bars/" + base);
+      File touch = new File("../src/main/resources/assets/createdeco/textures/" + barTexture.getPath() + ".png"); // fuck it.
+      if (!touch.exists()) throw new FileNotFoundException(base + " was not found!");
+    } catch (FileNotFoundException fnfe) {
+      barTexture = new ResourceLocation("block/" + base);
+    }
+    try {
+      postTexture = new ResourceLocation(CreateDecoMod.MODID, post);
+      File touch = new File("../src/main/resources/assets/createdeco/textures/" + postTexture.getPath() + ".png");
+      if (!touch.exists()) throw new FileNotFoundException(base + " was not found!");
+    } catch (FileNotFoundException fnfe) {
+      postTexture = barTexture;
+    }
+    // for lambda stuff, must be final
+    bartex = barTexture;
+    postex = postTexture;
+
     return reg.block(base + suf, PaneBlock::new)
       .properties(props -> props.nonOpaque().hardnessAndResistance(5, 6))
       .blockstate((ctx, prov) -> {
         MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
-
         BlockModelBuilder sideModel = prov.models().withExistingParent(
           base + "_side", prov.mcLoc("block/iron_bars_side"))
-          .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base))
-          .texture("edge", prov.modLoc(post));
+          .texture("bars", bartex)
+          .texture("edge", postex);
         BlockModelBuilder sideAltModel = prov.models().withExistingParent(
           base + "_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
-          .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base))
-          .texture("edge", prov.modLoc(post));
+          .texture("bars", bartex)
+          .texture("edge", postex);
 
         builder.part().modelFile(prov.models().withExistingParent(base + "_post", prov.mcLoc("block/iron_bars_post"))
-          .texture("bars", prov.modLoc(post))
+          .texture("bars", postex)
         ).addModel()
           .condition(BlockStateProperties.NORTH, false)
           .condition(BlockStateProperties.SOUTH, false)
@@ -326,7 +350,7 @@ public class Registration {
           .end();
         builder.part().modelFile(
           prov.models().withExistingParent(base + "_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
-            .texture("edge", prov.modLoc(post))
+            .texture("edge", postex)
         ).addModel().end();
           builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
           builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
@@ -337,11 +361,11 @@ public class Registration {
             BlockModelBuilder sideOverlayModel = prov.models().withExistingParent(
               base + suf, prov.mcLoc("block/iron_bars_side"))
               .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
-              .texture("edge", prov.modLoc(post));
+              .texture("edge", postex);
             BlockModelBuilder sideOverlayAltModel = prov.models().withExistingParent(
               base + suf + "_alt", prov.mcLoc("block/iron_bars_side_alt"))
               .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
-              .texture("edge", prov.modLoc(post));
+              .texture("edge", postex);
 
             builder.part().modelFile(sideOverlayModel).addModel().condition(BlockStateProperties.NORTH, true).end();
             builder.part().modelFile(sideOverlayModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
@@ -349,16 +373,15 @@ public class Registration {
             builder.part().modelFile(sideOverlayAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
           }
       })
-      .lang(metal + " Bars" + (suffix.equals("")?"":" " + suffix))
       .tag(BlockTags.WALLS)
       .item()
         .model((ctx, prov) -> {
           if (suf.equals("")) {
-            prov.singleTexture(base, prov.mcLoc("item/generated"),"layer0", prov.modLoc("block/palettes/metal_bars/" + base));
+            prov.singleTexture(base, prov.mcLoc("item/generated"),"layer0", bartex);
           }
           else {
             prov.withExistingParent(base + suf, prov.mcLoc("item/generated"))
-              .texture("layer0", prov.modLoc("block/palettes/metal_bars/" + base))
+              .texture("layer0", bartex)
               .texture("layer1", prov.modLoc("block/palettes/metal_bars/" + base + suf));
           }
         })
@@ -617,28 +640,46 @@ public class Registration {
         .register()));
 
     METAL_TYPES.forEach((metal, getter) -> {
-      BAR_BLOCKS.put(metal, buildBars(reg, metal, getter, "")
+      BAR_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .recipe((ctx, prov) -> {
-          ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
-            .patternLine("mmm")
-            .patternLine("mmm")
-            .key('m', getter.apply(metal))
-            .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(getter.apply(metal)))
-            .build(prov);
+          if (!metal.equals("Iron")) { // Iron will be handled as a polishing recipe
+            ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
+              .patternLine("mmm")
+              .patternLine("mmm")
+              .key('m', getter.apply(metal))
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(getter.apply(metal)))
+              .build(prov);
+          }
           ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
             .addIngredient(BAR_PANEL_BLOCKS.get(metal).get())
             .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BAR_PANEL_BLOCKS.get(metal).get()))
             .build(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase() + "_bars_from_panel"));
         })
         .register());
-      BAR_PANEL_BLOCKS.put(metal, buildBars(reg, metal, getter, "Panel")
+      BAR_PANEL_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
+        .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
           .addIngredient(BAR_BLOCKS.get(metal).get())
           .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BAR_BLOCKS.get(metal).get()))
           .build(prov)
         )
         .register());
+      if (metal.equals("Iron")) { // add a panel version of the vanilla iron too
+        BAR_PANEL_BLOCKS.put("Vanilla Iron", buildBars(reg, metal, getter, "overlay")
+          .lang(metal + " Panel Bars")
+          .recipe((ctx, prov)-> {
+            ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
+              .addIngredient(Items.IRON_BARS)
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(Items.IRON_BARS))
+              .build(prov);
+            ShapelessRecipeBuilder.shapelessRecipe(Items.IRON_BARS)
+              .addIngredient(ctx.get())
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(ctx.get()))
+              .build(prov);
+          })
+          .register());
+      }
 
       SHEET_METAL_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_sheet_metal", Block::new)
         .initialProperties(Material.IRON)
@@ -649,9 +690,9 @@ public class Registration {
         .lang(metal + " Sheet Metal")
         .defaultLoot()
         .simpleItem()
-        .recipe((ctx, prov)->
-          prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply(metal).asItem()), ctx)
-        )
+        .recipe((ctx, prov)-> {
+          prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply("sheet")), ctx, 4);
+        })
         .register());
 
       SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",

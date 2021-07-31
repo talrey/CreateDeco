@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:netherite_bars_panel"
+            "item": "createdeco:netherite_bars_overlay"
           }
         ]
       }

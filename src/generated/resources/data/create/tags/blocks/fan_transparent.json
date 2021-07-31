@@ -1,7 +1,12 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:fences",
-    "minecraft:iron_bars"
+    "createdeco:gold_bars",
+    "createdeco:netherite_bars",
+    "createdeco:andesite_bars",
+    "createdeco:brass_bars",
+    "createdeco:polished_iron_bars",
+    "createdeco:copper_bars",
+    "createdeco:zinc_bars"
   ]
 }

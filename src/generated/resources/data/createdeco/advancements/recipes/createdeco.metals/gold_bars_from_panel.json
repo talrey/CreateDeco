@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:gold_bars_panel"
+            "item": "createdeco:gold_bars_overlay"
           }
         ]
       }

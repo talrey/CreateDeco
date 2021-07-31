@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:iron_bars_panel"
+            "item": "createdeco:polished_iron_bars_overlay"
           }
         ]
       }

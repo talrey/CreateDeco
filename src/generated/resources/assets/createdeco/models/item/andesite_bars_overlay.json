@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "createdeco:block/palettes/metal_bars/andesite_bars",
+    "layer1": "createdeco:block/palettes/metal_bars/andesite_bars_overlay"
+  }
+}

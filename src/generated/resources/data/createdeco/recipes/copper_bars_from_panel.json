@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "createdeco:copper_bars_panel"
+      "item": "createdeco:copper_bars_overlay"
     }
   ],
   "result": {

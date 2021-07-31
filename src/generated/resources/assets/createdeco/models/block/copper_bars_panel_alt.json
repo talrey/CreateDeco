@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/iron_bars_side_alt",
-  "textures": {
-    "bars": "createdeco:block/palettes/metal_bars/copper_bars_panel",
-    "edge": "createdeco:block/palettes/metal_bars/copper_bars"
-  }
-}

@@ -74,18 +74,19 @@
     "createdeco:mossy_dusk_long_bricks_wall",
     "createdeco:mossy_dusk_short_bricks_wall",
     "createdeco:gold_bars",
-    "createdeco:gold_bars_panel",
+    "createdeco:gold_bars_overlay",
     "createdeco:netherite_bars",
-    "createdeco:netherite_bars_panel",
+    "createdeco:netherite_bars_overlay",
     "createdeco:andesite_bars",
-    "createdeco:andesite_bars_panel",
+    "createdeco:andesite_bars_overlay",
     "createdeco:brass_bars",
-    "createdeco:brass_bars_panel",
-    "createdeco:iron_bars",
-    "createdeco:iron_bars_panel",
+    "createdeco:brass_bars_overlay",
+    "createdeco:polished_iron_bars",
+    "createdeco:polished_iron_bars_overlay",
+    "createdeco:iron_bars_overlay",
     "createdeco:copper_bars",
-    "createdeco:copper_bars_panel",
+    "createdeco:copper_bars_overlay",
     "createdeco:zinc_bars",
-    "createdeco:zinc_bars_panel"
+    "createdeco:zinc_bars_overlay"
   ]
 }
