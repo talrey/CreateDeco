@@ -3,12 +3,10 @@ package com.github.talrey.createdeco;
 import com.google.gson.JsonObject;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 import org.apache.logging.log4j.LogManager;
 
-import java.util.function.BooleanSupplier;
 
 public class ConfigCondition implements ICondition {
   private static final ResourceLocation NAME = new ResourceLocation(CreateDecoMod.MODID, "config");
@@ -25,7 +23,7 @@ public class ConfigCondition implements ICondition {
 
   @Override
   public boolean test() {
-    LogManager.getLogger(CreateDecoMod.MODID).debug("testing config for " + configName + " : returns " + Config.getSetting(configName));
+  //  LogManager.getLogger(CreateDecoMod.MODID).debug("testing config for " + configName + " : returns " + Config.getSetting(configName));
     return Config.getSetting(configName);
   }
 
