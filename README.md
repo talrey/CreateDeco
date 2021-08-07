@@ -40,6 +40,8 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 1.0.1-1.16.5 | 6 AUG 2021:  
  \+ added recipe for Coins (press a nugget)  
  \+ added config setting to en/disable Coin pressing recipe  
+ \+ made Coinstack blocks fragile (require support underneath)  
+ \* Pick Block now works on Coinstacks to return the item  
  \* Netherite nugget <-> ingot recipe shouldn't appear twice  
  \* colorful brick item recipes should appear  
  \* coinstacks should be placeable on coinstack blocks for true Scrooge immersion  
