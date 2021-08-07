@@ -4,7 +4,6 @@ import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
-import com.google.common.base.Preconditions;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
@@ -27,6 +26,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
@@ -522,17 +522,27 @@ public class Registration {
         ).build(); }))
         .lang(metal + " Stack Block")
         .loot((table, block) -> {
-          LootTable.Builder builder = LootTable.builder();
-          LootPool.Builder pool     = LootPool.builder();
-          for (int layer = 1; layer<=8; layer++) {
-            pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(COINSTACK_ITEM.get(metal).get())
-              .acceptFunction(SetCount.builder(ConstantRange.of(layer)).acceptCondition(
-                BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
-                  .exactMatch(BlockStateProperties.LAYERS_1_8, layer)
-                )
-              ))
-            );
+          LootTable.Builder builder      = LootTable.builder();
+          LootPool.Builder pool          = LootPool.builder().rolls(ConstantRange.of(1));
+          for (int layer = 1; layer <= 8; layer++) {
+            ItemLootEntry.Builder<?> entry = ItemLootEntry.builder(COINSTACK_ITEM.get(metal).get());
+            entry.acceptCondition(BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
+              .exactMatch(BlockStateProperties.LAYERS_1_8, layer)
+            )).acceptFunction(SetCount.builder(ConstantRange.of(layer)));
+            pool.addEntry(entry);
           }
+          //pool.addEntry(entry);
+
+      //    for (int layer = 1; layer<=8; layer++) {
+      //      LootPool.Builder pool   = LootPool.builder();
+      //      pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(COINSTACK_ITEM.get(metal).get())
+      //        .acceptCondition(BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
+      //          .exactMatch(BlockStateProperties.LAYERS_1_8, layer)
+      //        ))
+      //        .acceptFunction(SetCount.builder(ConstantRange.of(layer)))
+      //      );
+      //      builder.addLootPool(pool);
+      //    }
           table.registerLootTable(block, builder.addLootPool(pool));
         })
         .register())
@@ -676,7 +686,7 @@ public class Registration {
             ShapelessRecipeBuilder.shapelessRecipe(Items.IRON_BARS)
               .addIngredient(ctx.get())
               .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(ctx.get()))
-              .build(prov);
+              .build(prov, new ResourceLocation(CreateDecoMod.MODID, "vanilla_iron_bars_from_panel"));
           })
           .register());
       }
@@ -773,7 +783,8 @@ public class Registration {
             .patternLine("s")
             .patternLine("s")
             .key('s', SHEET_SLABS.get(metal).get())
-            .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()));
+            .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()))
+            .build(prov);
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx, 2);
         })
         .register());
@@ -790,12 +801,14 @@ public class Registration {
       } else {
         BRICK_ITEM.put(dye, reg.item(name.toLowerCase() + "_brick", Item::new)
           .lang(name + " Brick")
-          .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get())
+          .recipe((ctx, prov) -> ShapedRecipeBuilder.shapedRecipe(ctx.get(), 8)
             .patternLine("bbb")
             .patternLine("bCb")
             .patternLine("bbb")
             .key('b', Items.BRICK)
             .key('C', DyeItem.getItem(dye))
+            .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(DyeItem.getItem(dye)))
+            .build(prov)
           )
           .register());
       }
@@ -813,12 +826,9 @@ public class Registration {
 
     NETHERITE_NUGGET = reg.item("netherite_nugget", Item::new)
       .properties(p -> p.fireproof())
+      .tag(ItemTags.makeWrapperTag("forge:nuggets/netherite"))
       .lang("Netherite Nugget")
       .recipe((ctx, prov)-> {
-        ShapelessRecipeBuilder.shapelessRecipe(ctx.get(), 9)
-          .addIngredient(Items.NETHERITE_INGOT)
-          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(Items.NETHERITE_INGOT))
-          .build(prov);
         prov.storage(ctx, ()->Items.NETHERITE_INGOT);
       })
       .register();
@@ -827,7 +837,6 @@ public class Registration {
     for (String metal : COIN_TYPES) {
       COIN_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coin", Item::new)
         .lang(metal + " Coin")
-        //.recipe((ctx, prov)-> )
         .register());
       COINSTACK_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coinstack", CoinStackItem::new)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())

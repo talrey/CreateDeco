@@ -7,10 +7,14 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -31,6 +35,10 @@ public class CreateDecoMod
   private static ProcessingRecipeWrapper SPLASHING, PRESSING, POLISHING;
 
   public CreateDecoMod() {
+    // register configuration settings handler
+    ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONF);
+    ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONF);
+
     // Register the setup method for modloading
     FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
     // Register the enqueueIMC method for modloading
@@ -52,9 +60,7 @@ public class CreateDecoMod
 
   private void setup(final FMLCommonSetupEvent event)
   {
-    // some preinit code
-    //  LOGGER.info("HELLO FROM PREINIT");
-    //  LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+
   }
 
   private void doClientStuff(final FMLClientSetupEvent event) {
@@ -103,6 +109,11 @@ public class CreateDecoMod
   // Event bus for receiving Registry Events)
   @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
   public static class RegistryEvents {
+    @SubscribeEvent
+    public static void onRecipeSerializerRegistry(RegistryEvent.Register<IRecipeSerializer<?>> event) {
+      CraftingHelper.register(ConfigCondition.Serializer.INSTANCE);
+    }
+
     @SubscribeEvent
     public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent) {
       // register a new block here
