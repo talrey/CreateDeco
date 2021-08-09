@@ -47,3 +47,6 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
  \* coinstacks should be placeable on coinstack blocks for true Scrooge immersion  
  \* coinstack blocks should drop as many coins as went into the stack  
  \* vanilla iron bars should be craftable
+
+1.0.2-1.16.5 | 9 AUG 2021:  
+ \* coinstacks should be craftable back into coins

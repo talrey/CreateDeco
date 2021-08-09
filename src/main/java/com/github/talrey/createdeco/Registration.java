@@ -836,6 +836,11 @@ public class Registration {
     reg.itemGroup(()->PROPS_GROUP, PROPS_NAME);
     for (String metal : COIN_TYPES) {
       COIN_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coin", Item::new)
+        .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get(), 4)
+          .addIngredient(COINSTACK_ITEM.get(metal).get())
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(COINSTACK_ITEM.get(metal).get()))
+          .build(prov)
+        )
         .lang(metal + " Coin")
         .register());
       COINSTACK_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coinstack", CoinStackItem::new)
