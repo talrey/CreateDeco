@@ -531,18 +531,6 @@ public class Registration {
             )).acceptFunction(SetCount.builder(ConstantRange.of(layer)));
             pool.addEntry(entry);
           }
-          //pool.addEntry(entry);
-
-      //    for (int layer = 1; layer<=8; layer++) {
-      //      LootPool.Builder pool   = LootPool.builder();
-      //      pool.rolls(ConstantRange.of(1)).addEntry(ItemLootEntry.builder(COINSTACK_ITEM.get(metal).get())
-      //        .acceptCondition(BlockStateProperty.builder(block).properties(StatePropertiesPredicate.Builder.create()
-      //          .exactMatch(BlockStateProperties.LAYERS_1_8, layer)
-      //        ))
-      //        .acceptFunction(SetCount.builder(ConstantRange.of(layer)))
-      //      );
-      //      builder.addLootPool(pool);
-      //    }
           table.registerLootTable(block, builder.addLootPool(pool));
         })
         .register())
@@ -652,6 +640,7 @@ public class Registration {
     METAL_TYPES.forEach((metal, getter) -> {
       BAR_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .recipe((ctx, prov) -> {
           if (!metal.equals("Iron")) { // Iron will be handled as a polishing recipe
             ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
@@ -668,6 +657,7 @@ public class Registration {
         })
         .register());
       BAR_PANEL_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
+        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
           .addIngredient(BAR_BLOCKS.get(metal).get())
@@ -699,7 +689,7 @@ public class Registration {
         )))
         .lang(metal + " Sheet Metal")
         .defaultLoot()
-        .simpleItem()
+        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .recipe((ctx, prov)-> {
           prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply("sheet")), ctx, 4);
         })
@@ -709,7 +699,7 @@ public class Registration {
         (props)->new StairsBlock(Blocks.BRICK_STAIRS::getDefaultState, props))
         .initialProperties(Material.IRON)
         .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
-        .simpleItem()
+        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .tag(BlockTags.STAIRS)
         .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
           prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
@@ -724,7 +714,7 @@ public class Registration {
       SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
         .initialProperties(Material.IRON)
         .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
-        .simpleItem()
+        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .tag(BlockTags.SLABS)
         .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
           prov.modLoc("block/" + metal.toLowerCase() + "_sheet_metal"),
@@ -740,7 +730,7 @@ public class Registration {
       SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
         .initialProperties(Material.IRON)
         .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
-        .simpleItem()
+        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .blockstate(((ctx,prov)-> {
           String texLoc = "block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal";
           ResourceLocation tex = prov.modLoc(texLoc);
@@ -836,6 +826,7 @@ public class Registration {
     reg.itemGroup(()->PROPS_GROUP, PROPS_NAME);
     for (String metal : COIN_TYPES) {
       COIN_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coin", Item::new)
+        .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get(), 4)
           .addIngredient(COINSTACK_ITEM.get(metal).get())
           .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(COINSTACK_ITEM.get(metal).get()))
@@ -844,6 +835,7 @@ public class Registration {
         .lang(metal + " Coin")
         .register());
       COINSTACK_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coinstack", CoinStackItem::new)
+        .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
           .addIngredient(COIN_ITEM.get(metal).get(), 4)
           .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(COIN_ITEM.get(metal).get()))
