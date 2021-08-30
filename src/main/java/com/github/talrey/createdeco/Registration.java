@@ -82,6 +82,8 @@ public class Registration {
   public static HashMap<String, BlockEntry<SlabBlock>> SHEET_SLABS       = new HashMap<>();
   public static HashMap<String, BlockEntry<VerticalSlabBlock>> SHEET_VERT_SLABS = new HashMap<>();
 
+  public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS = new HashMap<>();
+
   public static HashMap<DyeColor, BlockEntry<DecalBlock>> DECAL_BLOCKS   = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
@@ -385,6 +387,7 @@ public class Registration {
               .texture("layer1", prov.modLoc("block/palettes/metal_bars/" + base + suf));
           }
         })
+        .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
         .build();
   }
 
@@ -640,7 +643,6 @@ public class Registration {
     METAL_TYPES.forEach((metal, getter) -> {
       BAR_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
-        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .recipe((ctx, prov) -> {
           if (!metal.equals("Iron")) { // Iron will be handled as a polishing recipe
             ShapedRecipeBuilder.shapedRecipe(ctx.get(), 16)
@@ -657,7 +659,6 @@ public class Registration {
         })
         .register());
       BAR_PANEL_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
-        .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapelessRecipe(ctx.get())
           .addIngredient(BAR_BLOCKS.get(metal).get())
@@ -776,6 +777,56 @@ public class Registration {
             .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()))
             .build(prov);
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx, 2);
+        })
+        .register());
+
+      if (metal.equals("Andesite")) MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
+        .initialProperties(Material.IRON)
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .tag(BlockTags.FENCES)
+        .item()
+          .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
+          .model((ctx,prov)-> prov.singleTexture(
+            ctx.getName(), prov.mcLoc("item/generated"),
+            "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase() + "_chain_link")))
+          .build()
+        .blockstate((ctx,prov)-> {
+          prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+            String dir = metal.replace(' ','_').toLowerCase() + "_chainlink_fence";
+            boolean north,south,east,west;
+            north = state.get(BlockStateProperties.NORTH);
+            south = state.get(BlockStateProperties.SOUTH);
+            east  = state.get(BlockStateProperties.EAST);
+            west  = state.get(BlockStateProperties.WEST);
+            int sides = (north?1:0) + (south?1:0) + (east?1:0) + (west?1:0);
+            switch (sides) {
+              case 4: return ConfiguredModel.builder().modelFile(
+                  prov.models().getExistingFile(prov.modLoc(dir + "_four_way"))
+                ).build();
+              case 3: return ConfiguredModel.builder().modelFile(
+                  prov.models().getExistingFile(prov.modLoc(dir + "_tri_way"))
+                ).rotationY(
+                  (north? (south? (east? 90: -90): 0): 180)
+                ).build();
+              case 2:
+                if ((north && south) || (east && west)) {
+                  return ConfiguredModel.builder().modelFile(
+                    prov.models().getExistingFile(prov.modLoc(dir + "_straight"))
+                  ).rotationY(east?0:90).build();
+                } else {
+                  return ConfiguredModel.builder().modelFile(
+                    prov.models().getExistingFile(prov.modLoc(dir + "_corner"))
+                  ).rotationY( (north? (east? 0: -90): (east? 90: 180))).build();
+                }
+              case 1: return ConfiguredModel.builder().modelFile(
+                  prov.models().getExistingFile(prov.modLoc(dir + "_end"))
+                ).rotationY( (north? -90: south? 90: east? 0: 180) ).build();
+              case 0: // fall through
+              default: return ConfiguredModel.builder().modelFile(
+                prov.models().getExistingFile(prov.modLoc(dir + "_post"))
+              ).build();
+            }
+          });
         })
         .register());
     });

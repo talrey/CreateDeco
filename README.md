@@ -34,8 +34,13 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.0.0-1.16.5 | 2 AUG 2021:  
- \+ initial release.
+1.1.0-1.16.5 | ??????????:  
+ \+ added andesite mesh fence!  
+ \* adjusted changelog to put recent on top  
+ \* netherite items won't burn in lava now  
+ 
+1.0.2-1.16.5 | 9 AUG 2021:  
+ \* coinstacks should be craftable back into coins
  
 1.0.1-1.16.5 | 6 AUG 2021:  
  \+ added recipe for Coins (press a nugget)  
@@ -48,5 +53,5 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
  \* coinstack blocks should drop as many coins as went into the stack  
  \* vanilla iron bars should be craftable
 
-1.0.2-1.16.5 | 9 AUG 2021:  
- \* coinstacks should be craftable back into coins
+1.0.0-1.16.5 | 2 AUG 2021:  
+ \+ initial release.
