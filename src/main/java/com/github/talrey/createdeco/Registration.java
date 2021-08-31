@@ -780,7 +780,7 @@ public class Registration {
         })
         .register());
 
-      if (metal.equals("Andesite")) MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
+      if (metal.equals("Andesite") || metal.equals("Brass")) MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
         .initialProperties(Material.IRON)
         .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
         .tag(BlockTags.FENCES)
@@ -792,38 +792,46 @@ public class Registration {
           .build()
         .blockstate((ctx,prov)-> {
           prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
-            String dir = metal.replace(' ','_').toLowerCase() + "_chainlink_fence";
+            String dir = "chainlink_fence";
             boolean north,south,east,west;
             north = state.get(BlockStateProperties.NORTH);
             south = state.get(BlockStateProperties.SOUTH);
             east  = state.get(BlockStateProperties.EAST);
             west  = state.get(BlockStateProperties.WEST);
             int sides = (north?1:0) + (south?1:0) + (east?1:0) + (west?1:0);
+            ResourceLocation mesh = prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase() + "_chain_link");
+            ResourceLocation wall = prov.modLoc("block/palettes/sheet_metal/"      + metal.toLowerCase() + "_sheet_metal");
             switch (sides) {
               case 4: return ConfiguredModel.builder().modelFile(
-                  prov.models().getExistingFile(prov.modLoc(dir + "_four_way"))
+                  prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_four_way"))
+                  .texture("0", mesh).texture("1", wall)
                 ).build();
               case 3: return ConfiguredModel.builder().modelFile(
-                  prov.models().getExistingFile(prov.modLoc(dir + "_tri_way"))
+                  prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_tri_way"))
+                  .texture("0", mesh).texture("1", wall)
                 ).rotationY(
                   (north? (south? (east? 90: -90): 0): 180)
                 ).build();
               case 2:
                 if ((north && south) || (east && west)) {
                   return ConfiguredModel.builder().modelFile(
-                    prov.models().getExistingFile(prov.modLoc(dir + "_straight"))
+                    prov.models().withExistingParent(ctx.getName() + "_straight", prov.modLoc(dir + "_straight"))
+                    .texture("0", mesh).texture("1", wall)
                   ).rotationY(east?0:90).build();
                 } else {
                   return ConfiguredModel.builder().modelFile(
-                    prov.models().getExistingFile(prov.modLoc(dir + "_corner"))
+                    prov.models().withExistingParent(ctx.getName() + "_corner", prov.modLoc(dir + "_corner"))
+                    .texture("0", mesh).texture("1", wall)
                   ).rotationY( (north? (east? 0: -90): (east? 90: 180))).build();
                 }
               case 1: return ConfiguredModel.builder().modelFile(
-                  prov.models().getExistingFile(prov.modLoc(dir + "_end"))
+                  prov.models().withExistingParent(ctx.getName() + "_end", prov.modLoc(dir + "_end"))
+                  .texture("0", mesh).texture("1", wall)
                 ).rotationY( (north? -90: south? 90: east? 0: 180) ).build();
               case 0: // fall through
               default: return ConfiguredModel.builder().modelFile(
-                prov.models().getExistingFile(prov.modLoc(dir + "_post"))
+                prov.models().withExistingParent(ctx.getName() + "_post", prov.modLoc(dir + "_post"))
+                .texture("0", mesh).texture("1", wall)
               ).build();
             }
           });
@@ -857,11 +865,13 @@ public class Registration {
 
     reg.itemGroup(()->METALS_GROUP, METALS_NAME);
     ZINC_SHEET = reg.item("zinc_sheet", Item::new)
+      .tag(ItemTags.makeWrapperTag("forge:plates/zinc"))
       .lang("Zinc Sheet")
       .register();
 
     NETHERITE_SHEET = reg.item("netherite_sheet", Item::new)
       .properties(p -> p.fireproof())
+      .tag(ItemTags.makeWrapperTag("forge:/plates/netherite"))
       .lang("Netherite Sheet")
       .register();
 

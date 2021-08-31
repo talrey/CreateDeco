@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "createdeco:andesite_mesh_fence"
+    "createdeco:andesite_mesh_fence",
+    "createdeco:brass_mesh_fence"
   ]
 }
