@@ -780,7 +780,7 @@ public class Registration {
         })
         .register());
 
-      if (metal.equals("Andesite") || metal.equals("Brass")) MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
+      MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
         .initialProperties(Material.IRON)
         .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
         .tag(BlockTags.FENCES)
@@ -871,7 +871,7 @@ public class Registration {
 
     NETHERITE_SHEET = reg.item("netherite_sheet", Item::new)
       .properties(p -> p.fireproof())
-      .tag(ItemTags.makeWrapperTag("forge:/plates/netherite"))
+      .tag(ItemTags.makeWrapperTag("forge:plates/netherite"))
       .lang("Netherite Sheet")
       .register();
 

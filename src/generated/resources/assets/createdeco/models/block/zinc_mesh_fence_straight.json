@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/chainlink_fence_straight",
+  "textures": {
+    "0": "createdeco:block/palettes/chain_link_fence/zinc_chain_link",
+    "1": "createdeco:block/palettes/sheet_metal/zinc_sheet_metal"
+  }
+}
