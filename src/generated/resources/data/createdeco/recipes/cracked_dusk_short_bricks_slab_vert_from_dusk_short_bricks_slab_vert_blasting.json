@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "createdeco:dusk_short_bricks_slab_vert"
-  },
-  "result": "createdeco:cracked_dusk_short_bricks_slab_vert",
-  "experience": 0.5,
-  "cookingtime": 100
-}

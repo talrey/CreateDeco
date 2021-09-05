@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:red_bricks_slab"
+            "item": "minecraft:brick_slab"
           }
         ]
       }

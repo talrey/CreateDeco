@@ -35,7 +35,9 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 == Changelog ==
 
 1.1.0-1.16.5 | ??????????:  
- \+ added mesh fencing for the seven metal types
+ \- Removed Red Brick, Stair, Slab, and Wall due to confusion with vanilla equivalent  
+ \+ instead, vanilla red bricks can now be made into Deco's variants  
+ \+ added mesh fencing for the seven metal types  
  \* adjusted changelog to put recent on top  
  \* netherite items won't burn in lava now  
  \* netherite and zinc sheets should be tagged now  

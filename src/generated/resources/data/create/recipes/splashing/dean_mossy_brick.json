@@ -2,7 +2,7 @@
   "type": "create:splashing",
   "ingredients": [
     {
-      "item": "createdeco:dean_bricks"
+      "item": "createdeco:dean_brick"
     }
   ],
   "results": [

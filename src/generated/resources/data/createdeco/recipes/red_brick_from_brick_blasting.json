@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "minecraft:brick"
+  },
+  "result": "createdeco:red_brick",
+  "experience": 0.3,
+  "cookingtime": 100
+}

@@ -1,6 +1,6 @@
 {
   "parent": "createdeco:block/vertical_slab",
   "textures": {
-    "side": "createdeco:block/palettes/bricks/red/mossy_short_bricks"
+    "side": "createdeco:block/palettes/bricks/red/mossy_red_short_bricks"
   }
 }

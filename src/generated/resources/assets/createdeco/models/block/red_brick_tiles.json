@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "createdeco:block/palettes/bricks/red/brick_tiles"
+    "all": "createdeco:block/palettes/bricks/red/red_brick_tiles"
   }
 }

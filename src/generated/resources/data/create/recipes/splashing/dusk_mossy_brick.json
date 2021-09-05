@@ -2,7 +2,7 @@
   "type": "create:splashing",
   "ingredients": [
     {
-      "item": "createdeco:dusk_bricks"
+      "item": "createdeco:dusk_brick"
     }
   ],
   "results": [

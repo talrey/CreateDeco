@@ -44,8 +44,6 @@ import java.util.function.Supplier;
 
 public class Registration {
 
-  private static SplashingRecipes SPLASHING;
-
   private static HashMap<DyeColor, String> BRICK_COLOR_NAMES                     = new HashMap<>();
   private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
   private static HashMap<String,
@@ -53,6 +51,8 @@ public class Registration {
   private static HashMap<String, Function<String, Item>> METAL_TYPES             = new HashMap<>();
   private static HashMap<String, Function<String, Item>> METAL_LOOKUP            = new HashMap<>();
 
+  public static ItemEntry<Item>                      WORN_BRICK_ITEM;
+  public static HashMap<String, BlockEntry<Block>>   WORN_BRICK_TYPES    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> TILE_BRICK_BLOCK    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> LONG_BRICK_BLOCK    = new HashMap<>();
@@ -124,10 +124,10 @@ public class Registration {
   public Registration () {
     BRICK_COLOR_NAMES.put(DyeColor.BLACK, "Dusk");
     BRICK_COLOR_NAMES.put(DyeColor.LIGHT_GRAY, "Pearl");
-    BRICK_COLOR_NAMES.put(DyeColor.RED, "Red");
+  //  BRICK_COLOR_NAMES.put(DyeColor.RED, "Scarlet");
     BRICK_COLOR_NAMES.put(DyeColor.YELLOW, "Dean");
     BRICK_COLOR_NAMES.put(DyeColor.LIGHT_BLUE, "Blue");
-    BRICK_COLOR_NAMES.put(null, "Worn"); // this is funky but it works, I swear.
+    BRICK_COLOR_NAMES.put(null, "Red"); // this is funky but it works, I swear.
 
     COIN_TYPES.add("Zinc");
     COIN_TYPES.add("Copper");
@@ -187,6 +187,30 @@ public class Registration {
     return BRICK_COLOR_NAMES.getOrDefault(color, "");
   }
 
+  public static Item getBrickItemFromColor        (DyeColor color) { return color != null ? BRICK_ITEM.get(color).get()  : Items.BRICK; }
+  public static Block getBrickBlockFromColor      (DyeColor color) { return color != null ? BRICK_BLOCK.get(color).get() : Blocks.BRICKS; }
+  public static Block getBrickStairBlockFromColor (DyeColor color, String suf) {
+    if (color == null && !(suf.contains("Tiles") || suf.contains("Short") || suf.contains("Long"))) {
+      return Blocks.BRICK_STAIRS;
+    }
+    else return BRICK_STAIRS_BLOCK.get(color).get(suf).get();
+  }
+  public static Block getBrickSlabBlockFromColor (DyeColor color, String suf) {
+    if (color == null && !(suf.contains("Tiles") || suf.contains("Short") || suf.contains("Long"))) {
+      return Blocks.BRICK_SLAB;
+    }
+    else return BRICK_SLAB_BLOCK.get(color).get(suf).get();
+  }
+  public static Block getBrickWallBlockFromColor (DyeColor color, String suf) {
+    if (color == null && !(suf.contains("Tiles") || suf.contains("Short") || suf.contains("Long"))) {
+      return Blocks.BRICK_WALL;
+    }
+    else return BRICK_WALL_BLOCK.get(color).get(suf).get();
+  }
+  public static Block getBrickVertBlockFromColor (DyeColor color, String suf) {
+    return BRICK_VERT_BLOCK.get(color).get(suf).get(); // no special case here
+  }
+
   private static BlockBuilder<Block,?> buildBrick (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
     String suf = suffix.replace(' ', '_').toLowerCase();
     String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
@@ -198,7 +222,7 @@ public class Registration {
     }
     return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
       .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       )))
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix)
       .defaultLoot()
@@ -217,7 +241,7 @@ public class Registration {
     }
     return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
       .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Stairs")
       .defaultLoot()
@@ -236,7 +260,7 @@ public class Registration {
     return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
       .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
         prov.modLoc("block/" + pre + name.toLowerCase() + (suf.equals("")?"":"_"+suf)),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Slab")
       .defaultLoot()
@@ -254,7 +278,7 @@ public class Registration {
     }
     return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
       .blockstate((ctx,prov)-> {
-        String texLoc = "block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf;
+        String texLoc = "block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf;
         ResourceLocation tex = prov.modLoc(texLoc);
         BlockModelBuilder half = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/vertical_slab"))
         .texture("side", tex);
@@ -291,7 +315,7 @@ public class Registration {
     }
     return ret.properties(props-> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
       .blockstate((ctx,prov)-> prov.wallBlock(ctx.get(),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf)
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Wall")
       .defaultLoot()
@@ -299,7 +323,7 @@ public class Registration {
       .item()
         .model((ctx,prov)-> prov.wallInventory("item/" + pre + name.toLowerCase() + "_" + suf + "_wall",
           prov.modLoc("block/palettes/bricks/"
-            + name.toLowerCase() + "/" + pre + (name.equals("Red")?"":name.toLowerCase()+"_") + suf
+            + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf
         )))
         .build();
   }
@@ -394,64 +418,87 @@ public class Registration {
   public static void registerBlocks (Registrate reg) {
     reg.itemGroup(()->BRICKS_GROUP);
 
+    BlockBuilder<Block, ?> wornBrick = buildBrick(reg, null, "", "Worn", "Bricks")
+      .recipe((ctx,prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get())
+        .patternLine("bb")
+        .patternLine("bb")
+        .key('b', WORN_BRICK_ITEM.get())
+        .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(WORN_BRICK_ITEM.get()))
+        .build(prov)
+      );
+    WORN_BRICK_TYPES.put("Worn Bricks", wornBrick.register());
+    String[] prefs = { "", "Cracked", "Mossy" };
+    String[] sufs  = { "Bricks", "Brick Tiles", "Long Bricks", "Short Bricks"};
+    for (String pre : prefs) {
+      for (String suf : sufs) {
+        if (pre.equals("") && suf.equals("Bricks")) continue;
+        String full = (pre.equals("")?"":pre + " ") + "Worn" + " " + suf;
+        WORN_BRICK_TYPES.put(full, buildBrick(reg, null, pre, "Worn", suf)
+          .recipe((ctx, prov)-> {
+            prov.stonecutting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx);
+            if (pre.equals("Cracked")) prov.blasting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx, 0.5f);
+          })
+          .register()
+        );
+      }
+    }
+
     BRICK_COLOR_NAMES.forEach((dye, name)-> {
-      BRICK_BLOCK.put(dye,         buildBrick(reg, dye, "", name, "Bricks")
+      if (dye != null) BRICK_BLOCK.put(dye,         buildBrick(reg, dye, "", name, "Bricks")
         .recipe((ctx,prov)-> ShapedRecipeBuilder.shapedRecipe(ctx.get())
           .patternLine("bb")
           .patternLine("bb")
-          .key('b', BRICK_ITEM.get(dye).get())
-          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BRICK_ITEM.get(dye).get()))
+          .key('b', getBrickItemFromColor(dye))
+          .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(getBrickItemFromColor(dye)))
           .build(prov)
         ).register());
       TILE_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Brick Tiles")
-        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx))
+        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
       LONG_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Long Bricks")
-        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx))
+        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
       SHORT_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "", name, "Short Bricks")
-        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx))
+        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
       CRACKED_BRICK_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Bricks")
         .recipe((ctx, prov)-> {
-          prov.blasting(DataIngredient.items(BRICK_BLOCK.get(dye).get()), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx);
+          prov.blasting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx, 0.5f);
+          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
         })
         .register());
       CRACKED_TILE_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Brick Tiles")
         .recipe((ctx, prov)-> {
           prov.blasting(DataIngredient.items(TILE_BRICK_BLOCK.get(dye).get()), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx);
+          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
         })
         .register());
       CRACKED_LONG_BLOCK.put(dye,  buildBrick(reg, dye, "Cracked", name, "Long Bricks")
         .recipe((ctx, prov)-> {
           prov.blasting(DataIngredient.items(LONG_BRICK_BLOCK.get(dye).get()), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx);
+          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
         })
         .register());
       CRACKED_SHORT_BLOCK.put(dye, buildBrick(reg, dye, "Cracked", name, "Short Bricks")
         .recipe((ctx, prov)-> {
           prov.blasting(DataIngredient.items(SHORT_BRICK_BLOCK.get(dye).get()), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx);
+          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
         })
         .register());
       MOSSY_BRICK_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Bricks")
         // washing handled in wrapper class
-        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx))
+        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
       MOSSY_TILE_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Brick Tiles")
-        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx))
+        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
       MOSSY_LONG_BLOCK.put(dye,    buildBrick(reg, dye, "Mossy", name, "Long Bricks")
-        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx))
+        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
       MOSSY_SHORT_BLOCK.put(dye,   buildBrick(reg, dye, "Mossy", name, "Short Bricks")
-        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx))
+        .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
 
-      String[] prefs = { "", "Cracked", "Mossy" };
-      String[] sufs  = { "Bricks", "Brick Tiles", "Long Bricks", "Short Bricks"};
       HashMap<String, BlockEntry<StairsBlock>>       stair = new HashMap<>();
       HashMap<String, BlockEntry<SlabBlock>>         slab  = new HashMap<>();
       HashMap<String, BlockEntry<VerticalSlabBlock>> vert  = new HashMap<>();
@@ -460,48 +507,52 @@ public class Registration {
         for (String suf : sufs) {
           //if (pre.equals("") && suf.equals("Bricks")) continue;
           String full = (pre.equals("")?"":pre + " ") + name + " " + suf;
-          stair.put(full, buildBrickStairs(reg, dye, pre, name, suf)
-            .recipe((ctx, prov)-> {
-              prov.stonecutting(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx);
-              prov.stairs(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, null, false);
-              if (pre.equals("Cracked")) {
-                prov.blasting(DataIngredient.items(BRICK_STAIRS_BLOCK.get(dye).get(full.substring(8))), ctx, 0.5f);
-              }
-              // handle washing in the wrapper
+          if (! ((dye == null) && pre.equals("") && suf.equals("Bricks")) ) { // vanilla block, stairs, slab, and wall exist already
+            stair.put(full, buildBrickStairs(reg, dye, pre, name, suf)
+              .recipe((ctx, prov) -> {
+                prov.stonecutting(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx);
+                prov.stairs(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, null, false);
+                if (pre.equals("Cracked")) {
+                  prov.blasting(DataIngredient.items(getBrickStairBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
+                }
+                // handle washing in the wrapper
             }).register());
-          slab.put(full, buildBrickSlabs( reg, dye, pre, name, suf)
-            .recipe((ctx, prov)-> {
-              prov.stonecutting(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, 2);
-              prov.slab(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, null, false);
-              if (pre.equals("Cracked")) {
-                prov.blasting(DataIngredient.items(BRICK_SLAB_BLOCK.get(dye).get(full.substring(8))), ctx, 0.5f);
-              }
-              // handle washing in the wrapper
+
+            slab.put(full, buildBrickSlabs(reg, dye, pre, name, suf)
+              .recipe((ctx, prov) -> {
+                prov.stonecutting(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, 2);
+                prov.slab(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, null, false);
+                if (pre.equals("Cracked")) {
+                  prov.blasting(DataIngredient.items(getBrickSlabBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
+                }
+                // handle washing in the wrapper
             }).register());
+
+            wall.put(full, buildBrickWalls(reg, dye, pre, name, suf)
+              .recipe((ctx, prov) -> {
+                prov.wall(DataIngredient.items(getBrickFromName(pre, dye, suf).get()), ctx);
+                if (pre.equals("Cracked")) {
+                  prov.blasting(DataIngredient.items(getBrickWallBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
+                }
+                // handle washing in the wrapper
+            }).register());
+          }
+
           vert.put(full, buildBrickVerts( reg, dye, pre, name, suf)
             .recipe((ctx, prov)-> {
-              prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx, 2);
+              prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx, 2);
               ShapedRecipeBuilder.shapedRecipe(ctx.get())
                 .patternLine("s")
                 .patternLine("s")
                 .patternLine("s")
-                .key('s', getBrickFromName(pre, dye, suf).get())
-                .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(BRICK_SLAB_BLOCK.get(dye).get(full).get()))
-                .build(prov);
+                .key('s', getBrickSlabBlockFromColor(dye, full))
+                .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(getBrickSlabBlockFromColor(dye, full)))
+              .build(prov);
               if (pre.equals("Cracked")) {
-                prov.blasting(DataIngredient.items(BRICK_VERT_BLOCK.get(dye).get(full.substring(8))), ctx, 0.5f);
+                prov.blasting(DataIngredient.items(getBrickSlabBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
               }
               // handle washing in the wrapper
-            }).register());
-          wall.put(full, buildBrickWalls( reg, dye, pre, name, suf)
-            .recipe((ctx, prov)-> {
-            //  prov.stonecutting(DataIngredient.items(BRICK_BLOCK.get(dye)), ctx);
-              prov.wall(DataIngredient.items(getBrickFromName(pre, dye, suf).get()), ctx);
-              if (pre.equals("Cracked")) {
-                prov.blasting(DataIngredient.items(BRICK_WALL_BLOCK.get(dye).get(full.substring(8))), ctx, 0.5f);
-              }
-              // handle washing in the wrapper
-            }).register());
+          }).register());
         }
       }
       BRICK_STAIRS_BLOCK.put(dye, stair);
@@ -844,9 +895,9 @@ public class Registration {
     reg.itemGroup(()->BRICKS_GROUP, BRICKS_NAME);
     BRICK_COLOR_NAMES.forEach((dye, name)-> {
       if (dye == null) {
-        BRICK_ITEM.put(null, reg.item(name.toLowerCase() + "_brick", Item::new)
+        WORN_BRICK_ITEM = reg.item(name.toLowerCase() + "_brick", Item::new)
           .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
-          .register());
+          .register();
       } else {
         BRICK_ITEM.put(dye, reg.item(name.toLowerCase() + "_brick", Item::new)
           .lang(name + " Brick")

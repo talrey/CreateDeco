@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_wall_post",
   "textures": {
-    "wall": "createdeco:block/palettes/bricks/red/mossy_brick_tiles"
+    "wall": "createdeco:block/palettes/bricks/red/mossy_red_brick_tiles"
   }
 }

@@ -13,9 +13,26 @@ import java.util.HashMap;
 
 public class SplashingRecipes extends ProcessingRecipeWrapper<SplashingRecipe> {
   {
+    add("worn_mossy_brick",
+      ts -> ts.require(Registration.WORN_BRICK_TYPES.get("Worn Bricks").get())
+        .output(Registration.WORN_BRICK_TYPES.get("Mossy Worn Bricks").asStack())
+    );
+    add("worn_mossy_long_brick",
+      ts -> ts.require(Registration.WORN_BRICK_TYPES.get("Worn Long Bricks").get())
+        .output(Registration.WORN_BRICK_TYPES.get("Mossy Worn Long Bricks").asStack())
+    );
+    add("worn_mossy_short_brick",
+      ts -> ts.require(Registration.WORN_BRICK_TYPES.get("Worn Short Bricks").get())
+        .output(Registration.WORN_BRICK_TYPES.get("Mossy Worn Short Bricks").asStack())
+    );
+    add("worn_mossy_brick_tile",
+      ts -> ts.require(Registration.WORN_BRICK_TYPES.get("Worn Brick Tiles").get())
+        .output(Registration.WORN_BRICK_TYPES.get("Mossy Worn Brick Tiles").asStack())
+    );
+
     Registration.MOSSY_BRICK_BLOCK.forEach((color, entry) ->
       add(Registration.getBrickColorName(color).toLowerCase() + "_mossy_brick",
-        ts -> ts.require(Registration.BRICK_BLOCK.get(color).get()).output(entry.asStack())
+        ts -> ts.require(Registration.getBrickItemFromColor(color)).output(entry.asStack())
       )
     );
     Registration.MOSSY_LONG_BLOCK.forEach((color, entry) ->
@@ -35,25 +52,25 @@ public class SplashingRecipes extends ProcessingRecipeWrapper<SplashingRecipe> {
     );
     for (DyeColor color : Registration.BRICK_BLOCK.keySet()) {
       Registration.BRICK_STAIRS_BLOCK.get(color).forEach( (name, brick) -> {
-        HashMap<?,?> col = Registration.BRICK_STAIRS_BLOCK.get(color);
+      //  HashMap<?,?> col = Registration.BRICK_STAIRS_BLOCK.get(color);
         RegistryEntry<?> blk = Registration.BRICK_STAIRS_BLOCK.get(color).get(name.substring(6));
         if (name.contains("Mossy")) add(name.toLowerCase().replaceAll(" ", "_") + "_stairs",
-          ts -> ts.require(Registration.BRICK_STAIRS_BLOCK.get(color).get(name.substring(6)).get()).output(brick.asStack())
+          ts -> ts.require(Registration.getBrickStairBlockFromColor(color, name.substring(6))).output(brick.asStack())
         );
       });
       Registration.BRICK_SLAB_BLOCK.get(color).forEach( (name, brick) -> {
         if (name.contains("Mossy")) add(name.toLowerCase().replaceAll(" ", "_") + "_slab",
-          ts -> ts.require(Registration.BRICK_SLAB_BLOCK.get(color).get(name.substring(6)).get()).output(brick.asStack())
+          ts -> ts.require(Registration.getBrickSlabBlockFromColor(color, name.substring(6))).output(brick.asStack())
         );
       });
       Registration.BRICK_VERT_BLOCK.get(color).forEach( (name, brick) -> {
         if (name.contains("Mossy")) add(name.toLowerCase().replaceAll(" ", "_") + "_vert",
-          ts -> ts.require(Registration.BRICK_VERT_BLOCK.get(color).get(name.substring(6)).get()).output(brick.asStack())
+          ts -> ts.require(Registration.getBrickVertBlockFromColor(color, name.substring(6))).output(brick.asStack())
         );
       });
       Registration.BRICK_WALL_BLOCK.get(color).forEach( (name, brick) -> {
         if (name.contains("Mossy")) add(name.toLowerCase().replaceAll(" ", "_") + "_wall",
-          ts -> ts.require(Registration.BRICK_WALL_BLOCK.get(color).get(name.substring(6)).get()).output(brick.asStack())
+          ts -> ts.require(Registration.getBrickWallBlockFromColor(color, name.substring(6))).output(brick.asStack())
         );
       });
     }
