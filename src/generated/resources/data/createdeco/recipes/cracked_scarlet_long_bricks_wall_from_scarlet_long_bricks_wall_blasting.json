@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "createdeco:scarlet_long_bricks_wall"
+  },
+  "result": "createdeco:cracked_scarlet_long_bricks_wall",
+  "experience": 0.5,
+  "cookingtime": 100
+}

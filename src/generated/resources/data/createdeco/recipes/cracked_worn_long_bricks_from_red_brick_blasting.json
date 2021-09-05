@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "createdeco:red_brick"
-  },
-  "result": "createdeco:cracked_worn_long_bricks",
-  "experience": 0.5,
-  "cookingtime": 100
-}

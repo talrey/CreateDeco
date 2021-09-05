@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "createdeco:worn_brick"
+  },
+  "result": "createdeco:worn_brick_tiles",
+  "count": 1
+}

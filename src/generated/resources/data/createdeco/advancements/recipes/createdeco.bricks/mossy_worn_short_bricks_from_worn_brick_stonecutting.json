@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:mossy_worn_short_bricks_from_worn_brick_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_worn_brick": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:worn_brick"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:mossy_worn_short_bricks_from_worn_brick_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_worn_brick",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -124,7 +124,7 @@ public class Registration {
   public Registration () {
     BRICK_COLOR_NAMES.put(DyeColor.BLACK, "Dusk");
     BRICK_COLOR_NAMES.put(DyeColor.LIGHT_GRAY, "Pearl");
-  //  BRICK_COLOR_NAMES.put(DyeColor.RED, "Scarlet");
+    BRICK_COLOR_NAMES.put(DyeColor.RED, "Scarlet");
     BRICK_COLOR_NAMES.put(DyeColor.YELLOW, "Dean");
     BRICK_COLOR_NAMES.put(DyeColor.LIGHT_BLUE, "Blue");
     BRICK_COLOR_NAMES.put(null, "Red"); // this is funky but it works, I swear.
@@ -895,7 +895,7 @@ public class Registration {
     reg.itemGroup(()->BRICKS_GROUP, BRICKS_NAME);
     BRICK_COLOR_NAMES.forEach((dye, name)-> {
       if (dye == null) {
-        WORN_BRICK_ITEM = reg.item(name.toLowerCase() + "_brick", Item::new)
+        WORN_BRICK_ITEM = reg.item("worn_brick", Item::new)
           .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
           .register();
       } else {
