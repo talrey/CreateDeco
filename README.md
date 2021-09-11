@@ -39,6 +39,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
  \+ instead, vanilla red bricks can now be made into Deco's variants  
  \+ added a new, redder brick called Scarlet, from red dye  
  \+ added mesh fencing for the seven metal types  
+ \+ added catwalks for the seven metal types  
  \* adjusted changelog to put recent on top  
  \* netherite items won't burn in lava now  
  \* netherite and zinc sheets should be tagged now  

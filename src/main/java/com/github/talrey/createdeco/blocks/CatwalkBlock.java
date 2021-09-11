@@ -1,24 +1,28 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.simibubi.create.content.contraptions.wrench.IWrenchable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nullable;
 
-public class CatwalkBlock extends Block {
+public class CatwalkBlock extends Block implements IWrenchable {
   private static final VoxelShape VOXEL_BOTTOM = Block.makeCuboidShape(
     0d, 0d, 0d,
     16d, 2d, 16d
@@ -64,6 +68,11 @@ public class CatwalkBlock extends Block {
 
   @Override
   public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext ctx) {
+    return getRaytraceShape(state, reader, pos);
+  }
+
+  @Override
+  public VoxelShape getRaytraceShape(BlockState state, IBlockReader world, BlockPos pos) {
     VoxelShape shape = VOXEL_BOTTOM;
 
     if (state.get(NORTH_FENCE)) shape = VoxelShapes.combine(shape, VOXEL_NORTH, IBooleanFunction.OR);
@@ -73,6 +82,8 @@ public class CatwalkBlock extends Block {
 
     return shape.withOffset(0d, state.get(BlockStateProperties.BOTTOM) ? 0d : -2/16d, 0d);
   }
+
+
 
   @Nullable
   @Override
@@ -99,5 +110,47 @@ public class CatwalkBlock extends Block {
     builder.add(WEST_FENCE);
     builder.add(LIFTED);
     builder.add(BlockStateProperties.WATERLOGGED);
+  }
+
+  @Override
+  public ActionResultType onWrenched(BlockState state, ItemUseContext ctx) {
+    BlockState result;
+    switch (ctx.getFace()) {
+      case NORTH: result = state.with(NORTH_FENCE, !state.get(NORTH_FENCE)); break;
+      case SOUTH: result = state.with(SOUTH_FENCE, !state.get(SOUTH_FENCE)); break;
+      case EAST:  result = state.with(EAST_FENCE,  !state.get(EAST_FENCE));  break;
+      case WEST:  result = state.with(WEST_FENCE,  !state.get(WEST_FENCE));  break;
+      default:
+        Vector3d relative = ctx.getHitVec().subtract(ctx.getPos().getX(), ctx.getPos().getY(), ctx.getPos().getZ());
+        if (relative.z > 0.66) {
+          result = state.with(SOUTH_FENCE, !state.get(SOUTH_FENCE));
+        } else if (relative.z < 0.33) {
+          result = state.with(NORTH_FENCE, !state.get(NORTH_FENCE));
+        } else if (relative.x > 0.66) {
+          result = state.with(EAST_FENCE,  !state.get(EAST_FENCE));
+        } else if (relative.x < 0.33) {
+          result = state.with(WEST_FENCE,  !state.get(WEST_FENCE));
+        } else result = getRotatedBlockState(state, Direction.UP);
+        break;
+    }
+    ctx.getWorld().setBlockState(ctx.getPos(), result, 1 | 2);
+    return ActionResultType.SUCCESS;
+  }
+
+  @Override
+  public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
+    if (targetedFace.getAxis() == Direction.Axis.Y) {
+      int state =
+        (originalState.get(NORTH_FENCE) ? 8 : 0) +
+        (originalState.get(EAST_FENCE)  ? 4 : 0) +
+        (originalState.get(SOUTH_FENCE) ? 2 : 0) +
+        (originalState.get(WEST_FENCE)  ? 1 : 0);
+      return originalState
+        .with(NORTH_FENCE, (state & 1) == 1)
+        .with(EAST_FENCE,  (state & 8) == 8)
+        .with(SOUTH_FENCE, (state & 4) == 4)
+        .with(WEST_FENCE,  (state & 2) == 2);
+    }
+    return originalState;
   }
 }
