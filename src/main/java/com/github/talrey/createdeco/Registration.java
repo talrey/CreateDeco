@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco;
 
+import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
@@ -31,6 +32,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -83,6 +85,7 @@ public class Registration {
   public static HashMap<String, BlockEntry<VerticalSlabBlock>> SHEET_VERT_SLABS = new HashMap<>();
 
   public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS = new HashMap<>();
+  public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS  = new HashMap<>();
 
   public static HashMap<DyeColor, BlockEntry<DecalBlock>> DECAL_BLOCKS   = new HashMap<>();
 
@@ -886,6 +889,65 @@ public class Registration {
               ).build();
             }
           });
+        })
+        .register());
+
+      CATWALK_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_catwalk", CatwalkBlock::new)
+        .initialProperties(Material.IRON)
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool().nonOpaque())
+        .tag(BlockTags.FENCES)
+        .item()
+          .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
+          .model((ctx,prov)-> prov.singleTexture(
+            ctx.getName(), prov.mcLoc("item/generated"),
+      "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase() + "_chain_link")))
+          .build()
+        .blockstate((ctx,prov)-> {
+          String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk";
+
+          BlockModelBuilder lower = prov.models().withExistingParent(ctx.getName()+"_bottom", prov.modLoc("block/catwalk_bottom"))
+            .texture("2", texture)
+            .texture("particle", texture);
+          BlockModelBuilder upper = prov.models().withExistingParent(ctx.getName()+"_top", prov.modLoc("block/catwalk_top"))
+            .texture("2", texture)
+            .texture("particle", texture);
+          BlockModelBuilder rail_upper = prov.models().withExistingParent(ctx.getName()+"_rail_upper",
+          prov.modLoc("block/catwalk_rail_upper"))
+            .texture("3", texture + "_rail")
+            .texture("particle", texture + "_rail");
+          BlockModelBuilder rail_lower = prov.models().withExistingParent(ctx.getName()+"_rail_lower",
+          prov.modLoc("block/catwalk_rail_lower"))
+            .texture("3", texture + "_rail")
+            .texture("particle", texture + "_rail");
+
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(lower).addModel().condition(BlockStateProperties.BOTTOM, true).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(upper).addModel().condition(BlockStateProperties.BOTTOM, false).end();
+
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY( 90).addModel()
+            .condition(BlockStateProperties.BOTTOM, true)
+            .condition(BlockStateProperties.NORTH, true).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(-90).addModel()
+            .condition(BlockStateProperties.BOTTOM, true)
+            .condition(BlockStateProperties.SOUTH, true).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(180).addModel()
+            .condition(BlockStateProperties.BOTTOM, true)
+            .condition(BlockStateProperties.EAST,  true).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(  0).addModel()
+            .condition(BlockStateProperties.BOTTOM, true)
+            .condition(BlockStateProperties.WEST,  true).end();
+
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY( 90).addModel()
+            .condition(BlockStateProperties.BOTTOM, false)
+            .condition(BlockStateProperties.NORTH, true).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(-90).addModel()
+            .condition(BlockStateProperties.BOTTOM, false)
+            .condition(BlockStateProperties.SOUTH, true).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(180).addModel()
+            .condition(BlockStateProperties.BOTTOM, false)
+            .condition(BlockStateProperties.EAST,  true).end();
+          prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(  0).addModel()
+            .condition(BlockStateProperties.BOTTOM, false)
+            .condition(BlockStateProperties.WEST,  true).end();
         })
         .register());
     });

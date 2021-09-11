@@ -85,6 +85,9 @@ public class CreateDecoMod
     for (BlockEntry<?> entry : Registration.MESH_FENCE_BLOCKS.values()) {
       RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
     }
+    for (BlockEntry<?> entry : Registration.CATWALK_BLOCKS.values()) {
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+    }
   }
 
   private void enqueueIMC(final InterModEnqueueEvent event)

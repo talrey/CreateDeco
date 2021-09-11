@@ -8,8 +8,8 @@
 	"elements": [
 		{
 			"name": "floor",
-			"from": [0, 14, 0],
-			"to": [16, 16, 16],
+			"from": [0, -2, 0],
+			"to": [16, 0, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 2, 16], "rotation": 90, "texture": "#2", "cullface": "west"},
