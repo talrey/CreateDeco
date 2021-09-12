@@ -174,5 +174,17 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
     }
     return Fluids.EMPTY;
   }
-  // */
+
+  @Override
+  public BlockState updatePostPlacement(BlockState state, Direction dir, BlockState neighbor, IWorld world, BlockPos pos, BlockPos neighborPos) {
+    if (state.get(BlockStateProperties.WATERLOGGED)) {
+      world.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+    }
+    return state;
+  }
+
+  @Override
+  public FluidState getFluidState(BlockState state) {
+    return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : Fluids.EMPTY.getDefaultState();
+  }
 }
