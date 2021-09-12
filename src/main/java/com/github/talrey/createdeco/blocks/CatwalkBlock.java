@@ -3,6 +3,8 @@ package com.github.talrey.createdeco.blocks;
 import com.simibubi.create.content.contraptions.wrench.IWrenchable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -19,10 +21,11 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 
 import javax.annotation.Nullable;
 
-public class CatwalkBlock extends Block implements IWrenchable {
+public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
   private static final VoxelShape VOXEL_BOTTOM = Block.makeCuboidShape(
     0d, 0d, 0d,
     16d, 2d, 16d
@@ -83,8 +86,6 @@ public class CatwalkBlock extends Block implements IWrenchable {
     return shape.withOffset(0d, state.get(BlockStateProperties.BOTTOM) ? 0d : -2/16d, 0d);
   }
 
-
-
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockItemUseContext ctx) {
@@ -115,24 +116,18 @@ public class CatwalkBlock extends Block implements IWrenchable {
   @Override
   public ActionResultType onWrenched(BlockState state, ItemUseContext ctx) {
     BlockState result;
-    switch (ctx.getFace()) {
-      case NORTH: result = state.with(NORTH_FENCE, !state.get(NORTH_FENCE)); break;
-      case SOUTH: result = state.with(SOUTH_FENCE, !state.get(SOUTH_FENCE)); break;
-      case EAST:  result = state.with(EAST_FENCE,  !state.get(EAST_FENCE));  break;
-      case WEST:  result = state.with(WEST_FENCE,  !state.get(WEST_FENCE));  break;
-      default:
-        Vector3d relative = ctx.getHitVec().subtract(ctx.getPos().getX(), ctx.getPos().getY(), ctx.getPos().getZ());
-        if (relative.z > 0.66) {
-          result = state.with(SOUTH_FENCE, !state.get(SOUTH_FENCE));
-        } else if (relative.z < 0.33) {
-          result = state.with(NORTH_FENCE, !state.get(NORTH_FENCE));
-        } else if (relative.x > 0.66) {
-          result = state.with(EAST_FENCE,  !state.get(EAST_FENCE));
-        } else if (relative.x < 0.33) {
-          result = state.with(WEST_FENCE,  !state.get(WEST_FENCE));
-        } else result = getRotatedBlockState(state, Direction.UP);
-        break;
-    }
+
+    Vector3d relative = ctx.getHitVec().subtract(ctx.getPos().getX(), ctx.getPos().getY(), ctx.getPos().getZ());
+    if (relative.z > 0.66) {
+      result = state.with(SOUTH_FENCE, !state.get(SOUTH_FENCE));
+    } else if (relative.z < 0.33) {
+      result = state.with(NORTH_FENCE, !state.get(NORTH_FENCE));
+    } else if (relative.x > 0.66) {
+      result = state.with(EAST_FENCE,  !state.get(EAST_FENCE));
+    } else if (relative.x < 0.33) {
+      result = state.with(WEST_FENCE,  !state.get(WEST_FENCE));
+    } else result = getRotatedBlockState(state, Direction.UP);
+
     ctx.getWorld().setBlockState(ctx.getPos(), result, 1 | 2);
     return ActionResultType.SUCCESS;
   }
@@ -153,4 +148,31 @@ public class CatwalkBlock extends Block implements IWrenchable {
     }
     return originalState;
   }
+
+  @Override
+  public boolean canContainFluid(IBlockReader world, BlockPos pos, BlockState state, Fluid fluid) {
+    return !state.get(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
+  }
+
+  @Override
+  public boolean receiveFluid(IWorld world, BlockPos pos, BlockState state, FluidState fluidstate) {
+    if (!state.get(BlockStateProperties.WATERLOGGED) && (fluidstate.getFluid() == Fluids.WATER)) {
+      if (!world.isRemote()) {
+        world.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, true), 1 | 2);
+        world.getPendingFluidTicks().scheduleTick(pos, fluidstate.getFluid(), fluidstate.getFluid().getTickRate(world));
+      }
+      return true;
+    }
+    return false;
+  }
+
+  @Override
+  public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
+    if (state.get(BlockStateProperties.WATERLOGGED)) {
+      world.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, false), 1 | 2);
+      return Fluids.WATER;
+    }
+    return Fluids.EMPTY;
+  }
+  // */
 }
