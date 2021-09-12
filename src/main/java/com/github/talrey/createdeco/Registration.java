@@ -223,7 +223,9 @@ public class Registration {
     } else {
       ret.initialProperties(Material.ROCK);
     }
-    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool()
+        .sound(SoundType.STONE)
+      )
       .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       )))
@@ -242,7 +244,9 @@ public class Registration {
     } else {
       ret.initialProperties(Material.ROCK);
     }
-    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool()
+        .sound(SoundType.STONE)
+      )
       .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
@@ -260,7 +264,9 @@ public class Registration {
     } else {
       ret.initialProperties(Material.ROCK);
     }
-    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool()
+        .sound(SoundType.STONE)
+      )
       .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
         prov.modLoc("block/" + pre + name.toLowerCase() + (suf.equals("")?"":"_"+suf)),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
@@ -279,7 +285,9 @@ public class Registration {
     } else {
       ret.initialProperties(Material.ROCK);
     }
-    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+    return ret.properties(props -> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool()
+        .sound(SoundType.STONE)
+      )
       .blockstate((ctx,prov)-> {
         String texLoc = "block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf;
         ResourceLocation tex = prov.modLoc(texLoc);
@@ -316,7 +324,9 @@ public class Registration {
     } else {
       ret.initialProperties(Material.ROCK);
     }
-    return ret.properties(props-> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool())
+    return ret.properties(props-> props.hardnessAndResistance(2,6).harvestTool(ToolType.PICKAXE).requiresTool()
+        .sound(SoundType.STONE)
+      )
       .blockstate((ctx,prov)-> prov.wallBlock(ctx.get(),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
@@ -357,7 +367,7 @@ public class Registration {
     postex = postTexture;
 
     return reg.block(base + suf, PaneBlock::new)
-      .properties(props -> props.nonOpaque().hardnessAndResistance(5, 6))
+      .properties(props -> props.nonOpaque().hardnessAndResistance(5, 6).sound(SoundType.NETHERITE))
       .blockstate((ctx, prov) -> {
         MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
         BlockModelBuilder sideModel = prov.models().withExistingParent(
@@ -567,7 +577,7 @@ public class Registration {
     reg.itemGroup(()->PROPS_GROUP);
     COIN_TYPES.forEach(metal ->
       COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
-        .properties(props -> props.nonOpaque().hardnessAndResistance(0.5f))
+        .properties(props -> props.nonOpaque().hardnessAndResistance(0.5f).sound(SoundType.CHAIN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
           int layer = state.get(BlockStateProperties.LAYERS_1_8);
           return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
@@ -596,7 +606,7 @@ public class Registration {
     for (DyeColor color : DyeColor.values()) {
       DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase() + "_decal", DecalBlock::new)
         .initialProperties(Material.IRON)
-        .properties(props-> props.nonOpaque().hardnessAndResistance(0.5f))
+        .properties(props-> props.nonOpaque().hardnessAndResistance(0.5f).sound(SoundType.LANTERN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
           int y = 0;
           switch (state.get(BlockStateProperties.HORIZONTAL_FACING)) {
@@ -630,7 +640,9 @@ public class Registration {
     DOOR_TYPES.forEach((metal,ingot) ->
       DOOR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_door", DoorBlock::new)
         .initialProperties(Material.NETHER_WOOD) // setting it to IRON locks it, and normal wood would burn probably
-        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5).harvestTool(ToolType.PICKAXE).requiresTool())
+        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5).harvestTool(ToolType.PICKAXE).requiresTool()
+          .sound(SoundType.NETHERITE)
+        )
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(),
           prov.modLoc("block/" + metal.toLowerCase() + "_door_bottom"),
           prov.modLoc("block/" + metal.toLowerCase() + "_door_top"))
@@ -664,7 +676,9 @@ public class Registration {
     DOOR_TYPES.forEach((metal, ingot)->
       LOCK_DOOR_BLOCKS.put(metal.toLowerCase(), reg.block("locked_" + metal.toLowerCase() + "_door", DoorBlock::new)
         .initialProperties(Material.IRON)
-        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5).harvestTool(ToolType.PICKAXE).requiresTool())
+        .properties(props -> props.nonOpaque().hardnessAndResistance(5, 5).harvestTool(ToolType.PICKAXE).requiresTool()
+          .sound(SoundType.NETHERITE)
+        )
         .blockstate((ctx, prov)-> prov.doorBlock(ctx.get(),
           prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_bottom"),
           prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_top"))
@@ -738,7 +752,9 @@ public class Registration {
 
       SHEET_METAL_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_sheet_metal", Block::new)
         .initialProperties(Material.IRON)
-        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool()
+          .sound(SoundType.NETHERITE)
+        )
         .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
           prov.modLoc("block/palettes/sheet_metal/" + ctx.getName())
         )))
@@ -753,7 +769,9 @@ public class Registration {
       SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",
         (props)->new StairsBlock(Blocks.BRICK_STAIRS::getDefaultState, props))
         .initialProperties(Material.IRON)
-        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool()
+          .sound(SoundType.NETHERITE)
+        )
         .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .tag(BlockTags.STAIRS)
         .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
@@ -768,7 +786,9 @@ public class Registration {
 
       SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
         .initialProperties(Material.IRON)
-        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool()
+          .sound(SoundType.NETHERITE)
+        )
         .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .tag(BlockTags.SLABS)
         .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
@@ -784,7 +804,9 @@ public class Registration {
 
       SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
         .initialProperties(Material.IRON)
-        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool()
+          .sound(SoundType.NETHERITE)
+        )
         .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .blockstate(((ctx,prov)-> {
           String texLoc = "block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal";
@@ -836,7 +858,9 @@ public class Registration {
 
       MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
         .initialProperties(Material.IRON)
-        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool())
+        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool()
+          .sound(SoundType.CHAIN)
+        )
         .tag(BlockTags.FENCES)
         .item()
           .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
@@ -894,7 +918,10 @@ public class Registration {
 
       CATWALK_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_catwalk", CatwalkBlock::new)
         .initialProperties(Material.IRON)
-        .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool().nonOpaque())
+        .properties(props->
+          props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool().nonOpaque()
+          .sound(SoundType.NETHERITE)
+        )
         .item()
           .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
           .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
