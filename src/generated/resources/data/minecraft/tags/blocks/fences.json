@@ -2,18 +2,11 @@
   "replace": false,
   "values": [
     "createdeco:gold_mesh_fence",
-    "createdeco:gold_catwalk",
     "createdeco:netherite_mesh_fence",
-    "createdeco:netherite_catwalk",
     "createdeco:andesite_mesh_fence",
-    "createdeco:andesite_catwalk",
     "createdeco:brass_mesh_fence",
-    "createdeco:brass_catwalk",
     "createdeco:iron_mesh_fence",
-    "createdeco:iron_catwalk",
     "createdeco:copper_mesh_fence",
-    "createdeco:copper_catwalk",
-    "createdeco:zinc_mesh_fence",
-    "createdeco:zinc_catwalk"
+    "createdeco:zinc_mesh_fence"
   ]
 }

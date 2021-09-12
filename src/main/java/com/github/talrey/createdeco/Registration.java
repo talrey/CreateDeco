@@ -895,12 +895,11 @@ public class Registration {
       CATWALK_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_catwalk", CatwalkBlock::new)
         .initialProperties(Material.IRON)
         .properties(props-> props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool().nonOpaque())
-        .tag(BlockTags.FENCES)
         .item()
           .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
-          .model((ctx,prov)-> prov.singleTexture(
-            ctx.getName(), prov.mcLoc("item/generated"),
-      "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase() + "_chain_link")))
+          .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
+            .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk"))
+          )
           .build()
         .blockstate((ctx,prov)-> {
           String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk";

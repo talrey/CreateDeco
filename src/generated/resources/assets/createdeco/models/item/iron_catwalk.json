@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "minecraft:block/template_trapdoor_bottom",
   "textures": {
-    "layer0": "createdeco:block/palettes/chain_link_fence/iron_chain_link"
+    "texture": "createdeco:block/palettes/catwalks/iron_catwalk"
   }
 }
