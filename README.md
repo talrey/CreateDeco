@@ -17,7 +17,15 @@ Sheet Metals: With the power of Stonecutting, turn Andesite Alloy or a block of 
 
 
 Fancier Bars: Vanilla iron bars have had their day. Now you can make metal bars out of any of the many metallic materials mentioned above - and they all come with a "panel" variant too, for a total of 14 new bar styles!
+
+
 Metal Doors: Take a few ingots of Andesite Alloy, Zinc, Copper, or Brass and craft yourself a door to rival any of the fancy wooden ones your neighbors might have. They're blast resistant and fireproof, and they can be opened as easily as a wooden door. Don't like that? Slap a Redstone Torch onto it in your crafting grid and now the door has no handle. It will only obey redstone now, the same as an Iron door.
+
+
+Mesh Fences: A metallic alternative to wooden fences, these are evocative of chain-link fences. Four sheets and two string will get you three of these lovely blocks.
+
+
+Catwalks: Tired of holding Sneak as you walk around the precipitous rafters of your factory? Here's a sturdy piece of thin metal to stand on, with or without safety rails - whack them just so with a Wrench to configure those. They come in slightly elevated and floor-flush shapes depending on placement, so you can decide just how close you want your feet to really be to that vat of lava. These are crafted from a metal bar with a diamond of metal sheets around it for reinforcement.
 
 
 == Create Deco Props ==
@@ -38,11 +46,12 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
  \- Removed Red Brick, Stair, Slab, and Wall due to confusion with vanilla equivalent  
  \+ instead, vanilla red bricks can now be made into Deco's variants  
  \+ added a new, redder brick called Scarlet, from red dye  
- \+ added mesh fencing for the seven metal types  
- \+ added catwalks for the seven metal types  
+ \+ added Mesh Fencing for the seven metal types  
+ \+ added Catwalks for the seven metal types  
  \* adjusted changelog to put recent on top  
  \* netherite items won't burn in lava now  
  \* netherite and zinc sheets should be tagged now  
+ \* metal bars break with correct particles now
  
 1.0.2-1.16.5 | 9 AUG 2021:  
  \* coinstacks should be craftable back into coins

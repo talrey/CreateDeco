@@ -14,9 +14,11 @@ import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.*;
@@ -27,6 +29,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -35,6 +38,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
@@ -152,7 +156,7 @@ public class Registration {
     METAL_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
     METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 
-    METAL_LOOKUP.put("Andesite",  (str) -> str.equals("sheet") ? AllBlocks.ANDESITE_CASING.get().asItem() : AllItems.ANDESITE_ALLOY.get());
+    METAL_LOOKUP.put("Andesite",  (str) -> str.equals("block") ? AllBlocks.ANDESITE_CASING.get().asItem() : AllItems.ANDESITE_ALLOY.get());
     METAL_LOOKUP.put("Zinc",      (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:zinc_block")));
     METAL_LOOKUP.put("Copper",    (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:copper_block")));
     METAL_LOOKUP.put("Brass",     (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:brass_block")));
@@ -373,14 +377,16 @@ public class Registration {
         BlockModelBuilder sideModel = prov.models().withExistingParent(
           base + "_side", prov.mcLoc("block/iron_bars_side"))
           .texture("bars", bartex)
-          .texture("edge", postex);
+          .texture("edge", postex)
+          .texture("particle", postex);
         BlockModelBuilder sideAltModel = prov.models().withExistingParent(
           base + "_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
           .texture("bars", bartex)
-          .texture("edge", postex);
+          .texture("edge", postex)
+          .texture("particle", postex);
 
         builder.part().modelFile(prov.models().withExistingParent(base + "_post", prov.mcLoc("block/iron_bars_post"))
-          .texture("bars", postex)
+          .texture("bars", postex).texture("particle", postex)
         ).addModel()
           .condition(BlockStateProperties.NORTH, false)
           .condition(BlockStateProperties.SOUTH, false)
@@ -389,7 +395,7 @@ public class Registration {
           .end();
         builder.part().modelFile(
           prov.models().withExistingParent(base + "_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
-            .texture("edge", postex)
+            .texture("edge", postex).texture("particle", postex)
         ).addModel().end();
           builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
           builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
@@ -400,11 +406,13 @@ public class Registration {
             BlockModelBuilder sideOverlayModel = prov.models().withExistingParent(
               base + suf, prov.mcLoc("block/iron_bars_side"))
               .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
-              .texture("edge", postex);
+              .texture("edge", postex)
+              .texture("particle", postex);
             BlockModelBuilder sideOverlayAltModel = prov.models().withExistingParent(
               base + suf + "_alt", prov.mcLoc("block/iron_bars_side_alt"))
               .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
-              .texture("edge", postex);
+              .texture("edge", postex)
+              .texture("particle", postex);
 
             builder.part().modelFile(sideOverlayModel).addModel().condition(BlockStateProperties.NORTH, true).end();
             builder.part().modelFile(sideOverlayModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
@@ -762,7 +770,7 @@ public class Registration {
         .defaultLoot()
         .item().properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p).build()
         .recipe((ctx, prov)-> {
-          prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply("sheet")), ctx, 4);
+          prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply("block")), ctx, 4);
         })
         .register());
 
@@ -868,6 +876,27 @@ public class Registration {
             ctx.getName(), prov.mcLoc("item/generated"),
             "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase() + "_chain_link")))
           .build()
+        .recipe((ctx,prov)-> {
+          if (metal.equals("Andesite")) {
+            ShapedRecipeBuilder.shapedRecipe(ctx.get(), 3)
+              .patternLine("psp")
+              .patternLine("psp")
+              .key('p', AllItems.ANDESITE_ALLOY.get())
+              .key('s', Items.STRING)
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(AllItems.ANDESITE_ALLOY.get()))
+              .build(prov);
+          }
+          else {
+            ITag<Item> sheet = ItemTags.makeWrapperTag("forge:plates/" + metal.toLowerCase());
+            ShapedRecipeBuilder.shapedRecipe(ctx.get(), 3)
+              .patternLine("psp")
+              .patternLine("psp")
+              .key('p', sheet)
+              .key('s', Items.STRING)
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(ItemPredicate.Builder.create().tag(sheet).build()))
+              .build(prov);
+          }
+        })
         .blockstate((ctx,prov)-> {
           prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
             String dir = "chainlink_fence";
@@ -882,11 +911,11 @@ public class Registration {
             switch (sides) {
               case 4: return ConfiguredModel.builder().modelFile(
                   prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_four_way"))
-                  .texture("0", mesh).texture("1", wall)
+                  .texture("0", mesh).texture("1", wall).texture("particle", wall)
                 ).build();
               case 3: return ConfiguredModel.builder().modelFile(
                   prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_tri_way"))
-                  .texture("0", mesh).texture("1", wall)
+                  .texture("0", mesh).texture("1", wall).texture("particle", wall)
                 ).rotationY(
                   (north? (south? (east? 90: -90): 0): 180)
                 ).build();
@@ -894,22 +923,22 @@ public class Registration {
                 if ((north && south) || (east && west)) {
                   return ConfiguredModel.builder().modelFile(
                     prov.models().withExistingParent(ctx.getName() + "_straight", prov.modLoc(dir + "_straight"))
-                    .texture("0", mesh).texture("1", wall)
+                    .texture("0", mesh).texture("1", wall).texture("particle", wall)
                   ).rotationY(east?0:90).build();
                 } else {
                   return ConfiguredModel.builder().modelFile(
                     prov.models().withExistingParent(ctx.getName() + "_corner", prov.modLoc(dir + "_corner"))
-                    .texture("0", mesh).texture("1", wall)
+                    .texture("0", mesh).texture("1", wall).texture("particle", wall)
                   ).rotationY( (north? (east? 0: -90): (east? 90: 180))).build();
                 }
               case 1: return ConfiguredModel.builder().modelFile(
                   prov.models().withExistingParent(ctx.getName() + "_end", prov.modLoc(dir + "_end"))
-                  .texture("0", mesh).texture("1", wall)
+                  .texture("0", mesh).texture("1", wall).texture("particle", wall)
                 ).rotationY( (north? -90: south? 90: east? 0: 180) ).build();
               case 0: // fall through
               default: return ConfiguredModel.builder().modelFile(
                 prov.models().withExistingParent(ctx.getName() + "_post", prov.modLoc(dir + "_post"))
-                .texture("0", mesh).texture("1", wall)
+                .texture("0", mesh).texture("1", wall).texture("particle", wall)
               ).build();
             }
           });
@@ -928,6 +957,29 @@ public class Registration {
             .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk"))
           )
           .build()
+        .recipe((ctx,prov)-> {
+          if (metal.equals("Andesite")) {
+            ShapedRecipeBuilder.shapedRecipe(ctx.get(), 3)
+              .patternLine(" p ")
+              .patternLine("pBp")
+              .patternLine(" p ")
+              .key('p', AllItems.ANDESITE_ALLOY.get())
+              .key('B', BAR_BLOCKS.get(metal).get())
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(AllItems.ANDESITE_ALLOY.get()))
+              .build(prov);
+          }
+          else {
+            ITag<Item> sheet = ItemTags.makeWrapperTag("forge:plates/" + metal.toLowerCase());
+            ShapedRecipeBuilder.shapedRecipe(ctx.get(), 3)
+              .patternLine(" p ")
+              .patternLine("pBp")
+              .patternLine(" p ")
+              .key('p', sheet)
+              .key('B', BAR_BLOCKS.get(metal).get())
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(ItemPredicate.Builder.create().tag(sheet).build()))
+              .build(prov);
+          }
+        })
         .blockstate((ctx,prov)-> {
           String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk";
 

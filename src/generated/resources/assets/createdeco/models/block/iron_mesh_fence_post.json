@@ -2,6 +2,7 @@
   "parent": "createdeco:block/chainlink_fence_post",
   "textures": {
     "0": "createdeco:block/palettes/chain_link_fence/iron_chain_link",
-    "1": "createdeco:block/palettes/sheet_metal/iron_sheet_metal"
+    "1": "createdeco:block/palettes/sheet_metal/iron_sheet_metal",
+    "particle": "createdeco:block/palettes/sheet_metal/iron_sheet_metal"
   }
 }
