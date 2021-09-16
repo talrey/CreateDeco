@@ -4,6 +4,7 @@ import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
+import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
@@ -951,7 +952,8 @@ public class Registration {
           props.hardnessAndResistance(5, 3).harvestTool(ToolType.PICKAXE).requiresTool().nonOpaque()
           .sound(SoundType.NETHERITE)
         )
-        .item()
+
+        .item(CatwalkBlockItem::new)
           .properties(p -> (metal.equals("Netherite")) ? p.fireproof() : p)
           .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
             .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk"))

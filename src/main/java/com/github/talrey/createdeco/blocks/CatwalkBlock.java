@@ -7,7 +7,9 @@ import net.minecraft.block.IWaterLoggable;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -22,6 +24,7 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
@@ -47,11 +50,11 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
   2d, 16d, 16d
   );
 
-  private static final BooleanProperty NORTH_FENCE = BlockStateProperties.NORTH;
-  private static final BooleanProperty SOUTH_FENCE = BlockStateProperties.SOUTH;
-  private static final BooleanProperty EAST_FENCE  = BlockStateProperties.EAST;
-  private static final BooleanProperty WEST_FENCE  = BlockStateProperties.WEST;
-  private static final BooleanProperty LIFTED      = BlockStateProperties.BOTTOM;
+  public static final BooleanProperty NORTH_FENCE = BlockStateProperties.NORTH;
+  public static final BooleanProperty SOUTH_FENCE = BlockStateProperties.SOUTH;
+  public static final BooleanProperty EAST_FENCE  = BlockStateProperties.EAST;
+  public static final BooleanProperty WEST_FENCE  = BlockStateProperties.WEST;
+  public static final BooleanProperty LIFTED      = BlockStateProperties.BOTTOM;
 
   private static boolean hasNeighborTo (Direction side, BlockItemUseContext ctx) {
     return ctx.getWorld().getBlockState(ctx.getPos().offset(side)).getBlock() instanceof CatwalkBlock;
@@ -89,17 +92,26 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockItemUseContext ctx) {
-    BlockState state = getDefaultState();
     Direction facing = ctx.getPlacementHorizontalFacing();
     FluidState fluid = ctx.getWorld().getFluidState(ctx.getPos());
+    boolean lift     = (ctx.getHitVec().y - ctx.getPos().getY()) < 0.5f;
 
-    return state
-      .with(LIFTED, (ctx.getHitVec().y - ctx.getPos().getY() < 0.5f))
+    BlockState state = getDefaultState()
+      .with(LIFTED, lift)
       .with(NORTH_FENCE, (facing == Direction.NORTH) && !hasNeighborTo(Direction.NORTH, ctx))
       .with(SOUTH_FENCE, (facing == Direction.SOUTH) && !hasNeighborTo(Direction.SOUTH, ctx))
       .with(EAST_FENCE,  (facing == Direction.EAST)  && !hasNeighborTo(Direction.EAST,  ctx))
       .with(WEST_FENCE,  (facing == Direction.WEST)  && !hasNeighborTo(Direction.WEST,  ctx))
       .with(BlockStateProperties.WATERLOGGED, fluid.getFluid() == Fluids.WATER);
+
+    if (!lift) {
+      World world = ctx.getWorld();
+      if (canPlaceCatwalk(world, ctx.getPos().add(0,1,0))) {
+        world.setBlockState(ctx.getPos().add(0,1,0), state, 3);
+        return world.getBlockState(ctx.getPos());
+      }
+    }
+    return state;
   }
 
   @Override
@@ -115,18 +127,21 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
 
   @Override
   public ActionResultType onWrenched(BlockState state, ItemUseContext ctx) {
-    BlockState result;
+    BlockState result = state;
 
     Vector3d relative = ctx.getHitVec().subtract(ctx.getPos().getX(), ctx.getPos().getY(), ctx.getPos().getZ());
     if (relative.z > 0.66) {
-      result = state.with(SOUTH_FENCE, !state.get(SOUTH_FENCE));
+      result = result.with(SOUTH_FENCE, !state.get(SOUTH_FENCE));
     } else if (relative.z < 0.33) {
-      result = state.with(NORTH_FENCE, !state.get(NORTH_FENCE));
-    } else if (relative.x > 0.66) {
-      result = state.with(EAST_FENCE,  !state.get(EAST_FENCE));
+      result = result.with(NORTH_FENCE, !state.get(NORTH_FENCE));
+    }
+    if (relative.x > 0.66) {
+      result = result.with(EAST_FENCE,  !state.get(EAST_FENCE));
     } else if (relative.x < 0.33) {
-      result = state.with(WEST_FENCE,  !state.get(WEST_FENCE));
-    } else result = getRotatedBlockState(state, Direction.UP);
+      result = result.with(WEST_FENCE,  !state.get(WEST_FENCE));
+    }
+    // if we're near the center
+    if (result.equals(state)) result = getRotatedBlockState(state, Direction.UP);
 
     ctx.getWorld().setBlockState(ctx.getPos(), result, 1 | 2);
     return ActionResultType.SUCCESS;
@@ -180,11 +195,36 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
     if (state.get(BlockStateProperties.WATERLOGGED)) {
       world.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
     }
+    if (isCatwalk(neighbor.getBlock())) {
+      state = state.with(getPropertyFromDirection(dir), false);
+    }
     return state;
   }
 
   @Override
   public FluidState getFluidState(BlockState state) {
     return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : Fluids.EMPTY.getDefaultState();
+  }
+
+  public static boolean isCatwalk (ItemStack test) {
+    return (test.getItem() instanceof BlockItem) && isCatwalk(((BlockItem)test.getItem()).getBlock());
+  }
+
+  public static boolean isCatwalk (Block test) {
+    return test instanceof CatwalkBlock;
+  }
+
+  public static boolean canPlaceCatwalk (World world, BlockPos pos) {
+    return world.getBlockState(pos).getMaterial().isReplaceable();
+  }
+
+  public static BooleanProperty getPropertyFromDirection (Direction dir) {
+    switch (dir) {
+      case NORTH: return NORTH_FENCE;
+      case SOUTH: return SOUTH_FENCE;
+      case EAST:  return EAST_FENCE;
+      case WEST:  return WEST_FENCE;
+      default:    return LIFTED;
+    }
   }
 }
