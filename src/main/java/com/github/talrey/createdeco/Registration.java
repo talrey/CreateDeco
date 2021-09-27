@@ -4,10 +4,7 @@ import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
-import com.github.talrey.createdeco.connected.SheetMetalCTBehaviour;
-import com.github.talrey.createdeco.connected.SheetMetalSlabCTBehaviour;
-import com.github.talrey.createdeco.connected.SheetMetalVertCTBehaviour;
-import com.github.talrey.createdeco.connected.SpriteShifts;
+import com.github.talrey.createdeco.connected.*;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllBlocks;
@@ -1043,6 +1040,9 @@ public class Registration {
             .condition(BlockStateProperties.BOTTOM, false)
             .condition(BlockStateProperties.WEST,  true).end();
         })
+        .onRegister(CreateRegistrate.connectedTextures(
+          new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal))
+        ))
         .register());
     });
   }

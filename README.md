@@ -42,7 +42,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.1.0-1.16.5 | ??????????:  
+1.1.0-1.16.5 | 27 SEP 2021:  
  \- Removed Red Brick, Stair, Slab, and Wall due to confusion with vanilla equivalent  
  \+ instead, vanilla red bricks can now be made into Deco's variants  
  \+ added a new, redder brick called Scarlet, from red dye  
