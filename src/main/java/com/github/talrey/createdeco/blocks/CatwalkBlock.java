@@ -16,6 +16,8 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.IBooleanFunction;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -108,6 +110,9 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
       World world = ctx.getWorld();
       if (canPlaceCatwalk(world, ctx.getPos().add(0,1,0))) {
         world.setBlockState(ctx.getPos().add(0,1,0), state, 3);
+        world.playSound(ctx.getPlayer(), ctx.getPos().add(0,1,0),
+          SoundEvents.BLOCK_NETHERITE_BLOCK_PLACE, SoundCategory.BLOCKS, 1f, 1f
+        );
         return world.getBlockState(ctx.getPos());
       }
     }

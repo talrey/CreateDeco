@@ -4,22 +4,26 @@ import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
+import com.github.talrey.createdeco.connected.SheetMetalCTBehaviour;
+import com.github.talrey.createdeco.connected.SheetMetalSlabCTBehaviour;
+import com.github.talrey.createdeco.connected.SheetMetalVertCTBehaviour;
+import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
-import com.tterrag.registrate.Registrate;
-import com.tterrag.registrate.builders.BlockBuilder;
-import com.tterrag.registrate.util.DataIngredient;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.entry.ItemEntry;
+import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.simibubi.create.repack.registrate.Registrate;
+import com.simibubi.create.repack.registrate.builders.BlockBuilder;
+import com.simibubi.create.repack.registrate.util.DataIngredient;
+import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
+import com.simibubi.create.repack.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.data.ShapedRecipeBuilder;
 import net.minecraft.data.ShapelessRecipeBuilder;
 import net.minecraft.item.*;
@@ -36,10 +40,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.common.data.ForgeItemTagsProvider;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
@@ -55,11 +57,11 @@ public class Registration {
   private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
   private static HashMap<String,
     com.simibubi.create.repack.registrate.util.entry.ItemEntry<Item>> DOOR_TYPES = new HashMap<>();
-  private static HashMap<String, Function<String, Item>> METAL_TYPES             = new HashMap<>();
+  public static HashMap<String, Function<String, Item>> METAL_TYPES              = new HashMap<>();
   private static HashMap<String, Function<String, Item>> METAL_LOOKUP            = new HashMap<>();
 
-  public static ItemEntry<Item>                      WORN_BRICK_ITEM;
-  public static HashMap<String, BlockEntry<Block>>   WORN_BRICK_TYPES    = new HashMap<>();
+  public static ItemEntry<Item> WORN_BRICK_ITEM;
+  public static HashMap<String,   BlockEntry<Block>>   WORN_BRICK_TYPES  = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> TILE_BRICK_BLOCK    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> LONG_BRICK_BLOCK    = new HashMap<>();
@@ -773,6 +775,9 @@ public class Registration {
         .recipe((ctx, prov)-> {
           prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply("block")), ctx, 4);
         })
+        .onRegister(CreateRegistrate.connectedTextures(
+          new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+        ))
         .register());
 
       SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",
@@ -791,6 +796,9 @@ public class Registration {
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx);
           prov.stairs(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal).get()), ctx, null, false);
         })
+        .onRegister(CreateRegistrate.connectedTextures(
+          new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+        ))
         .register());
 
       SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
@@ -809,6 +817,9 @@ public class Registration {
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx, 2);
           prov.slab(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal).get()), ctx, null, false);
         })
+        .onRegister(CreateRegistrate.connectedTextures(
+          new SheetMetalSlabCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+        ))
         .register());
 
       SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
@@ -863,6 +874,9 @@ public class Registration {
             .build(prov);
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx, 2);
         })
+        .onRegister(CreateRegistrate.connectedTextures(
+          new SheetMetalVertCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+        ))
         .register());
 
       MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)

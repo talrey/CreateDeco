@@ -1,8 +1,8 @@
 package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
-import com.tterrag.registrate.Registrate;
-import com.tterrag.registrate.util.entry.BlockEntry;
+import com.simibubi.create.repack.registrate.Registrate;
+import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -110,7 +110,20 @@ public class CreateDecoMod
     // do something when the server starts
     //LOGGER.info("HELLO from server starting");
   }
+/*
+  public static <T extends Block> NonNullConsumer<? super T> connectedTextures (ConnectedTextureBehaviour behaviour) {
+    return entry -> onClient(() -> () -> registerCTBehaviour(entry, behaviour));
+  }
 
+  @OnlyIn(Dist.CLIENT)
+  private static void registerCTBehaviour (Block entry, ConnectedTextureBehaviour behaviour) {
+    CreateClient.getCustomBlockModels().register(entry.delegate, model -> new CTModel(model, behaviour));
+  }
+
+  protected static void onClient (Supplier<Runnable> toRun) {
+    DistExecutor.unsafeRunWhenOn(Dist.CLIENT, toRun);
+  }
+*/
   // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD
   // Event bus for receiving Registry Events)
   @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)

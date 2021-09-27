@@ -48,6 +48,8 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
  \+ added a new, redder brick called Scarlet, from red dye  
  \+ added Mesh Fencing for the seven metal types  
  \+ added Catwalks for the seven metal types  
+ \+ stuff has sound now!  
+ \+ sheet metals have connected textures!  
  \* adjusted changelog to put recent on top  
  \* netherite items won't burn in lava now  
  \* netherite and zinc sheets should be tagged now  
