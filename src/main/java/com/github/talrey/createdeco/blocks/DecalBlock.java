@@ -67,6 +67,7 @@ public class DecalBlock extends Block {
 
   @Override
   public BlockState updatePostPlacement(BlockState state, Direction dir, BlockState neighbor, IWorld world, BlockPos pos, BlockPos neighborPos) {
+    if (!dir.equals(state.get(BlockStateProperties.HORIZONTAL_FACING))) return state;
     return neighbor.isSideSolid(world, neighborPos, state.get(BlockStateProperties.HORIZONTAL_FACING).getOpposite(), BlockVoxelShape.CENTER)
       ? super.updatePostPlacement(state, dir, neighbor, world, pos, neighborPos)
       : Blocks.AIR.getDefaultState();

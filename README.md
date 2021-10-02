@@ -42,6 +42,10 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.1.2-1.16.5 | ???:  
+ \* decals have proper break particles  
+ \* decals are a bit more secure now
+
 1.1.1-1.16.5 | 02 OCT 2021:  
  \* Worn brick variants went missing, they're back  
  \* Catwalk duplication issue resolved  

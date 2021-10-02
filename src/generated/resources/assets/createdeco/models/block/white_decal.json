@@ -1,6 +1,7 @@
 {
   "parent": "createdeco:block/decal",
   "textures": {
-    "face": "createdeco:block/palettes/decal/white_decal"
+    "face": "createdeco:block/palettes/decal/white_decal",
+    "particle": "createdeco:block/palettes/decal/white_decal"
   }
 }

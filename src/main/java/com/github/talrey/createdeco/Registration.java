@@ -674,6 +674,7 @@ public class Registration {
           return ConfiguredModel.builder().modelFile(prov.models()
             .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
             .texture("face", prov.modLoc("block/palettes/decal/" + ctx.getName()))
+            .texture("particle", prov.modLoc("block/palettes/decal/" + ctx.getName()))
           ).rotationY(y).build(); }))
         .lang(color.name() + " Decal")
         .item()
