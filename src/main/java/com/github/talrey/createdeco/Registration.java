@@ -50,15 +50,19 @@ import java.util.function.Supplier;
 
 public class Registration {
 
-  private static HashMap<DyeColor, String> BRICK_COLOR_NAMES                     = new HashMap<>();
-  private static ArrayList<String> COIN_TYPES                                    = new ArrayList<>();
-  private static HashMap<String,
-    com.simibubi.create.repack.registrate.util.entry.ItemEntry<Item>> DOOR_TYPES = new HashMap<>();
-  public static HashMap<String, Function<String, Item>> METAL_TYPES              = new HashMap<>();
-  private static HashMap<String, Function<String, Item>> METAL_LOOKUP            = new HashMap<>();
+  private static HashMap<DyeColor, String> BRICK_COLOR_NAMES          = new HashMap<>();
+  private static ArrayList<String> COIN_TYPES                         = new ArrayList<>();
+  private static HashMap<String, ItemEntry<Item>> DOOR_TYPES          = new HashMap<>();
+  public static HashMap<String, Function<String, Item>> METAL_TYPES   = new HashMap<>();
+  private static HashMap<String, Function<String, Item>> METAL_LOOKUP = new HashMap<>();
 
   public static ItemEntry<Item> WORN_BRICK_ITEM;
-  public static HashMap<String,   BlockEntry<Block>>   WORN_BRICK_TYPES  = new HashMap<>();
+  public static HashMap<String,   BlockEntry<Block>> WORN_BRICK_TYPES       = new HashMap<>();
+  public static HashMap<String,   BlockEntry<StairsBlock>> WORN_STAIRS      = new HashMap<>();
+  public static HashMap<String,   BlockEntry<SlabBlock>> WORN_SLABS         = new HashMap<>();
+  public static HashMap<String,   BlockEntry<VerticalSlabBlock>> WORN_VERTS = new HashMap<>();
+  public static HashMap<String,   BlockEntry<WallBlock>> WORN_WALLS         = new HashMap<>();
+
   public static HashMap<DyeColor, BlockEntry<Block>> BRICK_BLOCK         = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> TILE_BRICK_BLOCK    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> LONG_BRICK_BLOCK    = new HashMap<>();
@@ -452,14 +456,58 @@ public class Registration {
     String[] sufs  = { "Bricks", "Brick Tiles", "Long Bricks", "Short Bricks"};
     for (String pre : prefs) {
       for (String suf : sufs) {
-        if (pre.equals("") && suf.equals("Bricks")) continue;
-        String full = (pre.equals("")?"":pre + " ") + "Worn" + " " + suf;
-        WORN_BRICK_TYPES.put(full, buildBrick(reg, null, pre, "Worn", suf)
+        String full = (pre.equals("") ? "" : pre + " ") + "Worn" + " " + suf;
+        if (! (pre.equals("") && suf.equals("Bricks"))) {
+          WORN_BRICK_TYPES.put(full, buildBrick(reg, null, pre, "Worn", suf)
+            .recipe((ctx, prov) -> {
+              prov.stonecutting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx);
+              if (pre.equals("Cracked")) prov.blasting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx, 0.5f);
+            })
+            .register()
+          );
+        }
+        WORN_STAIRS.put(full, buildBrickStairs(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov)-> {
-            prov.stonecutting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx);
-            if (pre.equals("Cracked")) prov.blasting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx, 0.5f);
+            prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx);
+            prov.stairs(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
+            if (pre.equals("Cracked")) {
+              prov.blasting(DataIngredient.items(WORN_STAIRS.get(full.substring(8))), ctx, 0.5f);
+            }
           })
           .register()
+        );
+        WORN_SLABS.put(full, buildBrickSlabs(reg, null, pre, "Worn", suf)
+          .recipe((ctx, prov)-> {
+            prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
+            prov.slab(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
+            if (pre.equals("Cracked")) {
+              prov.blasting(DataIngredient.items(WORN_SLABS.get(full.substring(8))), ctx, 0.5f);
+            }
+          })
+          .register()
+        );
+        WORN_VERTS.put(full, buildBrickVerts(reg, null, pre, "Worn", suf)
+          .recipe((ctx, prov)-> {
+            prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
+            ShapedRecipeBuilder.shapedRecipe(ctx.get())
+              .patternLine("s")
+              .patternLine("s")
+              .patternLine("s")
+              .key('s', WORN_SLABS.get(full).get())
+              .addCriterion("has_item", InventoryChangeTrigger.Instance.forItems(WORN_SLABS.get(full).get()))
+              .build(prov);
+            if (pre.equals("Cracked")) {
+              prov.blasting(DataIngredient.items(WORN_VERTS.get(full.substring(8))), ctx, 0.5f);
+            }
+          }).register()
+        );
+        WORN_WALLS.put(full, buildBrickWalls(reg, null, pre, "Worn", suf)
+          .recipe((ctx, prov)-> {
+            prov.wall(DataIngredient.items(WORN_BRICK_TYPES.get(full).get()), ctx);
+            if (pre.equals("Cracked")) {
+              prov.blasting(DataIngredient.items(WORN_WALLS.get(full.substring(8))), ctx, 0.5f);
+            }
+          }).register()
         );
       }
     }

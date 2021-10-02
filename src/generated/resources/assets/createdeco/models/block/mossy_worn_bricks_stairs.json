@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "createdeco:block/palettes/bricks/worn/mossy_worn_bricks",
+    "bottom": "createdeco:block/palettes/bricks/worn/mossy_worn_bricks",
+    "top": "createdeco:block/palettes/bricks/worn/mossy_worn_bricks"
+  }
+}

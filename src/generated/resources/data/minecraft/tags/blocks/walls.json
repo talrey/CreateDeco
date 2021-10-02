@@ -1,6 +1,18 @@
 {
   "replace": false,
   "values": [
+    "createdeco:worn_bricks_wall",
+    "createdeco:worn_brick_tiles_wall",
+    "createdeco:worn_long_bricks_wall",
+    "createdeco:worn_short_bricks_wall",
+    "createdeco:cracked_worn_bricks_wall",
+    "createdeco:cracked_worn_brick_tiles_wall",
+    "createdeco:cracked_worn_long_bricks_wall",
+    "createdeco:cracked_worn_short_bricks_wall",
+    "createdeco:mossy_worn_bricks_wall",
+    "createdeco:mossy_worn_brick_tiles_wall",
+    "createdeco:mossy_worn_long_bricks_wall",
+    "createdeco:mossy_worn_short_bricks_wall",
     "createdeco:red_brick_tiles_wall",
     "createdeco:red_long_bricks_wall",
     "createdeco:red_short_bricks_wall",

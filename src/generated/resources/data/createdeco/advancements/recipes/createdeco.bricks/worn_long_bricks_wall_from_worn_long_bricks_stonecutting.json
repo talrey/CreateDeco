@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:worn_long_bricks_wall_from_worn_long_bricks_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_worn_long_bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:worn_long_bricks"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:worn_long_bricks_wall_from_worn_long_bricks_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_worn_long_bricks",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:worn_brick_tiles_slab_vert_from_worn_brick_tiles_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_worn_brick_tiles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "createdeco:worn_brick_tiles"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:worn_brick_tiles_slab_vert_from_worn_brick_tiles_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_worn_brick_tiles",
+      "has_the_recipe"
+    ]
+  ]
+}

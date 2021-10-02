@@ -110,6 +110,7 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
       World world = ctx.getWorld();
       if (canPlaceCatwalk(world, ctx.getPos().add(0,1,0))) {
         world.setBlockState(ctx.getPos().add(0,1,0), state, 3);
+        ctx.getPlayer().getHeldItem(ctx.getHand()).shrink(1);
         world.playSound(ctx.getPlayer(), ctx.getPos().add(0,1,0),
           SoundEvents.BLOCK_NETHERITE_BLOCK_PLACE, SoundCategory.BLOCKS, 1f, 1f
         );
