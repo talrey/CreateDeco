@@ -20,28 +20,28 @@ import net.minecraft.world.IWorld;
 import javax.annotation.Nullable;
 
 public class DecalBlock extends Block {
-  private static final VoxelShape NORTH = Block.makeCuboidShape(
+  private static final VoxelShape NORTH = Block.box(
   1d, 1d, 0d,
   15d, 15d, 1d
   );
-  private static final VoxelShape SOUTH = Block.makeCuboidShape(
+  private static final VoxelShape SOUTH = Block.box(
   1d, 1d, 15d,
   15d, 15d, 16d
   );
-  private static final VoxelShape EAST = Block.makeCuboidShape(
+  private static final VoxelShape EAST = Block.box(
   15d, 1d, 1d,
   16d, 15d, 15d
   );
-  private static final VoxelShape WEST = Block.makeCuboidShape(
+  private static final VoxelShape WEST = Block.box(
   0d, 1d, 1d,
   1d, 15d, 15d
   );
 
   public DecalBlock(Properties props) {
     super(props);
-    this.setDefaultState(this.getStateContainer().getBaseState()
-      .with(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
-      .with(BlockStateProperties.WATERLOGGED, false)
+    this.registerDefaultState(this.defaultBlockState()
+      .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
+      .setValue(BlockStateProperties.WATERLOGGED, false)
     );
   }
 
@@ -50,39 +50,39 @@ public class DecalBlock extends Block {
   }
 
   private boolean canSupportDecal (IWorld world, BlockState state, BlockPos pos, Direction side) {
-    return state.isSideSolid(world, pos, side, BlockVoxelShape.CENTER);
+    return state.isFaceSturdy(world, pos, side, BlockVoxelShape.CENTER);
   }
 
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockItemUseContext ctx) {
-    BlockPos neighbor = ctx.getPos().offset(ctx.getPlacementHorizontalFacing());
-    if (!canSupportDecal(ctx.getWorld(), neighbor, ctx.getPlacementHorizontalFacing().getOpposite())) return null;
+    BlockPos neighbor = ctx.getClickedPos().offset(ctx.getHorizontalDirection().getNormal());
+    if (!canSupportDecal(ctx.getLevel(), neighbor, ctx.getHorizontalDirection().getOpposite())) return null;
 
-    FluidState fluid = ctx.getWorld().getFluidState(ctx.getPos());
-    return getDefaultState()
-      .with(BlockStateProperties.HORIZONTAL_FACING, ctx.getPlacementHorizontalFacing())
-      .with(BlockStateProperties.WATERLOGGED, fluid.getFluid() == Fluids.WATER);
+    FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
+    return defaultBlockState()
+      .setValue(BlockStateProperties.HORIZONTAL_FACING, ctx.getHorizontalDirection())
+      .setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
   }
 
   @Override
-  public BlockState updatePostPlacement(BlockState state, Direction dir, BlockState neighbor, IWorld world, BlockPos pos, BlockPos neighborPos) {
-    if (!dir.equals(state.get(BlockStateProperties.HORIZONTAL_FACING))) return state;
-    return neighbor.isSideSolid(world, neighborPos, state.get(BlockStateProperties.HORIZONTAL_FACING).getOpposite(), BlockVoxelShape.CENTER)
-      ? super.updatePostPlacement(state, dir, neighbor, world, pos, neighborPos)
-      : Blocks.AIR.getDefaultState();
+  public BlockState updateShape (BlockState state, Direction dir, BlockState neighbor, IWorld world, BlockPos pos, BlockPos neighborPos) {
+    if (!dir.equals(state.getValue(BlockStateProperties.HORIZONTAL_FACING))) return state;
+    return neighbor.isFaceSturdy(world, neighborPos, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite(), BlockVoxelShape.CENTER)
+      ? super.updateShape(state, dir, neighbor, world, pos, neighborPos)
+      : Blocks.AIR.defaultBlockState();
   }
 
   @Override
-  protected void fillStateContainer (StateContainer.Builder<Block, BlockState> builder) {
-    super.fillStateContainer(builder);
+  protected void createBlockStateDefinition (StateContainer.Builder<Block, BlockState> builder) {
+    super.createBlockStateDefinition(builder);
     builder.add(BlockStateProperties.HORIZONTAL_FACING);
     builder.add(BlockStateProperties.WATERLOGGED);
   }
 
   @Override
   public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext ctx) {
-    switch (state.get(BlockStateProperties.HORIZONTAL_FACING)) {
+    switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
       case NORTH: return NORTH;
       case SOUTH: return SOUTH;
       case EAST:  return EAST;

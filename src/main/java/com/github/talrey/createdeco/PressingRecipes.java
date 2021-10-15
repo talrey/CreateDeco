@@ -20,7 +20,7 @@ public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
     );
     Registration.COIN_ITEM.forEach((metal, coin) ->
       add(metal.toLowerCase() + "_coin",
-        ts -> ts.require(ItemTags.makeWrapperTag("forge:nuggets/" + metal.toLowerCase()))
+        ts -> ts.require(ItemTags.bind("forge:nuggets/" + metal.toLowerCase()))
           .withCondition(new ConfigCondition(Config.CAN_PRESS_COINS))
           .output(coin.get())
       )
@@ -34,7 +34,7 @@ public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
   @Override
   public ProcessingRecipeBuilder<PressingRecipe> createBuilder(ResourceLocation id) {
     return new ProcessingRecipeBuilder<>(
-    ((ProcessingRecipeSerializer<PressingRecipe>) AllRecipeTypes.PRESSING.serializer).getFactory(), id
+    ((ProcessingRecipeSerializer<PressingRecipe>) AllRecipeTypes.PRESSING.getSerializer()).getFactory(), id
     );
   }
 }

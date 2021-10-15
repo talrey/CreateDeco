@@ -23,7 +23,7 @@ public abstract class ProcessingRecipeWrapper<T extends ProcessingRecipe<?>> ext
   }
 
   @Override
-  protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+  protected void buildShapelessRecipes (Consumer<IFinishedRecipe> consumer) {
     recipes.forEach(builder -> builder.build(consumer));
   }
 

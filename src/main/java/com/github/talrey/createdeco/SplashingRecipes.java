@@ -9,8 +9,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.ResourceLocation;
 
-import java.util.HashMap;
-
 public class SplashingRecipes extends ProcessingRecipeWrapper<SplashingRecipe> {
   {
     add("worn_mossy_brick",
@@ -83,7 +81,7 @@ public class SplashingRecipes extends ProcessingRecipeWrapper<SplashingRecipe> {
   @Override
   public ProcessingRecipeBuilder<SplashingRecipe> createBuilder(ResourceLocation id) {
     return new ProcessingRecipeBuilder<>(
-      ((ProcessingRecipeSerializer<SplashingRecipe>) AllRecipeTypes.SPLASHING.serializer).getFactory(), id
+      ((ProcessingRecipeSerializer<SplashingRecipe>) AllRecipeTypes.SPLASHING.getSerializer()).getFactory(), id
     );
   }
 }

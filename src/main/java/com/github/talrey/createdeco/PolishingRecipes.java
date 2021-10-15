@@ -21,8 +21,7 @@ public class PolishingRecipes extends ProcessingRecipeWrapper<SandPaperPolishing
   @Override
   public ProcessingRecipeBuilder<SandPaperPolishingRecipe> createBuilder(ResourceLocation id) {
     return new ProcessingRecipeBuilder<>(
-      ((ProcessingRecipeSerializer<SandPaperPolishingRecipe>) AllRecipeTypes.SANDPAPER_POLISHING.serializer).getFactory(), id
+      ((ProcessingRecipeSerializer<SandPaperPolishingRecipe>) AllRecipeTypes.SANDPAPER_POLISHING.getSerializer()).getFactory(), id
     );
   }
-
 }

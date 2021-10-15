@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "createdeco:vanilla_iron_bars_from_panel"
+      "createdeco:vanilla_metal_bars_from_panel"
     ]
   },
   "criteria": {
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "createdeco:vanilla_iron_bars_from_panel"
+        "recipe": "createdeco:vanilla_metal_bars_from_panel"
       }
     }
   },

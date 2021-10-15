@@ -15,30 +15,30 @@ public class CoinStackItem extends Item {
 
   protected boolean placeBlock(ItemUseContext ctx) {
     BlockItemUseContext bictx = new BlockItemUseContext (ctx);
-    BlockState target = ctx.getWorld().getBlockState(ctx.getPos());
-    String targetName = target.getBlock().getTranslationKey();
-    String thisName   = this.getTranslationKey().substring(this.getTranslationKey().lastIndexOf(".")+1).replace("_coinstack","");
+    BlockState target = ctx.getLevel().getBlockState(ctx.getClickedPos());
+    String targetName = target.getBlock().getDescriptionId();
+    String thisName   = this.getDescriptionId().substring(this.getDescriptionId().lastIndexOf(".")+1).replace("_coinstack","");
     int found = targetName.indexOf("_coinstack_block");
     if (found > 0) {
       int start = targetName.lastIndexOf(".");
       targetName = targetName.substring(start+1,found);
     }
-    if (found > 0 && targetName.equals(thisName) && target.get(BlockStateProperties.LAYERS_1_8) < 8) {
-      int height = target.get(BlockStateProperties.LAYERS_1_8);
-      if (!ctx.getWorld().isRemote()) ctx.getWorld().setBlockState(ctx.getPos(), Registration.COIN_BLOCKS.get(thisName).getDefaultState()
-        .with(BlockStateProperties.LAYERS_1_8, height+1)
+    if (found > 0 && targetName.equals(thisName) && target.getValue(BlockStateProperties.LAYERS) < 8) {
+      int height = target.getValue(BlockStateProperties.LAYERS);
+      if (!ctx.getLevel().isClientSide()) ctx.getLevel().setBlockAndUpdate(ctx.getClickedPos(), Registration.COIN_BLOCKS.get(thisName).getDefaultState()
+        .setValue(BlockStateProperties.LAYERS, height+1)
       );
       return true;
     }
-    else if (target.isReplaceable(bictx)) {
-      if (!ctx.getWorld().isRemote()) ctx.getWorld().setBlockState(ctx.getPos(), Registration.COIN_BLOCKS.get(thisName).getDefaultState());
+    else if (target.canBeReplaced(bictx)) {
+      if (!ctx.getLevel().isClientSide()) ctx.getLevel().setBlockAndUpdate(ctx.getClickedPos(), Registration.COIN_BLOCKS.get(thisName).getDefaultState());
       return true;
     }
     else {
-      target = ctx.getWorld().getBlockState(ctx.getPos().add(ctx.getFace().getDirectionVec()));
-      if (target.isReplaceable(bictx)) {
-        if (!ctx.getWorld().isRemote()) ctx.getWorld().setBlockState(
-          ctx.getPos().add(ctx.getFace().getDirectionVec()), Registration.COIN_BLOCKS.get(thisName).getDefaultState()
+      target = ctx.getLevel().getBlockState(ctx.getClickedPos().offset(ctx.getClickedFace().getNormal()));
+      if (target.canBeReplaced(bictx)) {
+        if (!ctx.getLevel().isClientSide()) ctx.getLevel().setBlockAndUpdate(
+          ctx.getClickedPos().offset(ctx.getClickedFace().getNormal()), Registration.COIN_BLOCKS.get(thisName).getDefaultState()
         );
         return true;
       }
@@ -46,12 +46,13 @@ public class CoinStackItem extends Item {
     return false;
   }
 
+
   @Override
-  public ActionResultType onItemUse(ItemUseContext ctx) {
+  public ActionResultType useOn (ItemUseContext ctx) {
     if (placeBlock (ctx)) {
-      ctx.getItem().shrink(1);
+      ctx.getItemInHand().shrink(1);
       return ActionResultType.SUCCESS;
     }
-    return super.onItemUse(ctx);
+    return super.useOn(ctx);
   }
 }

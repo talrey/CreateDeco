@@ -1,0 +1,12 @@
+{
+  "required": false,
+  "priority": 2000,
+  "package": "com.github.talrey.createdeco.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "createdeco.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "minVersion": "0.8"
+}

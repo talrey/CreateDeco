@@ -31,23 +31,23 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
-  private static final VoxelShape VOXEL_BOTTOM = Block.makeCuboidShape(
+  private static final VoxelShape VOXEL_BOTTOM = Block.box(
     0d, 0d, 0d,
     16d, 2d, 16d
   );
-  private static final VoxelShape VOXEL_NORTH = Block.makeCuboidShape(
+  private static final VoxelShape VOXEL_NORTH = Block.box(
   0d, 0d, 0d,
   16d, 16d, 2d
   );
-  private static final VoxelShape VOXEL_SOUTH = Block.makeCuboidShape(
+  private static final VoxelShape VOXEL_SOUTH = Block.box(
   0d, 0d, 14d,
   16d, 16d, 16d
   );
-  private static final VoxelShape VOXEL_EAST = Block.makeCuboidShape(
+  private static final VoxelShape VOXEL_EAST = Block.box(
   14d, 0d, 0d,
   16d, 16d, 16d
   );
-  private static final VoxelShape VOXEL_WEST = Block.makeCuboidShape(
+  private static final VoxelShape VOXEL_WEST = Block.box(
   0d, 0d, 0d,
   2d, 16d, 16d
   );
@@ -59,70 +59,72 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
   public static final BooleanProperty LIFTED      = BlockStateProperties.BOTTOM;
 
   private static boolean hasNeighborTo (Direction side, BlockItemUseContext ctx) {
-    return ctx.getWorld().getBlockState(ctx.getPos().offset(side)).getBlock() instanceof CatwalkBlock;
+    return ctx.getLevel().getBlockState(ctx.getClickedPos().offset(side.getNormal())).getBlock() instanceof CatwalkBlock;
   }
 
   public CatwalkBlock (Properties props) {
     super(props);
-    this.setDefaultState(this.getStateContainer().getBaseState()
-      .with(NORTH_FENCE, false)
-      .with(SOUTH_FENCE, false)
-      .with(EAST_FENCE,  false)
-      .with(WEST_FENCE,  false)
-      .with(LIFTED,      true)
-      .with(BlockStateProperties.WATERLOGGED, false)
+    this.registerDefaultState(this.defaultBlockState()
+      .setValue(NORTH_FENCE, false)
+      .setValue(SOUTH_FENCE, false)
+      .setValue(EAST_FENCE,  false)
+      .setValue(WEST_FENCE,  false)
+      .setValue(LIFTED,      true)
+      .setValue(BlockStateProperties.WATERLOGGED, false)
     );
   }
 
   @Override
   public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext ctx) {
-    return getRaytraceShape(state, reader, pos);
+    return getInteractionShape(state, reader, pos);
   }
 
   @Override
-  public VoxelShape getRaytraceShape(BlockState state, IBlockReader world, BlockPos pos) {
+  public VoxelShape getInteractionShape (BlockState state, IBlockReader world, BlockPos pos) {
     VoxelShape shape = VOXEL_BOTTOM;
 
-    if (state.get(NORTH_FENCE)) shape = VoxelShapes.combine(shape, VOXEL_NORTH, IBooleanFunction.OR);
-    if (state.get(SOUTH_FENCE)) shape = VoxelShapes.combine(shape, VOXEL_SOUTH, IBooleanFunction.OR);
-    if (state.get(EAST_FENCE))  shape = VoxelShapes.combine(shape, VOXEL_EAST,  IBooleanFunction.OR);
-    if (state.get(WEST_FENCE))  shape = VoxelShapes.combine(shape, VOXEL_WEST,  IBooleanFunction.OR);
+    if (state.getValue(NORTH_FENCE)) shape = VoxelShapes.join(shape, VOXEL_NORTH, IBooleanFunction.OR);
+    if (state.getValue(SOUTH_FENCE)) shape = VoxelShapes.join(shape, VOXEL_SOUTH, IBooleanFunction.OR);
+    if (state.getValue(EAST_FENCE))  shape = VoxelShapes.join(shape, VOXEL_EAST,  IBooleanFunction.OR);
+    if (state.getValue(WEST_FENCE))  shape = VoxelShapes.join(shape, VOXEL_WEST,  IBooleanFunction.OR);
 
-    return shape.withOffset(0d, state.get(BlockStateProperties.BOTTOM) ? 0d : -2/16d, 0d);
+    return shape.move(0d, state.getValue(BlockStateProperties.BOTTOM) ? 0d : -2/16d, 0d);
   }
 
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockItemUseContext ctx) {
-    Direction facing = ctx.getPlacementHorizontalFacing();
-    FluidState fluid = ctx.getWorld().getFluidState(ctx.getPos());
-    boolean lift     = (ctx.getHitVec().y - ctx.getPos().getY()) < 0.5f;
+    Direction facing = ctx.getHorizontalDirection();
+    FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
+    boolean lift     = (ctx.getClickLocation().y - ctx.getClickedPos().getY()) < 0.5f;
 
-    BlockState state = getDefaultState()
-      .with(LIFTED, lift)
-      .with(NORTH_FENCE, (facing == Direction.NORTH) && !hasNeighborTo(Direction.NORTH, ctx))
-      .with(SOUTH_FENCE, (facing == Direction.SOUTH) && !hasNeighborTo(Direction.SOUTH, ctx))
-      .with(EAST_FENCE,  (facing == Direction.EAST)  && !hasNeighborTo(Direction.EAST,  ctx))
-      .with(WEST_FENCE,  (facing == Direction.WEST)  && !hasNeighborTo(Direction.WEST,  ctx))
-      .with(BlockStateProperties.WATERLOGGED, fluid.getFluid() == Fluids.WATER);
+    BlockState state = defaultBlockState()
+      .setValue(LIFTED, lift)
+      .setValue(NORTH_FENCE, (facing == Direction.NORTH) && !hasNeighborTo(Direction.NORTH, ctx))
+      .setValue(SOUTH_FENCE, (facing == Direction.SOUTH) && !hasNeighborTo(Direction.SOUTH, ctx))
+      .setValue(EAST_FENCE,  (facing == Direction.EAST)  && !hasNeighborTo(Direction.EAST,  ctx))
+      .setValue(WEST_FENCE,  (facing == Direction.WEST)  && !hasNeighborTo(Direction.WEST,  ctx))
+      .setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
 
     if (!lift) {
-      World world = ctx.getWorld();
-      if (canPlaceCatwalk(world, ctx.getPos().add(0,1,0))) {
-        world.setBlockState(ctx.getPos().add(0,1,0), state, 3);
-        ctx.getPlayer().getHeldItem(ctx.getHand()).shrink(1);
-        world.playSound(ctx.getPlayer(), ctx.getPos().add(0,1,0),
-          SoundEvents.BLOCK_NETHERITE_BLOCK_PLACE, SoundCategory.BLOCKS, 1f, 1f
+      World world = ctx.getLevel();
+      if (canPlaceCatwalk(world, ctx.getClickedPos().offset(0,1,0))) {
+        world.setBlock(ctx.getClickedPos().offset(0,1,0), state, 3);
+        ctx.getPlayer().getItemInHand(ctx.getHand()).shrink(1);
+        world.playSound(ctx.getPlayer(), ctx.getClickedPos().offset(0,1,0),
+          SoundEvents.NETHERITE_BLOCK_PLACE, SoundCategory.BLOCKS, 1f, 1f
         );
-        return world.getBlockState(ctx.getPos());
+        return world.getBlockState(ctx.getClickedPos());
       }
     }
     return state;
   }
 
+
+
   @Override
-  protected void fillStateContainer (StateContainer.Builder<Block, BlockState> builder) {
-    super.fillStateContainer(builder);
+  protected void createBlockStateDefinition (StateContainer.Builder<Block, BlockState> builder) {
+    super.createBlockStateDefinition(builder);
     builder.add(NORTH_FENCE);
     builder.add(SOUTH_FENCE);
     builder.add(EAST_FENCE);
@@ -135,21 +137,21 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
   public ActionResultType onWrenched(BlockState state, ItemUseContext ctx) {
     BlockState result = state;
 
-    Vector3d relative = ctx.getHitVec().subtract(ctx.getPos().getX(), ctx.getPos().getY(), ctx.getPos().getZ());
+    Vector3d relative = ctx.getClickLocation().subtract(ctx.getClickedPos().getX(), ctx.getClickedPos().getY(), ctx.getClickedPos().getZ());
     if (relative.z > 0.66) {
-      result = result.with(SOUTH_FENCE, !state.get(SOUTH_FENCE));
+      result = result.setValue(SOUTH_FENCE, !state.getValue(SOUTH_FENCE));
     } else if (relative.z < 0.33) {
-      result = result.with(NORTH_FENCE, !state.get(NORTH_FENCE));
+      result = result.setValue(NORTH_FENCE, !state.getValue(NORTH_FENCE));
     }
     if (relative.x > 0.66) {
-      result = result.with(EAST_FENCE,  !state.get(EAST_FENCE));
+      result = result.setValue(EAST_FENCE,  !state.getValue(EAST_FENCE));
     } else if (relative.x < 0.33) {
-      result = result.with(WEST_FENCE,  !state.get(WEST_FENCE));
+      result = result.setValue(WEST_FENCE,  !state.getValue(WEST_FENCE));
     }
     // if we're near the center
     if (result.equals(state)) result = getRotatedBlockState(state, Direction.UP);
 
-    ctx.getWorld().setBlockState(ctx.getPos(), result, 1 | 2);
+    ctx.getLevel().setBlock(ctx.getClickedPos(), result, 1 | 2);
     return ActionResultType.SUCCESS;
   }
 
@@ -157,30 +159,31 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
   public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
     if (targetedFace.getAxis() == Direction.Axis.Y) {
       int state =
-        (originalState.get(NORTH_FENCE) ? 8 : 0) +
-        (originalState.get(EAST_FENCE)  ? 4 : 0) +
-        (originalState.get(SOUTH_FENCE) ? 2 : 0) +
-        (originalState.get(WEST_FENCE)  ? 1 : 0);
+        (originalState.getValue(NORTH_FENCE) ? 8 : 0) +
+        (originalState.getValue(EAST_FENCE)  ? 4 : 0) +
+        (originalState.getValue(SOUTH_FENCE) ? 2 : 0) +
+        (originalState.getValue(WEST_FENCE)  ? 1 : 0);
       return originalState
-        .with(NORTH_FENCE, (state & 1) == 1)
-        .with(EAST_FENCE,  (state & 8) == 8)
-        .with(SOUTH_FENCE, (state & 4) == 4)
-        .with(WEST_FENCE,  (state & 2) == 2);
+        .setValue(NORTH_FENCE, (state & 1) == 1)
+        .setValue(EAST_FENCE,  (state & 8) == 8)
+        .setValue(SOUTH_FENCE, (state & 4) == 4)
+        .setValue(WEST_FENCE,  (state & 2) == 2);
     }
     return originalState;
   }
 
+
   @Override
-  public boolean canContainFluid(IBlockReader world, BlockPos pos, BlockState state, Fluid fluid) {
-    return !state.get(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
+  public boolean canPlaceLiquid (IBlockReader world, BlockPos pos, BlockState state, Fluid fluid) {
+    return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
   }
 
   @Override
-  public boolean receiveFluid(IWorld world, BlockPos pos, BlockState state, FluidState fluidstate) {
-    if (!state.get(BlockStateProperties.WATERLOGGED) && (fluidstate.getFluid() == Fluids.WATER)) {
-      if (!world.isRemote()) {
-        world.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, true), 1 | 2);
-        world.getPendingFluidTicks().scheduleTick(pos, fluidstate.getFluid(), fluidstate.getFluid().getTickRate(world));
+  public boolean placeLiquid (IWorld world, BlockPos pos, BlockState state, FluidState fluidstate) {
+    if (!state.getValue(BlockStateProperties.WATERLOGGED) && (fluidstate.getType() == Fluids.WATER)) {
+      if (!world.isClientSide()) {
+        world.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, true), 1 | 2);
+        world.getLiquidTicks().scheduleTick(pos, fluidstate.getType(), fluidstate.getType().getTickDelay(world));
       }
       return true;
     }
@@ -188,28 +191,29 @@ public class CatwalkBlock extends Block implements IWrenchable, IWaterLoggable {
   }
 
   @Override
-  public Fluid pickupFluid(IWorld world, BlockPos pos, BlockState state) {
-    if (state.get(BlockStateProperties.WATERLOGGED)) {
-      world.setBlockState(pos, state.with(BlockStateProperties.WATERLOGGED, false), 1 | 2);
+  public Fluid takeLiquid (IWorld world, BlockPos pos, BlockState state) {
+    if (state.getValue(BlockStateProperties.WATERLOGGED)) {
+      world.setBlock(pos, state.setValue(BlockStateProperties.WATERLOGGED, false), 1 | 2);
       return Fluids.WATER;
     }
     return Fluids.EMPTY;
   }
 
+
   @Override
-  public BlockState updatePostPlacement(BlockState state, Direction dir, BlockState neighbor, IWorld world, BlockPos pos, BlockPos neighborPos) {
-    if (state.get(BlockStateProperties.WATERLOGGED)) {
-      world.getPendingFluidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+  public BlockState updateShape (BlockState state, Direction dir, BlockState neighbor, IWorld world, BlockPos pos, BlockPos neighborPos) {
+    if (state.getValue(BlockStateProperties.WATERLOGGED)) {
+      world.getLiquidTicks().scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
     }
     if (isCatwalk(neighbor.getBlock())) {
-      state = state.with(getPropertyFromDirection(dir), false);
+      state = state.setValue(getPropertyFromDirection(dir), false);
     }
     return state;
   }
 
   @Override
   public FluidState getFluidState(BlockState state) {
-    return state.get(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : Fluids.EMPTY.getDefaultState();
+    return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
   }
 
   public static boolean isCatwalk (ItemStack test) {

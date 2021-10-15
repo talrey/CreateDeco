@@ -65,31 +65,31 @@ public class CreateDecoMod
 
   private void doClientStuff(final FMLClientSetupEvent event) {
     for (BlockEntry<CoinStackBlock> entry : Registration.COIN_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
     for (BlockEntry<?> entry : Registration.DOOR_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
     for (BlockEntry<?> entry : Registration.BAR_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
     for (BlockEntry<?> entry : Registration.BAR_PANEL_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
     for (BlockEntry<?> entry : Registration.DECAL_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
     for (BlockEntry<?> entry : Registration.LOCK_DOOR_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
     for (BlockEntry<?> entry : Registration.MESH_FENCE_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
     for (BlockEntry<?> entry : Registration.CATWALK_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.getCutoutMipped());
+      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
     }
   }
-
+/*
   private void enqueueIMC(final InterModEnqueueEvent event)
   {
     // some example code to dispatch IMC to another mod
@@ -110,7 +110,7 @@ public class CreateDecoMod
     // do something when the server starts
     //LOGGER.info("HELLO from server starting");
   }
-/*
+
   public static <T extends Block> NonNullConsumer<? super T> connectedTextures (ConnectedTextureBehaviour behaviour) {
     return entry -> onClient(() -> () -> registerCTBehaviour(entry, behaviour));
   }

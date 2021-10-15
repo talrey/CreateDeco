@@ -5,8 +5,6 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
-import org.apache.logging.log4j.LogManager;
-
 
 public class ConfigCondition implements ICondition {
   private static final ResourceLocation NAME = new ResourceLocation(CreateDecoMod.MODID, "config");
@@ -35,7 +33,7 @@ public class ConfigCondition implements ICondition {
     }
     @Override
     public ConfigCondition read (JsonObject json) {
-      return new ConfigCondition(JSONUtils.getString(json, "config"));
+      return new ConfigCondition(JSONUtils.getAsString(json, "config"));
     }
 
     @Override

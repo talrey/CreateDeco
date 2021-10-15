@@ -29,14 +29,14 @@ public class CatwalkBlockItem extends BlockItem {
 
   @Override
   public ActionResultType onItemUseFirst(ItemStack stack, ItemUseContext ctx) {
-    BlockPos pos   = ctx.getPos();
-    Direction face = ctx.getFace();
-    World world    = ctx.getWorld();
+    BlockPos pos   = ctx.getClickedPos();
+    Direction face = ctx.getClickedFace();
+    World world    = ctx.getLevel();
 
     PlayerEntity player     = ctx.getPlayer();
     BlockState state        = world.getBlockState(pos);
     IPlacementHelper helper = PlacementHelpers.get(placementHelperID);
-    BlockRayTraceResult ray = new BlockRayTraceResult(ctx.getHitVec(), face, pos, true);
+    BlockRayTraceResult ray = new BlockRayTraceResult(ctx.getClickLocation(), face, pos, true);
     if (helper.matchesState(state) && player != null) {
       return helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
     }
@@ -57,22 +57,23 @@ public class CatwalkBlockItem extends BlockItem {
 
     @Override
     public PlacementOffset getOffset(PlayerEntity player, World world, BlockState state, BlockPos pos, BlockRayTraceResult ray) {
-      Direction face = ray.getFace();
+      Direction face = ray.getDirection();
       if (face.getAxis() != Direction.Axis.Y) {
-        return PlacementOffset.success(pos.offset(face), offsetState -> offsetState
-          .with(CatwalkBlock.LIFTED, state.get(CatwalkBlock.LIFTED))
-          .with(CatwalkBlock.getPropertyFromDirection(face), !CatwalkBlock.isCatwalk(world.getBlockState(pos.offset(face).offset(face)).getBlock()))
-          .with(CatwalkBlock.getPropertyFromDirection(face.getOpposite()), false)
+        return PlacementOffset.success(pos.offset(face.getNormal()), offsetState -> offsetState
+          .setValue(CatwalkBlock.LIFTED, state.getValue(CatwalkBlock.LIFTED))
+          .setValue(CatwalkBlock.getPropertyFromDirection(face),
+            !CatwalkBlock.isCatwalk(world.getBlockState(pos.offset(face.getNormal()).offset(face.getNormal())).getBlock()))
+          .setValue(CatwalkBlock.getPropertyFromDirection(face.getOpposite()), false)
         );
       }
-      List<Direction> dirs = IPlacementHelper.orderedByDistanceExceptAxis(pos, ray.getHitVec(), Direction.Axis.Y);
+      List<Direction> dirs = IPlacementHelper.orderedByDistanceExceptAxis(pos, ray.getLocation(), Direction.Axis.Y);
       for (Direction dir : dirs) {
-        BlockPos newPos = pos.offset(dir);
+        BlockPos newPos = pos.offset(dir.getNormal());
         if (!CatwalkBlock.canPlaceCatwalk(world, newPos)) continue;
         return PlacementOffset.success(newPos, offsetState -> offsetState
-          .with(CatwalkBlock.LIFTED, state.get(CatwalkBlock.LIFTED))
-          .with(CatwalkBlock.getPropertyFromDirection(dir), !CatwalkBlock.isCatwalk(world.getBlockState(newPos.offset(dir)).getBlock()))
-          .with(CatwalkBlock.getPropertyFromDirection(dir.getOpposite()), false)
+          .setValue(CatwalkBlock.LIFTED, state.getValue(CatwalkBlock.LIFTED))
+          .setValue(CatwalkBlock.getPropertyFromDirection(dir), !CatwalkBlock.isCatwalk(world.getBlockState(newPos.offset(dir.getNormal())).getBlock()))
+          .setValue(CatwalkBlock.getPropertyFromDirection(dir.getOpposite()), false)
         );
       }
       return PlacementOffset.fail();

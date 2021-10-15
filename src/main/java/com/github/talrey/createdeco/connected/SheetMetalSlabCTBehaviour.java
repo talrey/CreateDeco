@@ -21,17 +21,17 @@ public class SheetMetalSlabCTBehaviour extends SheetMetalCTBehaviour {
   }
 
   protected boolean slabTouching (BlockState state, BlockPos pos, BlockState other, BlockPos otherPos) {
-    if (!other.contains(BlockStateProperties.SLAB_TYPE)) return false;
-    switch (state.get(BlockStateProperties.SLAB_TYPE)) {
+    if (!other.hasProperty(BlockStateProperties.SLAB_TYPE)) return false;
+    switch (state.getValue(BlockStateProperties.SLAB_TYPE)) {
       case TOP:
-        return !other.get(BlockStateProperties.SLAB_TYPE).equals(SlabType.TOP);
+        return !other.getValue(BlockStateProperties.SLAB_TYPE).equals(SlabType.TOP);
       case BOTTOM:
-        return !other.get(BlockStateProperties.SLAB_TYPE).equals(SlabType.BOTTOM);
+        return !other.getValue(BlockStateProperties.SLAB_TYPE).equals(SlabType.BOTTOM);
       case DOUBLE:
         if (pos.getY() - otherPos.getY() > 0) { // we're above them
-          return !other.get(BlockStateProperties.SLAB_TYPE).equals(SlabType.BOTTOM);
+          return !other.getValue(BlockStateProperties.SLAB_TYPE).equals(SlabType.BOTTOM);
         }
-        else return !other.get(BlockStateProperties.SLAB_TYPE).equals(SlabType.TOP);
+        else return !other.getValue(BlockStateProperties.SLAB_TYPE).equals(SlabType.TOP);
     }
     return false;
   }
