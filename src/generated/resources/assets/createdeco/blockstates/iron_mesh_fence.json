@@ -26,7 +26,7 @@
       "y": 90
     },
     "east=true,north=true,south=true,waterlogged=false,west=false": {
-      "model": "createdeco:block/iron_mesh_fence_four_way",
+      "model": "createdeco:block/iron_mesh_fence_tri_way",
       "y": 90
     },
     "east=false,north=false,south=false,waterlogged=true,west=false": {
@@ -55,7 +55,7 @@
       "y": 90
     },
     "east=true,north=true,south=true,waterlogged=true,west=false": {
-      "model": "createdeco:block/iron_mesh_fence_four_way",
+      "model": "createdeco:block/iron_mesh_fence_tri_way",
       "y": 90
     },
     "east=false,north=false,south=false,waterlogged=false,west=true": {
@@ -70,18 +70,18 @@
       "y": -90
     },
     "east=true,north=true,south=false,waterlogged=false,west=true": {
-      "model": "createdeco:block/iron_mesh_fence_four_way"
+      "model": "createdeco:block/iron_mesh_fence_tri_way"
     },
     "east=false,north=false,south=true,waterlogged=false,west=true": {
       "model": "createdeco:block/iron_mesh_fence_corner",
       "y": 180
     },
     "east=true,north=false,south=true,waterlogged=false,west=true": {
-      "model": "createdeco:block/iron_mesh_fence_four_way",
+      "model": "createdeco:block/iron_mesh_fence_tri_way",
       "y": 180
     },
     "east=false,north=true,south=true,waterlogged=false,west=true": {
-      "model": "createdeco:block/iron_mesh_fence_four_way",
+      "model": "createdeco:block/iron_mesh_fence_tri_way",
       "y": -90
     },
     "east=true,north=true,south=true,waterlogged=false,west=true": {
@@ -99,18 +99,18 @@
       "y": -90
     },
     "east=true,north=true,south=false,waterlogged=true,west=true": {
-      "model": "createdeco:block/iron_mesh_fence_four_way"
+      "model": "createdeco:block/iron_mesh_fence_tri_way"
     },
     "east=false,north=false,south=true,waterlogged=true,west=true": {
       "model": "createdeco:block/iron_mesh_fence_corner",
       "y": 180
     },
     "east=true,north=false,south=true,waterlogged=true,west=true": {
-      "model": "createdeco:block/iron_mesh_fence_four_way",
+      "model": "createdeco:block/iron_mesh_fence_tri_way",
       "y": 180
     },
     "east=false,north=true,south=true,waterlogged=true,west=true": {
-      "model": "createdeco:block/iron_mesh_fence_four_way",
+      "model": "createdeco:block/iron_mesh_fence_tri_way",
       "y": -90
     },
     "east=true,north=true,south=true,waterlogged=true,west=true": {

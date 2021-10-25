@@ -30,7 +30,7 @@ public class SplashingRecipes extends ProcessingRecipeWrapper<SplashingRecipe> {
 
     Registration.MOSSY_BRICK_BLOCK.forEach((color, entry) ->
       add(Registration.getBrickColorName(color).toLowerCase() + "_mossy_brick",
-        ts -> ts.require(Registration.getBrickItemFromColor(color)).output(entry.asStack())
+        ts -> ts.require(Registration.getBrickBlockFromColor(color)).output(entry.asStack())
       )
     );
     Registration.MOSSY_LONG_BLOCK.forEach((color, entry) ->

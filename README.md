@@ -43,6 +43,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 == Changelog ==
 
 1.1.2-1.16.5 | ???:  
+ \* fixed compatibliity with Create 0.3.2f  
  \* decals have proper break particles  
  \* decals are a bit more secure now
 

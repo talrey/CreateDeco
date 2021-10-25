@@ -975,7 +975,7 @@ public class Registration {
                   .texture("0", mesh).texture("1", wall).texture("particle", wall)
                 ).build();
               case 3: return ConfiguredModel.builder().modelFile(
-                  prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_tri_way"))
+                  prov.models().withExistingParent(ctx.getName() + "_tri_way", prov.modLoc(dir + "_tri_way"))
                   .texture("0", mesh).texture("1", wall).texture("particle", wall)
                 ).rotationY(
                   (north? (south? (east? 90: -90): 0): 180)
