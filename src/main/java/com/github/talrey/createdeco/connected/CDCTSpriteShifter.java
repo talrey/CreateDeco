@@ -9,12 +9,12 @@ import net.minecraft.util.ResourceLocation;
 public class CDCTSpriteShifter extends SpriteShifter {
   public static CTSpriteShiftEntry getCT (CTType type, ResourceLocation blockTexture, String connectedTexture) {
     String key = type.name() + ":" + blockTexture.getNamespace() + ":" + blockTexture.getPath() + "->" + connectedTexture;
-    if (textures.containsKey(key)) {
-      return (CTSpriteShiftEntry) textures.get(key);
+    if (ENTRY_CACHE.containsKey(key)) {
+      return (CTSpriteShiftEntry) ENTRY_CACHE.get(key);
     }
     CTSpriteShiftEntry entry = create(type);
     entry.set(blockTexture, new ResourceLocation(CreateDecoMod.MODID, connectedTexture));
-    textures.put(key, entry);
+    ENTRY_CACHE.put(key, entry);
     return entry;
   }
 
