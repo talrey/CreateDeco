@@ -16,29 +16,36 @@ import com.simibubi.create.repack.registrate.builders.BlockBuilder;
 import com.simibubi.create.repack.registrate.util.DataIngredient;
 import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 import com.simibubi.create.repack.registrate.util.entry.ItemEntry;
-import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.advancements.criterion.ItemPredicate;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.data.ShapedRecipeBuilder;
-import net.minecraft.data.ShapelessRecipeBuilder;
-import net.minecraft.item.*;
-import net.minecraft.loot.*;
-import net.minecraft.loot.conditions.BlockStateProperty;
-import net.minecraft.loot.functions.SetCount;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.DoubleBlockHalf;
-import net.minecraft.state.properties.SlabType;
+
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.SlabType;
+import net.minecraft.world.level.material.Material;
+
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.File;
@@ -52,13 +59,13 @@ public class Registration {
 
   private static HashMap<DyeColor, String> BRICK_COLOR_NAMES          = new HashMap<>();
   private static ArrayList<String> COIN_TYPES                         = new ArrayList<>();
-  private static HashMap<String, ItemEntry<Item>> DOOR_TYPES          = new HashMap<>();
+  private static HashMap<String, Function<String, Item>> DOOR_TYPES   = new HashMap<>();
   public static HashMap<String, Function<String, Item>> METAL_TYPES   = new HashMap<>();
   private static HashMap<String, Function<String, Item>> METAL_LOOKUP = new HashMap<>();
 
   public static ItemEntry<Item> WORN_BRICK_ITEM;
   public static HashMap<String,   BlockEntry<Block>> WORN_BRICK_TYPES       = new HashMap<>();
-  public static HashMap<String,   BlockEntry<StairsBlock>> WORN_STAIRS      = new HashMap<>();
+  public static HashMap<String,   BlockEntry<StairBlock>> WORN_STAIRS       = new HashMap<>();
   public static HashMap<String,   BlockEntry<SlabBlock>> WORN_SLABS         = new HashMap<>();
   public static HashMap<String,   BlockEntry<VerticalSlabBlock>> WORN_VERTS = new HashMap<>();
   public static HashMap<String,   BlockEntry<WallBlock>> WORN_WALLS         = new HashMap<>();
@@ -76,19 +83,19 @@ public class Registration {
   public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_LONG_BLOCK    = new HashMap<>();
   public static HashMap<DyeColor, BlockEntry<Block>> MOSSY_SHORT_BLOCK   = new HashMap<>();
 
-  public static HashMap<DyeColor, HashMap<String,BlockEntry<StairsBlock>>> BRICK_STAIRS_BLOCK     = new HashMap<>();
+  public static HashMap<DyeColor, HashMap<String,BlockEntry<StairBlock>>> BRICK_STAIRS_BLOCK      = new HashMap<>();
   public static HashMap<DyeColor, HashMap<String,BlockEntry<SlabBlock>>> BRICK_SLAB_BLOCK         = new HashMap<>();
   public static HashMap<DyeColor, HashMap<String,BlockEntry<VerticalSlabBlock>>> BRICK_VERT_BLOCK = new HashMap<>();
   public static HashMap<DyeColor, HashMap<String,BlockEntry<WallBlock>>> BRICK_WALL_BLOCK         = new HashMap<>();
 
-  public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
-  public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS       = new HashMap<>();
-  public static HashMap<String, BlockEntry<DoorBlock>> LOCK_DOOR_BLOCKS  = new HashMap<>();
-  public static HashMap<String, BlockEntry<PaneBlock>> BAR_BLOCKS        = new HashMap<>();
-  public static HashMap<String, BlockEntry<PaneBlock>> BAR_PANEL_BLOCKS  = new HashMap<>();
+  public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS     = new HashMap<>();
+  public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS          = new HashMap<>();
+  public static HashMap<String, BlockEntry<DoorBlock>> LOCK_DOOR_BLOCKS     = new HashMap<>();
+  public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_BLOCKS       = new HashMap<>();
+  public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_PANEL_BLOCKS = new HashMap<>();
 
   public static HashMap<String, BlockEntry<Block>> SHEET_METAL_BLOCKS    = new HashMap<>();
-  public static HashMap<String, BlockEntry<StairsBlock>> SHEET_STAIRS    = new HashMap<>();
+  public static HashMap<String, BlockEntry<StairBlock>> SHEET_STAIRS    = new HashMap<>();
   public static HashMap<String, BlockEntry<SlabBlock>> SHEET_SLABS       = new HashMap<>();
   public static HashMap<String, BlockEntry<VerticalSlabBlock>> SHEET_VERT_SLABS = new HashMap<>();
 
@@ -105,9 +112,9 @@ public class Registration {
   public static ItemEntry<Item> NETHERITE_SHEET;
   public static ItemEntry<Item> NETHERITE_NUGGET;
 
-  public static class DecoItemGroup extends ItemGroup {
+  public static class DecoCreativeModeTab extends CreativeModeTab {
     private final Supplier<ItemStack> sup;
-    public DecoItemGroup (final String name, final Supplier<ItemStack> supplier) {
+    public DecoCreativeModeTab (final String name, final Supplier<ItemStack> supplier) {
       super(name);
       sup = supplier;
     }
@@ -116,15 +123,15 @@ public class Registration {
       return sup.get();
     }
   }
-  public static final ItemGroup BRICKS_GROUP = new DecoItemGroup(
+  public static final CreativeModeTab BRICKS_GROUP = new DecoCreativeModeTab(
     CreateDecoMod.MODID + ".bricks",
     () -> BRICK_BLOCK.get(DyeColor.LIGHT_BLUE).asStack()
   );
-  public static final ItemGroup METALS_GROUP = new DecoItemGroup(
+  public static final CreativeModeTab METALS_GROUP = new DecoCreativeModeTab(
     CreateDecoMod.MODID + ".metals",
     () -> BAR_BLOCKS.get("Brass").asStack()
   );
-  public static final ItemGroup PROPS_GROUP = new DecoItemGroup(
+  public static final CreativeModeTab PROPS_GROUP = new DecoCreativeModeTab(
     CreateDecoMod.MODID + ".props",
     () -> COINSTACK_ITEM.get("Brass").asStack()
   );
@@ -147,14 +154,14 @@ public class Registration {
     COIN_TYPES.add("Gold");
     COIN_TYPES.add("Netherite");
 
-    DOOR_TYPES.put("Andesite", AllItems.ANDESITE_ALLOY);
-    DOOR_TYPES.put("Copper",   AllItems.COPPER_INGOT);
-    DOOR_TYPES.put("Zinc",     AllItems.ZINC_INGOT);
-    DOOR_TYPES.put("Brass",    AllItems.BRASS_INGOT);
+    DOOR_TYPES.put("Andesite",   (str) -> AllItems.ANDESITE_ALLOY.get());
+    DOOR_TYPES.put("Copper",     (str) -> Items.COPPER_INGOT);
+    DOOR_TYPES.put("Zinc",       (str) -> AllItems.ZINC_INGOT.get());
+    DOOR_TYPES.put("Brass",      (str) -> AllItems.BRASS_INGOT.get());
 
     METAL_TYPES.put("Andesite",  (str) -> AllItems.ANDESITE_ALLOY.get());
     METAL_TYPES.put("Zinc",      (str) -> AllItems.ZINC_INGOT.get());
-    METAL_TYPES.put("Copper",    (str) -> AllItems.COPPER_INGOT.get());
+    METAL_TYPES.put("Copper",    (str) -> Items.COPPER_INGOT);
     METAL_TYPES.put("Brass",     (str) -> AllItems.BRASS_INGOT.get());
     METAL_TYPES.put("Iron",      (str) -> Items.IRON_INGOT);
     METAL_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
@@ -231,33 +238,35 @@ public class Registration {
     } else {
       ret.initialProperties(Material.STONE);
     }
-    return ret.properties(props -> props.strength(2,6).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+    return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       )))
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix)
       .defaultLoot()
       .simpleItem();
   }
 
-  private static BlockBuilder<StairsBlock,?> buildBrickStairs (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
+  private static BlockBuilder<StairBlock,?> buildBrickStairs (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
     String suf = suffix.replace(' ', '_').toLowerCase();
     String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
-    BlockBuilder<StairsBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf + "_stairs",
-      (props)->new StairsBlock(Blocks.BRICK_STAIRS::defaultBlockState, props));
+    BlockBuilder<StairBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf + "_stairs",
+      (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props));
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
     } else {
       ret.initialProperties(Material.STONE);
     }
-    return ret.properties(props -> props.strength(2,6).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+    return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Stairs")
       .defaultLoot()
       .simpleItem();
@@ -272,13 +281,14 @@ public class Registration {
     } else {
       ret.initialProperties(Material.STONE);
     }
-    return ret.properties(props -> props.strength(2,6).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+    return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
         prov.modLoc("block/" + pre + name.toLowerCase() + (suf.equals("")?"":"_"+suf)),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Slab")
       .defaultLoot()
       .simpleItem();
@@ -293,7 +303,7 @@ public class Registration {
     } else {
       ret.initialProperties(Material.STONE);
     }
-    return ret.properties(props -> props.strength(2,6).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+    return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> {
@@ -318,6 +328,7 @@ public class Registration {
           .condition(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE).end();
         }
       })
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Vertical Slab")
       .defaultLoot()
       .simpleItem();
@@ -332,12 +343,13 @@ public class Registration {
     } else {
       ret.initialProperties(Material.STONE);
     }
-    return ret.properties(props-> props.strength(2,6).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+    return ret.properties(props-> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.wallBlock(ctx.get(),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
       ))
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Wall")
       .defaultLoot()
       .tag(BlockTags.WALLS)
@@ -349,7 +361,7 @@ public class Registration {
         .build();
   }
 
-  private static BlockBuilder<PaneBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
+  private static BlockBuilder<IronBarsBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
     String base = metal.replace(' ', '_').toLowerCase() + "_bars";
     String suf = suffix.equals("") ? "" : "_" + suffix.replace(' ', '_').toLowerCase();
     String post = "block/palettes/metal_bars/" + base + (metal == "Brass" || metal == "Netherite" ? "_post" : "");
@@ -374,7 +386,7 @@ public class Registration {
     bartex = barTexture;
     postex = postTexture;
 
-    return reg.block(base + suf, PaneBlock::new)
+    return reg.block(base + suf, IronBarsBlock::new)
       .properties(props -> props.noOcclusion().strength(5, 6).sound(SoundType.NETHERITE_BLOCK))
       .blockstate((ctx, prov) -> {
         MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
@@ -441,14 +453,14 @@ public class Registration {
   }
 
   public static void registerBlocks (Registrate reg) {
-    reg.itemGroup(()->BRICKS_GROUP);
+    reg.creativeModeTab(()->BRICKS_GROUP);
 
     BlockBuilder<Block, ?> wornBrick = buildBrick(reg, null, "", "Worn", "Bricks")
       .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
         .pattern("bb")
         .pattern("bb")
         .define('b', WORN_BRICK_ITEM.get())
-        .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(WORN_BRICK_ITEM.get()))
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(WORN_BRICK_ITEM.get()))
         .save(prov)
       );
     WORN_BRICK_TYPES.put("Worn Bricks", wornBrick.register());
@@ -494,7 +506,7 @@ public class Registration {
               .pattern("s")
               .pattern("s")
               .define('s', WORN_SLABS.get(full).get())
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(WORN_SLABS.get(full).get()))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(WORN_SLABS.get(full).get()))
               .save(prov);
             if (pre.equals("Cracked")) {
               prov.blasting(DataIngredient.items(WORN_VERTS.get(full.substring(8))), ctx, 0.5f);
@@ -518,7 +530,7 @@ public class Registration {
           .pattern("bb")
           .pattern("bb")
           .define('b', getBrickItemFromColor(dye))
-          .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(getBrickItemFromColor(dye)))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(getBrickItemFromColor(dye)))
           .save(prov)
         ).register());
       TILE_BRICK_BLOCK.put(dye,    buildBrick(reg, dye, "", name, "Brick Tiles")
@@ -568,7 +580,7 @@ public class Registration {
         .recipe((ctx, prov)-> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
         .register());
 
-      HashMap<String, BlockEntry<StairsBlock>>       stair = new HashMap<>();
+      HashMap<String, BlockEntry<StairBlock>>       stair = new HashMap<>();
       HashMap<String, BlockEntry<SlabBlock>>         slab  = new HashMap<>();
       HashMap<String, BlockEntry<VerticalSlabBlock>> vert  = new HashMap<>();
       HashMap<String, BlockEntry<WallBlock>>         wall  = new HashMap<>();
@@ -615,7 +627,7 @@ public class Registration {
                 .pattern("s")
                 .pattern("s")
                 .define('s', getBrickSlabBlockFromColor(dye, full))
-                .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(getBrickSlabBlockFromColor(dye, full)))
+                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(getBrickSlabBlockFromColor(dye, full)))
               .save(prov);
               if (pre.equals("Cracked")) {
                 prov.blasting(DataIngredient.items(getBrickSlabBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
@@ -630,7 +642,7 @@ public class Registration {
       BRICK_WALL_BLOCK.put(dye, wall);
     });
 
-    reg.itemGroup(()->PROPS_GROUP);
+    reg.creativeModeTab(()->PROPS_GROUP);
     COIN_TYPES.forEach(metal ->
       COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
         .properties(props -> props.noOcclusion().strength(0.5f).sound(SoundType.CHAIN))
@@ -643,15 +655,17 @@ public class Registration {
           .texture("bottom", prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_bottom"))
           .texture("top",    prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_top"))
         ).build(); }))
+        .addLayer(()-> RenderType::cutoutMipped)
         .lang(metal + " Stack Block")
         .loot((table, block) -> {
           LootTable.Builder builder      = LootTable.lootTable();
-          LootPool.Builder pool          = LootPool.lootPool().setRolls(ConstantRange.exactly(1));
+          LootPool.Builder pool          = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
           for (int layer = 1; layer <= 8; layer++) {
-            ItemLootEntry.Builder<?> entry = ItemLootEntry.lootTableItem(COINSTACK_ITEM.get(metal).get());
-            entry.when(BlockStateProperty.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties()
+            LootItem.Builder<?> entry = LootItem.lootTableItem(COINSTACK_ITEM.get(metal).get());
+            entry.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+              .setProperties(StatePropertiesPredicate.Builder.properties()
               .hasProperty(BlockStateProperties.LAYERS, layer)
-            )).apply(SetCount.setCount(ConstantRange.exactly(layer)));
+            )).apply(SetItemCountFunction.setCount(ConstantValue.exactly(layer)));
             pool.add(entry);
           }
           table.add(block, builder.withPool(pool));
@@ -676,6 +690,7 @@ public class Registration {
             .texture("face", prov.modLoc("block/palettes/decal/" + ctx.getName()))
             .texture("particle", prov.modLoc("block/palettes/decal/" + ctx.getName()))
           ).rotationY(y).build(); }))
+        .addLayer(()-> RenderType::cutoutMipped)
         .lang(color.name() + " Decal")
         .item()
           .model((ctx,prov)-> prov.singleTexture(ctx.getName(),
@@ -686,38 +701,41 @@ public class Registration {
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(AllItems.IRON_SHEET.get(), 1)
           .requires(DyeItem.byColor(color), 1)
-          .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(AllItems.IRON_SHEET.get()))
-          .unlockedBy("has_dye",  InventoryChangeTrigger.Instance.hasItems(DyeItem.byColor(color)))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.IRON_SHEET.get()))
+          .unlockedBy("has_dye",  InventoryChangeTrigger.TriggerInstance.hasItems(DyeItem.byColor(color)))
           .save(prov)
         )
         .register());
     }
 
-    reg.itemGroup(()->METALS_GROUP);
+    reg.creativeModeTab(()->METALS_GROUP);
     DOOR_TYPES.forEach((metal,ingot) ->
       DOOR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_door", DoorBlock::new)
         .initialProperties(Material.NETHER_WOOD) // setting it to IRON locks it, and normal wood would burn probably
-        .properties(props -> props.noOcclusion().strength(5, 5).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+        .properties(props -> props.noOcclusion().strength(5, 5).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(),
           prov.modLoc("block/" + metal.toLowerCase() + "_door_bottom"),
           prov.modLoc("block/" + metal.toLowerCase() + "_door_top"))
         )
+        .addLayer(()-> RenderType::cutoutMipped)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .lang(metal + " Door")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
           .pattern("mm")
           .pattern("mm")
           .pattern("mm")
-          .define('m', ingot.get())
-          .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(ingot.get()))
+          .define('m', ingot.apply(metal))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ingot.apply(metal)))
           .save(prov)
         )
         .loot((table, block)-> {
           LootTable.Builder builder = LootTable.lootTable();
           LootPool.Builder pool     = LootPool.lootPool();
-          pool.setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(block))
-            .when(BlockStateProperty.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties()
+          pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block))
+            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+              .setProperties(StatePropertiesPredicate.Builder.properties()
               .hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
             ));
           table.add(block, builder.withPool(pool));
@@ -727,33 +745,37 @@ public class Registration {
             prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
               "layer0", prov.modLoc("item/" + ctx.getName())
           ))
+          .properties(props -> (metal.equals("Netherite") ? props.fireResistant() : props))
           .build()
         .register()));
 
     DOOR_TYPES.forEach((metal, ingot)->
       LOCK_DOOR_BLOCKS.put(metal.toLowerCase(), reg.block("locked_" + metal.toLowerCase() + "_door", DoorBlock::new)
         .initialProperties(Material.METAL)
-        .properties(props -> props.noOcclusion().strength(5, 5).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+        .properties(props -> props.noOcclusion().strength(5, 5).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .blockstate((ctx, prov)-> prov.doorBlock(ctx.get(),
           prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_bottom"),
           prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_top"))
         )
+        .addLayer(()-> RenderType::cutoutMipped)
         .loot((table, block)-> {
           LootTable.Builder builder = LootTable.lootTable();
           LootPool.Builder pool     = LootPool.lootPool();
-          pool.setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(block))
-            .when(BlockStateProperty.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties()
+          pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block))
+            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+              .setProperties(StatePropertiesPredicate.Builder.properties()
               .hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF, DoubleBlockHalf.LOWER)
             ));
           table.add(block, builder.withPool(pool));
         })
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .lang("Locked " + metal + " Door")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(Items.REDSTONE_TORCH, 1)
           .requires(DOOR_BLOCKS.get(metal.toLowerCase()).get(), 1)
-          .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
             DOOR_BLOCKS.get(metal.toLowerCase()).asStack().getItem())
           )
           .save(prov)
@@ -762,34 +784,43 @@ public class Registration {
           .model((ctx, prov)-> prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
             "layer0", prov.modLoc("item/" + ctx.getName())
           ))
+          .properties(props -> (metal.equals("Netherite") ? props.fireResistant() : props))
           .build()
         .register()));
 
     METAL_TYPES.forEach((metal, getter) -> {
       BAR_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+        .addLayer(()-> RenderType::cutoutMipped)
         .recipe((ctx, prov) -> {
           if (!metal.equals("Iron")) { // Iron will be handled as a polishing recipe
             ShapedRecipeBuilder.shaped(ctx.get(), 16)
               .pattern("mmm")
               .pattern("mmm")
               .define('m', getter.apply(metal))
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(getter.apply(metal)))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(getter.apply(metal)))
               .save(prov);
           }
           ShapelessRecipeBuilder.shapeless(ctx.get())
             .requires(BAR_PANEL_BLOCKS.get(metal).get())
-            .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(BAR_PANEL_BLOCKS.get(metal).get()))
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal).get()))
             .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase() + "_bars_from_panel"));
         })
+        .item()
+          .properties(props -> (metal.equals("Netherite") ? props.fireResistant() : props))
+          .build()
         .register());
       BAR_PANEL_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
+        .addLayer(()-> RenderType::cutoutMipped)
         .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(BAR_BLOCKS.get(metal).get())
-          .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(BAR_BLOCKS.get(metal).get()))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal).get()))
           .save(prov)
         )
+        .item()
+          .properties(props -> (metal.equals("Netherite") ? props.fireResistant() : props))
+          .build()
         .register());
       if (metal.equals("Iron")) { // add a panel version of the vanilla iron too
         BAR_PANEL_BLOCKS.put("Vanilla Iron", buildBars(reg, metal, getter, "overlay")
@@ -797,11 +828,11 @@ public class Registration {
           .recipe((ctx, prov)-> {
             ShapelessRecipeBuilder.shapeless(ctx.get())
               .requires(Items.IRON_BARS)
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(Items.IRON_BARS))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.IRON_BARS))
               .save(prov);
             ShapelessRecipeBuilder.shapeless(Items.IRON_BARS)
               .requires(ctx.get())
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(ctx.get()))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ctx.get()))
               .save(prov, new ResourceLocation(CreateDecoMod.MODID, "vanilla_metal_bars_from_panel"));
           })
           .register());
@@ -809,15 +840,18 @@ public class Registration {
 
       SHEET_METAL_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_sheet_metal", Block::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
           prov.modLoc("block/palettes/sheet_metal/" + ctx.getName())
         )))
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .lang(metal + " Sheet Metal")
         .defaultLoot()
-        .item().properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p).build()
+        .item()
+          .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
+          .build()
         .recipe((ctx, prov)-> {
           prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply("block")), ctx, 4);
         })
@@ -827,13 +861,16 @@ public class Registration {
         .register());
 
       SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",
-        (props)->new StairsBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
+        (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
-        .item().properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p).build()
+        .item()
+          .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
+          .build()
         .tag(BlockTags.STAIRS)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
           prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
         )
@@ -849,11 +886,14 @@ public class Registration {
 
       SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
-        .item().properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p).build()
+        .item()
+          .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
+          .build()
         .tag(BlockTags.SLABS)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
           prov.modLoc("block/" + metal.toLowerCase() + "_sheet_metal"),
           prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
@@ -870,10 +910,13 @@ public class Registration {
 
       SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
-        .item().properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p).build()
+        .item()
+          .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
+          .build()
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate(((ctx,prov)-> {
           String texLoc = "block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal";
           ResourceLocation tex = prov.modLoc(texLoc);
@@ -899,14 +942,15 @@ public class Registration {
         .loot((table, block) -> {
           LootTable.Builder builder = LootTable.lootTable();
           LootPool.Builder pool     = LootPool.lootPool();
-          pool.setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(block)  // extra slab drop if it's a double
-            .apply(SetCount.setCount(ConstantRange.exactly(2)).when(
-              BlockStateProperty.hasBlockStateProperties(block).setProperties(StatePropertiesPredicate.Builder.properties()
+          pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block)  // extra slab drop if it's a double
+            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2)).when(
+              LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                .setProperties(StatePropertiesPredicate.Builder.properties()
                 .hasProperty(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE)
               )
           )));
-          pool.setRolls(ConstantRange.exactly(1)).add(ItemLootEntry.lootTableItem(block)
-            .apply(SetCount.setCount(ConstantRange.exactly(1))
+          pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block)
+            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1))
           ));
           table.add(block, builder.withPool(pool));
         })
@@ -916,7 +960,7 @@ public class Registration {
             .pattern("s")
             .pattern("s")
             .define('s', SHEET_SLABS.get(metal).get())
-            .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()))
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(SHEET_METAL_BLOCKS.get(metal).asStack().getItem()))
             .save(prov);
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx, 2);
         })
@@ -927,10 +971,12 @@ public class Registration {
 
       MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
           .sound(SoundType.CHAIN)
         )
+        .addLayer(()-> RenderType::cutoutMipped)
         .tag(BlockTags.FENCES)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item()
           .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
           .model((ctx,prov)-> prov.singleTexture(
@@ -944,17 +990,17 @@ public class Registration {
               .pattern("psp")
               .define('p', AllItems.ANDESITE_ALLOY.get())
               .define('s', Items.STRING)
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(AllItems.ANDESITE_ALLOY.get()))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.ANDESITE_ALLOY.get()))
               .save(prov);
           }
           else {
-            ITag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase());
+            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase());
             ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern("psp")
               .pattern("psp")
               .define('p', sheet)
               .define('s', Items.STRING)
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
               .save(prov);
           }
         })
@@ -1009,10 +1055,11 @@ public class Registration {
       CATWALK_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_catwalk", CatwalkBlock::new)
         .initialProperties(Material.METAL)
         .properties(props->
-          props.strength(5, 3).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops().noOcclusion()
+          props.strength(5, 3).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
         )
-
+        .addLayer(()-> RenderType::cutoutMipped)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .item(CatwalkBlockItem::new)
           .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
           .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
@@ -1027,18 +1074,18 @@ public class Registration {
               .pattern(" p ")
               .define('p', AllItems.ANDESITE_ALLOY.get())
               .define('B', BAR_BLOCKS.get(metal).get())
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(AllItems.ANDESITE_ALLOY.get()))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.ANDESITE_ALLOY.get()))
               .save(prov);
           }
           else {
-            ITag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase());
+            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase());
             ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern(" p ")
               .pattern("pBp")
               .pattern(" p ")
               .define('p', sheet)
               .define('B', BAR_BLOCKS.get(metal).get())
-              .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
               .save(prov);
           }
         })
@@ -1097,7 +1144,7 @@ public class Registration {
   }
 
   public static void registerItems (Registrate reg) {
-    reg.itemGroup(()->BRICKS_GROUP, BRICKS_NAME);
+    reg.creativeModeTab(()->BRICKS_GROUP, BRICKS_NAME);
     BRICK_COLOR_NAMES.forEach((dye, name)-> {
       if (dye == null) {
         WORN_BRICK_ITEM = reg.item("worn_brick", Item::new)
@@ -1112,14 +1159,14 @@ public class Registration {
             .pattern("bbb")
             .define('b', Items.BRICK)
             .define('C', DyeItem.byColor(dye))
-            .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(DyeItem.byColor(dye)))
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(DyeItem.byColor(dye)))
             .save(prov)
           )
           .register());
       }
     });
 
-    reg.itemGroup(()->METALS_GROUP, METALS_NAME);
+    reg.creativeModeTab(()->METALS_GROUP, METALS_NAME);
     ZINC_SHEET = reg.item("zinc_sheet", Item::new)
       .tag(ItemTags.bind("forge:plates/zinc"))
       .lang("Zinc Sheet")
@@ -1140,13 +1187,13 @@ public class Registration {
       })
       .register();
 
-    reg.itemGroup(()->PROPS_GROUP, PROPS_NAME);
+    reg.creativeModeTab(()->PROPS_GROUP, PROPS_NAME);
     for (String metal : COIN_TYPES) {
       COIN_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coin", Item::new)
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get(), 4)
           .requires(COINSTACK_ITEM.get(metal).get())
-          .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(COINSTACK_ITEM.get(metal).get()))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(COINSTACK_ITEM.get(metal).get()))
           .save(prov)
         )
         .lang(metal + " Coin")
@@ -1155,7 +1202,7 @@ public class Registration {
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(COIN_ITEM.get(metal).get(), 4)
-          .unlockedBy("has_item", InventoryChangeTrigger.Instance.hasItems(COIN_ITEM.get(metal).get()))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(COIN_ITEM.get(metal).get()))
           .save(prov)
         )
         .lang(metal + " Coinstack")

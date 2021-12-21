@@ -1,8 +1,8 @@
 package com.github.talrey.createdeco;
 
 import com.google.gson.JsonObject;
-import net.minecraft.util.JSONUtils;
-import net.minecraft.util.ResourceLocation;
+import com.mojang.realmsclient.util.JsonUtils;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
@@ -33,7 +33,7 @@ public class ConfigCondition implements ICondition {
     }
     @Override
     public ConfigCondition read (JsonObject json) {
-      return new ConfigCondition(JSONUtils.getAsString(json, "config"));
+      return new ConfigCondition(JsonUtils.getStringOr("config", json, "error"));
     }
 
     @Override

@@ -1,14 +1,12 @@
 package com.github.talrey.createdeco;
 
-import com.simibubi.create.AllRecipeTypes;
-import com.simibubi.create.content.contraptions.components.fan.SplashingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
-import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
+
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.RecipeProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,7 @@ public abstract class ProcessingRecipeWrapper<T extends ProcessingRecipe<?>> ext
   }
 
   @Override
-  protected void buildShapelessRecipes (Consumer<IFinishedRecipe> consumer) {
+  protected void buildShapelessRecipes (Consumer<FinishedRecipe> consumer) {
     recipes.forEach(builder -> builder.build(consumer));
   }
 

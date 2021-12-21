@@ -1,20 +1,21 @@
 package com.github.talrey.createdeco.items;
 
 import com.github.talrey.createdeco.Registration;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ActionResultType;
+
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class CoinStackItem extends Item {
   public CoinStackItem (Properties props) {
     super(props);
   }
 
-  protected boolean placeBlock(ItemUseContext ctx) {
-    BlockItemUseContext bictx = new BlockItemUseContext (ctx);
+  protected boolean placeBlock(UseOnContext ctx) {
+    BlockPlaceContext bictx = new BlockPlaceContext (ctx);
     BlockState target = ctx.getLevel().getBlockState(ctx.getClickedPos());
     String targetName = target.getBlock().getDescriptionId();
     String thisName   = this.getDescriptionId().substring(this.getDescriptionId().lastIndexOf(".")+1).replace("_coinstack","");
@@ -48,10 +49,10 @@ public class CoinStackItem extends Item {
 
 
   @Override
-  public ActionResultType useOn (ItemUseContext ctx) {
+  public InteractionResult useOn (UseOnContext ctx) {
     if (placeBlock (ctx)) {
       ctx.getItemInHand().shrink(1);
-      return ActionResultType.SUCCESS;
+      return InteractionResult.SUCCESS;
     }
     return super.useOn(ctx);
   }

@@ -523,7 +523,7 @@
   "item.createdeco.zinc_coin": "亜鉛のコイン",
   "item.createdeco.zinc_coinstack": "亜鉛のコインの束",
   "item.createdeco.zinc_sheet": "亜鉛の板金",
-  "itemGroup.createdeco.bricks": "CreateDeco レンガ",
-  "itemGroup.createdeco.metals": "CreateDeco 素材",
-  "itemGroup.createdeco.props": "CreateDeco 小物"
+  "CreativeModeTab.createdeco.bricks": "CreateDeco レンガ",
+  "CreativeModeTab.createdeco.metals": "CreateDeco 素材",
+  "CreativeModeTab.createdeco.props": "CreateDeco 小物"
 }

@@ -1,10 +1,11 @@
 package com.github.talrey.createdeco.connected;
 
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.state.properties.SlabType;
-import net.minecraft.util.math.BlockPos;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.SlabType;
 
 public class SheetMetalVertCTBehaviour extends SheetMetalSlabCTBehaviour {
   public SheetMetalVertCTBehaviour (CTSpriteShiftEntry layerShift) { super (layerShift); }

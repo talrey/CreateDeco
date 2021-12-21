@@ -2,16 +2,17 @@ package com.github.talrey.createdeco.connected;
 
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.StandardCTBehaviour;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockDisplayReader;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class CatwalkCTBehaviour extends StandardCTBehaviour {
   public CatwalkCTBehaviour (CTSpriteShiftEntry layerShift) { super (layerShift); }
 
   @Override
-  public boolean connectsTo(BlockState state, BlockState other, IBlockDisplayReader reader, BlockPos pos, BlockPos otherPos, Direction face) {
+  public boolean connectsTo(BlockState state, BlockState other, BlockAndTintGetter reader, BlockPos pos, BlockPos otherPos, Direction face) {
     return (face.getAxis().isVertical() && (state.getBlock() == other.getBlock()));
   }
 

@@ -3,11 +3,10 @@ package com.github.talrey.createdeco;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.simibubi.create.repack.registrate.Registrate;
 import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
-import net.minecraft.block.Block;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.event.RegistryEvent;
@@ -16,8 +15,8 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.*;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,13 +39,13 @@ public class CreateDecoMod
     ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONF);
 
     // Register the setup method for modloading
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+    //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
     // Register the enqueueIMC method for modloading
     //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
     // Register the processIMC method for modloading
     //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
     // Register the doClientStuff method for modloading
-    FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+    //FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
     // Register ourselves for server and other game events we are interested in
     MinecraftForge.EVENT_BUS.register(this);
@@ -57,39 +56,16 @@ public class CreateDecoMod
     registration.registerItems(createDecoRegistrar);
     registration.registerBlocks(createDecoRegistrar);
   }
-
+/*
   private void setup(final FMLCommonSetupEvent event)
   {
 
   }
 
   private void doClientStuff(final FMLClientSetupEvent event) {
-    for (BlockEntry<CoinStackBlock> entry : Registration.COIN_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
-    for (BlockEntry<?> entry : Registration.DOOR_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
-    for (BlockEntry<?> entry : Registration.BAR_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
-    for (BlockEntry<?> entry : Registration.BAR_PANEL_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
-    for (BlockEntry<?> entry : Registration.DECAL_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
-    for (BlockEntry<?> entry : Registration.LOCK_DOOR_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
-    for (BlockEntry<?> entry : Registration.MESH_FENCE_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
-    for (BlockEntry<?> entry : Registration.CATWALK_BLOCKS.values()) {
-      RenderTypeLookup.setRenderLayer(entry.get(), RenderType.cutoutMipped());
-    }
+
   }
-/*
+
   private void enqueueIMC(final InterModEnqueueEvent event)
   {
     // some example code to dispatch IMC to another mod
@@ -129,7 +105,7 @@ public class CreateDecoMod
   @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
   public static class RegistryEvents {
     @SubscribeEvent
-    public static void onRecipeSerializerRegistry(RegistryEvent.Register<IRecipeSerializer<?>> event) {
+    public static void onRecipeSerializerRegistry(RegistryEvent.Register<RecipeSerializer<?>> event) {
       CraftingHelper.register(ConfigCondition.Serializer.INSTANCE);
     }
 

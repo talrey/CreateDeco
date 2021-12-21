@@ -42,6 +42,9 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.2.0-1.18.1 | TBD  
+ \* Update to 1.18!
+
 1.1.2-1.16.5 | 24 OCT 2021:  
  \* 4-directional fences have the correct model now  
  \* washing recipes work correctly again - won't wash brick items into blocks  

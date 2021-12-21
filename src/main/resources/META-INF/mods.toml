@@ -55,12 +55,12 @@ Adds several varieties of decorative blocks to fill out Create's palette.
     modId="minecraft"
     mandatory=true
 # This version range declares a minimum of the current minecraft version up to but not including the next major version
-    versionRange="[1.16.5,1.17)"
+    versionRange="[1.18,1.19)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.createdeco]]
     modId="create"
     mandatory=true
-    versionRange="[mc1.16.5_v0.3.1f,)"
+    versionRange="[0.4, 0.4a)"
     ordering="AFTER"
     side="BOTH"
