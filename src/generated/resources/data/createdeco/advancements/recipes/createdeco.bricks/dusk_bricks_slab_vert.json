@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:dusk_bricks_slab"
+            "items": [
+              "createdeco:dusk_bricks_slab"
+            ]
           }
         ]
       }

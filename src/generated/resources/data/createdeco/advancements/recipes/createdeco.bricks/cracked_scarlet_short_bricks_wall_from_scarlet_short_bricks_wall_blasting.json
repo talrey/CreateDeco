@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:scarlet_short_bricks_wall"
+            "items": [
+              "createdeco:scarlet_short_bricks_wall"
+            ]
           }
         ]
       }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:andesite_door"
+            "items": [
+              "createdeco:andesite_door"
+            ]
           }
         ]
       }

@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:worn_short_bricks_stairs"
+            "items": [
+              "createdeco:worn_short_bricks_stairs"
+            ]
           }
         ]
       }

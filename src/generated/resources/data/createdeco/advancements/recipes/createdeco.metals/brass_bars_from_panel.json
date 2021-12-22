@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:brass_bars_overlay"
+            "items": [
+              "createdeco:brass_bars_overlay"
+            ]
           }
         ]
       }

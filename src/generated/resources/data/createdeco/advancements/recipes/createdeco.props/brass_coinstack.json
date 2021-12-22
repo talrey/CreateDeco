@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:brass_coin"
+            "items": [
+              "createdeco:brass_coin"
+            ]
           }
         ]
       }

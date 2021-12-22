@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:dusk_brick_tiles_wall"
+            "items": [
+              "createdeco:dusk_brick_tiles_wall"
+            ]
           }
         ]
       }

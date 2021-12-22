@@ -439,7 +439,7 @@ public class Registration {
       .tag(BlockTags.WALLS)
       .item()
         .model((ctx, prov) -> {
-          if (suf.equals("")) {
+          if (suf.isEmpty()) {
             prov.singleTexture(base, prov.mcLoc("item/generated"),"layer0", bartex);
           }
           else {
@@ -806,9 +806,6 @@ public class Registration {
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal).get()))
             .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase() + "_bars_from_panel"));
         })
-        .item()
-          .properties(props -> (metal.equals("Netherite") ? props.fireResistant() : props))
-          .build()
         .register());
       BAR_PANEL_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
         .addLayer(()-> RenderType::cutoutMipped)
@@ -818,9 +815,6 @@ public class Registration {
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal).get()))
           .save(prov)
         )
-        .item()
-          .properties(props -> (metal.equals("Netherite") ? props.fireResistant() : props))
-          .build()
         .register());
       if (metal.equals("Iron")) { // add a panel version of the vanilla iron too
         BAR_PANEL_BLOCKS.put("Vanilla Iron", buildBars(reg, metal, getter, "overlay")

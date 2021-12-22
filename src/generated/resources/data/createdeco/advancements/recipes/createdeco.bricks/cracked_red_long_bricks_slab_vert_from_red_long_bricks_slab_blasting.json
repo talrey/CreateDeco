@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:red_long_bricks_slab"
+            "items": [
+              "createdeco:red_long_bricks_slab"
+            ]
           }
         ]
       }

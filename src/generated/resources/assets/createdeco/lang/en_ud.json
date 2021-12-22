@@ -523,7 +523,7 @@
   "item.createdeco.zinc_coin": "u\u0131o\u0186 \u0254u\u0131Z",
   "item.createdeco.zinc_coinstack": "\u029E\u0254\u0250\u0287su\u0131o\u0186 \u0254u\u0131Z",
   "item.createdeco.zinc_sheet": "\u0287\u01DD\u01DD\u0265S \u0254u\u0131Z",
-  "CreativeModeTab.createdeco.bricks": "s\u029E\u0254\u0131\u0279\u15FA o\u0254\u01DD\u15E1\u01DD\u0287\u0250\u01DD\u0279\u0186",
-  "CreativeModeTab.createdeco.metals": "s\u05DF\u0250\u0287\u01DDW o\u0254\u01DD\u15E1\u01DD\u0287\u0250\u01DD\u0279\u0186",
-  "CreativeModeTab.createdeco.props": "sdo\u0279\u0500 o\u0254\u01DD\u15E1\u01DD\u0287\u0250\u01DD\u0279\u0186"
+  "itemGroup.createdeco.bricks": "s\u029E\u0254\u0131\u0279\u15FA o\u0254\u01DD\u15E1\u01DD\u0287\u0250\u01DD\u0279\u0186",
+  "itemGroup.createdeco.metals": "s\u05DF\u0250\u0287\u01DDW o\u0254\u01DD\u15E1\u01DD\u0287\u0250\u01DD\u0279\u0186",
+  "itemGroup.createdeco.props": "sdo\u0279\u0500 o\u0254\u01DD\u15E1\u01DD\u0287\u0250\u01DD\u0279\u0186"
 }

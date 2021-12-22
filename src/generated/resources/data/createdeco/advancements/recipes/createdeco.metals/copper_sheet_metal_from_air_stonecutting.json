@@ -2,16 +2,18 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "createdeco:copper_sheet_metal_from_copper_block_stonecutting"
+      "createdeco:copper_sheet_metal_from_air_stonecutting"
     ]
   },
   "criteria": {
-    "has_copper_block": {
+    "has_air": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "create:copper_block"
+            "items": [
+              "minecraft:air"
+            ]
           }
         ]
       }
@@ -19,13 +21,13 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "createdeco:copper_sheet_metal_from_copper_block_stonecutting"
+        "recipe": "createdeco:copper_sheet_metal_from_air_stonecutting"
       }
     }
   },
   "requirements": [
     [
-      "has_copper_block",
+      "has_air",
       "has_the_recipe"
     ]
   ]

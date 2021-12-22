@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:zinc_door"
+            "items": [
+              "createdeco:zinc_door"
+            ]
           }
         ]
       }

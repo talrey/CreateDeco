@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:zinc_coinstack"
+            "items": [
+              "createdeco:zinc_coinstack"
+            ]
           }
         ]
       }

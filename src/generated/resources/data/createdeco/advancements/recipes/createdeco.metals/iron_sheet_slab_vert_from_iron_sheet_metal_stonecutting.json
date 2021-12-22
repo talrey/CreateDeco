@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "createdeco:iron_sheet_metal"
+            "items": [
+              "createdeco:iron_sheet_metal"
+            ]
           }
         ]
       }

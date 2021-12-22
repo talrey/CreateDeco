@@ -523,7 +523,7 @@
   "item.createdeco.zinc_coin": "Zinc Coin",
   "item.createdeco.zinc_coinstack": "Zinc Coinstack",
   "item.createdeco.zinc_sheet": "Zinc Sheet",
-  "CreativeModeTab.createdeco.bricks": "CreateDeco Bricks",
-  "CreativeModeTab.createdeco.metals": "CreateDeco Metals",
-  "CreativeModeTab.createdeco.props": "CreateDeco Props"
+  "itemGroup.createdeco.bricks": "CreateDeco Bricks",
+  "itemGroup.createdeco.metals": "CreateDeco Metals",
+  "itemGroup.createdeco.props": "CreateDeco Props"
 }
