@@ -8,8 +8,10 @@ import com.github.talrey.createdeco.connected.*;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllBlocks;
+import com.simibubi.create.AllInteractionBehaviours;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.contraptions.components.structureMovement.interaction.DoorMovingInteraction;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.repack.registrate.Registrate;
 import com.simibubi.create.repack.registrate.builders.BlockBuilder;
@@ -748,6 +750,7 @@ public class Registration {
           ))
           .properties(props -> (metal.equals("Netherite") ? props.fireResistant() : props))
           .build()
+        .onRegister( (door)-> AllInteractionBehaviours.addInteractionBehaviour(door, DoorMovingInteraction::new))
         .register()));
 
     DOOR_TYPES.forEach((metal, ingot)->
