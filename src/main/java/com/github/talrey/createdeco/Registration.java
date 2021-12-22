@@ -387,7 +387,8 @@ public class Registration {
     postex = postTexture;
 
     return reg.block(base + suf, IronBarsBlock::new)
-      .properties(props -> props.noOcclusion().strength(5, 6).sound(SoundType.NETHERITE_BLOCK))
+      .properties(props -> props.noOcclusion().strength(5, (metal.equals("Netherite")) ? 1200 : 6)
+      .sound(SoundType.NETHERITE_BLOCK))
       .blockstate((ctx, prov) -> {
         MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
         BlockModelBuilder sideModel = prov.models().withExistingParent(
@@ -834,7 +835,7 @@ public class Registration {
 
       SHEET_METAL_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_sheet_metal", Block::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
@@ -857,7 +858,7 @@ public class Registration {
       SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",
         (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .item()
@@ -880,7 +881,7 @@ public class Registration {
 
       SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .item()
@@ -904,7 +905,7 @@ public class Registration {
 
       SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .item()
@@ -965,7 +966,7 @@ public class Registration {
 
       MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
         .initialProperties(Material.METAL)
-        .properties(props-> props.strength(5, 3).requiresCorrectToolForDrops()
+        .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.CHAIN)
         )
         .addLayer(()-> RenderType::cutoutMipped)
@@ -1049,7 +1050,7 @@ public class Registration {
       CATWALK_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_catwalk", CatwalkBlock::new)
         .initialProperties(Material.METAL)
         .properties(props->
-          props.strength(5, 3).requiresCorrectToolForDrops().noOcclusion()
+          props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .addLayer(()-> RenderType::cutoutMipped)
