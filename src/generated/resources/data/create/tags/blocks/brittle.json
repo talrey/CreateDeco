@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "createdeco:white_decal",
+    "createdeco:orange_decal",
+    "createdeco:magenta_decal",
+    "createdeco:light_blue_decal",
+    "createdeco:yellow_decal",
+    "createdeco:lime_decal",
+    "createdeco:pink_decal",
+    "createdeco:gray_decal",
+    "createdeco:light_gray_decal",
+    "createdeco:cyan_decal",
+    "createdeco:purple_decal",
+    "createdeco:blue_decal",
+    "createdeco:brown_decal",
+    "createdeco:green_decal",
+    "createdeco:red_decal",
+    "createdeco:black_decal"
+  ]
+}

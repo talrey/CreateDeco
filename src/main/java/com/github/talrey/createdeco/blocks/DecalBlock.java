@@ -45,11 +45,11 @@ public class DecalBlock extends Block {
     );
   }
 
-  private boolean canSupportDecal (LevelAccessor world, BlockPos pos, Direction side) {
+  public static boolean canSupportDecal (LevelAccessor world, BlockPos pos, Direction side) {
     return canSupportDecal(world, world.getBlockState(pos), pos, side);
   }
 
-  private boolean canSupportDecal (LevelAccessor world, BlockState state, BlockPos pos, Direction side) {
+  private static boolean canSupportDecal (LevelAccessor world, BlockState state, BlockPos pos, Direction side) {
     return state.isFaceSturdy(world, pos, side, SupportType.CENTER);
   }
 

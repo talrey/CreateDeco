@@ -55,6 +55,7 @@ public class CreateDecoMod
     registration = new Registration();
     registration.registerItems(createDecoRegistrar);
     registration.registerBlocks(createDecoRegistrar);
+    MovementCheckHandler.register();
   }
 /*
   private void setup(final FMLCommonSetupEvent event)
