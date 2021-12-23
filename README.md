@@ -47,7 +47,8 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
  \+ Decals can be assembled as contraption blocks now  
  \* doors can be interacted with on contraptions  
  \* doors won't disappear when the contraption disassembles now  
- \* netherite stuff now resists explosions properly
+ \* netherite stuff now resists explosions properly  
+ \* Gold textures got some polishing
 
 1.1.2-1.16.5 | 24 OCT 2021:  
  \* 4-directional fences have the correct model now  
