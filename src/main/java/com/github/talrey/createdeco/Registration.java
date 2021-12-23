@@ -32,7 +32,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.predicate.BlockStatePredicate;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.SlabType;
@@ -41,7 +40,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -49,11 +47,13 @@ import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -121,7 +121,7 @@ public class Registration {
       sup = supplier;
     }
     @Override
-    public ItemStack makeIcon () {
+    public @NotNull ItemStack makeIcon () {
       return sup.get();
     }
   }
@@ -180,27 +180,27 @@ public class Registration {
 
   private static BlockEntry<?> getBrickFromName (String overlay, DyeColor dye, String shape) {
     if (overlay.trim().equals ("Mossy")) {
-      switch (shape.trim()) {
-        case "Brick Tiles":  return MOSSY_TILE_BLOCK.get(dye);
-        case "Long Bricks":  return MOSSY_LONG_BLOCK.get(dye);
-        case "Short Bricks": return MOSSY_SHORT_BLOCK.get(dye);
-        default:      return MOSSY_BRICK_BLOCK.get(dye);
-      }
+      return switch (shape.trim()) {
+        case "Brick Tiles" -> MOSSY_TILE_BLOCK.get(dye);
+        case "Long Bricks" -> MOSSY_LONG_BLOCK.get(dye);
+        case "Short Bricks" -> MOSSY_SHORT_BLOCK.get(dye);
+        default -> MOSSY_BRICK_BLOCK.get(dye);
+      };
     }
     else if (overlay.trim().equals ("Cracked")) {
-      switch (shape.trim()) {
-        case "Brick Tiles":  return CRACKED_TILE_BLOCK.get(dye);
-        case "Long Bricks":  return CRACKED_LONG_BLOCK.get(dye);
-        case "Short Bricks": return CRACKED_SHORT_BLOCK.get(dye);
-        default:      return CRACKED_BRICK_BLOCK.get(dye);
-      }
+      return switch (shape.trim()) {
+        case "Brick Tiles" -> CRACKED_TILE_BLOCK.get(dye);
+        case "Long Bricks" -> CRACKED_LONG_BLOCK.get(dye);
+        case "Short Bricks" -> CRACKED_SHORT_BLOCK.get(dye);
+        default -> CRACKED_BRICK_BLOCK.get(dye);
+      };
     }
-    switch (shape.trim()) {
-      case "Brick Tiles":  return TILE_BRICK_BLOCK.get(dye);
-      case "Long Bricks":  return LONG_BRICK_BLOCK.get(dye);
-      case "Short Bricks": return SHORT_BRICK_BLOCK.get(dye);
-      default:      return BRICK_BLOCK.get(dye);
-    }
+    return switch (shape.trim()) {
+      case "Brick Tiles" -> TILE_BRICK_BLOCK.get(dye);
+      case "Long Bricks" -> LONG_BRICK_BLOCK.get(dye);
+      case "Short Bricks" -> SHORT_BRICK_BLOCK.get(dye);
+      default -> BRICK_BLOCK.get(dye);
+    };
   }
 
   public static String getBrickColorName (DyeColor color) {
@@ -318,10 +318,10 @@ public class Registration {
         int y = 0;
         for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
           switch (dir) {
-            case NORTH: y =   0; break;
-            case SOUTH: y = 180; break;
-            case WEST:  y = -90; break;
-            case EAST:  y =  90; break;
+            case NORTH -> y = 0;
+            case SOUTH -> y = 180;
+            case WEST -> y = -90;
+            case EAST -> y = 90;
           }
           prov.getMultipartBuilder(ctx.get()).part().modelFile(half).rotationY(y).addModel()
           .condition(BlockStateProperties.SLAB_TYPE, SlabType.BOTTOM)
@@ -366,7 +366,7 @@ public class Registration {
   private static BlockBuilder<IronBarsBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
     String base = metal.replace(' ', '_').toLowerCase() + "_bars";
     String suf = suffix.equals("") ? "" : "_" + suffix.replace(' ', '_').toLowerCase();
-    String post = "block/palettes/metal_bars/" + base + (metal == "Brass" || metal == "Netherite" ? "_post" : "");
+    String post = "block/palettes/metal_bars/" + base + (metal.equals("Brass") || metal.equals("Netherite") ? "_post" : "");
 
     ResourceLocation barTexture, postTexture;
     final ResourceLocation bartex, postex;
@@ -694,7 +694,7 @@ public class Registration {
             .texture("particle", prov.modLoc("block/palettes/decal/" + ctx.getName()))
           ).rotationY(y).build(); }))
         .addLayer(()-> RenderType::cutoutMipped)
-        .lang(color.name() + " Decal")
+        .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " Decal")
         .item()
           .model((ctx,prov)-> prov.singleTexture(ctx.getName(),
             prov.mcLoc("item/generated"),
@@ -724,6 +724,7 @@ public class Registration {
         )
         .addLayer(()-> RenderType::cutoutMipped)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .tag(BlockTags.DOORS)
         .lang(metal + " Door")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
           .pattern("mm")
@@ -775,6 +776,7 @@ public class Registration {
           table.add(block, builder.withPool(pool));
         })
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .tag(BlockTags.DOORS)
         .lang("Locked " + metal + " Door")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(Items.REDSTONE_TORCH, 1)
