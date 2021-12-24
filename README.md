@@ -42,8 +42,9 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.1-1.18.1 | 23 DEC 2021:
- \+ update to 1.18.1 + Create 0.4a
+1.2.1-1.18.1 | 23 DEC 2021:  
+ \+ update to 1.18.1 + Create 0.4a  
+ \* made sheet metal texture connectivity a little less greedy
 
 1.2.0-1.18.0 | 22 DEC 2021:  
  \+ Update to 1.18!  
