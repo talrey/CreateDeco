@@ -42,8 +42,8 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.2-1.18.1 | ?? JAN 2022:
- \* fixed a server crash
+1.2.2-1.18.1 | 04 JAN 2022:  
+ \* servers shouldn't crash loading the config now  
 
 1.2.1-1.18.1 | 23 DEC 2021:  
  \+ update to 1.18.1 + Create 0.4a  
