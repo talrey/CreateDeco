@@ -171,7 +171,7 @@ public class Registration {
 
     METAL_LOOKUP.put("Andesite",  (str) -> str.equals("block") ? AllBlocks.ANDESITE_CASING.get().asItem() : AllItems.ANDESITE_ALLOY.get());
     METAL_LOOKUP.put("Zinc",      (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:zinc_block")));
-    METAL_LOOKUP.put("Copper",    (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:copper_block")));
+    METAL_LOOKUP.put("Copper",    (str) -> Items.COPPER_BLOCK);
     METAL_LOOKUP.put("Brass",     (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:brass_block")));
     METAL_LOOKUP.put("Iron",      (str) -> Items.IRON_BLOCK);
     METAL_LOOKUP.put("Gold",      (str) -> Items.GOLD_BLOCK);
@@ -856,7 +856,7 @@ public class Registration {
           prov.stonecutting(DataIngredient.items(METAL_LOOKUP.get(metal).apply("block")), ctx, 4);
         })
         .onRegister(CreateRegistrate.connectedTextures(
-          new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+          new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal)).getSupplier()
         ))
         .register());
 
@@ -880,7 +880,7 @@ public class Registration {
           prov.stairs(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal).get()), ctx, null, false);
         })
         .onRegister(CreateRegistrate.connectedTextures(
-          new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+          new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal)).getSupplier()
         ))
         .register());
 
@@ -904,7 +904,7 @@ public class Registration {
           prov.slab(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal).get()), ctx, null, false);
         })
         .onRegister(CreateRegistrate.connectedTextures(
-          new SheetMetalSlabCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+          new SheetMetalSlabCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal)).getSupplier()
         ))
         .register());
 
@@ -965,7 +965,7 @@ public class Registration {
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx, 2);
         })
         .onRegister(CreateRegistrate.connectedTextures(
-          new SheetMetalVertCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal))
+          new SheetMetalVertCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(metal)).getSupplier()
         ))
         .register());
 
@@ -1137,7 +1137,7 @@ public class Registration {
             .condition(BlockStateProperties.WEST,  true).end();
         })
         .onRegister(CreateRegistrate.connectedTextures(
-          new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal))
+          new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
         ))
         .register());
     });

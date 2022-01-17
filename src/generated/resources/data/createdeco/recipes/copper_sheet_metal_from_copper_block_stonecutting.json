@@ -1,6 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "ingredient": [],
+  "ingredient": {
+    "item": "minecraft:copper_block"
+  },
   "result": "createdeco:copper_sheet_metal",
   "count": 4
 }

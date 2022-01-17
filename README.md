@@ -42,6 +42,10 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.2.3-1.18.1 | 16 JAN 2022:  
+ \* copper sheet metal is stonecuttable  
+ \* the mod plays nice with Flywheel again
+
 1.2.2-1.18.1 | 04 JAN 2022:  
  \* servers shouldn't crash loading the config now  
 

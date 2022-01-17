@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-public class MovementCheckHandler implements BlockMovementChecks.AttachedCheck {
+public class MovementCheckHandler implements BlockMovementChecks.AllChecks {
   private static MovementCheckHandler singleton;
 
   private MovementCheckHandler () {
@@ -23,8 +23,31 @@ public class MovementCheckHandler implements BlockMovementChecks.AttachedCheck {
   }
 
   @Override
-  public BlockMovementChecks.CheckResult isBlockAttachedTowards(BlockState state, Level world, BlockPos pos, Direction direction) {
+  public CheckResult isBlockAttachedTowards(BlockState state, Level world, BlockPos pos, Direction direction) {
     if (! (state.getBlock() instanceof DecalBlock)) return CheckResult.PASS;
     return DecalBlock.canSupportDecal(world, pos.offset(state.getValue(BlockStateProperties.HORIZONTAL_FACING).getNormal()), direction) ? CheckResult.SUCCESS : CheckResult.FAIL;
+  }
+
+  @Override
+  public CheckResult isBrittle(BlockState state) {
+    if (state.getBlock() instanceof DecalBlock) return CheckResult.SUCCESS;
+    /*else*/ return CheckResult.PASS;
+  }
+
+  @Override
+  public CheckResult isMovementAllowed(BlockState state, Level world, BlockPos pos) {
+    return CheckResult.PASS; // none of our blocks stop movement
+  }
+
+  @Override
+  public CheckResult isMovementNecessary(BlockState state, Level world, BlockPos pos) {
+    if (state.getBlock() instanceof DecalBlock) return CheckResult.SUCCESS;
+    /*else*/return CheckResult.PASS;
+  }
+
+  @Override
+  public CheckResult isNotSupportive(BlockState state, Direction direction) {
+    if (state.getBlock() instanceof DecalBlock) return CheckResult.SUCCESS;
+    /*else*/return CheckResult.PASS;
   }
 }

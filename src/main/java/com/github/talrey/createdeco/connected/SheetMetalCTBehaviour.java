@@ -3,12 +3,15 @@ package com.github.talrey.createdeco.connected;
 import com.github.talrey.createdeco.Registration;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.HorizontalCTBehaviour;
+import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+
+import java.util.function.Supplier;
 
 public class SheetMetalCTBehaviour extends HorizontalCTBehaviour {
   public SheetMetalCTBehaviour (CTSpriteShiftEntry layerShift) { super (layerShift); }
@@ -28,5 +31,9 @@ public class SheetMetalCTBehaviour extends HorizontalCTBehaviour {
     Block it = other.getBlock();
     String material = me.getRegistryName().toString().replace("createdeco:","");
     return it.getRegistryName().toString().replace("createdeco:","").startsWith(material.substring(0, material.indexOf("_")));
+  }
+
+  public Supplier<ConnectedTextureBehaviour> getSupplier () {
+    return () -> this;
   }
 }
