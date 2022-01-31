@@ -232,9 +232,9 @@ public class Registration {
   }
 
   private static BlockBuilder<Block,?> buildBrick (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
-    String suf = suffix.replace(' ', '_').toLowerCase();
-    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
-    BlockBuilder<Block,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf, Block::new);
+    String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
+    String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
+    BlockBuilder<Block,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf, Block::new);
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
     } else {
@@ -244,7 +244,7 @@ public class Registration {
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf)
       )))
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix)
@@ -253,9 +253,9 @@ public class Registration {
   }
 
   private static BlockBuilder<StairBlock,?> buildBrickStairs (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
-    String suf = suffix.replace(' ', '_').toLowerCase();
-    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
-    BlockBuilder<StairBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf + "_stairs",
+    String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
+    String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
+    BlockBuilder<StairBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf + "_stairs",
       (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props));
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
@@ -266,7 +266,7 @@ public class Registration {
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf)
       ))
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Stairs")
@@ -275,9 +275,9 @@ public class Registration {
   }
 
   private static BlockBuilder<SlabBlock,?> buildBrickSlabs (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
-    String suf = suffix.replace(' ', '_').toLowerCase();
-    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
-    BlockBuilder<SlabBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf  + "_slab", SlabBlock::new);
+    String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
+    String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
+    BlockBuilder<SlabBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf  + "_slab", SlabBlock::new);
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
     } else {
@@ -287,8 +287,8 @@ public class Registration {
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
-        prov.modLoc("block/" + pre + name.toLowerCase() + (suf.equals("")?"":"_"+suf)),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
+        prov.modLoc("block/" + pre + name.toLowerCase(Locale.ROOT) + (suf.equals("")?"":"_"+suf)),
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf)
       ))
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Slab")
@@ -297,9 +297,9 @@ public class Registration {
   }
 
   private static BlockBuilder<VerticalSlabBlock,?> buildBrickVerts (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
-    String suf = suffix.replace(' ', '_').toLowerCase();
-    String pre = prefix.replace(' ', '_').toLowerCase() + (prefix.equals("")?"":"_");
-    BlockBuilder<VerticalSlabBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf  + "_slab_vert", VerticalSlabBlock::new);
+    String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
+    String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
+    BlockBuilder<VerticalSlabBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf  + "_slab_vert", VerticalSlabBlock::new);
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
     } else {
@@ -309,7 +309,7 @@ public class Registration {
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> {
-        String texLoc = "block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf;
+        String texLoc = "block/palettes/bricks/" + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf;
         ResourceLocation tex = prov.modLoc(texLoc);
         BlockModelBuilder half = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/vertical_slab"))
         .texture("side", tex);
@@ -337,9 +337,9 @@ public class Registration {
   }
 
   private static BlockBuilder<WallBlock,?> buildBrickWalls (Registrate reg, DyeColor dye, String prefix, String name, String suffix) {
-    String suf = suffix.replace(' ','_').toLowerCase();
-    String pre = prefix.replace(' ','_').toLowerCase() + (prefix.equals("")?"":"_");
-    BlockBuilder<WallBlock,?> ret = reg.block(pre + name.toLowerCase() + "_" + suf + "_wall", WallBlock::new);
+    String suf = suffix.replace(' ','_').toLowerCase(Locale.ROOT);
+    String pre = prefix.replace(' ','_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
+    BlockBuilder<WallBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf + "_wall", WallBlock::new);
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
     } else {
@@ -349,23 +349,23 @@ public class Registration {
         .sound(SoundType.STONE)
       )
       .blockstate((ctx,prov)-> prov.wallBlock(ctx.get(),
-        prov.modLoc("block/palettes/bricks/" + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf)
+        prov.modLoc("block/palettes/bricks/" + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf)
       ))
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Wall")
       .defaultLoot()
       .tag(BlockTags.WALLS)
       .item()
-        .model((ctx,prov)-> prov.wallInventory("item/" + pre + name.toLowerCase() + "_" + suf + "_wall",
+        .model((ctx,prov)-> prov.wallInventory("item/" + pre + name.toLowerCase(Locale.ROOT) + "_" + suf + "_wall",
           prov.modLoc("block/palettes/bricks/"
-            + name.toLowerCase() + "/" + pre + name.toLowerCase()+"_" + suf
+            + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf
         )))
         .build();
   }
 
   private static BlockBuilder<IronBarsBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
-    String base = metal.replace(' ', '_').toLowerCase() + "_bars";
-    String suf = suffix.equals("") ? "" : "_" + suffix.replace(' ', '_').toLowerCase();
+    String base = metal.replace(' ', '_').toLowerCase(Locale.ROOT) + "_bars";
+    String suf = suffix.equals("") ? "" : "_" + suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
     String post = "block/palettes/metal_bars/" + base + (metal.equals("Brass") || metal.equals("Netherite") ? "_post" : "");
 
     ResourceLocation barTexture, postTexture;
@@ -647,16 +647,16 @@ public class Registration {
 
     reg.creativeModeTab(()->PROPS_GROUP);
     COIN_TYPES.forEach(metal ->
-      COIN_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase()+"_coinstack_block", CoinStackBlock::new)
+      COIN_BLOCKS.put(metal.toLowerCase(Locale.ROOT), reg.block(metal.toLowerCase(Locale.ROOT)+"_coinstack_block", CoinStackBlock::new)
         .properties(props -> props.noOcclusion().strength(0.5f).sound(SoundType.CHAIN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
           int layer = state.getValue(BlockStateProperties.LAYERS);
           return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
             ctx.getName() + "_" + layer, prov.modLoc("block/layers_bottom_top_" + layer)
           )
-          .texture("side",   prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_side"))
-          .texture("bottom", prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_bottom"))
-          .texture("top",    prov.modLoc("block/" + metal.toLowerCase() + "_coinstack_top"))
+          .texture("side",   prov.modLoc("block/" + metal.toLowerCase(Locale.ROOT) + "_coinstack_side"))
+          .texture("bottom", prov.modLoc("block/" + metal.toLowerCase(Locale.ROOT) + "_coinstack_bottom"))
+          .texture("top",    prov.modLoc("block/" + metal.toLowerCase(Locale.ROOT) + "_coinstack_top"))
         ).build(); }))
         .addLayer(()-> RenderType::cutoutMipped)
         .lang(metal + " Stack Block")
@@ -677,7 +677,7 @@ public class Registration {
     );
 
     for (DyeColor color : DyeColor.values()) {
-      DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase() + "_decal", DecalBlock::new)
+      DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase(Locale.ROOT) + "_decal", DecalBlock::new)
         .initialProperties(Material.METAL)
         .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
@@ -713,14 +713,14 @@ public class Registration {
 
     reg.creativeModeTab(()->METALS_GROUP);
     DOOR_TYPES.forEach((metal,ingot) ->
-      DOOR_BLOCKS.put(metal.toLowerCase(), reg.block(metal.toLowerCase() + "_door", DoorBlock::new)
+      DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT), reg.block(metal.toLowerCase(Locale.ROOT) + "_door", DoorBlock::new)
         .initialProperties(Material.NETHER_WOOD) // setting it to IRON locks it, and normal wood would burn probably
         .properties(props -> props.noOcclusion().strength(5, 5).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .blockstate((ctx, prov) -> prov.doorBlock(ctx.get(),
-          prov.modLoc("block/" + metal.toLowerCase() + "_door_bottom"),
-          prov.modLoc("block/" + metal.toLowerCase() + "_door_top"))
+          prov.modLoc("block/" + metal.toLowerCase(Locale.ROOT) + "_door_bottom"),
+          prov.modLoc("block/" + metal.toLowerCase(Locale.ROOT) + "_door_top"))
         )
         .addLayer(()-> RenderType::cutoutMipped)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -755,14 +755,14 @@ public class Registration {
         .register()));
 
     DOOR_TYPES.forEach((metal, ingot)->
-      LOCK_DOOR_BLOCKS.put(metal.toLowerCase(), reg.block("locked_" + metal.toLowerCase() + "_door", DoorBlock::new)
+      LOCK_DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT), reg.block("locked_" + metal.toLowerCase(Locale.ROOT) + "_door", DoorBlock::new)
         .initialProperties(Material.METAL)
         .properties(props -> props.noOcclusion().strength(5, 5).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
         )
         .blockstate((ctx, prov)-> prov.doorBlock(ctx.get(),
-          prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_bottom"),
-          prov.modLoc("block/locked_" + metal.toLowerCase() + "_door_top"))
+          prov.modLoc("block/locked_" + metal.toLowerCase(Locale.ROOT) + "_door_bottom"),
+          prov.modLoc("block/locked_" + metal.toLowerCase(Locale.ROOT) + "_door_top"))
         )
         .addLayer(()-> RenderType::cutoutMipped)
         .loot((table, block)-> {
@@ -780,9 +780,9 @@ public class Registration {
         .lang("Locked " + metal + " Door")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(Items.REDSTONE_TORCH, 1)
-          .requires(DOOR_BLOCKS.get(metal.toLowerCase()).get(), 1)
+          .requires(DOOR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get(), 1)
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            DOOR_BLOCKS.get(metal.toLowerCase()).asStack().getItem())
+            DOOR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).asStack().getItem())
           )
           .save(prov)
         )
@@ -810,7 +810,7 @@ public class Registration {
           ShapelessRecipeBuilder.shapeless(ctx.get())
             .requires(BAR_PANEL_BLOCKS.get(metal).get())
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal).get()))
-            .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase() + "_bars_from_panel"));
+            .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase(Locale.ROOT) + "_bars_from_panel"));
         })
         .register());
       BAR_PANEL_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
@@ -838,7 +838,7 @@ public class Registration {
           .register());
       }
 
-      SHEET_METAL_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_sheet_metal", Block::new)
+      SHEET_METAL_BLOCKS.put(metal, reg.block(metal.toLowerCase(Locale.ROOT) + "_sheet_metal", Block::new)
         .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -860,7 +860,7 @@ public class Registration {
         ))
         .register());
 
-      SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase() + "_sheet_stairs",
+      SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase(Locale.ROOT) + "_sheet_stairs",
         (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
         .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
@@ -872,7 +872,7 @@ public class Registration {
         .tag(BlockTags.STAIRS)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(),
-          prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
+          prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT) + "_sheet_metal"))
         )
         .lang(metal + " Sheet Stairs")
         .recipe((ctx, prov)-> {
@@ -884,7 +884,7 @@ public class Registration {
         ))
         .register());
 
-      SHEET_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab", SlabBlock::new)
+      SHEET_SLABS.put(metal, reg.block(metal.toLowerCase(Locale.ROOT) + "_sheet_slab", SlabBlock::new)
         .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -895,8 +895,8 @@ public class Registration {
         .tag(BlockTags.SLABS)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(),
-          prov.modLoc("block/" + metal.toLowerCase() + "_sheet_metal"),
-          prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal"))
+          prov.modLoc("block/" + metal.toLowerCase(Locale.ROOT) + "_sheet_metal"),
+          prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT) + "_sheet_metal"))
         )
         .lang(metal + " Sheet Slab")
         .recipe((ctx, prov)-> {
@@ -908,7 +908,7 @@ public class Registration {
         ))
         .register());
 
-      SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase() + "_sheet_slab_vert", VerticalSlabBlock::new)
+      SHEET_VERT_SLABS.put(metal, reg.block(metal.toLowerCase(Locale.ROOT) + "_sheet_slab_vert", VerticalSlabBlock::new)
         .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -918,7 +918,7 @@ public class Registration {
           .build()
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate(((ctx,prov)-> {
-          String texLoc = "block/palettes/sheet_metal/" + metal.toLowerCase() + "_sheet_metal";
+          String texLoc = "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT) + "_sheet_metal";
           ResourceLocation tex = prov.modLoc(texLoc);
           BlockModelBuilder half = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/vertical_slab"))
             .texture("side", tex);
@@ -969,7 +969,7 @@ public class Registration {
         ))
         .register());
 
-      MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_mesh_fence", FenceBlock::new)
+      MESH_FENCE_BLOCKS.put(metal, reg.block(metal.toLowerCase(Locale.ROOT) + "_mesh_fence", FenceBlock::new)
         .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.CHAIN)
@@ -981,7 +981,7 @@ public class Registration {
           .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
           .model((ctx,prov)-> prov.singleTexture(
             ctx.getName(), prov.mcLoc("item/generated"),
-            "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase() + "_chain_link")))
+            "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT) + "_chain_link")))
           .build()
         .recipe((ctx,prov)-> {
           if (metal.equals("Andesite")) {
@@ -994,7 +994,7 @@ public class Registration {
               .save(prov);
           }
           else {
-            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase());
+            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase(Locale.ROOT));
             ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern("psp")
               .pattern("psp")
@@ -1013,8 +1013,8 @@ public class Registration {
             east  = state.getValue(BlockStateProperties.EAST);
             west  = state.getValue(BlockStateProperties.WEST);
             int sides = (north?1:0) + (south?1:0) + (east?1:0) + (west?1:0);
-            ResourceLocation mesh = prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase() + "_chain_link");
-            ResourceLocation wall = prov.modLoc("block/palettes/sheet_metal/"      + metal.toLowerCase() + "_sheet_metal");
+            ResourceLocation mesh = prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT) + "_chain_link");
+            ResourceLocation wall = prov.modLoc("block/palettes/sheet_metal/"      + metal.toLowerCase(Locale.ROOT) + "_sheet_metal");
             switch (sides) {
               case 4: return ConfiguredModel.builder().modelFile(
                   prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_four_way"))
@@ -1052,7 +1052,7 @@ public class Registration {
         })
         .register());
 
-      CATWALK_BLOCKS.put(metal, reg.block(metal.toLowerCase() + "_catwalk", CatwalkBlock::new)
+      CATWALK_BLOCKS.put(metal, reg.block(metal.toLowerCase(Locale.ROOT) + "_catwalk", CatwalkBlock::new)
         .initialProperties(Material.METAL)
         .properties(props->
           props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
@@ -1063,7 +1063,7 @@ public class Registration {
         .item(CatwalkBlockItem::new)
           .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
           .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
-            .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk"))
+            .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT) + "_catwalk"))
           )
           .build()
         .recipe((ctx,prov)-> {
@@ -1078,7 +1078,7 @@ public class Registration {
               .save(prov);
           }
           else {
-            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase());
+            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase(Locale.ROOT));
             ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern(" p ")
               .pattern("pBp")
@@ -1090,7 +1090,7 @@ public class Registration {
           }
         })
         .blockstate((ctx,prov)-> {
-          String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase() + "_catwalk";
+          String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT) + "_catwalk";
 
           BlockModelBuilder lower = prov.models().withExistingParent(ctx.getName()+"_bottom", prov.modLoc("block/catwalk_bottom"))
             .texture("2", texture)
@@ -1151,7 +1151,7 @@ public class Registration {
           .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
           .register();
       } else {
-        BRICK_ITEM.put(dye, reg.item(name.toLowerCase() + "_brick", Item::new)
+        BRICK_ITEM.put(dye, reg.item(name.toLowerCase(Locale.ROOT) + "_brick", Item::new)
           .lang(name + " Brick")
           .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 8)
             .pattern("bbb")
@@ -1189,7 +1189,7 @@ public class Registration {
 
     reg.creativeModeTab(()->PROPS_GROUP, PROPS_NAME);
     for (String metal : COIN_TYPES) {
-      COIN_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coin", Item::new)
+      COIN_ITEM.put(metal, reg.item(metal.toLowerCase(Locale.ROOT) + "_coin", Item::new)
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get(), 4)
           .requires(COINSTACK_ITEM.get(metal).get())
@@ -1198,7 +1198,7 @@ public class Registration {
         )
         .lang(metal + " Coin")
         .register());
-      COINSTACK_ITEM.put(metal, reg.item(metal.toLowerCase() + "_coinstack", CoinStackItem::new)
+      COINSTACK_ITEM.put(metal, reg.item(metal.toLowerCase(Locale.ROOT) + "_coinstack", CoinStackItem::new)
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(COIN_ITEM.get(metal).get(), 4)

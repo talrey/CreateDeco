@@ -4868,7 +4868,7 @@ ff634e551b71750a7978e726e5fccdb9b1b86588 data/minecraft/recipes/splashing/worn_m
 35b0bb6b3e6b9e7d40e4b8103c53451ea5935be3 data/minecraft/recipes/splashing/worn_mossy_short_brick.json
 438d3beba5cb8ecf96c651d88a7c24e85b7adb70 data/minecraft/tags/blocks/doors.json
 ea008dfbc05bd9dee7d9fed18897125d8f34dfb7 data/minecraft/tags/blocks/fences.json
-4741570494a76f65dec72f46e63b3d0bde06a0ae data/minecraft/tags/blocks/mineable/pickaxe.json
+8a22fd8d82f576340a0b771239fb0ad38e7aff14 data/minecraft/tags/blocks/mineable/pickaxe.json
 4c820b449734e73b117fedaab1f974da357671e7 data/minecraft/tags/blocks/slabs.json
 97fbacc07206516bcda9607124d8a3ceda111b0d data/minecraft/tags/blocks/stairs.json
-034907142884cec42e8c40ee9f1f03f0e04bcda2 data/minecraft/tags/blocks/walls.json
+ffcf30f7e964f44cc86b14aaed164581d6295ddc data/minecraft/tags/blocks/walls.json
