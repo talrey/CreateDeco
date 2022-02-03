@@ -42,6 +42,9 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.2.5-1.18.1 | 2 FEB 2022:
+ \* reminded rascally slabs to do duo drops when doubled
+
 1.2.4-1.18.1 | 30 JAN 2022:
  \* language settings shouldn't affect recipes now
 

@@ -24,17 +24,6 @@
             }
           ],
           "name": "createdeco:gold_sheet_slab_vert"
-        },
-        {
-          "type": "minecraft:item",
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1.0,
-              "add": false
-            }
-          ],
-          "name": "createdeco:gold_sheet_slab_vert"
         }
       ]
     }

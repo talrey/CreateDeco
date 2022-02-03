@@ -290,9 +290,22 @@ public class Registration {
         prov.modLoc("block/" + pre + name.toLowerCase(Locale.ROOT) + (suf.equals("")?"":"_"+suf)),
         prov.modLoc("block/palettes/bricks/" + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf)
       ))
+      .loot((table, block) -> {
+        LootTable.Builder builder = LootTable.lootTable();
+        LootPool.Builder pool     = LootPool.lootPool();
+        pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block)
+          .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))
+            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+              .setProperties(StatePropertiesPredicate.Builder.properties()
+                .hasProperty(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE)
+              )
+            )
+          )
+        );
+        table.add(block, builder.withPool(pool));
+      })
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Slab")
-      .defaultLoot()
       .simpleItem();
   }
 
@@ -330,9 +343,22 @@ public class Registration {
           .condition(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE).end();
         }
       })
+      .loot((table, block) -> {
+        LootTable.Builder builder = LootTable.lootTable();
+        LootPool.Builder pool     = LootPool.lootPool();
+        pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block)
+          .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))
+            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+              .setProperties(StatePropertiesPredicate.Builder.properties()
+                .hasProperty(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE)
+              )
+            )
+          )
+        );
+        table.add(block, builder.withPool(pool));
+      })
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang(prefix + (prefix.equals("")?"":" ") + name + " " + suffix + " Vertical Slab")
-      .defaultLoot()
       .simpleItem();
   }
 
@@ -898,6 +924,20 @@ public class Registration {
           prov.modLoc("block/" + metal.toLowerCase(Locale.ROOT) + "_sheet_metal"),
           prov.modLoc("block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT) + "_sheet_metal"))
         )
+        .loot((table, block) -> {
+          LootTable.Builder builder = LootTable.lootTable();
+          LootPool.Builder pool     = LootPool.lootPool();
+          pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block)
+            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))
+              .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                .setProperties(StatePropertiesPredicate.Builder.properties()
+                  .hasProperty(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE)
+                )
+              )
+            )
+          );
+          table.add(block, builder.withPool(pool));
+        })
         .lang(metal + " Sheet Slab")
         .recipe((ctx, prov)-> {
           prov.stonecutting(DataIngredient.items(SHEET_METAL_BLOCKS.get(metal)), ctx, 2);
@@ -942,16 +982,15 @@ public class Registration {
         .loot((table, block) -> {
           LootTable.Builder builder = LootTable.lootTable();
           LootPool.Builder pool     = LootPool.lootPool();
-          pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block)  // extra slab drop if it's a double
-            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2)).when(
-              LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                .setProperties(StatePropertiesPredicate.Builder.properties()
-                .hasProperty(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE)
-              )
-          )));
           pool.setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(block)
-            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1))
-          ));
+            .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2))
+              .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                .setProperties(StatePropertiesPredicate.Builder.properties()
+                  .hasProperty(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE)
+                )
+              )
+            )
+          );
           table.add(block, builder.withPool(pool));
         })
         .recipe((ctx, prov)-> {
