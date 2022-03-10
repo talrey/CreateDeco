@@ -6,6 +6,8 @@ import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.item.Items;
 import net.minecraft.tags.ItemTags;
@@ -21,14 +23,14 @@ public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
     );
     Registration.COIN_ITEM.forEach((metal, coin) ->
       add(metal.toLowerCase() + "_coin",
-        ts -> ts.require(ItemTags.bind("forge:nuggets/" + metal.toLowerCase()))
+        ts -> ts.require(TagFactory.ITEM.create(new ResourceLocation("c:nuggets/" + metal.toLowerCase())))
           .withCondition(new ConfigCondition(Config.CAN_PRESS_COINS))
           .output(coin.get())
       )
     );
   }
 
-  public PressingRecipes(DataGenerator generatorIn) {
+  public PressingRecipes(FabricDataGenerator generatorIn) {
     super(generatorIn);
   }
 

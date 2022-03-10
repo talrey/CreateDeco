@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "forge:nuggets/copper"
+      "tag": "c:nuggets/copper"
     }
   ],
   "results": [

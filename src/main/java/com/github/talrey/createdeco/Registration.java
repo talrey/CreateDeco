@@ -13,17 +13,20 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.contraptions.components.structureMovement.interaction.DoorMovingInteraction;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.repack.registrate.Registrate;
-import com.simibubi.create.repack.registrate.builders.BlockBuilder;
-import com.simibubi.create.repack.registrate.util.DataIngredient;
-import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
-import com.simibubi.create.repack.registrate.util.entry.ItemEntry;
 
+import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.util.DataIngredient;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.entry.ItemEntry;
+import net.fabricmc.fabric.api.tag.TagFactory;
+import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.BlockTags;
@@ -46,7 +49,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -117,12 +119,17 @@ public class Registration {
   public static class DecoCreativeModeTab extends CreativeModeTab {
     private final Supplier<ItemStack> sup;
     public DecoCreativeModeTab (final String name, final Supplier<ItemStack> supplier) {
-      super(name);
+      super(createTabIndex(), name);
       sup = supplier;
     }
     @Override
     public @NotNull ItemStack makeIcon () {
       return sup.get();
+    }
+
+    private static int createTabIndex() {
+      ((ItemGroupExtensions) CreativeModeTab.TAB_BUILDING_BLOCKS).fabric_expandArray();
+      return CreativeModeTab.TABS.length - 1;
     }
   }
   public static final CreativeModeTab BRICKS_GROUP = new DecoCreativeModeTab(
@@ -170,9 +177,9 @@ public class Registration {
     METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 
     METAL_LOOKUP.put("Andesite",  (str) -> str.equals("block") ? AllBlocks.ANDESITE_CASING.get().asItem() : AllItems.ANDESITE_ALLOY.get());
-    METAL_LOOKUP.put("Zinc",      (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:zinc_block")));
+    METAL_LOOKUP.put("Zinc",      (str) -> Registry.ITEM.get(new ResourceLocation("create:zinc_block")));
     METAL_LOOKUP.put("Copper",    (str) -> Items.COPPER_BLOCK);
-    METAL_LOOKUP.put("Brass",     (str) -> ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:brass_block")));
+    METAL_LOOKUP.put("Brass",     (str) -> Registry.ITEM.get(new ResourceLocation("create:brass_block")));
     METAL_LOOKUP.put("Iron",      (str) -> Items.IRON_BLOCK);
     METAL_LOOKUP.put("Gold",      (str) -> Items.GOLD_BLOCK);
     METAL_LOOKUP.put("Netherite", (str) -> Items.NETHERITE_BLOCK);
@@ -256,7 +263,7 @@ public class Registration {
     String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
     String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
     BlockBuilder<StairBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf + "_stairs",
-      (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props));
+      (props)->new StairBlock(Blocks.BRICK_STAIRS.defaultBlockState(), props));
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
     } else {
@@ -887,7 +894,7 @@ public class Registration {
         .register());
 
       SHEET_STAIRS.put(metal, reg.block(metal.toLowerCase(Locale.ROOT) + "_sheet_stairs",
-        (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
+        (props)->new StairBlock(Blocks.BRICK_STAIRS.defaultBlockState(), props))
         .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -1033,7 +1040,7 @@ public class Registration {
               .save(prov);
           }
           else {
-            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase(Locale.ROOT));
+            Tag<Item> sheet = TagFactory.ITEM.create(new ResourceLocation("c:plates/" + metal.toLowerCase(Locale.ROOT)));
             ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern("psp")
               .pattern("psp")
@@ -1117,7 +1124,7 @@ public class Registration {
               .save(prov);
           }
           else {
-            Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase(Locale.ROOT));
+            Tag<Item> sheet = TagFactory.ITEM.create(new ResourceLocation("c:plates/" + metal.toLowerCase(Locale.ROOT)));
             ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern(" p ")
               .pattern("pBp")
@@ -1207,19 +1214,19 @@ public class Registration {
 
     reg.creativeModeTab(()->METALS_GROUP, METALS_NAME);
     ZINC_SHEET = reg.item("zinc_sheet", Item::new)
-      .tag(ItemTags.bind("forge:plates/zinc"))
+      .tag(TagFactory.ITEM.create(new ResourceLocation("c:plates/zinc")))
       .lang("Zinc Sheet")
       .register();
 
     NETHERITE_SHEET = reg.item("netherite_sheet", Item::new)
       .properties(p -> p.fireResistant())
-      .tag(ItemTags.bind("forge:plates/netherite"))
+      .tag(TagFactory.ITEM.create(new ResourceLocation("c:plates/netherite")))
       .lang("Netherite Sheet")
       .register();
 
     NETHERITE_NUGGET = reg.item("netherite_nugget", Item::new)
       .properties(p -> p.fireResistant())
-      .tag(ItemTags.bind("forge:nuggets/netherite"))
+      .tag(TagFactory.ITEM.create(new ResourceLocation("c:nuggets/netherite")))
       .lang("Netherite Nugget")
       .recipe((ctx, prov)-> {
         prov.storage(ctx, ()->Items.NETHERITE_INGOT);

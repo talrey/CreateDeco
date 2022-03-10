@@ -7,7 +7,7 @@
   ],
   "key": {
     "p": {
-      "tag": "forge:plates/iron"
+      "tag": "c:plates/iron"
     },
     "B": {
       "item": "createdeco:polished_iron_bars"

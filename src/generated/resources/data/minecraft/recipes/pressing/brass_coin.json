@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "forge:nuggets/brass"
+      "tag": "c:nuggets/brass"
     }
   ],
   "results": [

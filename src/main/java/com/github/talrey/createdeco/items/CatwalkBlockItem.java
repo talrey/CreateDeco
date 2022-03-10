@@ -5,6 +5,7 @@ import com.simibubi.create.foundation.utility.placement.IPlacementHelper;
 import com.simibubi.create.foundation.utility.placement.PlacementHelpers;
 import com.simibubi.create.foundation.utility.placement.PlacementOffset;
 
+import io.github.fabricators_of_create.porting_lib.item.UseFirstBehaviorItem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,7 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class CatwalkBlockItem extends BlockItem {
+public class CatwalkBlockItem extends BlockItem implements UseFirstBehaviorItem {
   private final int placementHelperID;
 
   public CatwalkBlockItem (CatwalkBlock block, Properties props) {
@@ -41,7 +42,7 @@ public class CatwalkBlockItem extends BlockItem {
     if (helper.matchesState(state) && player != null) {
       return helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
     }
-    return super.onItemUseFirst(stack, ctx);
+    return InteractionResult.PASS;
   }
 
   @MethodsReturnNonnullByDefault

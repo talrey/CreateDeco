@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "forge:nuggets/gold"
+      "tag": "c:nuggets/gold"
     }
   ],
   "results": [
