@@ -2,6 +2,7 @@ package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.Registration;
 
+import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -21,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CoinStackBlock extends Block {
+public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   private static final VoxelShape[] SHAPE = {
     Block.box(
   0d, 0d, 0d,
@@ -83,7 +84,7 @@ public class CoinStackBlock extends Block {
   protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) { builder.add(BlockStateProperties.LAYERS); }
 
   @Override
-  public ItemStack getCloneItemStack (BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+  public ItemStack getPickedStack(BlockState state, BlockGetter view, BlockPos pos, @org.jetbrains.annotations.Nullable Player player, @org.jetbrains.annotations.Nullable HitResult result) {
     String material = state.getBlock().getDescriptionId().replace("_coinstack_block", "");
     material = material.substring(material.lastIndexOf('.')+1); // remove createdeco.block.
     material = material.substring(0,1).toUpperCase() + material.substring(1); // capitalize

@@ -1,12 +1,11 @@
 package com.github.talrey.createdeco;
 
 import com.google.gson.JsonObject;
-
+import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
+import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.crafting.conditions.ICondition;
-import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
-public class ConfigCondition implements ICondition {
+public class ConfigCondition implements ConditionJsonProvider {
   private static final ResourceLocation NAME = new ResourceLocation(CreateDecoMod.MODID, "config");
   private final String configName;
 
@@ -15,30 +14,16 @@ public class ConfigCondition implements ICondition {
   }
 
   @Override
-  public ResourceLocation getID() {
+  public ResourceLocation getConditionId() {
     return NAME;
   }
 
   @Override
-  public boolean test() {
-  //  LogManager.getLogger(CreateDecoMod.MODID).debug("testing config for " + configName + " : returns " + Config.getSetting(configName));
-    return Config.getSetting(configName);
+  public void writeParameters(JsonObject json) {
+    json.addProperty("config", configName);
   }
 
-  public static class Serializer implements IConditionSerializer<ConfigCondition> {
-    public static final Serializer INSTANCE = new Serializer();
-    @Override
-    public void write(JsonObject json, ConfigCondition value) {
-      json.addProperty("config", value.configName);
-    }
-    @Override
-    public ConfigCondition read (JsonObject json) {
-      return new ConfigCondition(json.get("config").getAsString());
-    }
-
-    @Override
-    public ResourceLocation getID() {
-      return NAME;
-    }
+  public static void registerConditon() {
+    ResourceConditions.register(NAME, json -> Config.getSetting(json.get("config").getAsString()));
   }
 }

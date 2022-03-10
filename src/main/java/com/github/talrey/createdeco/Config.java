@@ -2,15 +2,13 @@ package com.github.talrey.createdeco;
 
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
+import net.minecraftforge.api.fml.event.config.ModConfigEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.minecraftforge.fml.config.ModConfig;
 
 import java.nio.file.Path;
 import java.util.HashMap;
 
-@Mod.EventBusSubscriber
 public class Config {
   public static final String CAT_GENERAL = "general";
 
@@ -29,6 +27,7 @@ public class Config {
 
     COMMON_CONF = COMMON.build();
     CLIENT_CONF = CLIENT.build();
+    ModConfigEvent.LOADING.register(Config::onLoad);
   }
 
   public static boolean getSetting (String name) {
@@ -42,9 +41,8 @@ public class Config {
     spec.setConfig(configData);
   }
 
-  @SubscribeEvent
   @SuppressWarnings("unused")
-  public static void onLoad (final ModConfigEvent.Loading loadEvent) {
+  public static void onLoad (final ModConfig loadEvent) {
 
   }
 }
