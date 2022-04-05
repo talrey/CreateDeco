@@ -40,6 +40,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -131,11 +132,11 @@ public class Registration {
   );
   public static final CreativeModeTab METALS_GROUP = new DecoCreativeModeTab(
     CreateDecoMod.MODID + ".metals",
-    () -> BAR_BLOCKS.get("Brass").asStack()
+    () -> BAR_BLOCKS.get("brass").asStack()
   );
   public static final CreativeModeTab PROPS_GROUP = new DecoCreativeModeTab(
     CreateDecoMod.MODID + ".props",
-    () -> COINSTACK_ITEM.get("Brass").asStack()
+    () -> COINSTACK_ITEM.get("brass").asStack()
   );
   private static final String BRICKS_NAME = "CreateDeco Bricks";
   private static final String METALS_NAME = "CreateDeco Metals";
@@ -673,7 +674,7 @@ public class Registration {
 
     reg.creativeModeTab(()->PROPS_GROUP);
     COIN_TYPES.forEach(metal ->
-      COIN_BLOCKS.put(metal.toLowerCase(Locale.ROOT), reg.block(metal.toLowerCase(Locale.ROOT)+"_coinstack_block", CoinStackBlock::new)
+      COIN_BLOCKS.put(metal.toLowerCase(Locale.ROOT), reg.block(metal.toLowerCase(Locale.ROOT)+"_coinstack_block", (p)->new CoinStackBlock(p, metal.toLowerCase(Locale.ROOT)))
         .properties(props -> props.noOcclusion().strength(0.5f).sound(SoundType.CHAIN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
           int layer = state.getValue(BlockStateProperties.LAYERS);
@@ -821,7 +822,7 @@ public class Registration {
         .register()));
 
     METAL_TYPES.forEach((metal, getter) -> {
-      BAR_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
+      BAR_BLOCKS.put(metal.toLowerCase(Locale.ROOT), buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .addLayer(()-> RenderType::cutoutMipped)
         .recipe((ctx, prov) -> {
@@ -1228,16 +1229,16 @@ public class Registration {
 
     reg.creativeModeTab(()->PROPS_GROUP, PROPS_NAME);
     for (String metal : COIN_TYPES) {
-      COIN_ITEM.put(metal, reg.item(metal.toLowerCase(Locale.ROOT) + "_coin", Item::new)
+      COIN_ITEM.put(metal.toLowerCase(Locale.ROOT), reg.item(metal.toLowerCase(Locale.ROOT) + "_coin", Item::new)
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get(), 4)
           .requires(COINSTACK_ITEM.get(metal).get())
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(COINSTACK_ITEM.get(metal).get()))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(COINSTACK_ITEM.get(metal.toLowerCase(Locale.ROOT)).get()))
           .save(prov)
         )
         .lang(metal + " Coin")
         .register());
-      COINSTACK_ITEM.put(metal, reg.item(metal.toLowerCase(Locale.ROOT) + "_coinstack", CoinStackItem::new)
+      COINSTACK_ITEM.put(metal.toLowerCase(Locale.ROOT), reg.item(metal.toLowerCase(Locale.ROOT) + "_coinstack", (p)-> new CoinStackItem(p, metal.toLowerCase(Locale.ROOT)))
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(COIN_ITEM.get(metal).get(), 4)

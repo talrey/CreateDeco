@@ -22,6 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 
 public class CoinStackBlock extends Block {
+  public final String material;
   private static final VoxelShape[] SHAPE = {
     Block.box(
   0d, 0d, 0d,
@@ -58,7 +59,12 @@ public class CoinStackBlock extends Block {
   };
 
   public CoinStackBlock (Properties properties) {
+    this(properties, "iron");
+  }
+
+  public CoinStackBlock (Properties properties, String material) {
     super(properties);
+    this.material = material;
     this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.LAYERS, 1));
   }
 
@@ -84,9 +90,6 @@ public class CoinStackBlock extends Block {
 
   @Override
   public ItemStack getCloneItemStack (BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-    String material = state.getBlock().getDescriptionId().replace("_coinstack_block", "");
-    material = material.substring(material.lastIndexOf('.')+1); // remove createdeco.block.
-    material = material.substring(0,1).toUpperCase() + material.substring(1); // capitalize
     return Registration.COINSTACK_ITEM.containsKey(material) ? Registration.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
   }
 }
