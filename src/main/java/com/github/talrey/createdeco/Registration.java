@@ -1,12 +1,10 @@
 package com.github.talrey.createdeco;
 
-import com.github.talrey.createdeco.blocks.CatwalkBlock;
-import com.github.talrey.createdeco.blocks.CoinStackBlock;
-import com.github.talrey.createdeco.blocks.DecalBlock;
-import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
+import com.github.talrey.createdeco.blocks.*;
 import com.github.talrey.createdeco.connected.*;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.items.CoinStackItem;
+import com.mojang.math.Vector3f;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllInteractionBehaviours;
 import com.simibubi.create.AllItems;
@@ -40,7 +38,6 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -106,6 +103,10 @@ public class Registration {
   public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS  = new HashMap<>();
 
   public static HashMap<DyeColor, BlockEntry<DecalBlock>> DECAL_BLOCKS   = new HashMap<>();
+  public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
+  public static HashMap<String, BlockEntry<CageLampBlock>>    RED_CAGE_LAMPS = new HashMap<>();
+  public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
+  public static HashMap<String, BlockEntry<CageLampBlock>>   BLUE_CAGE_LAMPS = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
@@ -482,6 +483,33 @@ public class Registration {
         .build();
   }
 
+  private static BlockBuilder<CageLampBlock, ?> buildCageLamp (Registrate reg, String metal, DyeColor color, String lightTexture) {
+    return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + metal.toLowerCase(Locale.ROOT) + "_lamp",
+        (p)-> new CageLampBlock(p, new Vector3f(0.3f, 0.3f, 0f)))
+      .initialProperties(Material.METAL)
+      .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN).lightLevel((state)-> state.getValue(BlockStateProperties.LIT)?15:0))
+      .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
+        int y = 0;
+        int x = 90;
+        switch (state.getValue(BlockStateProperties.FACING)) {
+          case NORTH -> y =   0;
+          case SOUTH -> y = 180;
+          case WEST  -> y = -90;
+          case EAST  -> y =  90;
+          case DOWN  -> x = 180;
+          default    -> x =   0; // up
+        }
+        return ConfiguredModel.builder().modelFile(prov.models()
+          .withExistingParent(ctx.getName() + (state.getValue(BlockStateProperties.LIT) ? "" : "_off"), prov.modLoc("block/cage_lamp"))
+          .texture("cage", prov.modLoc("block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT) + "_lamp"))
+          .texture("lamp", prov.modLoc("block/palettes/cage_lamp/" + lightTexture + (state.getValue(BlockStateProperties.LIT) ? "" : "_off")))
+          .texture("particle", prov.modLoc("block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT) + "_lamp"))
+        ).rotationX(x).rotationY(y).build(); }))
+      .addLayer(()-> RenderType::cutoutMipped)
+      .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " " + metal + " Cage Lamp")
+      .simpleItem();
+  }
+
   public static void registerBlocks (Registrate reg) {
     reg.creativeModeTab(()->BRICKS_GROUP);
 
@@ -691,7 +719,7 @@ public class Registration {
           LootTable.Builder builder      = LootTable.lootTable();
           LootPool.Builder pool          = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
           for (int layer = 1; layer <= 8; layer++) {
-            LootItem.Builder<?> entry = LootItem.lootTableItem(COINSTACK_ITEM.get(metal).get());
+            LootItem.Builder<?> entry = LootItem.lootTableItem(COINSTACK_ITEM.get(metal.toLowerCase(Locale.ROOT)).get());
             entry.when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
               .setProperties(StatePropertiesPredicate.Builder.properties()
               .hasProperty(BlockStateProperties.LAYERS, layer)
@@ -822,6 +850,7 @@ public class Registration {
         .register()));
 
     METAL_TYPES.forEach((metal, getter) -> {
+      reg.creativeModeTab(()->METALS_GROUP);
       BAR_BLOCKS.put(metal.toLowerCase(Locale.ROOT), buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .addLayer(()-> RenderType::cutoutMipped)
@@ -835,22 +864,22 @@ public class Registration {
               .save(prov);
           }
           ShapelessRecipeBuilder.shapeless(ctx.get())
-            .requires(BAR_PANEL_BLOCKS.get(metal).get())
-            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal).get()))
+            .requires(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get()))
             .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase(Locale.ROOT) + "_bars_from_panel"));
         })
         .register());
-      BAR_PANEL_BLOCKS.put(metal, buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
+      BAR_PANEL_BLOCKS.put(metal.toLowerCase(Locale.ROOT), buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
         .addLayer(()-> RenderType::cutoutMipped)
         .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
-          .requires(BAR_BLOCKS.get(metal).get())
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal).get()))
+          .requires(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get()))
           .save(prov)
         )
         .register());
       if (metal.equals("Iron")) { // add a panel version of the vanilla iron too
-        BAR_PANEL_BLOCKS.put("Vanilla Iron", buildBars(reg, metal, getter, "overlay")
+        BAR_PANEL_BLOCKS.put("Vanilla Iron".toLowerCase(Locale.ROOT), buildBars(reg, metal, getter, "overlay")
           .lang(metal + " Panel Bars")
           .recipe((ctx, prov)-> {
             ShapelessRecipeBuilder.shapeless(ctx.get())
@@ -1113,7 +1142,7 @@ public class Registration {
               .pattern("pBp")
               .pattern(" p ")
               .define('p', AllItems.ANDESITE_ALLOY.get())
-              .define('B', BAR_BLOCKS.get(metal).get())
+              .define('B', BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.ANDESITE_ALLOY.get()))
               .save(prov);
           }
@@ -1124,7 +1153,7 @@ public class Registration {
               .pattern("pBp")
               .pattern(" p ")
               .define('p', sheet)
-              .define('B', BAR_BLOCKS.get(metal).get())
+              .define('B', BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
               .save(prov);
           }
@@ -1180,6 +1209,16 @@ public class Registration {
           new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
         ))
         .register());
+
+      reg.creativeModeTab(()->PROPS_GROUP);
+      YELLOW_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.YELLOW, "light_default")
+        .register());
+      RED_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.RED, "light_redstone")
+        .register());
+      GREEN_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.GREEN, "light_green")
+        .register());
+      BLUE_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.BLUE, "light_soul")
+        .register());
     });
   }
 
@@ -1232,7 +1271,7 @@ public class Registration {
       COIN_ITEM.put(metal.toLowerCase(Locale.ROOT), reg.item(metal.toLowerCase(Locale.ROOT) + "_coin", Item::new)
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get(), 4)
-          .requires(COINSTACK_ITEM.get(metal).get())
+          .requires(COINSTACK_ITEM.get(metal.toLowerCase(Locale.ROOT)).get())
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(COINSTACK_ITEM.get(metal.toLowerCase(Locale.ROOT)).get()))
           .save(prov)
         )
@@ -1241,8 +1280,8 @@ public class Registration {
       COINSTACK_ITEM.put(metal.toLowerCase(Locale.ROOT), reg.item(metal.toLowerCase(Locale.ROOT) + "_coinstack", (p)-> new CoinStackItem(p, metal.toLowerCase(Locale.ROOT)))
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
-          .requires(COIN_ITEM.get(metal).get(), 4)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(COIN_ITEM.get(metal).get()))
+          .requires(COIN_ITEM.get(metal.toLowerCase(Locale.ROOT)).get(), 4)
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(COIN_ITEM.get(metal.toLowerCase(Locale.ROOT)).get()))
           .save(prov)
         )
         .lang(metal + " Coinstack")
