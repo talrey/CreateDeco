@@ -1,7 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
-import com.github.talrey.createdeco.Registration;
-
+import com.github.talrey.createdeco.registry.Props;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -90,6 +89,6 @@ public class CoinStackBlock extends Block {
 
   @Override
   public ItemStack getCloneItemStack (BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-    return Registration.COINSTACK_ITEM.containsKey(material) ? Registration.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
+    return Props.COINSTACK_ITEM.containsKey(material) ? Props.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
   }
 }

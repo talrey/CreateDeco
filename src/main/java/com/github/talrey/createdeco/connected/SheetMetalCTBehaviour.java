@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.connected;
 
 import com.github.talrey.createdeco.Registration;
+import com.github.talrey.createdeco.registry.SheetMetal;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.HorizontalCTBehaviour;
 import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
@@ -23,7 +24,7 @@ public class SheetMetalCTBehaviour extends HorizontalCTBehaviour {
     if (!face.getAxis().isVertical() && super.connectsTo(state, other, reader, pos, otherPos, face)) {
       return true;
     }
-    else return isSameMaterial(state, other) && Registration.SHEET_METAL_BLOCKS.containsValue(other.getBlock());
+    else return isSameMaterial(state, other) && SheetMetal.SHEET_METAL_BLOCKS.containsValue(other.getBlock());
   }
 
   protected boolean isSameMaterial (BlockState state, BlockState other) {
