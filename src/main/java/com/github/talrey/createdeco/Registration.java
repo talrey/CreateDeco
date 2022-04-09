@@ -1,17 +1,9 @@
 package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.*;
-import com.github.talrey.createdeco.connected.*;
-import com.github.talrey.createdeco.items.CatwalkBlockItem;
-import com.github.talrey.createdeco.items.CoinStackItem;
 import com.github.talrey.createdeco.registry.*;
-import com.mojang.math.Vector3f;
-import com.simibubi.create.AllBlocks;
-import com.simibubi.create.AllInteractionBehaviours;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
-import com.simibubi.create.content.contraptions.components.structureMovement.interaction.DoorMovingInteraction;
-import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.repack.registrate.Registrate;
 import com.simibubi.create.repack.registrate.builders.BlockBuilder;
 import com.simibubi.create.repack.registrate.util.DataIngredient;
@@ -19,42 +11,18 @@ import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 import com.simibubi.create.repack.registrate.util.entry.ItemEntry;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraft.world.level.material.Material;
-
-import net.minecraft.world.level.storage.loot.LootPool;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class Registration {
 
@@ -129,6 +97,10 @@ public class Registration {
     Props.COIN_TYPES.add("Iron");
     Props.COIN_TYPES.add("Gold");
     Props.COIN_TYPES.add("Netherite");
+  }
+
+  public static TagKey<Item> makeItemTag (String path) {
+    return ForgeRegistries.ITEMS.tags().createOptionalTagKey(new ResourceLocation("forge", path), Collections.emptySet());
   }
 
   private static BlockEntry<?> getBrickFromName (String overlay, DyeColor dye, String shape) {
@@ -482,19 +454,19 @@ public class Registration {
 
     reg.creativeModeTab(()->DecoCreativeModeTab.METALS_GROUP, DecoCreativeModeTab.METALS_NAME);
     ZINC_SHEET = reg.item("zinc_sheet", Item::new)
-      .tag(ItemTags.bind("forge:plates/zinc"))
+      .tag(makeItemTag("plates/zinc"))
       .lang("Zinc Sheet")
       .register();
 
     NETHERITE_SHEET = reg.item("netherite_sheet", Item::new)
       .properties(p -> p.fireResistant())
-      .tag(ItemTags.bind("forge:plates/netherite"))
+      .tag(makeItemTag("plates/netherite"))
       .lang("Netherite Sheet")
       .register();
 
     NETHERITE_NUGGET = reg.item("netherite_nugget", Item::new)
       .properties(p -> p.fireResistant())
-      .tag(ItemTags.bind("forge:nuggets/netherite"))
+      .tag(makeItemTag("nuggets/netherite"))
       .lang("Netherite Nugget")
       .recipe((ctx, prov)-> {
         prov.storage(ctx, ()->Items.NETHERITE_INGOT);

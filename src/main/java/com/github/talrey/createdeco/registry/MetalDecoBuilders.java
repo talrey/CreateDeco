@@ -17,8 +17,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.DoorBlock;
@@ -39,6 +38,7 @@ import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.function.Function;
 
@@ -194,7 +194,7 @@ public class MetalDecoBuilders {
             .save(prov);
         }
         else {
-          Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase(Locale.ROOT));
+          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT));
           ShapedRecipeBuilder.shaped(ctx.get(), 3)
             .pattern("psp")
             .pattern("psp")
@@ -279,7 +279,7 @@ public class MetalDecoBuilders {
             .save(prov);
         }
         else {
-          Tag<Item> sheet = ItemTags.bind("forge:plates/" + metal.toLowerCase(Locale.ROOT));
+          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT));
           ShapedRecipeBuilder.shaped(ctx.get(), 3)
             .pattern(" p ")
             .pattern("pBp")

@@ -15,13 +15,17 @@ import com.simibubi.create.repack.registrate.builders.ItemBuilder;
 import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
 import com.simibubi.create.repack.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
@@ -189,15 +193,57 @@ public class Props {
     }
 
     Registration.METAL_TYPES.forEach((metal, getter) -> {
-      ResourceLocation cage      = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT) + "_lamp");
+      ResourceLocation cage = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT) + "_lamp");
+      TagKey<Item> nugget = Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT));
+      TagKey<Item> plate  = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT));
 
       YELLOW_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF)
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
+          .pattern("n")
+          .pattern("t")
+          .pattern("p")
+          .define('n', nugget)
+          .define('t', Items.TORCH)
+          .define('p', plate)
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+          .save(prov)
+        )
         .register());
       RED_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.RED, cage, RED_ON, RED_OFF)
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
+          .pattern("n")
+          .pattern("t")
+          .pattern("p")
+          .define('n', nugget)
+          .define('t', Items.REDSTONE_TORCH)
+          .define('p', plate)
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+          .save(prov)
+        )
         .register());
       GREEN_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.GREEN, cage, GREEN_ON, GREEN_OFF)
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
+          .pattern("n")
+          .pattern("t")
+          .pattern("p")
+          .define('n', nugget)
+          .define('t', Items.GLOW_BERRIES)
+          .define('p', plate)
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+          .save(prov)
+        )
         .register());
       BLUE_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.BLUE, cage, BLUE_ON, BLUE_OFF)
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
+          .pattern("n")
+          .pattern("t")
+          .pattern("p")
+          .define('n', nugget)
+          .define('t', Items.SOUL_TORCH)
+          .define('p', plate)
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+          .save(prov)
+        )
         .register());
     });
   }

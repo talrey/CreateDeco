@@ -8,9 +8,14 @@ import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuild
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.Collections;
+import java.util.Locale;
 
 public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
   {
@@ -22,7 +27,7 @@ public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
     );
     Props.COIN_ITEM.forEach((metal, coin) ->
       add(metal.toLowerCase() + "_coin",
-        ts -> ts.require(ItemTags.bind("forge:nuggets/" + metal.toLowerCase()))
+        ts -> ts.require(Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT)))
           .withCondition(new ConfigCondition(Config.CAN_PRESS_COINS))
           .output(coin.get())
       )

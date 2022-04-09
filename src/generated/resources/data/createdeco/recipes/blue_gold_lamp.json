@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/gold"
+    },
+    "t": {
+      "item": "minecraft:soul_torch"
+    },
+    "p": {
+      "tag": "forge:plates/gold"
+    }
+  },
+  "result": {
+    "item": "createdeco:blue_gold_lamp"
+  }
+}

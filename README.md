@@ -36,14 +36,18 @@ Coins: Need a currency for your server? Try the six metal Coin types offered her
 Decals: Coming in 16 lovely colors, these visual warning signs can be made by crafting some dye onto an Iron Sheet. Each color corresponds to a different symbol, letting you give ample warning to factory employees before they forget to sneak on a catwalk, stand too close to the Crushing Wheels, or don't bring their Diving Helmet to the vat of molten chocolate.
 
 
+Cage Lamps: Torches are old news, industry demands nicer lighting. These come in four handy colors, and respond to redstone control. If you'd rather they stay on without redstone, you can right-click them to reverse their behavior.
+
+
 == Miscellaneous ==
 
 Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four.
 
 == Changelog ==
 
-1.2.6-1.18.1 | :  
- \* cleaned up some things that were really not ideal at best, and crashy at worst
+1.2.6-1.18.1 | 9 APR 2022:
+ \* cleaned up some things that were really not ideal at best, and crashy at worst  
+ \+ added Cage Lamps in red, yellow, green, and blue for all metal types
 
 1.2.5-1.18.1 | 2 FEB 2022:  
  \* reminded rascally slabs to do duo drops when doubled

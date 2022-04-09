@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/brass"
+    },
+    "t": {
+      "item": "minecraft:glow_berries"
+    },
+    "p": {
+      "tag": "forge:plates/brass"
+    }
+  },
+  "result": {
+    "item": "createdeco:green_brass_lamp"
+  }
+}

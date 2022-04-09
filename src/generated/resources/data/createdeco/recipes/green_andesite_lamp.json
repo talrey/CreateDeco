@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/andesite"
+    },
+    "t": {
+      "item": "minecraft:glow_berries"
+    },
+    "p": {
+      "tag": "forge:plates/andesite"
+    }
+  },
+  "result": {
+    "item": "createdeco:green_andesite_lamp"
+  }
+}
