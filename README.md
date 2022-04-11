@@ -41,13 +41,14 @@ Cage Lamps: Torches are old news, industry demands nicer lighting. These come in
 
 == Miscellaneous ==
 
-Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four.
+Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four - er, five: now featuring Cast Iron.
 
 == Changelog ==
 
-1.2.6-1.18.1 | 9 APR 2022:
+1.2.6-1.18.1 | 11 APR 2022:
  \* cleaned up some things that were really not ideal at best, and crashy at worst  
  \+ added Cage Lamps in red, yellow, green, and blue for all metal types
+ \+ added Cast Iron as a new material + full Deco block set
 
 1.2.5-1.18.1 | 2 FEB 2022:  
  \* reminded rascally slabs to do duo drops when doubled

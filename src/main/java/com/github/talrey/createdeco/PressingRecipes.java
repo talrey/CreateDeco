@@ -25,9 +25,12 @@ public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
     add("netherite_sheet",
       ts -> ts.require(Items.NETHERITE_INGOT).output(Registration.NETHERITE_SHEET.get())
     );
+    add("cast_iron_sheet",
+      ts -> ts.require(Registration.CAST_IRON_INGOT.get()).output(Registration.CAST_IRON_SHEET.get())
+    );
     Props.COIN_ITEM.forEach((metal, coin) ->
-      add(metal.toLowerCase() + "_coin",
-        ts -> ts.require(Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT)))
+      add(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coin",
+        ts -> ts.require(Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")))
           .withCondition(new ConfigCondition(Config.CAN_PRESS_COINS))
           .output(coin.get())
       )

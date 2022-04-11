@@ -45,7 +45,7 @@ import java.util.function.Function;
 public class MetalDecoBuilders {
 
   public static BlockBuilder<IronBarsBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
-    String base = metal.replace(' ', '_').toLowerCase(Locale.ROOT) + "_bars";
+    String base = metal.replace(' ', '_').toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_bars";
     String suf = suffix.equals("") ? "" : "_" + suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
     String post = "block/palettes/metal_bars/" + base + (metal.equals("Brass") || metal.equals("Netherite") ? "_post" : "");
 
@@ -169,7 +169,7 @@ public class MetalDecoBuilders {
   }
 
   public static BlockBuilder<FenceBlock,?> buildFence (Registrate reg, String metal) {
-    return reg.block(metal.toLowerCase(Locale.ROOT) + "_mesh_fence", FenceBlock::new)
+    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_mesh_fence", FenceBlock::new)
       .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.CHAIN)
@@ -181,7 +181,7 @@ public class MetalDecoBuilders {
       .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .model((ctx,prov)-> prov.singleTexture(
         ctx.getName(), prov.mcLoc("item/generated"),
-        "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT) + "_chain_link")))
+        "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_chain_link")))
       .build()
       .recipe((ctx,prov)-> {
         if (metal.equals("Andesite")) {
@@ -194,7 +194,7 @@ public class MetalDecoBuilders {
             .save(prov);
         }
         else {
-          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT));
+          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
           ShapedRecipeBuilder.shaped(ctx.get(), 3)
             .pattern("psp")
             .pattern("psp")
@@ -213,8 +213,8 @@ public class MetalDecoBuilders {
           east  = state.getValue(BlockStateProperties.EAST);
           west  = state.getValue(BlockStateProperties.WEST);
           int sides = (north?1:0) + (south?1:0) + (east?1:0) + (west?1:0);
-          ResourceLocation mesh = prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT) + "_chain_link");
-          ResourceLocation wall = prov.modLoc("block/palettes/sheet_metal/"      + metal.toLowerCase(Locale.ROOT) + "_sheet_metal");
+          ResourceLocation mesh = prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_chain_link");
+          ResourceLocation wall = prov.modLoc("block/palettes/sheet_metal/"      + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal");
           switch (sides) {
             case 4: return ConfiguredModel.builder().modelFile(
               prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_four_way"))
@@ -253,7 +253,7 @@ public class MetalDecoBuilders {
   }
 
   public static BlockBuilder<CatwalkBlock,?> buildCatwalk (Registrate reg, String metal) {
-    return reg.block(metal.toLowerCase(Locale.ROOT) + "_catwalk", CatwalkBlock::new)
+    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk", CatwalkBlock::new)
       .initialProperties(Material.METAL)
       .properties(props->
         props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
@@ -264,7 +264,7 @@ public class MetalDecoBuilders {
       .item(CatwalkBlockItem::new)
       .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
-        .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT) + "_catwalk"))
+        .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk"))
       )
       .build()
       .recipe((ctx,prov)-> {
@@ -274,24 +274,24 @@ public class MetalDecoBuilders {
             .pattern("pBp")
             .pattern(" p ")
             .define('p', AllItems.ANDESITE_ALLOY.get())
-            .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
+            .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.ANDESITE_ALLOY.get()))
             .save(prov);
         }
         else {
-          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT));
+          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
           ShapedRecipeBuilder.shaped(ctx.get(), 3)
             .pattern(" p ")
             .pattern("pBp")
             .pattern(" p ")
             .define('p', sheet)
-            .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
+            .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
             .save(prov);
         }
       })
       .blockstate((ctx,prov)-> {
-        String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT) + "_catwalk";
+        String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
 
         BlockModelBuilder lower = prov.models().withExistingParent(ctx.getName()+"_bottom", prov.modLoc("block/catwalk_bottom"))
           .texture("2", texture)

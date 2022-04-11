@@ -31,7 +31,7 @@ public class CreateDecoMod
   public static Registrate createDecoRegistrar;
   private static Registration registration;
 
-  private static ProcessingRecipeWrapper SPLASHING, PRESSING, POLISHING;
+  private static ProcessingRecipeWrapper SPLASHING, PRESSING, POLISHING, COMPACTING;
 
   public CreateDecoMod() {
     // register configuration settings handler
@@ -126,6 +126,8 @@ public class CreateDecoMod
       gen.addProvider(PRESSING);
       POLISHING = new PolishingRecipes(gen);
       gen.addProvider(POLISHING);
+      COMPACTING = new CompactingRecipes(gen);
+      gen.addProvider(COMPACTING);
     }
   }
 }

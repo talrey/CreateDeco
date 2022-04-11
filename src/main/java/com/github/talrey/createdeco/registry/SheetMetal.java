@@ -55,10 +55,11 @@ public class SheetMetal {
     METAL_LOOKUP.put("Iron",      ()->Items.IRON_BLOCK);
     METAL_LOOKUP.put("Gold",      ()->Items.GOLD_BLOCK);
     METAL_LOOKUP.put("Netherite", ()->Items.NETHERITE_BLOCK);
+    METAL_LOOKUP.put("Cast Iron", ()->Registration.CAST_IRON_BLOCK.get().asItem());
   }
 
   public static BlockBuilder<Block,?> buildSheetMetalBlock (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
-    return reg.block(name.toLowerCase(Locale.ROOT) + "_sheet_metal", Block::new)
+    return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal", Block::new)
       .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
@@ -79,7 +80,7 @@ public class SheetMetal {
   }
 
   public static BlockBuilder<StairBlock,?> buildSheetMetalStair (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
-    return reg.block(name.toLowerCase(Locale.ROOT) + "_sheet_stairs",
+    return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_stairs",
     (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
         .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
@@ -102,7 +103,7 @@ public class SheetMetal {
   }
 
   public static BlockBuilder<SlabBlock,?> buildSheetMetalSlab (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
-    return reg.block(name.toLowerCase(Locale.ROOT) + "_sheet_slab", SlabBlock::new)
+    return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_slab", SlabBlock::new)
       .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
@@ -112,7 +113,7 @@ public class SheetMetal {
       .build()
       .tag(BlockTags.SLABS)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-      .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(), prov.modLoc("block/" + name.toLowerCase(Locale.ROOT) + "_sheet_metal"), texture))
+      .blockstate((ctx,prov)-> prov.slabBlock(ctx.get(), prov.modLoc("block/" + name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal"), texture))
       .loot((table, block) -> {
         LootTable.Builder builder = LootTable.lootTable();
         LootPool.Builder pool     = LootPool.lootPool();
@@ -138,7 +139,7 @@ public class SheetMetal {
   }
 
   public static BlockBuilder<VerticalSlabBlock,?> buildSheetMetalVert (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
-    return reg.block(name.toLowerCase(Locale.ROOT) + "_sheet_slab_vert", VerticalSlabBlock::new)
+    return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_slab_vert", VerticalSlabBlock::new)
       .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
@@ -201,7 +202,9 @@ public class SheetMetal {
     initialize();
 
     Registration.METAL_TYPES.forEach((metal, getter)-> {
-      ResourceLocation texture = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT) + "_sheet_metal");
+      ResourceLocation texture = new ResourceLocation(
+        CreateDecoMod.MODID, "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal"
+      );
 
       SHEET_METAL_BLOCKS.put(metal, buildSheetMetalBlock(reg, METAL_LOOKUP.get(metal), metal, texture).register());
       SHEET_STAIRS.put(metal, buildSheetMetalStair(reg, ()->SHEET_METAL_BLOCKS.get(metal).get().asItem(), metal, texture).register());

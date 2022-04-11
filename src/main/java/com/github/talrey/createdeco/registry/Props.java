@@ -66,7 +66,7 @@ public class Props {
   public static final ResourceLocation BLUE_OFF   = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/light_soul_off");
 
   public static ItemBuilder<CoinStackItem,?> buildCoinStackItem (Registrate reg, NonNullSupplier<Item> coin, String name) {
-    return reg.item(name.toLowerCase(Locale.ROOT) + "_coinstack", (p)-> new CoinStackItem(p, name.toLowerCase(Locale.ROOT)))
+    return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack", (p)-> new CoinStackItem(p, name.toLowerCase(Locale.ROOT)))
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
       .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
         .requires(coin.get(), 4)
@@ -77,7 +77,7 @@ public class Props {
   }
 
   public static ItemBuilder<Item,?> buildCoinItem (Registrate reg, NonNullSupplier<Item> coinstack, String name) {
-    return reg.item(name.toLowerCase(Locale.ROOT) + "_coin", Item::new)
+    return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coin", Item::new)
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
       .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get(), 4)
         .requires(coinstack.get())
@@ -90,7 +90,9 @@ public class Props {
   public static BlockBuilder<CoinStackBlock,?> buildCoinStackBlock (
     Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top
   ) {
-    return reg.block(name.toLowerCase(Locale.ROOT)+"_coinstack_block", (p)->new CoinStackBlock(p, name.toLowerCase(Locale.ROOT)))
+    return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_")+"_coinstack_block",
+        (p)->new CoinStackBlock(p, name.toLowerCase(Locale.ROOT).replaceAll(" ", "_"))
+      )
       .properties(props -> props.noOcclusion().strength(0.5f).sound(SoundType.CHAIN))
       .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
         int layer = state.getValue(BlockStateProperties.LAYERS);
@@ -121,7 +123,7 @@ public class Props {
   public static BlockBuilder<CageLampBlock, ?> buildCageLamp (
     Registrate reg, String name, DyeColor color, ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff
   ) {
-    return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + name.toLowerCase(Locale.ROOT) + "_lamp",
+    return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp",
         (p)-> new CageLampBlock(p, new Vector3f(0.3f, 0.3f, 0f)))
       .initialProperties(Material.METAL)
       .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN).lightLevel((state)-> state.getValue(BlockStateProperties.LIT)?15:0))
@@ -151,14 +153,14 @@ public class Props {
     reg.creativeModeTab(()->DecoCreativeModeTab.PROPS_GROUP);
 
     COIN_TYPES.forEach(metal -> {
-      ResourceLocation side   = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT) + "_coinstack_side");
-      ResourceLocation top    = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT) + "_coinstack_top");
-      ResourceLocation bottom = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT) + "_coinstack_bottom");
+      ResourceLocation side   = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack_side");
+      ResourceLocation top    = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack_top");
+      ResourceLocation bottom = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack_bottom");
       COIN_BLOCKS.put(metal, buildCoinStackBlock(reg, ()->COINSTACK_ITEM.get(metal).get(), metal, side, top, bottom).register());
     });
 
     for (DyeColor color : DyeColor.values()) {
-      DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase(Locale.ROOT) + "_decal", DecalBlock::new)
+      DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_decal", DecalBlock::new)
         .initialProperties(Material.METAL)
         .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
@@ -193,9 +195,9 @@ public class Props {
     }
 
     Registration.METAL_TYPES.forEach((metal, getter) -> {
-      ResourceLocation cage = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT) + "_lamp");
-      TagKey<Item> nugget = Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT));
-      TagKey<Item> plate  = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT));
+      ResourceLocation cage = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp");
+      TagKey<Item> nugget = Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
+      TagKey<Item> plate  = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
 
       YELLOW_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF)
         .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())

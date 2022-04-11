@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Collections;
 import java.util.HashMap;
@@ -69,6 +70,10 @@ public class Registration {
   public static ItemEntry<Item> ZINC_SHEET;
   public static ItemEntry<Item> NETHERITE_SHEET;
   public static ItemEntry<Item> NETHERITE_NUGGET;
+  public static ItemEntry<Item> CAST_IRON_NUGGET;
+  public static ItemEntry<Item> CAST_IRON_INGOT;
+  public static ItemEntry<Item> CAST_IRON_SHEET;
+  public static BlockEntry<Block> CAST_IRON_BLOCK;
 
   public Registration () {
     BRICK_COLOR_NAMES.put(DyeColor.BLACK, "Dusk");
@@ -90,6 +95,7 @@ public class Registration {
     METAL_TYPES.put("Iron",      (str) -> Items.IRON_INGOT);
     METAL_TYPES.put("Gold",      (str) -> Items.GOLD_INGOT);
     METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
+    METAL_TYPES.put("Cast Iron", (str) -> CAST_IRON_INGOT.get());
 
     Props.COIN_TYPES.add("Zinc");
     Props.COIN_TYPES.add("Copper");
@@ -97,6 +103,7 @@ public class Registration {
     Props.COIN_TYPES.add("Iron");
     Props.COIN_TYPES.add("Gold");
     Props.COIN_TYPES.add("Netherite");
+    Props.COIN_TYPES.add("Cast Iron");
   }
 
   public static TagKey<Item> makeItemTag (String path) {
@@ -350,8 +357,8 @@ public class Registration {
     SheetMetal.registerBlocks(reg);
 
     DOOR_TYPES.forEach((metal,ingot) ->
-      DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT), MetalDecoBuilders.buildDoor(
-        reg, metal.toLowerCase(Locale.ROOT) + "_door", "block/" + metal.toLowerCase(Locale.ROOT)
+      DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
+        reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
       )
         .lang(metal + " Door")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
@@ -365,15 +372,15 @@ public class Registration {
         .register()));
 
     DOOR_TYPES.forEach((metal, ingot)->
-      LOCK_DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT), MetalDecoBuilders.buildDoor(
-        reg, "locked_" + metal.toLowerCase(Locale.ROOT) + "_door", "block/locked_" + metal.toLowerCase(Locale.ROOT)
+      LOCK_DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
+        reg, "locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
       )
         .lang("Locked " + metal + " Door")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(Items.REDSTONE_TORCH, 1)
-          .requires(Registration.DOOR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get(), 1)
+          .requires(Registration.DOOR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get(), 1)
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            Registration.DOOR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).asStack().getItem())
+            Registration.DOOR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).asStack().getItem())
           )
           .save(prov)
         )
@@ -381,7 +388,7 @@ public class Registration {
 
     METAL_TYPES.forEach((metal, getter) -> {
 
-      BAR_BLOCKS.put(metal.toLowerCase(Locale.ROOT), MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
+      BAR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "")
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .recipe((ctx, prov) -> {
           if (!metal.equals("Iron")) { // Iron will be handled as a polishing recipe
@@ -393,22 +400,22 @@ public class Registration {
               .save(prov);
           }
           ShapelessRecipeBuilder.shapeless(ctx.get())
-            .requires(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
-            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get()))
-            .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase(Locale.ROOT) + "_bars_from_panel"));
+            .requires(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get()))
+            .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_bars_from_panel"));
         })
         .register());
 
-      BAR_PANEL_BLOCKS.put(metal.toLowerCase(Locale.ROOT), MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
+      BAR_PANEL_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay")
         .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
         .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
-          .requires(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get())
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT)).get()))
+          .requires(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get()))
           .save(prov)
         )
         .register());
       if (metal.equals("Iron")) { // add a panel version of the vanilla iron too
-        BAR_PANEL_BLOCKS.put("Vanilla Iron".toLowerCase(Locale.ROOT), MetalDecoBuilders.buildBars(reg, metal, getter, "overlay")
+        BAR_PANEL_BLOCKS.put("vanill_iron", MetalDecoBuilders.buildBars(reg, metal, getter, "overlay")
           .lang(metal + " Panel Bars")
           .recipe((ctx, prov)-> {
             ShapelessRecipeBuilder.shapeless(ctx.get())
@@ -426,6 +433,12 @@ public class Registration {
       CATWALK_BLOCKS.put(metal, MetalDecoBuilders.buildCatwalk(reg, metal).register());
     });
 
+    CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
+      .initialProperties(Material.METAL)
+      .lang("Cast Iron Block")
+      .simpleItem()
+      .register();
+
     Props.registerBlocks(reg);
   }
 
@@ -437,7 +450,7 @@ public class Registration {
           .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
           .register();
       } else {
-        BRICK_ITEM.put(dye, reg.item(name.toLowerCase(Locale.ROOT) + "_brick", Item::new)
+        BRICK_ITEM.put(dye, reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_brick", Item::new)
           .lang(name + " Brick")
           .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 8)
             .pattern("bbb")
@@ -471,6 +484,27 @@ public class Registration {
       .recipe((ctx, prov)-> {
         prov.storage(ctx, ()->Items.NETHERITE_INGOT);
       })
+      .register();
+
+    CAST_IRON_NUGGET = reg.item("cast_iron_nugget", Item::new)
+      .tag(makeItemTag("nuggets/cast_iron"))
+      .lang("Cast Iron Nugget")
+      .recipe((ctx, prov)-> {
+        prov.storage(ctx, ()->CAST_IRON_INGOT.get());
+      })
+      .register();
+
+    CAST_IRON_INGOT = reg.item("cast_iron_ingot", Item::new)
+      .tag(makeItemTag("ingots/cast_iron"))
+      .lang("Cast Iron Ingot")
+      .recipe((ctx, prov)-> {
+        prov.storage(ctx, ()->CAST_IRON_BLOCK.get().asItem());
+      })
+      .register();
+
+    CAST_IRON_SHEET = reg.item("cast_iron_sheet", Item::new)
+      .tag(makeItemTag("plates/cast_iron"))
+      .lang("Cast Iron Sheet")
       .register();
 
     Props.registerItems(reg);
