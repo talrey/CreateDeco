@@ -45,9 +45,13 @@ import java.util.function.Function;
 public class MetalDecoBuilders {
 
   public static BlockBuilder<IronBarsBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix) {
+    return buildBars(reg, metal, getter, suffix, false);
+  }
+
+  public static BlockBuilder<IronBarsBlock,?> buildBars (Registrate reg, String metal, Function<String,Item> getter, String suffix, boolean doPost) {
     String base = metal.replace(' ', '_').toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_bars";
     String suf = suffix.equals("") ? "" : "_" + suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
-    String post = "block/palettes/metal_bars/" + base + (metal.equals("Brass") || metal.equals("Netherite") ? "_post" : "");
+    String post = "block/palettes/metal_bars/" + base + (doPost ? "_post" : "");
 
     ResourceLocation barTexture, postTexture;
     final ResourceLocation bartex, postex;

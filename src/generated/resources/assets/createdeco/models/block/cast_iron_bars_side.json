@@ -2,7 +2,7 @@
   "parent": "minecraft:block/iron_bars_side",
   "textures": {
     "bars": "createdeco:block/palettes/metal_bars/cast_iron_bars",
-    "edge": "createdeco:block/palettes/metal_bars/cast_iron_bars",
-    "particle": "createdeco:block/palettes/metal_bars/cast_iron_bars"
+    "edge": "createdeco:block/palettes/metal_bars/cast_iron_bars_post",
+    "particle": "createdeco:block/palettes/metal_bars/cast_iron_bars_post"
   }
 }
