@@ -66,7 +66,7 @@ public class Props {
   public static final ResourceLocation BLUE_OFF   = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/light_soul_off");
 
   public static ItemBuilder<CoinStackItem,?> buildCoinStackItem (Registrate reg, NonNullSupplier<Item> coin, String name) {
-    return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack", (p)-> new CoinStackItem(p, name.toLowerCase(Locale.ROOT)))
+    return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack", (p)-> new CoinStackItem(p, name))
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
       .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
         .requires(coin.get(), 4)
@@ -90,9 +90,7 @@ public class Props {
   public static BlockBuilder<CoinStackBlock,?> buildCoinStackBlock (
     Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation side, ResourceLocation bottom, ResourceLocation top
   ) {
-    return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_")+"_coinstack_block",
-        (p)->new CoinStackBlock(p, name.toLowerCase(Locale.ROOT).replaceAll(" ", "_"))
-      )
+    return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_")+"_coinstack_block", (p)->new CoinStackBlock(p, name))
       .properties(props -> props.noOcclusion().strength(0.5f).sound(SoundType.CHAIN))
       .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
         int layer = state.getValue(BlockStateProperties.LAYERS);
