@@ -7,6 +7,7 @@ import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.repack.registrate.Registrate;
 import com.simibubi.create.repack.registrate.builders.BlockBuilder;
@@ -265,6 +266,7 @@ public class MetalDecoBuilders {
       )
       .addLayer(()-> RenderType::cutoutMipped)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+      .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .item(CatwalkBlockItem::new)
       .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
