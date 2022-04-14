@@ -238,9 +238,4 @@ public class CatwalkBlock extends Block implements IWrenchable, SimpleWaterlogge
       default:    return LIFTED;
     }
   }
-  
-  @Override
-  public boolean skipRendering(BlockState pState, BlockState pAdjacentBlockState, Direction pSide) {
-    return pState.getBlock() == pAdjacentBlockState.getBlock();
-  }
 }
