@@ -8,6 +8,7 @@ import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.repack.registrate.Registrate;
 import com.simibubi.create.repack.registrate.builders.BlockBuilder;
@@ -21,6 +22,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
@@ -346,5 +348,91 @@ public class MetalDecoBuilders {
       .onRegister(CreateRegistrate.connectedTextures(
         new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
       ));
+  }
+
+  // Compat versions
+  public static BlockBuilder<CatwalkBlock,?> buildCatwalkCompat (Registrate reg, String metal, String modid, ItemLike barBlock, CTSpriteShiftEntry spriteShift) {
+    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk", CatwalkBlock::new)
+      .initialProperties(Material.METAL)
+      .properties(props->
+        props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion().sound(SoundType.NETHERITE_BLOCK)
+      ).addLayer(()-> RenderType::cutoutMipped)
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+      .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+      .item(CatwalkBlockItem::new)
+      .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
+      .model((ctx,prov)-> prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
+        .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk"))
+      )
+      .build()
+      .recipe((ctx,prov)-> {
+        if (metal.equals("Andesite")) {
+          ShapedRecipeBuilder.shaped(ctx.get(), 3)
+            .pattern(" p ")
+            .pattern("pBp")
+            .pattern(" p ")
+            .define('p', AllItems.ANDESITE_ALLOY.get())
+            .define('B', barBlock)
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.ANDESITE_ALLOY.get()))
+            .save(prov);
+        }
+        else {
+          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
+          ShapedRecipeBuilder.shaped(ctx.get(), 3)
+            .pattern(" p ")
+            .pattern("pBp")
+            .pattern(" p ")
+            .define('p', sheet)
+            .define('B', barBlock)
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
+            .save(prov);
+        }
+      })
+      .blockstate((ctx,prov)-> {
+        String texture = modid + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
+
+        BlockModelBuilder lower = prov.models().withExistingParent(ctx.getName()+"_bottom", prov.modLoc("block/catwalk_bottom"))
+          .texture("2", texture)
+          .texture("particle", texture);
+        BlockModelBuilder upper = prov.models().withExistingParent(ctx.getName()+"_top", prov.modLoc("block/catwalk_top"))
+          .texture("2", texture)
+          .texture("particle", texture);
+        BlockModelBuilder rail_upper = prov.models().withExistingParent(ctx.getName()+"_rail_upper", prov.modLoc("block/catwalk_rail_upper"))
+          .texture("3", texture + "_rail")
+          .texture("particle", texture + "_rail");
+        BlockModelBuilder rail_lower = prov.models().withExistingParent(ctx.getName()+"_rail_lower", prov.modLoc("block/catwalk_rail_lower"))
+          .texture("3", texture + "_rail")
+          .texture("particle", texture + "_rail");
+
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(lower).addModel().condition(BlockStateProperties.BOTTOM, true).end();
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(upper).addModel().condition(BlockStateProperties.BOTTOM, false).end();
+
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY( 90).addModel()
+          .condition(BlockStateProperties.BOTTOM, true)
+          .condition(BlockStateProperties.NORTH, true).end();
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(-90).addModel()
+          .condition(BlockStateProperties.BOTTOM, true)
+          .condition(BlockStateProperties.SOUTH, true).end();
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(180).addModel()
+          .condition(BlockStateProperties.BOTTOM, true)
+          .condition(BlockStateProperties.EAST,  true).end();
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(  0).addModel()
+          .condition(BlockStateProperties.BOTTOM, true)
+          .condition(BlockStateProperties.WEST,  true).end();
+
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY( 90).addModel()
+          .condition(BlockStateProperties.BOTTOM, false)
+          .condition(BlockStateProperties.NORTH, true).end();
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(-90).addModel()
+          .condition(BlockStateProperties.BOTTOM, false)
+          .condition(BlockStateProperties.SOUTH, true).end();
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(180).addModel()
+          .condition(BlockStateProperties.BOTTOM, false)
+          .condition(BlockStateProperties.EAST,  true).end();
+        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(  0).addModel()
+          .condition(BlockStateProperties.BOTTOM, false)
+          .condition(BlockStateProperties.WEST,  true).end();
+      })
+      .onRegister(CreateRegistrate.connectedTextures(new CatwalkCTBehaviour(spriteShift).getSupplier()));
   }
 }
