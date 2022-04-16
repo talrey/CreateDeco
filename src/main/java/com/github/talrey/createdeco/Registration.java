@@ -212,7 +212,7 @@ public class Registration {
         WORN_VERTS.put(full, BrickBuilders.buildBrickVerts(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov)-> {
             prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
-            ShapedRecipeBuilder.shaped(ctx.get())
+            ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern("s")
               .pattern("s")
               .pattern("s")
@@ -333,7 +333,7 @@ public class Registration {
           vert.put(full, BrickBuilders.buildBrickVerts( reg, dye, pre, name, suf)
             .recipe((ctx, prov)-> {
               prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx, 2);
-              ShapedRecipeBuilder.shaped(ctx.get())
+              ShapedRecipeBuilder.shaped(ctx.get(), 3)
                 .pattern("s")
                 .pattern("s")
                 .pattern("s")
