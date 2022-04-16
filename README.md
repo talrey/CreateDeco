@@ -45,7 +45,11 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.6-1.18.1 | 11 APR 2022:
+1.2.7-1.18.2 | ??:  
+ \* fixed brick vert recipes
+ \* made some builders modid agnostic for compatibility
+
+1.2.6-1.18.2 | 11 APR 2022:
  \* cleaned up some things that were really not ideal at best, and crashy at worst  
  \+ added Cage Lamps in red, yellow, green, and blue for all metal types
  \+ added Cast Iron as a new material + full Deco block set
