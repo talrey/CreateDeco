@@ -57,15 +57,15 @@ public class MetalDecoBuilders {
     ResourceLocation barTexture, postTexture;
     final ResourceLocation bartex, postex;
     try {
-      barTexture = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/metal_bars/" + base);
-      File touch = new File("../src/main/resources/assets/createdeco/textures/" + barTexture.getPath() + ".png"); // fuck it.
+      barTexture = new ResourceLocation(reg.getModid(), "block/palettes/metal_bars/" + base);
+      File touch = new File("../src/main/resources/assets/" + reg.getModid() + "/textures/" + barTexture.getPath() + ".png"); // fuck it.
       if (!touch.exists()) throw new FileNotFoundException(base + " was not found!");
     } catch (FileNotFoundException fnfe) {
       barTexture = new ResourceLocation("block/" + base);
     }
     try {
-      postTexture = new ResourceLocation(CreateDecoMod.MODID, post);
-      File touch = new File("../src/main/resources/assets/createdeco/textures/" + postTexture.getPath() + ".png");
+      postTexture = new ResourceLocation(reg.getModid(), post);
+      File touch = new File("../src/main/resources/assets/" + reg.getModid() + "/textures/" + postTexture.getPath() + ".png");
       if (!touch.exists()) throw new FileNotFoundException(base + " was not found!");
     } catch (FileNotFoundException fnfe) {
       postTexture = barTexture;
@@ -297,7 +297,7 @@ public class MetalDecoBuilders {
         }
       })
       .blockstate((ctx,prov)-> {
-        String texture = "createdeco:block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
+        String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
 
         BlockModelBuilder lower = prov.models().withExistingParent(ctx.getName()+"_bottom", prov.modLoc("block/catwalk_bottom"))
           .texture("2", texture)
