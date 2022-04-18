@@ -45,7 +45,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.7-1.18.2 | ??:  
+1.2.7-1.18.2 | 17 APR 2022:  
  \* fixed brick vert recipes
  \* made some builders modid agnostic for compatibility
 
