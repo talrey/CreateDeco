@@ -17,6 +17,8 @@ public class CreateDecoMod implements ModInitializer
   public static Registrate createDecoRegistrar;
   private static Registration registration;
 
+  private static ProcessingRecipeWrapper SPLASHING, PRESSING, POLISHING, COMPACTING;
+
   @Override
   public void onInitialize() {
     // register configuration settings handler
@@ -94,6 +96,8 @@ public class CreateDecoMod implements ModInitializer
   public static class RegistryEvents {
     public static void onRecipeSerializerRegistry() {
       ConfigCondition.registerConditon();
+      COMPACTING = new CompactingRecipes(gen);
+      gen.addProvider(COMPACTING);
     }
   }
 }

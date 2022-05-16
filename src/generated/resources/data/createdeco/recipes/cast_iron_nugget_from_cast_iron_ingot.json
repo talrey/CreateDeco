@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "createdeco:cast_iron_ingot"
+    }
+  ],
+  "result": {
+    "item": "createdeco:cast_iron_nugget",
+    "count": 9
+  }
+}
