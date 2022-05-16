@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "tag": "c:nuggets/brass"
+    },
+    "t": {
+      "item": "minecraft:soul_torch"
+    },
+    "p": {
+      "tag": "c:plates/brass"
+    }
+  },
+  "result": {
+    "item": "createdeco:blue_brass_lamp"
+  }
+}

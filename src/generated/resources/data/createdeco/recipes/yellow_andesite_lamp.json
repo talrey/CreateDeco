@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "tag": "c:nuggets/andesite"
+    },
+    "t": {
+      "item": "minecraft:torch"
+    },
+    "p": {
+      "tag": "c:plates/andesite"
+    }
+  },
+  "result": {
+    "item": "createdeco:yellow_andesite_lamp"
+  }
+}

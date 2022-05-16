@@ -1,7 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
-import com.github.talrey.createdeco.Registration;
-
+import com.github.talrey.createdeco.registry.Props;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,6 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 
 public class CoinStackBlock extends Block implements BlockPickInteractionAware {
+  public final String material;
   private static final VoxelShape[] SHAPE = {
     Block.box(
   0d, 0d, 0d,
@@ -59,7 +59,12 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   };
 
   public CoinStackBlock (Properties properties) {
+    this(properties, "iron");
+  }
+
+  public CoinStackBlock (Properties properties, String material) {
     super(properties);
+    this.material = material;
     this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.LAYERS, 1));
   }
 
@@ -85,9 +90,6 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
 
   @Override
   public ItemStack getPickedStack(BlockState state, BlockGetter view, BlockPos pos, @org.jetbrains.annotations.Nullable Player player, @org.jetbrains.annotations.Nullable HitResult result) {
-    String material = state.getBlock().getDescriptionId().replace("_coinstack_block", "");
-    material = material.substring(material.lastIndexOf('.')+1); // remove createdeco.block.
-    material = material.substring(0,1).toUpperCase() + material.substring(1); // capitalize
-    return Registration.COINSTACK_ITEM.containsKey(material) ? Registration.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
+    return Props.COINSTACK_ITEM.containsKey(material) ? Props.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
   }
 }

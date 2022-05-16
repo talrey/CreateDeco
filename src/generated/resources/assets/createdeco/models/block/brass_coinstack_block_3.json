@@ -2,7 +2,7 @@
   "parent": "createdeco:block/layers_bottom_top_3",
   "textures": {
     "side": "createdeco:block/brass_coinstack_side",
-    "bottom": "createdeco:block/brass_coinstack_bottom",
-    "top": "createdeco:block/brass_coinstack_top"
+    "bottom": "createdeco:block/brass_coinstack_top",
+    "top": "createdeco:block/brass_coinstack_bottom"
   }
 }

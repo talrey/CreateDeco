@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "createdeco:cast_iron_sheet_metal"
+  },
+  "result": "createdeco:cast_iron_sheet_stairs",
+  "count": 1
+}

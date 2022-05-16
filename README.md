@@ -36,16 +36,28 @@ Coins: Need a currency for your server? Try the six metal Coin types offered her
 Decals: Coming in 16 lovely colors, these visual warning signs can be made by crafting some dye onto an Iron Sheet. Each color corresponds to a different symbol, letting you give ample warning to factory employees before they forget to sneak on a catwalk, stand too close to the Crushing Wheels, or don't bring their Diving Helmet to the vat of molten chocolate.
 
 
+Cage Lamps: Torches are old news, industry demands nicer lighting. These come in four handy colors, and respond to redstone control. If you'd rather they stay on without redstone, you can right-click them to reverse their behavior.
+
+
 == Miscellaneous ==
 
-Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four.
+Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four - er, five: now featuring Cast Iron.
 
 == Changelog ==
 
-1.2.5-1.18.1 | 2 FEB 2022:
+1.2.7-1.18.2 | 17 APR 2022:  
+ \* fixed brick vert recipes
+ \* made some builders modid agnostic for compatibility
+
+1.2.6-1.18.2 | 11 APR 2022:
+ \* cleaned up some things that were really not ideal at best, and crashy at worst  
+ \+ added Cage Lamps in red, yellow, green, and blue for all metal types
+ \+ added Cast Iron as a new material + full Deco block set
+
+1.2.5-1.18.1 | 2 FEB 2022:  
  \* reminded rascally slabs to do duo drops when doubled
 
-1.2.4-1.18.1 | 30 JAN 2022:
+1.2.4-1.18.1 | 30 JAN 2022:  
  \* language settings shouldn't affect recipes now
 
 1.2.3-1.18.1 | 16 JAN 2022:  

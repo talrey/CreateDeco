@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "tag": "c:nuggets/iron"
+    },
+    "t": {
+      "item": "minecraft:torch"
+    },
+    "p": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "result": {
+    "item": "createdeco:yellow_iron_lamp"
+  }
+}

@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "createdeco:netherite_ingot"
+      "minecraft:netherite_ingot"
     ]
   },
   "criteria": {
@@ -21,7 +21,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "createdeco:netherite_ingot"
+        "recipe": "minecraft:netherite_ingot"
       }
     }
   },
