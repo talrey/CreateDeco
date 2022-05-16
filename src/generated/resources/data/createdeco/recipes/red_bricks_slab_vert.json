@@ -11,6 +11,7 @@
     }
   },
   "result": {
-    "item": "createdeco:red_bricks_slab_vert"
+    "item": "createdeco:red_bricks_slab_vert",
+    "count": 3
   }
 }

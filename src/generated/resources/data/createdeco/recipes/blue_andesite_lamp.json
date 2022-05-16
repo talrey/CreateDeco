@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "forge:nuggets/andesite"
+      "tag": "c:nuggets/andesite"
     },
     "t": {
       "item": "minecraft:soul_torch"
     },
     "p": {
-      "tag": "forge:plates/andesite"
+      "tag": "c:plates/andesite"
     }
   },
   "result": {

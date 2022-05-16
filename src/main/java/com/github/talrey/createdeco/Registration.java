@@ -12,7 +12,6 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.fabricmc.fabric.api.tag.TagFactory;
 import net.fabricmc.fabric.impl.item.group.ItemGroupExtensions;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -129,7 +128,7 @@ public class Registration {
   }
 
   public static TagKey<Item> makeItemTag (String path) {
-    return ForgeRegistries.ITEMS.tags().createOptionalTagKey(new ResourceLocation("forge", path), Collections.emptySet());
+    return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", path));
   }
 
   private static BlockEntry<?> getBrickFromName (String overlay, DyeColor dye, String shape) {

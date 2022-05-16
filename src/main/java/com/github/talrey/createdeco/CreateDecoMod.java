@@ -96,8 +96,6 @@ public class CreateDecoMod implements ModInitializer
   public static class RegistryEvents {
     public static void onRecipeSerializerRegistry() {
       ConfigCondition.registerConditon();
-      COMPACTING = new CompactingRecipes(gen);
-      gen.addProvider(COMPACTING);
     }
   }
 }

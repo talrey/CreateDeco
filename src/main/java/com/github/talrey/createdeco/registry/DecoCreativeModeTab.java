@@ -2,6 +2,7 @@ package com.github.talrey.createdeco.registry;
 
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.Registration;
+import io.github.fabricators_of_create.porting_lib.util.LazyItemGroup;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -9,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
 
-public class DecoCreativeModeTab extends CreativeModeTab {
+public class DecoCreativeModeTab extends LazyItemGroup {
   private final Supplier<ItemStack> sup;
   private DecoCreativeModeTab (final String name, final Supplier<ItemStack> supplier) {
     super(name);

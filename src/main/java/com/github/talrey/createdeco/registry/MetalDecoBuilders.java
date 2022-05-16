@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco.registry;
 
-import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.Registration;
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
@@ -9,8 +8,8 @@ import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.repack.registrate.Registrate;
-import com.simibubi.create.repack.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockBuilder;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -39,7 +38,6 @@ import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.function.Function;
 

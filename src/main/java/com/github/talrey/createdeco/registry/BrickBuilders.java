@@ -1,8 +1,8 @@
 package com.github.talrey.createdeco.registry;
 
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
-import com.simibubi.create.repack.registrate.Registrate;
-import com.simibubi.create.repack.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockBuilder;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -48,7 +48,7 @@ public class BrickBuilders {
     String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
     String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
     BlockBuilder<StairBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf + "_stairs",
-      (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props));
+      (props)->new StairBlock(Blocks.BRICK_STAIRS.defaultBlockState(), props));
     if (dye != null) {
       ret.initialProperties(Material.STONE, dye);
     } else {
