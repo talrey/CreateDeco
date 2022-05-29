@@ -6,6 +6,8 @@ import com.simibubi.create.Create;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.CTSpriteShifter;
 import com.simibubi.create.foundation.block.connected.CTSpriteShifter.CTType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
@@ -16,7 +18,8 @@ public class SpriteShifts {
   public static final HashMap<String, CTSpriteShiftEntry> CATWALK_TOPS      = new HashMap<>();
 
   static {
-    populateMaps();
+    if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+      populateMaps();
   }
 
   private static void populateMaps () {
