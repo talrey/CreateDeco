@@ -67,6 +67,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
 
     modImplementation("com.simibubi:Create:mc${create_version}")
+    modImplementation("com.jozufozu.flywheel:Flywheel-Fabric:${flywheel_version}")
 }
 
 compileJava.options.encoding = 'UTF-8'
