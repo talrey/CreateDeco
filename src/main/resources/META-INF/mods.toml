@@ -61,6 +61,6 @@ Adds several varieties of decorative blocks to fill out Create's palette.
 [[dependencies.createdeco]]
     modId="create"
     mandatory=true
-    versionRange="[0.4, 0.5)"
+    versionRange="[0.5, 0.6)"
     ordering="AFTER"
     side="BOTH"
