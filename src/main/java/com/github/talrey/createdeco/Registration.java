@@ -23,7 +23,9 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Registration {
 
@@ -110,6 +112,12 @@ public class Registration {
     return ForgeRegistries.ITEMS.tags().createOptionalTagKey(new ResourceLocation("forge", path), Collections.emptySet());
   }
 
+  public static TagKey<Item> makeItemTagWith (String id, String path, Supplier<Item> item) {
+    Set<Supplier<Item>> include = Collections.emptySet();
+    include.add(item);
+    return ForgeRegistries.ITEMS.tags().createOptionalTagKey(new ResourceLocation(id, path), include);
+  }
+
   private static BlockEntry<?> getBrickFromName (String overlay, DyeColor dye, String shape) {
     if (overlay.trim().equals ("Mossy")) {
       return switch (shape.trim()) {
@@ -183,14 +191,15 @@ public class Registration {
         if (! (pre.equals("") && suf.equals("Bricks"))) {
           WORN_BRICK_TYPES.put(full, BrickBuilders.buildBrick(reg, null, pre, "Worn", suf)
             .recipe((ctx, prov) -> {
-              prov.stonecutting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx);
-              if (pre.equals("Cracked")) prov.blasting(DataIngredient.items(WORN_BRICK_ITEM.get()), ctx, 0.5f);
+              prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx);
+              if (pre.equals("Cracked")) prov.blasting(DataIngredient.items(wornBrick.get()), ctx, 0.5f);
             })
             .register()
           );
         }
         WORN_STAIRS.put(full, BrickBuilders.buildBrickStairs(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov)-> {
+            if (! (pre.equals("") && suf.equals("Bricks"))) prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx);
             prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx);
             prov.stairs(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
             if (pre.equals("Cracked")) {
@@ -201,6 +210,7 @@ public class Registration {
         );
         WORN_SLABS.put(full, BrickBuilders.buildBrickSlabs(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov)-> {
+            if (! (pre.equals("") && suf.equals("Bricks"))) prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx, 2);
             prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
             prov.slab(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
             if (pre.equals("Cracked")) {
@@ -211,6 +221,7 @@ public class Registration {
         );
         WORN_VERTS.put(full, BrickBuilders.buildBrickVerts(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov)-> {
+            if (! (pre.equals("") && suf.equals("Bricks"))) prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx, 2);
             prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
             ShapedRecipeBuilder.shaped(ctx.get(), 3)
               .pattern("s")
@@ -226,6 +237,7 @@ public class Registration {
         );
         WORN_WALLS.put(full, BrickBuilders.buildBrickWalls(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov)-> {
+            if (! (pre.equals("") && suf.equals("Bricks"))) prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx);
             prov.wall(DataIngredient.items(WORN_BRICK_TYPES.get(full).get()), ctx);
             if (pre.equals("Cracked")) {
               prov.blasting(DataIngredient.items(WORN_WALLS.get(full.substring(8))), ctx, 0.5f);
@@ -358,7 +370,9 @@ public class Registration {
 
     DOOR_TYPES.forEach((metal,ingot) ->
       DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
-        reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
+        reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door",
+          "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
+        Material.HEAVY_METAL
       )
         .lang(metal + " Door")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())

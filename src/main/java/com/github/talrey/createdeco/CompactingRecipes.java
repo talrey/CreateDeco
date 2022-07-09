@@ -14,6 +14,9 @@ public class CompactingRecipes extends ProcessingRecipeWrapper<CompactingRecipe>
     add("cast_iron_ingot",
       ts -> ts.require(Items.IRON_INGOT).requiresHeat(HeatCondition.HEATED).output(Registration.CAST_IRON_INGOT.get())
     );
+    add("cast_iron_block",
+      ts -> ts.require(Items.IRON_BLOCK).requiresHeat(HeatCondition.HEATED).output(Registration.CAST_IRON_BLOCK.get())
+    );
   }
 
   public CompactingRecipes(DataGenerator generatorIn) {

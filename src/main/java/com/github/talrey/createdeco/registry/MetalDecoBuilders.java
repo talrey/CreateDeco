@@ -142,9 +142,11 @@ public class MetalDecoBuilders {
       .build();
   }
 
-  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path) {
+  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path) { return buildDoor(reg, name, path, Material.METAL); }
+
+  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path, Material mat) {
     return reg.block(name, DoorBlock::new)
-      .initialProperties(Material.METAL)
+      .initialProperties(mat)
       .properties(props -> props.noOcclusion().strength(5, 5).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
       )

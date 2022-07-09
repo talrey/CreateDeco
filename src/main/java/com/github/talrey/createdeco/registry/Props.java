@@ -198,16 +198,29 @@ public class Props {
       TagKey<Item> plate  = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
 
       YELLOW_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF)
-        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
-          .pattern("n")
-          .pattern("t")
-          .pattern("p")
-          .define('n', nugget)
-          .define('t', Items.TORCH)
-          .define('p', plate)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-          .save(prov)
-        )
+        .recipe((ctx,prov)-> {
+          if (metal != "Andesite") {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', nugget)
+              .define('t', Items.TORCH)
+              .define('p', plate)
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+              .save(prov);
+          } else {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', AllItems.ANDESITE_ALLOY.get())
+              .define('t', Items.TORCH)
+              .define('p', AllItems.ANDESITE_ALLOY.get())
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
+              .save(prov);
+          }
+        })
         .register());
       RED_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.RED, cage, RED_ON, RED_OFF)
         .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
