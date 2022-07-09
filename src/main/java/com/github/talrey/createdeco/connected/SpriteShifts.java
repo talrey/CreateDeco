@@ -2,10 +2,10 @@ package com.github.talrey.createdeco.connected;
 
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.Registration;
-import com.simibubi.create.Create;
+
+import com.simibubi.create.foundation.block.connected.AllCTTypes;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.CTSpriteShifter;
-import com.simibubi.create.foundation.block.connected.CTSpriteShifter.CTType;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
@@ -24,12 +24,12 @@ public class SpriteShifts {
       String path = "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal";
       ResourceLocation blockTexture     = new ResourceLocation(CreateDecoMod.MODID, path);
       ResourceLocation connectedTexture = new ResourceLocation(CreateDecoMod.MODID, path + "_connected");
-      SHEET_METAL_SIDES.put(metal, CTSpriteShifter.getCT(CTType.VERTICAL, blockTexture, connectedTexture));
+      SHEET_METAL_SIDES.put(metal, CTSpriteShifter.getCT(AllCTTypes.VERTICAL, blockTexture, connectedTexture));
 
       path = "block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
       blockTexture     = new ResourceLocation(CreateDecoMod.MODID, path);
       connectedTexture = new ResourceLocation(CreateDecoMod.MODID, path + "_connected");
-      CATWALK_TOPS.put(metal, CTSpriteShifter.getCT(CTType.OMNIDIRECTIONAL, blockTexture, connectedTexture));
+      CATWALK_TOPS.put(metal, CTSpriteShifter.getCT(AllCTTypes.OMNIDIRECTIONAL, blockTexture, connectedTexture));
     }
   }
 }
