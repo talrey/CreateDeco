@@ -5,6 +5,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -85,5 +86,18 @@ public class VerticalSlabBlock extends SlabBlock {
       case WEST:  return WEST;
     }
     return super.getShape(state, reader, pos, ctx);
+  }
+
+  @Override
+  public BlockState rotate(BlockState state, Rotation rot) {
+    Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+    Direction result;
+    switch (rot) {
+      case CLOCKWISE_90 -> result = dir.getClockWise(Direction.Axis.Y);
+      case COUNTERCLOCKWISE_90 -> result = dir.getCounterClockWise(Direction.Axis.Y);
+      case CLOCKWISE_180 -> result = dir.getOpposite();
+      default -> result = dir;
+    }
+    return state.setValue(BlockStateProperties.HORIZONTAL_FACING, result);
   }
 }
