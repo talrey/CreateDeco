@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "forge:nuggets/andesite"
+      "item": "create:andesite_alloy"
     },
     "t": {
       "item": "minecraft:glow_berries"
     },
     "p": {
-      "tag": "forge:plates/andesite"
+      "item": "create:andesite_alloy"
     }
   },
   "result": {
