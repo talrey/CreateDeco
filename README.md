@@ -48,6 +48,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 1.2.9-1.18.2 | ??:
  \+ vertical slabs should now rotate correctly in most orientations
  \* fixed cage lamp textures and recipes
+ \* fixed Decal names
 
 1.2.8-1.18.2 | 09 JUL 2022:
  \+ added iron block -> cast iron block recipe

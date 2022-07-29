@@ -65,6 +65,16 @@ public class Props {
   public static final ResourceLocation BLUE_ON    = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/light_soul");
   public static final ResourceLocation BLUE_OFF   = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/light_soul_off");
 
+  private static String prettyName (String original) {
+    StringBuilder builder = new StringBuilder();
+    for (String part : original.split("_")) {
+      builder.append(part.charAt(0));
+      builder.append(part.substring(1).toLowerCase(Locale.ROOT));
+      builder.append(" ");
+    }
+    return builder.toString();
+  }
+
   public static ItemBuilder<CoinStackItem,?> buildCoinStackItem (Registrate reg, NonNullSupplier<Item> coin, String name) {
     return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack", (p)-> new CoinStackItem(p, name))
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
@@ -175,7 +185,7 @@ public class Props {
             .texture("particle", prov.modLoc("block/palettes/decal/" + ctx.getName()))
           ).rotationY(y).build(); }))
         .addLayer(()-> RenderType::cutoutMipped)
-        .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " Decal")
+        .lang(prettyName(color.name()) + "Decal")
         .item()
         .model((ctx,prov)-> prov.singleTexture(ctx.getName(),
           prov.mcLoc("item/generated"),
