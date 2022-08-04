@@ -61,13 +61,8 @@ loom {
 dependencies {
     minecraft("com.mojang:minecraft:${project.minecraft_version}")
 
-    mappings loom.layered {
-        it.addLayer(quiltMappings.mappings("org.quiltmc:quilt-mappings:1.18.2+build.23:v2")) // https://lambdaurora.dev/tools/import_quilt.html
-        it.parchment("org.parchmentmc.data:parchment-1.18.2:2022.08.02@zip") // https://ldtteam.jfrog.io/ui/native/parchmentmc-public/org/parchmentmc/data/parchment-1.18.1/BLEEDING-SNAPSHOT
-        it.officialMojangMappings {
-            setNameSyntheticMembers(false)
-        }
-    }
+    mappings loom.officialMojangMappings()
+    
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:3.3.1")
     modImplementation("com.simibubi:Create:${create_version}")
