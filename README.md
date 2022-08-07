@@ -45,7 +45,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.9-1.18.2 | ??:
+1.2.9-1.18.2 | 07 A 2022:
  \+ vertical slabs should now rotate correctly in most orientations
  \* fixed cage lamp textures and recipes
  \* fixed Decal names
