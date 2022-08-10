@@ -7,13 +7,13 @@ import com.github.talrey.createdeco.connected.SheetMetalCTBehaviour;
 import com.github.talrey.createdeco.connected.SheetMetalSlabCTBehaviour;
 import com.github.talrey.createdeco.connected.SheetMetalVertCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
-import com.jozufozu.flywheel.util.NonNullSupplier;
+import com.github.talrey.createdeco.util.NonNullSupplier;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.repack.registrate.Registrate;
-import com.simibubi.create.repack.registrate.builders.BlockBuilder;
-import com.simibubi.create.repack.registrate.util.DataIngredient;
-import com.simibubi.create.repack.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.util.DataIngredient;
+import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Direction;
@@ -33,11 +33,9 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.function.Function;
 
 public class SheetMetal {
   public static HashMap<String, BlockEntry<Block>> SHEET_METAL_BLOCKS           = new HashMap<>();
@@ -81,7 +79,7 @@ public class SheetMetal {
 
   public static BlockBuilder<StairBlock,?> buildSheetMetalStair (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
     return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_stairs",
-    (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
+    (props)->new StairBlock(Blocks.BRICK_STAIRS.defaultBlockState(), props))
         .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)

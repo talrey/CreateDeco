@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "forge:nuggets/gold"
+      "tag": "c:nuggets/gold"
     }
   ],
   "results": [
@@ -10,10 +10,10 @@
       "item": "createdeco:gold_coin"
     }
   ],
-  "conditions": [
+  "fabric:load_conditions": [
     {
       "config": "can_press_coins",
-      "type": "createdeco:config"
+      "condition": "createdeco:config"
     }
   ]
 }

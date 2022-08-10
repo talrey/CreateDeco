@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.connected;
 
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
+import com.simibubi.create.foundation.block.connected.SimpleCTBehaviour;
 import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
 
 import com.simibubi.create.foundation.block.connected.SimpleCTBehaviour;

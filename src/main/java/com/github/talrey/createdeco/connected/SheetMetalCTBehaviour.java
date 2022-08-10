@@ -8,6 +8,7 @@ import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,8 +31,8 @@ public class SheetMetalCTBehaviour extends HorizontalCTBehaviour {
   protected boolean isSameMaterial (BlockState state, BlockState other) {
     Block me = state.getBlock();
     Block it = other.getBlock();
-    String material = me.getRegistryName().toString().replace("createdeco:","");
-    return it.getRegistryName().toString().replace("createdeco:","").startsWith(material.substring(0, material.indexOf("_")));
+    String material = Registry.BLOCK.getKey(me).toString().replace("createdeco:","");
+    return Registry.BLOCK.getKey(it).toString().replace("createdeco:","").startsWith(material.substring(0, material.indexOf("_")));
   }
 
   public Supplier<ConnectedTextureBehaviour> getSupplier () {

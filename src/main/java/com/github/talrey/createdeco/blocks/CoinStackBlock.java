@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.registry.Props;
+import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +21,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CoinStackBlock extends Block {
+public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   public final String material;
   private static final VoxelShape[] SHAPE = {
     Block.box(
@@ -88,7 +89,7 @@ public class CoinStackBlock extends Block {
   protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) { builder.add(BlockStateProperties.LAYERS); }
 
   @Override
-  public ItemStack getCloneItemStack (BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+  public ItemStack getPickedStack(BlockState state, BlockGetter view, BlockPos pos, @org.jetbrains.annotations.Nullable Player player, @org.jetbrains.annotations.Nullable HitResult result) {
     return Props.COINSTACK_ITEM.containsKey(material) ? Props.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
   }
 }

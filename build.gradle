@@ -1,26 +1,9 @@
-buildscript {
-    repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        mavenCentral()
-        maven {url='https://repo.spongepowered.org/maven'}
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.1.0'
-        classpath 'com.wynprice.cursemaven:CurseMaven:2.1.3'
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
-    }
-}
-
 plugins {
-    id'com.github.gmazzo.buildconfig' version '3.0.1'
+    id 'fabric-loom' version '0.11-SNAPSHOT'
+    id 'maven-publish'
+    id 'io.github.juuxel.loom-quiltflower' version '1.+'
+    id 'org.quiltmc.quilt-mappings-on-loom' version '4.+'
 }
-
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'com.matthewprenger.cursegradle'
-apply plugin: 'org.spongepowered.mixin'
-apply plugin: 'idea'
-apply plugin: 'eclipse'
 
 group = "mod.${author}.${modid}"
 version = "${mod_version}-${minecraft_version}"
@@ -29,59 +12,6 @@ archivesBaseName = modid
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
-minecraft {
-    mappings channel: "official", version: "${minecraft_version}"
-
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    runs {
-        client {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            args "--debug", "--stacktrace", "--scan", "-mixin.config=${modid}.mixins.json".toString()
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                "${modid}" {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        server {
-            workingDirectory project.file('server')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            args "--debug", "--stacktrace", "--scan", "-mixin.config=${modid}.mixins.json".toString()
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-
-            mods {
-                "${modid}" {
-                    source sourceSets.main
-                }
-            }
-        }
-
-        data {
-            workingDirectory project.file('run')
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-
-            args "--mod", modid, "--all", "--output", file('src/generated/resources/'), "--existing", file('src/main/resources/')
-
-            mods {
-                "${modid}" {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
-}
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
@@ -95,57 +25,74 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" }
+    maven { url = "https://mvn.devos.one/releases/" }
+    maven { url = "https://mvn.devos.one/snapshots/" }
+    maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://maven.parchmentmc.org" }
+    maven { url = "https://api.modrinth.com/maven" }
+    maven { url = "https://maven.cafeteria.dev" }
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://jitpack.io/" }
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/createdeco.accesswidener")
+    runs {
+        datagen {
+            client()
+
+            name "Data Generation"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+            vmArg "-Dfabric-api.datagen.modid=createdeco"
+            // from ae2
+            property "om.github.talrey.createdeco.existingData", file("src/main/resources").absolutePath
+
+            runDir "build/datagen"
+        }
+    }
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    
-    implementation fg.deobf("com.simibubi.create:Create:mc${create_version}")
-    implementation fg.deobf("com.jozufozu.flywheel:Flywheel-Forge:${flywheel_version}")
+    minecraft("com.mojang:minecraft:${project.minecraft_version}")
 
-    annotationProcessor 'org.spongepowered:mixin:0.8:processor'
+    mappings loom.officialMojangMappings()
+    
+    modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
+    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:3.3.1")
+    modImplementation("com.simibubi:Create:${create_version}")
 }
 
 compileJava.options.encoding = 'UTF-8'
 
-jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : modid,
-                "Specification-Vendor"    : author,
-                "Specification-Version"   : "1", // We are version 1 of ourselves
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.version,
-                "Implementation-Vendor"   : author,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "${modid}.mixins.json"
-        ])
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
     }
 }
 
-mixin {
-    add sourceSets.main, "${modid}.refmap.json"
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = 'UTF-8'
+
+    it.options.release = 17
 }
 
-task deobfJar(type: Jar) {
-    from sourceSets.main.output
-    classifier 'deobf'
+java {
+    withSourcesJar()
 }
 
-def reobfFile = file("$buildDir/reobfJar/output.jar")
-def reobfArtifact = artifacts.add('default', reobfFile) {
-    type 'jar'
-    builtBy 'reobfJar'
+jar {
+    from('LICENSE') {
+        rename { "${it}_${project.archivesBaseName}" }
+    }
 }
-
-artifacts {
-    archives deobfJar
-}
-
-build.dependsOn deobfJar
-
-jar.finalizedBy('reobfJar')
-
 
 def getGitHash = { ->
     def stdout = new ByteArrayOutputStream()
@@ -166,16 +113,4 @@ def hasUnstaged = { ->
     if (!result.isEmpty())
         println("Found stageable results:\n${result}\n")
     return !result.isEmpty()
-}
-
-buildConfig {
-    buildConfigField 'String', 'MODID', "\"${modid}\""
-    buildConfigField 'String', 'VERSION', "\"${project.version}\""
-    buildConfigField 'String', 'DISPLAY_NAME', "\"${display_name}\""
-    def gitstage = "\"${getGitHash()}" + (hasUnstaged() ? "-modified" : "") + "\""
-    println("Using git stage ${gitstage}")
-    buildConfigField "String", "GITHASH", gitstage
-
-    version = project.version
-    packageName = project.group
 }

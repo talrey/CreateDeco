@@ -5,6 +5,7 @@ import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuild
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
 import com.simibubi.create.content.curiosities.tools.SandPaperPolishingRecipe;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
@@ -17,7 +18,7 @@ public class PolishingRecipes extends ProcessingRecipeWrapper<SandPaperPolishing
       ts -> ts.require(Items.IRON_BARS).output(Registration.BAR_BLOCKS.get("Iron".toLowerCase(Locale.ROOT)).get())
     );
   }
-  public PolishingRecipes(DataGenerator generatorIn) {
+  public PolishingRecipes(FabricDataGenerator generatorIn) {
     super(generatorIn);
   }
 

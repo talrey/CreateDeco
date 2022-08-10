@@ -6,15 +6,10 @@ import com.simibubi.create.AllRecipeTypes;
 import com.simibubi.create.content.contraptions.components.press.PressingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
-
-import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.tags.ItemTags;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.Items;
 
-import java.util.Collections;
 import java.util.Locale;
 
 public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
@@ -37,7 +32,7 @@ public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
     );
   }
 
-  public PressingRecipes(DataGenerator generatorIn) {
+  public PressingRecipes(FabricDataGenerator generatorIn) {
     super(generatorIn);
   }
 

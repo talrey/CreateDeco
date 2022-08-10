@@ -3,6 +3,8 @@ package com.github.talrey.createdeco;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipe;
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuilder;
 
+import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipesProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -13,15 +15,15 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
-public abstract class ProcessingRecipeWrapper<T extends ProcessingRecipe<?>> extends RecipeProvider {
+public abstract class ProcessingRecipeWrapper<T extends ProcessingRecipe<?>> extends FabricRecipesProvider {
   public List<ProcessingRecipeBuilder<T>> recipes = new ArrayList<>();
 
-  public ProcessingRecipeWrapper(DataGenerator generatorIn) {
+  public ProcessingRecipeWrapper(FabricDataGenerator generatorIn) {
     super(generatorIn);
   }
 
   @Override
-  protected void buildCraftingRecipes (Consumer<FinishedRecipe> consumer) {
+  protected void generateRecipes (Consumer<FinishedRecipe> consumer) {
     recipes.forEach(builder -> builder.build(consumer));
   }
 
