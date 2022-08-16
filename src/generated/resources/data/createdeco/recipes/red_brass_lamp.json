@@ -10,7 +10,7 @@
       "tag": "forge:nuggets/brass"
     },
     "t": {
-      "item": "minecraft:torch"
+      "item": "minecraft:redstone_torch"
     },
     "p": {
       "tag": "forge:plates/brass"

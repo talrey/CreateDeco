@@ -240,7 +240,7 @@ public class Props {
               .pattern("t")
               .pattern("p")
               .define('n', nugget)
-              .define('t', Items.TORCH)
+              .define('t', Items.REDSTONE_TORCH)
               .define('p', plate)
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
               .save(prov);
@@ -265,7 +265,7 @@ public class Props {
               .pattern("t")
               .pattern("p")
               .define('n', nugget)
-              .define('t', Items.TORCH)
+              .define('t', Items.GLOW_BERRIES)
               .define('p', plate)
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
               .save(prov);
@@ -290,7 +290,7 @@ public class Props {
               .pattern("t")
               .pattern("p")
               .define('n', nugget)
-              .define('t', Items.TORCH)
+              .define('t', Items.SOUL_TORCH)
               .define('p', plate)
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
               .save(prov);
