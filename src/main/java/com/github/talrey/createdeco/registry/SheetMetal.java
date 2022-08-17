@@ -7,7 +7,7 @@ import com.github.talrey.createdeco.connected.SheetMetalCTBehaviour;
 import com.github.talrey.createdeco.connected.SheetMetalSlabCTBehaviour;
 import com.github.talrey.createdeco.connected.SheetMetalVertCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
-import com.jozufozu.flywheel.util.NonNullSupplier;
+import com.github.talrey.createdeco.util.NonNullSupplier;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.Registrate;
