@@ -106,7 +106,7 @@ dependencies {
         jarJar.pin(it, project.registrate_version)
     }
 
-    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+    compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
     implementation fg.deobf("curse.maven:create-328085:3934676")
     implementation fg.deobf("curse.maven:flywheel-486392:3934664")
