@@ -100,7 +100,7 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
+    compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     implementation fg.deobf("curse.maven:create-${create_project_id}:${create_version}")
     implementation fg.deobf("curse.maven:flywheel-${flywheel_project_id}:${flywheel_version}")
 
