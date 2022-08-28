@@ -8,13 +8,9 @@ import com.simibubi.create.content.contraptions.processing.ProcessingRecipeBuild
 import com.simibubi.create.content.contraptions.processing.ProcessingRecipeSerializer;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Collections;
 import java.util.Locale;
 
 public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {

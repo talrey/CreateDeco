@@ -1,8 +1,8 @@
 package com.github.talrey.createdeco.registry;
 
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
-import com.simibubi.create.repack.registrate.Registrate;
-import com.simibubi.create.repack.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.Registrate;
+import com.tterrag.registrate.builders.BlockBuilder;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
