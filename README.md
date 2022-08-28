@@ -45,7 +45,8 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.10-1.18.2 | 15 AUG 2022:
+1.2.10-1.18.2 | 28 AUG 2022:
+ \* updated to Create 0.5.0.d!
  \* fixed cage lamp recipes for real this time (sorry)
 
 1.2.9-1.18.2 | 07 AUG 2022:
