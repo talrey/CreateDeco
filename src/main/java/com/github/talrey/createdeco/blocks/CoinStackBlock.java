@@ -11,16 +11,20 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CoinStackBlock extends Block {
+public class CoinStackBlock extends Block implements SimpleWaterloggedBlock {
   public final String material;
   private static final VoxelShape[] SHAPE = {
     Block.box(
@@ -64,7 +68,9 @@ public class CoinStackBlock extends Block {
   public CoinStackBlock (Properties properties, String material) {
     super(properties);
     this.material = material;
-    this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.LAYERS, 1));
+    this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.LAYERS, 1)
+    .setValue(BlockStateProperties.WATERLOGGED, false)
+    );
   }
 
   @Override
@@ -81,14 +87,28 @@ public class CoinStackBlock extends Block {
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
+    FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
     return defaultBlockState();
   }
 
   @Override
-  protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) { builder.add(BlockStateProperties.LAYERS); }
+  protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
+    builder.add(BlockStateProperties.LAYERS);
+    builder.add(BlockStateProperties.WATERLOGGED);
+  }
 
   @Override
   public ItemStack getCloneItemStack (BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
     return Props.COINSTACK_ITEM.containsKey(material) ? Props.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
+  }
+
+  @Override
+  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
+  }
+
+  @Override
+  public FluidState getFluidState(BlockState state) {
+    return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
   }
 }
