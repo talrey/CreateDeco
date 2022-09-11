@@ -6,7 +6,7 @@ import com.github.talrey.createdeco.blocks.CageLampBlock;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
-import com.jozufozu.flywheel.util.NonNullSupplier;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import com.mojang.math.Vector3f;
 import com.simibubi.create.AllItems;
 import com.tterrag.registrate.Registrate;
