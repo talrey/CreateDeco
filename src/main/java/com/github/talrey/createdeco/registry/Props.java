@@ -64,6 +64,16 @@ public class Props {
   public static final ResourceLocation BLUE_ON    = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/light_soul");
   public static final ResourceLocation BLUE_OFF   = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/light_soul_off");
 
+  private static String prettyName (String original) {
+    StringBuilder builder = new StringBuilder();
+    for (String part : original.split("_")) {
+      builder.append(part.charAt(0));
+      builder.append(part.substring(1).toLowerCase(Locale.ROOT));
+      builder.append(" ");
+    }
+    return builder.toString();
+  }
+
   public static ItemBuilder<CoinStackItem,?> buildCoinStackItem (Registrate reg, NonNullSupplier<Item> coin, String name) {
     return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack", (p)-> new CoinStackItem(p, name))
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
@@ -174,7 +184,7 @@ public class Props {
             .texture("particle", prov.modLoc("block/palettes/decal/" + ctx.getName()))
           ).rotationY(y).build(); }))
         .addLayer(()-> RenderType::cutoutMipped)
-        .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " Decal")
+        .lang(prettyName(color.name()) + "Decal")
         .item()
         .model((ctx,prov)-> prov.singleTexture(ctx.getName(),
           prov.mcLoc("item/generated"),
@@ -197,52 +207,104 @@ public class Props {
       TagKey<Item> plate  = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
 
       YELLOW_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF)
-        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
-          .pattern("n")
-          .pattern("t")
-          .pattern("p")
-          .define('n', nugget)
-          .define('t', Items.TORCH)
-          .define('p', plate)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-          .save(prov)
-        )
+        .recipe((ctx,prov)-> {
+          if (metal != "Andesite") {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', nugget)
+              .define('t', Items.TORCH)
+              .define('p', plate)
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+              .save(prov);
+          } else {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', AllItems.ANDESITE_ALLOY.get())
+              .define('t', Items.TORCH)
+              .define('p', AllItems.ANDESITE_ALLOY.get())
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
+              .save(prov);
+          }
+        })
         .register());
       RED_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.RED, cage, RED_ON, RED_OFF)
-        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
-          .pattern("n")
-          .pattern("t")
-          .pattern("p")
-          .define('n', nugget)
-          .define('t', Items.REDSTONE_TORCH)
-          .define('p', plate)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-          .save(prov)
-        )
+        .recipe((ctx,prov)-> {
+          if (metal != "Andesite") {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', nugget)
+              .define('t', Items.TORCH)
+              .define('p', plate)
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+              .save(prov);
+          } else {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', AllItems.ANDESITE_ALLOY.get())
+              .define('t', Items.REDSTONE_TORCH)
+              .define('p', AllItems.ANDESITE_ALLOY.get())
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
+              .save(prov);
+          }
+        })
         .register());
       GREEN_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.GREEN, cage, GREEN_ON, GREEN_OFF)
-        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
-          .pattern("n")
-          .pattern("t")
-          .pattern("p")
-          .define('n', nugget)
-          .define('t', Items.GLOW_BERRIES)
-          .define('p', plate)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-          .save(prov)
-        )
+        .recipe((ctx,prov)-> {
+          if (metal != "Andesite") {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', nugget)
+              .define('t', Items.TORCH)
+              .define('p', plate)
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+              .save(prov);
+          } else {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', AllItems.ANDESITE_ALLOY.get())
+              .define('t', Items.GLOW_BERRIES)
+              .define('p', AllItems.ANDESITE_ALLOY.get())
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
+              .save(prov);
+          }
+        })
         .register());
       BLUE_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.BLUE, cage, BLUE_ON, BLUE_OFF)
-        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get())
-          .pattern("n")
-          .pattern("t")
-          .pattern("p")
-          .define('n', nugget)
-          .define('t', Items.SOUL_TORCH)
-          .define('p', plate)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-          .save(prov)
-        )
+        .recipe((ctx,prov)-> {
+          if (metal != "Andesite") {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', nugget)
+              .define('t', Items.TORCH)
+              .define('p', plate)
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
+              .save(prov);
+          } else {
+            ShapedRecipeBuilder.shaped(ctx.get())
+              .pattern("n")
+              .pattern("t")
+              .pattern("p")
+              .define('n', AllItems.ANDESITE_ALLOY.get())
+              .define('t', Items.SOUL_TORCH)
+              .define('p', AllItems.ANDESITE_ALLOY.get())
+              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
+              .save(prov);
+          }
+        })
         .register());
     });
   }

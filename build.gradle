@@ -34,6 +34,10 @@ repositories {
     maven { url = "https://maven.cafeteria.dev" }
     maven { url = "https://maven.shedaniel.me/" }
     maven { url = "https://jitpack.io/" }
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
 }
 
 loom {
@@ -59,8 +63,8 @@ dependencies {
 
     mappings loom.officialMojangMappings()
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
-
-    modImplementation("com.simibubi:Create:mc${create_version}")
+    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:3.3.1")
+    modImplementation("com.simibubi:Create:${create_version}")
 }
 
 compileJava.options.encoding = 'UTF-8'

@@ -1,9 +1,10 @@
 package com.github.talrey.createdeco.connected;
 
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
-import com.simibubi.create.foundation.block.connected.StandardCTBehaviour;
+import com.simibubi.create.foundation.block.connected.SimpleCTBehaviour;
 import com.simibubi.create.foundation.block.connected.ConnectedTextureBehaviour;
 
+import com.simibubi.create.foundation.block.connected.SimpleCTBehaviour;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Supplier;
 
-public class CatwalkCTBehaviour extends StandardCTBehaviour {
+public class CatwalkCTBehaviour extends SimpleCTBehaviour {
   public CatwalkCTBehaviour (CTSpriteShiftEntry layerShift) { super (layerShift); }
 
   @Override

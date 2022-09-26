@@ -45,6 +45,17 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.2.9-1.18.2 | ??:
+ \+ vertical slabs should now rotate correctly in most orientations
+ \* fixed cage lamp textures and recipes
+ \* fixed Decal names
+
+1.2.8-1.18.2 | 09 JUL 2022:
+ \+ added iron block -> cast iron block recipe
+ \* doors should be properly locked or unlocked now
+ \* fixed more recipes
+ \* updated to Create 0.5.0
+
 1.2.7-1.18.2 | 17 APR 2022:  
  \* fixed brick vert recipes
  \* made some builders modid agnostic for compatibility
