@@ -14,16 +14,20 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CageLampBlock extends Block {
+public class CageLampBlock extends Block implements SimpleWaterloggedBlock {
   public final DustParticleOptions particle;
 
   protected static final VoxelShape AABB_UP = Block.box(
@@ -62,14 +66,18 @@ public class CageLampBlock extends Block {
     this.registerDefaultState(this.defaultBlockState()
       .setValue(BlockStateProperties.LIT, false)
       .setValue(BlockStateProperties.INVERTED, false)
-      .setValue(BlockStateProperties.FACING, Direction.UP));
+      .setValue(BlockStateProperties.FACING, Direction.UP)
+      .setValue(BlockStateProperties.WATERLOGGED, false)
+    );
   }
 
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
+    FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
+
     return defaultBlockState().setValue(BlockStateProperties.FACING, ctx.getClickedFace())
-      .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace()));
+      .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace())).setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
   }
 
   @Override
@@ -132,5 +140,16 @@ public class CageLampBlock extends Block {
       .add(BlockStateProperties.LIT)
       .add(BlockStateProperties.INVERTED)
       .add(BlockStateProperties.FACING);
+    builder.add(BlockStateProperties.WATERLOGGED);
+  }
+
+  @Override
+  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
+  }
+
+  @Override
+  public FluidState getFluidState(BlockState state) {
+    return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
   }
 }
