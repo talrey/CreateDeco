@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top_rh",
-  "textures": {
-    "bottom": "createdeco:block/zinc_door_bottom",
-    "top": "createdeco:block/zinc_door_top"
-  }
-}

@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "XXX"
-  ],
   "key": {
     "X": {
       "item": "createdeco:cracked_blue_short_bricks"
     }
   },
+  "pattern": [
+    "XXX"
+  ],
   "result": {
-    "item": "createdeco:cracked_blue_short_bricks_slab",
-    "count": 6
+    "count": 6,
+    "item": "createdeco:cracked_blue_short_bricks_slab"
   }
 }

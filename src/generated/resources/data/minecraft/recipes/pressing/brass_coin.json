@@ -9,11 +9,5 @@
     {
       "item": "createdeco:brass_coin"
     }
-  ],
-  "conditions": [
-    {
-      "config": "can_press_coins",
-      "type": "createdeco:config"
-    }
   ]
 }

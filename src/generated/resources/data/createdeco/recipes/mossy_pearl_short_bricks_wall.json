@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "XXX",
-    "XXX"
-  ],
   "key": {
     "X": {
       "item": "createdeco:mossy_pearl_short_bricks"
     }
   },
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
   "result": {
-    "item": "createdeco:mossy_pearl_short_bricks_wall",
-    "count": 6
+    "count": 6,
+    "item": "createdeco:mossy_pearl_short_bricks_wall"
   }
 }

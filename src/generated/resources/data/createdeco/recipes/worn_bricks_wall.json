@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "XXX",
-    "XXX"
-  ],
   "key": {
     "X": {
       "item": "createdeco:worn_bricks"
     }
   },
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
   "result": {
-    "item": "createdeco:worn_bricks_wall",
-    "count": 6
+    "count": 6,
+    "item": "createdeco:worn_bricks_wall"
   }
 }

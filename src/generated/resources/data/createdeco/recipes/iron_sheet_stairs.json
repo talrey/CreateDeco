@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "X  ",
-    "XX ",
-    "XXX"
-  ],
   "key": {
     "X": {
       "item": "createdeco:iron_sheet_metal"
     }
   },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
   "result": {
-    "item": "createdeco:iron_sheet_stairs",
-    "count": 4
+    "count": 4,
+    "item": "createdeco:iron_sheet_stairs"
   }
 }

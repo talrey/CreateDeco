@@ -3,25 +3,26 @@ package com.github.talrey.createdeco;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.crafting.conditions.ICondition;
 import net.minecraftforge.common.crafting.conditions.IConditionSerializer;
 
 public class ConfigCondition implements ICondition {
-  private static final ResourceLocation NAME = new ResourceLocation(CreateDecoMod.MODID, "config");
+  public static final ResourceLocation NAME = new ResourceLocation(CreateDecoMod.MODID, "config");
   private final String configName;
+
+  public static final RecipeSerializer<Recipe<?>> SERIALZIER = null;
 
   public ConfigCondition (String name) {
     configName = name;
   }
 
   @Override
-  public ResourceLocation getID() {
-    return NAME;
-  }
+  public ResourceLocation getID () { return NAME; }
 
   @Override
-  public boolean test() {
-  //  LogManager.getLogger(CreateDecoMod.MODID).debug("testing config for " + configName + " : returns " + Config.getSetting(configName));
+  public boolean test(ICondition.IContext context) {
     return Config.getSetting(configName);
   }
 

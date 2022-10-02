@@ -33,11 +33,9 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.function.Function;
 
 public class SheetMetal {
   public static HashMap<String, BlockEntry<Block>> SHEET_METAL_BLOCKS           = new HashMap<>();
@@ -81,14 +79,14 @@ public class SheetMetal {
 
   public static BlockBuilder<StairBlock,?> buildSheetMetalStair (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
     return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_stairs",
-    (props)->new StairBlock(Blocks.BRICK_STAIRS::defaultBlockState, props))
+    (props)->new StairBlock(Blocks.END_STONE_BRICK_STAIRS::defaultBlockState, props))
         .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
       )
       .item()
-      .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
-      .build()
+        .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
+        .build()
       .tag(BlockTags.STAIRS)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(), texture))

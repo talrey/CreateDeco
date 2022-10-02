@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
 
@@ -29,8 +30,8 @@ public class SheetMetalCTBehaviour extends HorizontalCTBehaviour {
   protected boolean isSameMaterial (BlockState state, BlockState other) {
     Block me = state.getBlock();
     Block it = other.getBlock();
-    String material = me.getRegistryName().toString().replace("createdeco:","");
-    return it.getRegistryName().toString().replace("createdeco:","").startsWith(material.substring(0, material.indexOf("_")));
+    String material = ForgeRegistries.BLOCKS.getKey(me).toString().replace("createdeco:","");
+    return ForgeRegistries.BLOCKS.getKey(me).toString().replace("createdeco:","").startsWith(material.substring(0, material.indexOf("_")));
   }
 
   public Supplier<ConnectedTextureBehaviour> getSupplier () {

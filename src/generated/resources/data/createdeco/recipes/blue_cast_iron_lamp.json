@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/cast_iron"
+    },
+    "p": {
+      "tag": "forge:plates/cast_iron"
+    },
+    "t": {
+      "item": "minecraft:soul_torch"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/cast_iron"
-    },
-    "t": {
-      "item": "minecraft:soul_torch"
-    },
-    "p": {
-      "tag": "forge:plates/cast_iron"
-    }
-  },
   "result": {
     "item": "createdeco:blue_cast_iron_lamp"
   }

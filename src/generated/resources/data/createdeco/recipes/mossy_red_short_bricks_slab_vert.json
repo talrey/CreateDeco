@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "s",
-    "s",
-    "s"
-  ],
   "key": {
     "s": {
       "item": "createdeco:mossy_red_short_bricks_slab"
     }
   },
+  "pattern": [
+    "s",
+    "s",
+    "s"
+  ],
   "result": {
-    "item": "createdeco:mossy_red_short_bricks_slab_vert",
-    "count": 3
+    "count": 3,
+    "item": "createdeco:mossy_red_short_bricks_slab_vert"
   }
 }

@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/copper"
+    },
+    "p": {
+      "tag": "forge:plates/copper"
+    },
+    "t": {
+      "item": "minecraft:torch"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/copper"
-    },
-    "t": {
-      "item": "minecraft:torch"
-    },
-    "p": {
-      "tag": "forge:plates/copper"
-    }
-  },
   "result": {
     "item": "createdeco:yellow_copper_lamp"
   }

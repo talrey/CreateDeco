@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "X  ",
-    "XX ",
-    "XXX"
-  ],
   "key": {
     "X": {
       "item": "createdeco:gold_sheet_metal"
     }
   },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
   "result": {
-    "item": "createdeco:gold_sheet_stairs",
-    "count": 4
+    "count": 4,
+    "item": "createdeco:gold_sheet_stairs"
   }
 }
