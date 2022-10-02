@@ -45,6 +45,9 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.2.11-1.19.2 | 02 OCT 2022:
+ \* IMPORTANT FOR SERVER OWNERS: Option to disable pressing Coins has been removed. You'll need another mod for that. Sorry.
+
 1.2.11-1.18.2 | 25 SEP 2022:  
  \* updated to Create 0.5.0.e!
  \* Coin Stacks, Decals, and Lamps are now waterloggable
