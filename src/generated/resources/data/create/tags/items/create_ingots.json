@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "create:andesite_alloy",
-    "create:zinc_ingot",
-    "create:brass_ingot"
-  ]
-}

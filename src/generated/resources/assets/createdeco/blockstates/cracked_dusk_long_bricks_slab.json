@@ -1,13 +1,13 @@
 {
   "variants": {
+    "type=top": {
+      "model": "createdeco:block/cracked_dusk_long_bricks_slab_top"
+    },
     "type=bottom": {
       "model": "createdeco:block/cracked_dusk_long_bricks_slab"
     },
     "type=double": {
       "model": "createdeco:block/cracked_dusk_long_bricks"
-    },
-    "type=top": {
-      "model": "createdeco:block/cracked_dusk_long_bricks_slab_top"
     }
   }
 }

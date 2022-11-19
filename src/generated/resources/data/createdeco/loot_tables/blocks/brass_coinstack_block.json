@@ -2,14 +2,15 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "1"
               }
@@ -17,9 +18,9 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 1.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
@@ -28,8 +29,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "2"
               }
@@ -37,9 +38,9 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 2.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
@@ -48,8 +49,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "3"
               }
@@ -57,9 +58,9 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 3.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
@@ -68,8 +69,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "4"
               }
@@ -77,9 +78,9 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 4.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
@@ -88,8 +89,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "5"
               }
@@ -97,9 +98,9 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 5.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
@@ -108,8 +109,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "6"
               }
@@ -117,9 +118,9 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 6.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
@@ -128,8 +129,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "7"
               }
@@ -137,9 +138,9 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 7.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
@@ -148,8 +149,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "block": "createdeco:brass_coinstack_block",
               "condition": "minecraft:block_state_property",
+              "block": "createdeco:brass_coinstack_block",
               "properties": {
                 "layers": "8"
               }
@@ -157,15 +158,14 @@
           ],
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "count": 8.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_coinstack"
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "count": 1,
   "ingredient": {
     "item": "createdeco:pearl_long_bricks"
   },
-  "result": "createdeco:pearl_long_bricks_wall"
+  "result": "createdeco:pearl_long_bricks_wall",
+  "count": 1
 }

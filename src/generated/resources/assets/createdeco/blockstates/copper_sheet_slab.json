@@ -1,13 +1,13 @@
 {
   "variants": {
+    "type=top": {
+      "model": "createdeco:block/copper_sheet_slab_top"
+    },
     "type=bottom": {
       "model": "createdeco:block/copper_sheet_slab"
     },
     "type=double": {
       "model": "createdeco:block/copper_sheet_metal"
-    },
-    "type=top": {
-      "model": "createdeco:block/copper_sheet_slab_top"
     }
   }
 }

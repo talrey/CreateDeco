@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "key": {
-    "X": {
-      "item": "createdeco:dusk_short_bricks"
-    }
-  },
   "pattern": [
     "X  ",
     "XX ",
     "XXX"
   ],
+  "key": {
+    "X": {
+      "item": "createdeco:dusk_short_bricks"
+    }
+  },
   "result": {
-    "count": 4,
-    "item": "createdeco:dusk_short_bricks_stairs"
+    "item": "createdeco:dusk_short_bricks_stairs",
+    "count": 4
   }
 }

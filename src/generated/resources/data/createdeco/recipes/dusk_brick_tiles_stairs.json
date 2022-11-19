@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "key": {
-    "X": {
-      "item": "createdeco:dusk_brick_tiles"
-    }
-  },
   "pattern": [
     "X  ",
     "XX ",
     "XXX"
   ],
+  "key": {
+    "X": {
+      "item": "createdeco:dusk_brick_tiles"
+    }
+  },
   "result": {
-    "count": 4,
-    "item": "createdeco:dusk_brick_tiles_stairs"
+    "item": "createdeco:dusk_brick_tiles_stairs",
+    "count": 4
   }
 }

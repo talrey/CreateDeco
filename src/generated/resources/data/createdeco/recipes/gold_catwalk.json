@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
-  "key": {
-    "B": {
-      "item": "createdeco:gold_bars"
-    },
-    "p": {
-      "tag": "forge:plates/gold"
-    }
-  },
   "pattern": [
     " p ",
     "pBp",
     " p "
   ],
+  "key": {
+    "p": {
+      "tag": "c:plates/gold"
+    },
+    "B": {
+      "item": "createdeco:gold_bars"
+    }
+  },
   "result": {
-    "count": 3,
-    "item": "createdeco:gold_catwalk"
+    "item": "createdeco:gold_catwalk",
+    "count": 3
   }
 }

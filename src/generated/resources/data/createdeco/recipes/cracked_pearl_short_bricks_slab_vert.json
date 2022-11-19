@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "key": {
-    "s": {
-      "item": "createdeco:cracked_pearl_short_bricks_slab"
-    }
-  },
   "pattern": [
     "s",
     "s",
     "s"
   ],
+  "key": {
+    "s": {
+      "item": "createdeco:cracked_pearl_short_bricks_slab"
+    }
+  },
   "result": {
-    "count": 3,
-    "item": "createdeco:cracked_pearl_short_bricks_slab_vert"
+    "item": "createdeco:cracked_pearl_short_bricks_slab_vert",
+    "count": 3
   }
 }

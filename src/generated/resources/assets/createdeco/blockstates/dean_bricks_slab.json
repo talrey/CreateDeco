@@ -1,13 +1,13 @@
 {
   "variants": {
+    "type=top": {
+      "model": "createdeco:block/dean_bricks_slab_top"
+    },
     "type=bottom": {
       "model": "createdeco:block/dean_bricks_slab"
     },
     "type=double": {
       "model": "createdeco:block/dean_bricks"
-    },
-    "type=top": {
-      "model": "createdeco:block/dean_bricks_slab_top"
     }
   }
 }

@@ -1,13 +1,13 @@
 {
   "variants": {
+    "type=top": {
+      "model": "createdeco:block/netherite_sheet_slab_top"
+    },
     "type=bottom": {
       "model": "createdeco:block/netherite_sheet_slab"
     },
     "type=double": {
       "model": "createdeco:block/netherite_sheet_metal"
-    },
-    "type=top": {
-      "model": "createdeco:block/netherite_sheet_slab_top"
     }
   }
 }

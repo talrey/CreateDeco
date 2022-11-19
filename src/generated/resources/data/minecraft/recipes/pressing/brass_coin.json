@@ -2,12 +2,18 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "forge:nuggets/brass"
+      "tag": "c:nuggets/brass"
     }
   ],
   "results": [
     {
       "item": "createdeco:brass_coin"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "config": "can_press_coins",
+      "condition": "createdeco:config"
     }
   ]
 }

@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:block/slab_top",
   "textures": {
-    "bottom": "createdeco:block/palettes/bricks/scarlet/cracked_scarlet_brick_tiles",
     "side": "createdeco:block/palettes/bricks/scarlet/cracked_scarlet_brick_tiles",
+    "bottom": "createdeco:block/palettes/bricks/scarlet/cracked_scarlet_brick_tiles",
     "top": "createdeco:block/palettes/bricks/scarlet/cracked_scarlet_brick_tiles"
   }
 }

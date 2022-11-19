@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/copper"
-    },
-    "p": {
-      "tag": "forge:plates/copper"
-    },
-    "t": {
-      "item": "minecraft:glow_berries"
-    }
-  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
+  "key": {
+    "n": {
+      "tag": "c:nuggets/copper"
+    },
+    "t": {
+      "item": "minecraft:torch"
+    },
+    "p": {
+      "tag": "c:plates/copper"
+    }
+  },
   "result": {
     "item": "createdeco:green_copper_lamp"
   }

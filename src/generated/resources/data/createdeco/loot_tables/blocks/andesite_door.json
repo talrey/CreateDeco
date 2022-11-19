@@ -2,23 +2,23 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "block": "createdeco:andesite_door",
-          "condition": "minecraft:block_state_property",
-          "properties": {
-            "half": "lower"
-          }
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
           "name": "createdeco:andesite_door"
         }
       ],
-      "rolls": 1.0
+      "conditions": [
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "createdeco:andesite_door",
+          "properties": {
+            "half": "lower"
+          }
+        }
+      ]
     }
   ]
 }

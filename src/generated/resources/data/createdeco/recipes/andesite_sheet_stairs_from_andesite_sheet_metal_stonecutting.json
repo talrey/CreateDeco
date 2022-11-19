@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "count": 1,
   "ingredient": {
     "item": "createdeco:andesite_sheet_metal"
   },
-  "result": "createdeco:andesite_sheet_stairs"
+  "result": "createdeco:andesite_sheet_stairs",
+  "count": 1
 }

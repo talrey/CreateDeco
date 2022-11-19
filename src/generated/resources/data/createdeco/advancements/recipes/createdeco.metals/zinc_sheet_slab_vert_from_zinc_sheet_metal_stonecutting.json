@@ -1,13 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:zinc_sheet_slab_vert_from_zinc_sheet_metal_stonecutting"
+    ]
+  },
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "createdeco:zinc_sheet_slab_vert_from_zinc_sheet_metal_stonecutting"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
     "has_zinc_sheet_metal": {
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -16,8 +16,13 @@
             ]
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:zinc_sheet_slab_vert_from_zinc_sheet_metal_stonecutting"
+      }
     }
   },
   "requirements": [
@@ -25,10 +30,5 @@
       "has_zinc_sheet_metal",
       "has_the_recipe"
     ]
-  ],
-  "rewards": {
-    "recipes": [
-      "createdeco:zinc_sheet_slab_vert_from_zinc_sheet_metal_stonecutting"
-    ]
-  }
+  ]
 }

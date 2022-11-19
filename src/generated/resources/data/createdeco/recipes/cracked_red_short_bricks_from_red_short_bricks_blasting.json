@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
-  "cookingtime": 100,
-  "experience": 0.5,
   "ingredient": {
     "item": "createdeco:red_short_bricks"
   },
-  "result": "createdeco:cracked_red_short_bricks"
+  "result": "createdeco:cracked_red_short_bricks",
+  "experience": 0.5,
+  "cookingtime": 100
 }

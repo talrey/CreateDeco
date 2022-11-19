@@ -1,19 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:black_decal"
+    ]
+  },
   "criteria": {
-    "has_dye": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:black_dye"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_item": {
+      "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
@@ -22,14 +16,25 @@
             ]
           }
         ]
-      },
-      "trigger": "minecraft:inventory_changed"
+      }
+    },
+    "has_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:black_dye"
+            ]
+          }
+        ]
+      }
     },
     "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
       "conditions": {
         "recipe": "createdeco:black_decal"
-      },
-      "trigger": "minecraft:recipe_unlocked"
+      }
     }
   },
   "requirements": [
@@ -38,10 +43,5 @@
       "has_dye",
       "has_the_recipe"
     ]
-  ],
-  "rewards": {
-    "recipes": [
-      "createdeco:black_decal"
-    ]
-  }
+  ]
 }

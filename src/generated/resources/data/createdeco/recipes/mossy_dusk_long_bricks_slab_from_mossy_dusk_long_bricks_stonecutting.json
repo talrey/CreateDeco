@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
-  "count": 2,
   "ingredient": {
     "item": "createdeco:mossy_dusk_long_bricks"
   },
-  "result": "createdeco:mossy_dusk_long_bricks_slab"
+  "result": "createdeco:mossy_dusk_long_bricks_slab",
+  "count": 2
 }

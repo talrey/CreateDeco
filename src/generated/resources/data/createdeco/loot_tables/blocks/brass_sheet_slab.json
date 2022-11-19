@@ -2,30 +2,30 @@
   "type": "minecraft:block",
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "add": false,
+              "function": "minecraft:set_count",
               "conditions": [
                 {
-                  "block": "createdeco:brass_sheet_slab",
                   "condition": "minecraft:block_state_property",
+                  "block": "createdeco:brass_sheet_slab",
                   "properties": {
                     "type": "double"
                   }
                 }
               ],
               "count": 2.0,
-              "function": "minecraft:set_count"
+              "add": false
             }
           ],
           "name": "createdeco:brass_sheet_slab"
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ]
 }
