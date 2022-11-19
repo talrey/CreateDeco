@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "createdeco:copper_coin",
-    "count": 4
+    "count": 4,
+    "item": "createdeco:copper_coin"
   }
 }

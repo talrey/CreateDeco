@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "psp",
-    "psp"
-  ],
   "key": {
     "p": {
-      "tag": "c:plates/iron"
+      "tag": "forge:plates/iron"
     },
     "s": {
       "item": "minecraft:string"
     }
   },
+  "pattern": [
+    "psp",
+    "psp"
+  ],
   "result": {
-    "item": "createdeco:iron_mesh_fence",
-    "count": 3
+    "count": 3,
+    "item": "createdeco:iron_mesh_fence"
   }
 }

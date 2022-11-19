@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "createdeco:copper_bars"
+    },
+    "p": {
+      "tag": "forge:plates/copper"
+    }
+  },
   "pattern": [
     " p ",
     "pBp",
     " p "
   ],
-  "key": {
-    "p": {
-      "tag": "c:plates/copper"
-    },
-    "B": {
-      "item": "createdeco:copper_bars"
-    }
-  },
   "result": {
-    "item": "createdeco:copper_catwalk",
-    "count": 3
+    "count": 3,
+    "item": "createdeco:copper_catwalk"
   }
 }

@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/cast_iron"
+    },
+    "p": {
+      "tag": "forge:plates/cast_iron"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "c:nuggets/cast_iron"
-    },
-    "t": {
-      "item": "minecraft:torch"
-    },
-    "p": {
-      "tag": "c:plates/cast_iron"
-    }
-  },
   "result": {
     "item": "createdeco:red_cast_iron_lamp"
   }

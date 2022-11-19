@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "mmm",
-    "mmm"
-  ],
   "key": {
     "m": {
       "item": "minecraft:gold_ingot"
     }
   },
+  "pattern": [
+    "mmm",
+    "mmm"
+  ],
   "result": {
-    "item": "createdeco:gold_bars",
-    "count": 16
+    "count": 16,
+    "item": "createdeco:gold_bars"
   }
 }

@@ -2,15 +2,14 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "1"
               }
@@ -18,9 +17,9 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 1.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
@@ -29,8 +28,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "2"
               }
@@ -38,9 +37,9 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 2.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
@@ -49,8 +48,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "3"
               }
@@ -58,9 +57,9 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 3.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
@@ -69,8 +68,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "4"
               }
@@ -78,9 +77,9 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 4.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
@@ -89,8 +88,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "5"
               }
@@ -98,9 +97,9 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 5.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
@@ -109,8 +108,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "6"
               }
@@ -118,9 +117,9 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 6.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
@@ -129,8 +128,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "7"
               }
@@ -138,9 +137,9 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 7.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
@@ -149,8 +148,8 @@
           "type": "minecraft:item",
           "conditions": [
             {
-              "condition": "minecraft:block_state_property",
               "block": "createdeco:cast_iron_coinstack_block",
+              "condition": "minecraft:block_state_property",
               "properties": {
                 "layers": "8"
               }
@@ -158,14 +157,15 @@
           ],
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "count": 8.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:cast_iron_coinstack"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

@@ -44,6 +44,16 @@ Cage Lamps: Torches are old news, industry demands nicer lighting. These come in
 Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four - er, five: now featuring Cast Iron.
 
 == Changelog ==
+1.2.11-1.19.2 | 02 OCT 2022:
+\* IMPORTANT FOR SERVER OWNERS: Option to disable pressing Coins has been removed. You'll need another mod for that. Sorry.
+
+1.2.11-1.18.2 | 25 SEP 2022:  
+\* updated to Create 0.5.0.e!
+\* Coin Stacks, Decals, and Lamps are now waterloggable
+
+1.2.10-1.18.2 | 28 AUG 2022:  
+\* updated to Create 0.5.0.d!  
+\* fixed cage lamp recipes for real this time (sorry)
 
 1.2.9-1.18.2 | ??:
  \+ vertical slabs should now rotate correctly in most orientations

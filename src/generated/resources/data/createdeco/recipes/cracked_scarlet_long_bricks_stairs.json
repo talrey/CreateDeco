@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "X  ",
-    "XX ",
-    "XXX"
-  ],
   "key": {
     "X": {
       "item": "createdeco:cracked_scarlet_long_bricks"
     }
   },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
   "result": {
-    "item": "createdeco:cracked_scarlet_long_bricks_stairs",
-    "count": 4
+    "count": 4,
+    "item": "createdeco:cracked_scarlet_long_bricks_stairs"
   }
 }

@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "createdeco:polished_iron_bars"
+    },
+    "p": {
+      "tag": "forge:plates/iron"
+    }
+  },
   "pattern": [
     " p ",
     "pBp",
     " p "
   ],
-  "key": {
-    "p": {
-      "tag": "c:plates/iron"
-    },
-    "B": {
-      "item": "createdeco:polished_iron_bars"
-    }
-  },
   "result": {
-    "item": "createdeco:iron_catwalk",
-    "count": 3
+    "count": 3,
+    "item": "createdeco:iron_catwalk"
   }
 }

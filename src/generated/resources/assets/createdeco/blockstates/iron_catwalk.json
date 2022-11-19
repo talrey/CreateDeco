@@ -1,97 +1,97 @@
 {
   "multipart": [
     {
-      "when": {
-        "bottom": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_bottom"
+      },
+      "when": {
+        "bottom": "true"
       }
     },
     {
-      "when": {
-        "bottom": "false"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_top"
+      },
+      "when": {
+        "bottom": "false"
       }
     },
     {
-      "when": {
-        "bottom": "true",
-        "north": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_rail_lower",
         "y": 90
+      },
+      "when": {
+        "bottom": "true",
+        "north": "true"
       }
     },
     {
-      "when": {
-        "bottom": "true",
-        "south": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_rail_lower",
         "y": -90
+      },
+      "when": {
+        "bottom": "true",
+        "south": "true"
       }
     },
     {
-      "when": {
-        "bottom": "true",
-        "east": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_rail_lower",
         "y": 180
+      },
+      "when": {
+        "bottom": "true",
+        "east": "true"
       }
     },
     {
-      "when": {
-        "bottom": "true",
-        "west": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_rail_lower"
+      },
+      "when": {
+        "bottom": "true",
+        "west": "true"
       }
     },
     {
-      "when": {
-        "bottom": "false",
-        "north": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_rail_upper",
         "y": 90
+      },
+      "when": {
+        "bottom": "false",
+        "north": "true"
       }
     },
     {
-      "when": {
-        "bottom": "false",
-        "south": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_rail_upper",
         "y": -90
+      },
+      "when": {
+        "bottom": "false",
+        "south": "true"
       }
     },
     {
-      "when": {
-        "bottom": "false",
-        "east": "true"
-      },
       "apply": {
         "model": "createdeco:block/iron_catwalk_rail_upper",
         "y": 180
+      },
+      "when": {
+        "bottom": "false",
+        "east": "true"
       }
     },
     {
+      "apply": {
+        "model": "createdeco:block/iron_catwalk_rail_upper"
+      },
       "when": {
         "bottom": "false",
         "west": "true"
-      },
-      "apply": {
-        "model": "createdeco:block/iron_catwalk_rail_upper"
       }
     }
   ]

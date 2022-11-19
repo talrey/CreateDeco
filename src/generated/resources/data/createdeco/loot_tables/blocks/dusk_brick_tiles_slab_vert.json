@@ -2,30 +2,30 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "add": false,
               "conditions": [
                 {
-                  "condition": "minecraft:block_state_property",
                   "block": "createdeco:dusk_brick_tiles_slab_vert",
+                  "condition": "minecraft:block_state_property",
                   "properties": {
                     "type": "double"
                   }
                 }
               ],
               "count": 2.0,
-              "add": false
+              "function": "minecraft:set_count"
             }
           ],
           "name": "createdeco:dusk_brick_tiles_slab_vert"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

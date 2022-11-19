@@ -2,18 +2,12 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:nuggets/copper"
+      "tag": "forge:nuggets/copper"
     }
   ],
   "results": [
     {
       "item": "createdeco:copper_coin"
-    }
-  ],
-  "fabric:load_conditions": [
-    {
-      "config": "can_press_coins",
-      "condition": "createdeco:config"
     }
   ]
 }

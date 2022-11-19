@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "mm",
-    "mm",
-    "mm"
-  ],
   "key": {
     "m": {
       "item": "create:andesite_alloy"
     }
   },
+  "pattern": [
+    "mm",
+    "mm",
+    "mm"
+  ],
   "result": {
     "item": "createdeco:andesite_door"
   }

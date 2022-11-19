@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "psp",
-    "psp"
-  ],
   "key": {
     "p": {
-      "tag": "c:plates/zinc"
+      "tag": "forge:plates/zinc"
     },
     "s": {
       "item": "minecraft:string"
     }
   },
+  "pattern": [
+    "psp",
+    "psp"
+  ],
   "result": {
-    "item": "createdeco:zinc_mesh_fence",
-    "count": 3
+    "count": 3,
+    "item": "createdeco:zinc_mesh_fence"
   }
 }

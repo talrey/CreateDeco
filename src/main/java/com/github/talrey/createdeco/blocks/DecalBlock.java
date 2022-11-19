@@ -7,10 +7,12 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -19,7 +21,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class DecalBlock extends Block {
+public class DecalBlock extends Block implements SimpleWaterloggedBlock {
   private static final VoxelShape NORTH = Block.box(
   1d, 1d, 0d,
   15d, 15d, 1d
@@ -94,5 +96,14 @@ public class DecalBlock extends Block {
   @Override
   public VoxelShape getCollisionShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext ctx) {
     return Shapes.empty();
+  }
+  @Override
+  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
+    return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
+  }
+
+  @Override
+  public FluidState getFluidState(BlockState state) {
+    return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
   }
 }

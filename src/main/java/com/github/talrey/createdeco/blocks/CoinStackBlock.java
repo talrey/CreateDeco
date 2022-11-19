@@ -12,6 +12,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -21,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CoinStackBlock extends Block implements BlockPickInteractionAware {
+public class CoinStackBlock extends Block implements BlockPickInteractionAware, SimpleWaterloggedBlock {
   public final String material;
   private static final VoxelShape[] SHAPE = {
     Block.box(
@@ -65,7 +66,10 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   public CoinStackBlock (Properties properties, String material) {
     super(properties);
     this.material = material;
-    this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.LAYERS, 1));
+    this.registerDefaultState(
+            this.defaultBlockState().setValue(BlockStateProperties.LAYERS, 1)
+                    .setValue(BlockStateProperties.WATERLOGGED, false)
+    );
   }
 
   @Override
@@ -86,8 +90,10 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   }
 
   @Override
-  protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) { builder.add(BlockStateProperties.LAYERS); }
-
+  protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
+    builder.add(BlockStateProperties.LAYERS);
+    builder.add(BlockStateProperties.WATERLOGGED);
+  }
   @Override
   public ItemStack getPickedStack(BlockState state, BlockGetter view, BlockPos pos, @org.jetbrains.annotations.Nullable Player player, @org.jetbrains.annotations.Nullable HitResult result) {
     return Props.COINSTACK_ITEM.containsKey(material) ? Props.COINSTACK_ITEM.get(material).asStack() : new ItemStack(Items.AIR);
