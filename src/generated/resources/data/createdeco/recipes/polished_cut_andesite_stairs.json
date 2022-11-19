@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "polished_cut_andesite_stairs",
+  "key": {
+    "X": {
+      "item": "create:polished_cut_andesite"
+    }
+  },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "result": {
+    "count": 4,
+    "item": "create:polished_cut_andesite_stairs"
+  }
+}

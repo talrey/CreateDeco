@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "cut_scorchia_brick_slab",
+  "key": {
+    "X": {
+      "item": "create:cut_scorchia_bricks"
+    }
+  },
+  "pattern": [
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "create:cut_scorchia_brick_slab"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "cut_veridium_brick_stairs",
+  "key": {
+    "X": {
+      "item": "create:cut_veridium_bricks"
+    }
+  },
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "result": {
+    "count": 4,
+    "item": "create:cut_veridium_brick_stairs"
+  }
+}
