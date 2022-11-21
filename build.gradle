@@ -11,8 +11,8 @@ loom {
 }
 
 group = "mod.${author}.${modid}"
-version = "${mod_version}-${minecraft_version}"
-archivesBaseName = "CreateDeco-Fabric+${version}"
+version = "${mod_version}"
+archivesBaseName = "CreateDeco-Fabric-${project.minecraft_version}"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
