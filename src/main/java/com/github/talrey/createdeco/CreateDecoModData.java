@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco;
 
-import com.tterrag.registrate.fabric.GatherDataEvent;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -18,7 +17,7 @@ public class CreateDecoModData implements DataGeneratorEntrypoint {
         var existingData = System.getProperty("om.github.talrey.createdeco.existingData").split(";");
         var existingFileHelper = new ExistingFileHelper(Arrays.stream(existingData).map(Paths::get).toList(), Collections.emptySet(),
                 true, null, null);
-        GatherDataEvent.EVENT.invoker().gatherData(gen, existingFileHelper);
+        CreateDecoMod.createDecoRegistrar.setupDatagen(gen, existingFileHelper);
         SPLASHING = new SplashingRecipes(gen);
         gen.addProvider(SPLASHING);
         PRESSING  = new PressingRecipes(gen);

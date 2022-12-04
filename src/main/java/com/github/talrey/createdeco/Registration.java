@@ -386,7 +386,7 @@ public class Registration {
                     .register()));
 
     METAL_TYPES.forEach((metal, getter) -> {
-      boolean postFlag = (metal.contains("Netherite") || metal.contains("Gold") || metal.contains("Cast Iron"));
+      boolean postFlag = (metal.contains("Netherite")/* || metal.contains("Gold")*/ || metal.contains("Cast Iron"));
       BAR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
               MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "", postFlag
                       )
@@ -418,7 +418,7 @@ public class Registration {
                       )
                       .register());
       if (metal.equals("Iron")) { // add a panel version of the vanilla iron too
-        BAR_PANEL_BLOCKS.put("vanill_iron", MetalDecoBuilders.buildBars(reg, metal, getter, "overlay")
+        BAR_PANEL_BLOCKS.put("vanilla_iron", MetalDecoBuilders.buildBars(reg, metal, getter, "overlay")
                 .lang(metal + " Panel Bars")
                 .recipe((ctx, prov)-> {
                   ShapelessRecipeBuilder.shapeless(ctx.get())

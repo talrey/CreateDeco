@@ -62,14 +62,16 @@ public class CageLampBlock extends Block {
     this.registerDefaultState(this.defaultBlockState()
       .setValue(BlockStateProperties.LIT, false)
       .setValue(BlockStateProperties.INVERTED, false)
-      .setValue(BlockStateProperties.FACING, Direction.UP));
+      .setValue(BlockStateProperties.FACING, Direction.UP)
+      .setValue(BlockStateProperties.WATERLOGGED, false));
   }
 
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
     return defaultBlockState().setValue(BlockStateProperties.FACING, ctx.getClickedFace())
-      .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace()));
+      .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace()))
+      .setValue(BlockStateProperties.WATERLOGGED, ctx.getLevel().isWaterAt(ctx.getClickedPos()));
   }
 
   @Override
@@ -131,6 +133,7 @@ public class CageLampBlock extends Block {
     builder
       .add(BlockStateProperties.LIT)
       .add(BlockStateProperties.INVERTED)
-      .add(BlockStateProperties.FACING);
+      .add(BlockStateProperties.FACING)
+      .add(BlockStateProperties.WATERLOGGED);
   }
 }

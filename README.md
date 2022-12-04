@@ -45,28 +45,31 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.9-1.18.2 | ??:
- \+ vertical slabs should now rotate correctly in most orientations
- \* fixed cage lamp textures and recipes
- \* fixed Decal names
+fabric-1.2.11-1.18.2 | 04 DEC 2022:  
+ \* fast-forwarding to forge parity after all this time
 
-1.2.8-1.18.2 | 09 JUL 2022:
- \+ added iron block -> cast iron block recipe
- \* doors should be properly locked or unlocked now
- \* fixed more recipes
- \* updated to Create 0.5.0
+1.2.9-1.18.2 | 07 AUG 2022:  
+ \+ vertical slabs should now rotate correctly in most orientations  
+ \* fixed cage lamp textures and recipes  
+ \* fixed Decal names  
+
+1.2.8-1.18.2 | 09 JUL 2022:  
+ \+ added iron block -> cast iron block recipe  
+ \* doors should be properly locked or unlocked now  
+ \* fixed more recipes  
+ \* updated to Create 0.5.0  
 
 1.2.7-1.18.2 | 17 APR 2022:  
- \* fixed brick vert recipes
- \* made some builders modid agnostic for compatibility
+ \* fixed brick vert recipes  
+ \* made some builders modid agnostic for compatibility  
 
-1.2.6-1.18.2 | 11 APR 2022:
- \* cleaned up some things that were really not ideal at best, and crashy at worst  
- \+ added Cage Lamps in red, yellow, green, and blue for all metal types
- \+ added Cast Iron as a new material + full Deco block set
+1.2.6-1.18.2 | 11 APR 2022:  
+ \* cleaned up some things that were really not ideal at best, and crashy at worst    
+ \+ added Cage Lamps in red, yellow, green, and blue for all metal types  
+ \+ added Cast Iron as a new material + full Deco block set  
 
 1.2.5-1.18.1 | 2 FEB 2022:  
- \* reminded rascally slabs to do duo drops when doubled
+ \* reminded rascally slabs to do duo drops when doubled  
 
 1.2.4-1.18.1 | 30 JAN 2022:  
  \* language settings shouldn't affect recipes now

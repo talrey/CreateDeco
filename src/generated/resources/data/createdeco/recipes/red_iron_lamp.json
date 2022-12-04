@@ -10,7 +10,7 @@
       "tag": "c:nuggets/iron"
     },
     "t": {
-      "item": "minecraft:torch"
+      "item": "minecraft:redstone_torch"
     },
     "p": {
       "tag": "c:plates/iron"

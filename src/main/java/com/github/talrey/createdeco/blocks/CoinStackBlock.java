@@ -65,7 +65,11 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   public CoinStackBlock (Properties properties, String material) {
     super(properties);
     this.material = material;
-    this.registerDefaultState(this.defaultBlockState().setValue(BlockStateProperties.LAYERS, 1));
+    this.registerDefaultState(
+      this.defaultBlockState()
+      .setValue(BlockStateProperties.LAYERS, 1)
+      .setValue(BlockStateProperties.WATERLOGGED, false)
+    );
   }
 
   @Override
@@ -82,11 +86,13 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
-    return defaultBlockState();
+    return defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, ctx.getLevel().isWaterAt(ctx.getClickedPos()));
   }
 
   @Override
-  protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) { builder.add(BlockStateProperties.LAYERS); }
+  protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
+    builder.add(BlockStateProperties.LAYERS).add(BlockStateProperties.WATERLOGGED);
+  }
 
   @Override
   public ItemStack getPickedStack(BlockState state, BlockGetter view, BlockPos pos, @org.jetbrains.annotations.Nullable Player player, @org.jetbrains.annotations.Nullable HitResult result) {

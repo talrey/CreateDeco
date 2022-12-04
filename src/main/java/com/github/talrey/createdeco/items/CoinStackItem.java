@@ -29,6 +29,7 @@ public class CoinStackItem extends Item {
       int height = target.getValue(BlockStateProperties.LAYERS);
       if (!ctx.getLevel().isClientSide()) ctx.getLevel().setBlockAndUpdate(ctx.getClickedPos(), Props.COIN_BLOCKS.get(this.material).getDefaultState()
         .setValue(BlockStateProperties.LAYERS, height+1)
+        .setValue(BlockStateProperties.WATERLOGGED, ctx.getLevel().isWaterAt(ctx.getClickedPos()) && height+1 != 7)
       );
       return true;
     }
