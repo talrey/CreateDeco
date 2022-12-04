@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.mojang.math.Vector3f;
+import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.DustParticleOptions;
@@ -17,13 +18,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CageLampBlock extends Block {
+public class CageLampBlock extends Block implements ProperWaterloggedBlock {
   public final DustParticleOptions particle;
 
   protected static final VoxelShape AABB_UP = Block.box(
@@ -63,15 +65,16 @@ public class CageLampBlock extends Block {
       .setValue(BlockStateProperties.LIT, false)
       .setValue(BlockStateProperties.INVERTED, false)
       .setValue(BlockStateProperties.FACING, Direction.UP)
-      .setValue(BlockStateProperties.WATERLOGGED, false));
+      .setValue(WATERLOGGED, false));
   }
 
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
-    return defaultBlockState().setValue(BlockStateProperties.FACING, ctx.getClickedFace())
-      .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace()))
-      .setValue(BlockStateProperties.WATERLOGGED, ctx.getLevel().isWaterAt(ctx.getClickedPos()));
+    return withWater(defaultBlockState()
+        .setValue(BlockStateProperties.FACING, ctx.getClickedFace())
+        .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace())),
+      ctx);
   }
 
   @Override
@@ -84,6 +87,17 @@ public class CageLampBlock extends Block {
       case SOUTH -> AABB_SOUTH;
       case NORTH -> AABB_NORTH;
     };
+  }
+
+  @Override
+  public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
+    updateWater(pLevel, pState, pCurrentPos);
+    return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+  }
+
+  @Override
+  public FluidState getFluidState (BlockState pState) {
+    return fluidState(pState);
   }
 
   public static boolean shouldBeLit (BlockState state, Level level, BlockPos pos) {
@@ -130,10 +144,11 @@ public class CageLampBlock extends Block {
 
   @Override
   protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
-    builder
-      .add(BlockStateProperties.LIT)
-      .add(BlockStateProperties.INVERTED)
-      .add(BlockStateProperties.FACING)
-      .add(BlockStateProperties.WATERLOGGED);
+    builder.add(
+      BlockStateProperties.LIT,
+      BlockStateProperties.INVERTED,
+      BlockStateProperties.FACING,
+      WATERLOGGED
+    );
   }
 }

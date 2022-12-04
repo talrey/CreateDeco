@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.registry.Props;
+import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.fabricmc.fabric.api.block.BlockPickInteractionAware;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,13 +16,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CoinStackBlock extends Block implements BlockPickInteractionAware {
+public class CoinStackBlock extends Block implements BlockPickInteractionAware, ProperWaterloggedBlock {
   public final String material;
   private static final VoxelShape[] SHAPE = {
     Block.box(
@@ -68,7 +70,7 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
     this.registerDefaultState(
       this.defaultBlockState()
       .setValue(BlockStateProperties.LAYERS, 1)
-      .setValue(BlockStateProperties.WATERLOGGED, false)
+      .setValue(WATERLOGGED, false)
     );
   }
 
@@ -78,7 +80,13 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   }
 
   @Override
+  public FluidState getFluidState(BlockState pState) {
+    return fluidState(pState);
+  }
+
+  @Override
   public BlockState updateShape (BlockState stateIn, Direction facing, BlockState facingState, LevelAccessor worldIn, BlockPos currentPos, BlockPos facingPos) {
+    updateWater(worldIn, stateIn, currentPos);
     if (facing == Direction.DOWN && !canSupportCenter(worldIn, facingPos, Direction.UP)) return Blocks.AIR.defaultBlockState();
     return super.updateShape(stateIn, facing, facingState, worldIn, currentPos, facingPos);
   }
@@ -86,12 +94,12 @@ public class CoinStackBlock extends Block implements BlockPickInteractionAware {
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
-    return defaultBlockState().setValue(BlockStateProperties.WATERLOGGED, ctx.getLevel().isWaterAt(ctx.getClickedPos()));
+    return withWater(defaultBlockState(), ctx);
   }
 
   @Override
   protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
-    builder.add(BlockStateProperties.LAYERS).add(BlockStateProperties.WATERLOGGED);
+    builder.add(BlockStateProperties.LAYERS, WATERLOGGED);
   }
 
   @Override
