@@ -136,7 +136,7 @@ public class MetalDecoBuilders {
       .build();
   }
 
-  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path) { return buildDoor(reg, name, path, Material.METAL); }
+  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path) { return buildDoor(reg, name, path, Material.HEAVY_METAL); }
 
   public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path, Material mat) {
     return reg.block(name, DoorBlock::new)

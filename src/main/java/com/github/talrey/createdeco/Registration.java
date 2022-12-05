@@ -372,7 +372,8 @@ public class Registration {
 
     DOOR_TYPES.forEach((metal, ingot)->
             LOCK_DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
-                            reg, "locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
+                            reg, "locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
+                            Material.METAL
                     )
                     .lang("Locked " + metal + " Door")
                     .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
