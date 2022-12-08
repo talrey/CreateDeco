@@ -45,7 +45,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-fabric-1.2.11-1.18.2 | 04 DEC 2022:  
+fabric-1.2.11-1.18.2 | 09 DEC 2022:  
  \* fast-forwarding to forge parity after all this time
 
 1.2.9-1.18.2 | 07 AUG 2022:  
