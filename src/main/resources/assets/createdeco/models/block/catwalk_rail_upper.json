@@ -1,6 +1,5 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "andesite_catwalk",
 	"textures": {
 		"3": "createdeco:block/palettes/catwalks/andesite_catwalk_rail",
 		"particle": "createdeco:create_deco/andesite_catwalk_rail"
