@@ -1,8 +1,8 @@
 {
   "parent": "createdeco:block/layers_bottom_top_1",
   "textures": {
-    "bottom": "createdeco:block/netherite_coinstack_top",
     "side": "createdeco:block/netherite_coinstack_side",
-    "top": "createdeco:block/netherite_coinstack_bottom"
+    "bottom": "createdeco:block/netherite_coinstack_bottom",
+    "top": "createdeco:block/netherite_coinstack_top"
   }
 }
