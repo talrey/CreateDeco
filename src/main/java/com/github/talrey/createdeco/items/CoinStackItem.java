@@ -3,6 +3,8 @@ package com.github.talrey.createdeco.items;
 import com.github.talrey.createdeco.Registration;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
 import com.github.talrey.createdeco.registry.Props;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -54,6 +56,9 @@ public class CoinStackItem extends Item {
   public InteractionResult useOn (UseOnContext ctx) {
     if (placeBlock (ctx)) {
       ctx.getItemInHand().shrink(1);
+      ctx.getLevel().playSound(
+        null, ctx.getClickedPos(), SoundEvents.CHAIN_PLACE, SoundSource.BLOCKS, 1f, 1f
+      );
       return InteractionResult.SUCCESS;
     }
     return super.useOn(ctx);
