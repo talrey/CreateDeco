@@ -45,6 +45,10 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.2.12-1.18.2 & 1.19.2 | 17 DEC 2022:
+ \* updated textures for most of the blocks and items
+ \* minor fixes
+
 1.2.11-1.18.2 | 25 SEP 2022:  
  \* updated to Create 0.5.0.e!
  \* Coin Stacks, Decals, and Lamps are now waterloggable
