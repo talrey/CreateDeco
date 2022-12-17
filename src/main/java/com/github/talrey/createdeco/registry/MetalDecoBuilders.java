@@ -36,8 +36,6 @@ import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Locale;
 import java.util.function.Function;
 

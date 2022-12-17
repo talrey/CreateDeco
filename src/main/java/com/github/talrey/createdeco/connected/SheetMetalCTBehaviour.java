@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco.connected;
 
-import com.github.talrey.createdeco.Registration;
 import com.github.talrey.createdeco.registry.SheetMetal;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.HorizontalCTBehaviour;

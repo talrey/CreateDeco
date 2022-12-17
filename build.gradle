@@ -65,7 +65,7 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
     modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:3.3.1")
-    modImplementation("com.simibubi.create:create-fabric-1.18.2:${create_version}")
+    modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}")
 }
 
 compileJava.options.encoding = 'UTF-8'
