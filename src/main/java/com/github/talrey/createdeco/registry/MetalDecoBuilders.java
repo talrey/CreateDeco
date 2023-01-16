@@ -3,6 +3,7 @@ package com.github.talrey.createdeco.registry;
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.Registration;
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
+import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
@@ -21,10 +22,9 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.material.Material;
@@ -36,6 +36,7 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -348,5 +349,26 @@ public class MetalDecoBuilders {
       .onRegister(CreateRegistrate.connectedTextures(
         new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
       ));
+  }
+
+  public static BlockBuilder<CatwalkStairBlock,?> buildCatwalkStair (Registrate reg, String metal) {
+    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stair", CatwalkStairBlock::new)
+        .initialProperties(Material.METAL)
+        .properties(props->
+          props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
+            .sound(SoundType.NETHERITE_BLOCK)
+        )
+        .addLayer(()-> RenderType::cutoutMipped)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+        .simpleItem()
+        .blockstate((ctx,prov)-> {
+          String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
+
+          BlockModelBuilder builder = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stair"))
+            .texture("0", texture)
+            .texture("particle", texture);
+          prov.horizontalBlock(ctx.get(), builder);
+        });
   }
 }
