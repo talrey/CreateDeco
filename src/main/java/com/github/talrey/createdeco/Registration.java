@@ -77,8 +77,9 @@ public class Registration {
   public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_BLOCKS       = new HashMap<>();
   public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_PANEL_BLOCKS = new HashMap<>();
 
-  public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS = new HashMap<>();
-  public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS  = new HashMap<>();
+  public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS     = new HashMap<>();
+  public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS      = new HashMap<>();
+  public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS = new HashMap<>();
 
   public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS       = new HashMap<>();
   public static HashMap<String, BlockEntry<SupportBlock>> SUPPORT_BLOCKS = new HashMap<>();
@@ -504,6 +505,7 @@ public class Registration {
       }
       MESH_FENCE_BLOCKS.put(metal, MetalDecoBuilders.buildFence(reg, metal).register());
       CATWALK_BLOCKS.put(metal, MetalDecoBuilders.buildCatwalk(reg, metal).register());
+      CATWALK_STAIRS.put(metal, MetalDecoBuilders.buildCatwalkStair(reg, metal).register());
     });
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
