@@ -193,7 +193,9 @@ public class Registration {
           WORN_BRICK_TYPES.put(full, BrickBuilders.buildBrick(reg, null, pre, "Worn", suf)
             .recipe((ctx, prov) -> {
               prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx);
-              if (pre.equals("Cracked")) prov.blasting(DataIngredient.items(wornBrick.get()), ctx, 0.5f);
+              if (pre.equals("Cracked")) prov.blasting(
+                DataIngredient.items(WORN_BRICK_TYPES.get("Worn " + suf)), ctx, 0.5f
+              );
             })
             .register()
           );
@@ -204,7 +206,7 @@ public class Registration {
             prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx);
             prov.stairs(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_STAIRS.get(full.substring(8))), ctx, 0.5f);
+              prov.blasting(DataIngredient.items(WORN_STAIRS.get("Worn " + suf)), ctx, 0.5f);
             }
           })
           .register()
@@ -215,7 +217,7 @@ public class Registration {
             prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
             prov.slab(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_SLABS.get(full.substring(8))), ctx, 0.5f);
+              prov.blasting(DataIngredient.items(WORN_SLABS.get("Worn " + suf)), ctx, 0.5f);
             }
           })
           .register()
@@ -232,7 +234,7 @@ public class Registration {
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(WORN_SLABS.get(full).get()))
               .save(prov);
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_VERTS.get(full.substring(8))), ctx, 0.5f);
+              prov.blasting(DataIngredient.items(WORN_VERTS.get("Worn " + suf)), ctx, 0.5f);
             }
           }).register()
         );
@@ -241,7 +243,7 @@ public class Registration {
             if (! (pre.equals("") && suf.equals("Bricks"))) prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx);
             prov.wall(DataIngredient.items(WORN_BRICK_TYPES.get(full).get()), ctx);
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_WALLS.get(full.substring(8))), ctx, 0.5f);
+              prov.blasting(DataIngredient.items(WORN_WALLS.get("Worn " + suf)), ctx, 0.5f);
             }
           }).register()
         );
