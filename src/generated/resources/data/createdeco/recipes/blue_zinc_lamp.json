@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "c:nuggets/zinc"
+      "tag": "forge:nuggets/zinc"
     },
     "t": {
       "item": "minecraft:soul_torch"
     },
     "p": {
-      "tag": "c:plates/zinc"
+      "tag": "forge:plates/zinc"
     }
   },
   "result": {

@@ -7,7 +7,7 @@
   ],
   "key": {
     "p": {
-      "tag": "c:plates/gold"
+      "tag": "forge:plates/gold"
     },
     "B": {
       "item": "createdeco:gold_bars"

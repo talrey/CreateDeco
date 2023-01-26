@@ -6,7 +6,7 @@
   ],
   "key": {
     "p": {
-      "tag": "c:plates/netherite"
+      "tag": "forge:plates/netherite"
     },
     "s": {
       "item": "minecraft:string"

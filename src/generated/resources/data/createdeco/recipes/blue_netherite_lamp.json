@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "c:nuggets/netherite"
+      "tag": "forge:nuggets/netherite"
     },
     "t": {
       "item": "minecraft:soul_torch"
     },
     "p": {
-      "tag": "c:plates/netherite"
+      "tag": "forge:plates/netherite"
     }
   },
   "result": {
