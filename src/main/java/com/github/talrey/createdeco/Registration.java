@@ -433,7 +433,7 @@ public class Registration {
         )
         .register());
       if (metal.equals("Iron")) { // add a panel version of the vanilla iron too
-        BAR_PANEL_BLOCKS.put("vanill_iron", MetalDecoBuilders.buildBars(reg, metal, getter, "overlay")
+        BAR_PANEL_BLOCKS.put("vanilla_iron", MetalDecoBuilders.buildBars(reg, metal, getter, "overlay")
           .lang(metal + " Panel Bars")
           .recipe((ctx, prov)-> {
             ShapelessRecipeBuilder.shapeless(ctx.get())
@@ -453,6 +453,10 @@ public class Registration {
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
       .initialProperties(Material.METAL)
+      .properties(props->
+        props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
+          .sound(SoundType.NETHERITE_BLOCK)
+      )
       .lang("Block of Cast Iron")
       .simpleItem()
       .register();
