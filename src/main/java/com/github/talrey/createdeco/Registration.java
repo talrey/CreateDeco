@@ -446,6 +446,10 @@ public class Registration {
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
       .initialProperties(Material.METAL)
+      .properties(props->
+        props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
+          .sound(SoundType.NETHERITE_BLOCK)
+      )
       .lang("Block of Cast Iron")
       .simpleItem()
       .register();
