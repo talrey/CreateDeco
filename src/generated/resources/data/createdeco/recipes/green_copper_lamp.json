@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "c:nuggets/copper"
+      "tag": "forge:nuggets/copper"
     },
     "t": {
       "item": "minecraft:glow_berries"
     },
     "p": {
-      "tag": "c:plates/copper"
+      "tag": "forge:plates/copper"
     }
   },
   "result": {

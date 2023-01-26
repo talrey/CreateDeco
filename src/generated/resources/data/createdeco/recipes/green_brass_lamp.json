@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "c:nuggets/brass"
+      "tag": "forge:nuggets/brass"
     },
     "t": {
       "item": "minecraft:glow_berries"
     },
     "p": {
-      "tag": "c:plates/brass"
+      "tag": "forge:plates/brass"
     }
   },
   "result": {

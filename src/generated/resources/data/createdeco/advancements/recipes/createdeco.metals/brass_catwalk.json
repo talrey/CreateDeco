@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:plates/brass"
+            "tag": "forge:plates/brass"
           }
         ]
       }

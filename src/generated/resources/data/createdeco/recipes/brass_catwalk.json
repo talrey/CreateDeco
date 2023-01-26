@@ -7,7 +7,7 @@
   ],
   "key": {
     "p": {
-      "tag": "c:plates/brass"
+      "tag": "forge:plates/brass"
     },
     "B": {
       "item": "createdeco:brass_bars"

@@ -7,7 +7,7 @@
   ],
   "key": {
     "p": {
-      "tag": "c:plates/zinc"
+      "tag": "forge:plates/zinc"
     },
     "B": {
       "item": "createdeco:zinc_bars"

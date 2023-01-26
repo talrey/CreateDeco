@@ -6,7 +6,7 @@
   ],
   "key": {
     "p": {
-      "tag": "c:plates/zinc"
+      "tag": "forge:plates/zinc"
     },
     "s": {
       "item": "minecraft:string"

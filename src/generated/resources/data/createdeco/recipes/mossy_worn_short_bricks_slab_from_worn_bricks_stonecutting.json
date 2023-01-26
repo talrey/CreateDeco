@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "createdeco:worn_bricks"
+  },
+  "result": "createdeco:mossy_worn_short_bricks_slab",
+  "count": 2
+}

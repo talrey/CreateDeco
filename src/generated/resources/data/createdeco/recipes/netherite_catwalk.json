@@ -7,7 +7,7 @@
   ],
   "key": {
     "p": {
-      "tag": "c:plates/netherite"
+      "tag": "forge:plates/netherite"
     },
     "B": {
       "item": "createdeco:netherite_bars"
