@@ -45,6 +45,9 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.2.13-1.18.2 & 1.19.2 | :  
+ \* fixed cast iron block properties
+
 1.2.12-1.18.2 & 1.19.2 | 17 DEC 2022:  
  \* updated textures for most of the blocks and items  
  \* minor fixes  
