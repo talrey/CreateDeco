@@ -1,8 +1,8 @@
 {
   "parent": "createdeco:block/layers_bottom_top_8",
   "textures": {
-    "side": "createdeco:block/cast_iron_coinstack_side",
     "bottom": "createdeco:block/cast_iron_coinstack_bottom",
+    "side": "createdeco:block/cast_iron_coinstack_side",
     "top": "createdeco:block/cast_iron_coinstack_top"
   }
 }
