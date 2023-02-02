@@ -1,13 +1,9 @@
 {
-  "type": "create:pressing",
-  "ingredients": [
-    {
-      "item": "create:zinc_ingot"
-    }
-  ],
-  "results": [
-    {
-      "item": "createdeco:zinc_sheet"
-    }
-  ]
+    "type": "create:pressing",
+    "ingredients": [{
+        "tag": "forge:ingots/zinc"
+    }],
+    "results": [{
+        "item": "createdeco:zinc_sheet"
+    }]
 }
