@@ -1,16 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "mmm",
-    "mmm"
-  ],
-  "key": {
-    "m": {
-      "item": "create:zinc_ingot"
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "mmm",
+        "mmm"
+    ],
+    "key": {
+        "m": {
+            "tag": "forge:ingots/zinc"
+        }
+    },
+    "result": {
+        "item": "createdeco:zinc_bars",
+        "count": 16
     }
-  },
-  "result": {
-    "item": "createdeco:zinc_bars",
-    "count": 16
-  }
 }
