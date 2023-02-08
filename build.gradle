@@ -119,11 +119,10 @@ jar {
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.version,
                 "Implementation-Vendor"   : author,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
-
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
