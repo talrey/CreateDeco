@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "item": "create:zinc_ingot"
+      "tag": "forge:ingots/zinc"
     }
   ],
   "results": [
