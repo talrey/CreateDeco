@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "forge:nuggets/gold"
+      "tag": "c:gold_nuggets"
     },
     "t": {
       "item": "minecraft:redstone_torch"
     },
     "p": {
-      "tag": "forge:plates/gold"
+      "tag": "c:gold_plates"
     }
   },
   "result": {
