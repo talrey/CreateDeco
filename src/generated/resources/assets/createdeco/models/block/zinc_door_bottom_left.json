@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom_left",
+    "textures": {
+        "bottom": "createdeco:block/zinc_door_bottom",
+		"top": "createdeco:block/zinc_door_top"
+    }
+}

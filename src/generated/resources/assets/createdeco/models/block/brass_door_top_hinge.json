@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top_rh",
-  "textures": {
-    "bottom": "createdeco:block/brass_door_bottom",
-    "top": "createdeco:block/brass_door_top"
-  }
-}
