@@ -7,13 +7,13 @@
   ],
   "key": {
     "n": {
-      "tag": "forge:nuggets/cast_iron"
+      "tag": "c:nuggets/cast_iron"
     },
     "t": {
       "item": "minecraft:redstone_torch"
     },
     "p": {
-      "tag": "forge:plates/cast_iron"
+      "tag": "c:plates/cast_iron"
     }
   },
   "result": {

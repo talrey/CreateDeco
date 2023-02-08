@@ -1,7 +1,0 @@
-{
-  "parent": "createdeco:block/catwalk_stair",
-  "textures": {
-    "0": "createdeco:block/palettes/catwalks/iron_catwalk",
-    "particle": "createdeco:block/palettes/catwalks/iron_catwalk"
-  }
-}
