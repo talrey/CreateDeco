@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 0.5,
   "ingredient": {
     "item": "createdeco:dean_bricks_slab"
   },
-  "result": "createdeco:cracked_dean_bricks_slab",
-  "experience": 0.5,
-  "cookingtime": 100
+  "result": "createdeco:cracked_dean_bricks_slab"
 }

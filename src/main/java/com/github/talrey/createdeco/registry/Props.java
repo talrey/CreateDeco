@@ -203,8 +203,9 @@ public class Props {
 
     Registration.METAL_TYPES.forEach((metal, getter) -> {
       ResourceLocation cage = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp");
-      TagKey<Item> nugget = Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
-      TagKey<Item> plate  = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
+      String name = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      TagKey<Item> nugget = Registration.makeItemTag(name + "_nuggets");
+      TagKey<Item> plate  = Registration.makeItemTag(name + "_plates");
 
       YELLOW_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF)
         .recipe((ctx,prov)-> {

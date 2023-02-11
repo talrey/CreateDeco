@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "B": {
+      "item": "createdeco:netherite_bars"
+    },
+    "p": {
+      "tag": "c:netherite_plates"
+    }
+  },
   "pattern": [
     " p ",
     "pBp",
     " p "
   ],
-  "key": {
-    "p": {
-      "tag": "forge:plates/netherite"
-    },
-    "B": {
-      "item": "createdeco:netherite_bars"
-    }
-  },
   "result": {
-    "item": "createdeco:netherite_catwalk",
-    "count": 3
+    "count": 3,
+    "item": "createdeco:netherite_catwalk"
   }
 }

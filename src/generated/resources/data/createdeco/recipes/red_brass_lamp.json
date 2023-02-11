@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "c:brass_nuggets"
+    },
+    "p": {
+      "tag": "c:brass_plates"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/brass"
-    },
-    "t": {
-      "item": "minecraft:redstone_torch"
-    },
-    "p": {
-      "tag": "forge:plates/brass"
-    }
-  },
   "result": {
     "item": "createdeco:red_brass_lamp"
   }

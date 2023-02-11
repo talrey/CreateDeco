@@ -1,0 +1,19 @@
+{
+  "type": "create:pressing",
+  "fabric:load_conditions": [
+    {
+      "condition": "createdeco:config",
+      "config": "can_press_coins"
+    }
+  ],
+  "ingredients": [
+    {
+      "tag": "c:nuggets/netherite"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:netherite_coin"
+    }
+  ]
+}

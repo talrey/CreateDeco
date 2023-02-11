@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "psp",
-    "psp"
-  ],
   "key": {
     "p": {
-      "tag": "forge:plates/gold"
+      "tag": "c:gold_plates"
     },
     "s": {
       "item": "minecraft:string"
     }
   },
+  "pattern": [
+    "psp",
+    "psp"
+  ],
   "result": {
-    "item": "createdeco:gold_mesh_fence",
-    "count": 3
+    "count": 3,
+    "item": "createdeco:gold_mesh_fence"
   }
 }

@@ -1,8 +1,8 @@
 {
   "type": "minecraft:stonecutting",
+  "count": 2,
   "ingredient": {
     "item": "createdeco:blue_bricks"
   },
-  "result": "createdeco:blue_brick_tiles_slab_vert",
-  "count": 2
+  "result": "createdeco:blue_brick_tiles_slab_vert"
 }

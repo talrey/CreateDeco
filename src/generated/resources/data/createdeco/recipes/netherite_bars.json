@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "mmm",
-    "mmm"
-  ],
   "key": {
     "m": {
       "item": "minecraft:netherite_ingot"
     }
   },
+  "pattern": [
+    "mmm",
+    "mmm"
+  ],
   "result": {
-    "item": "createdeco:netherite_bars",
-    "count": 16
+    "count": 16,
+    "item": "createdeco:netherite_bars"
   }
 }

@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "c:zinc_nuggets"
+    },
+    "p": {
+      "tag": "c:zinc_plates"
+    },
+    "t": {
+      "item": "minecraft:soul_torch"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/zinc"
-    },
-    "t": {
-      "item": "minecraft:soul_torch"
-    },
-    "p": {
-      "tag": "forge:plates/zinc"
-    }
-  },
   "result": {
     "item": "createdeco:blue_zinc_lamp"
   }

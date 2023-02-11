@@ -193,7 +193,7 @@ public class MetalDecoBuilders {
             .save(prov);
         }
         else {
-          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
+          TagKey<Item> sheet = Registration.makeItemTag(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_plates");
           ShapedRecipeBuilder.shaped(ctx.get(), 3)
             .pattern("psp")
             .pattern("psp")
@@ -279,7 +279,7 @@ public class MetalDecoBuilders {
             .save(prov);
         }
         else {
-          TagKey<Item> sheet = Registration.makeItemTag("plates/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"));
+          TagKey<Item> sheet = Registration.makeItemTag(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_plates");
           ShapedRecipeBuilder.shaped(ctx.get(), 3)
             .pattern(" p ")
             .pattern("pBp")

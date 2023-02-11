@@ -482,37 +482,37 @@ public class Registration {
 
     reg.creativeModeTab(() -> DecoCreativeModeTab.METALS_GROUP, DecoCreativeModeTab.METALS_NAME);
     ZINC_SHEET = reg.item("zinc_sheet", Item::new)
-      .tag(makeItemTag("plates/zinc"))
+      .tag(makeItemTag("zinc_plates"))
       .lang("Zinc Sheet")
       .register();
 
     NETHERITE_SHEET = reg.item("netherite_sheet", Item::new)
       .properties(Item.Properties::fireResistant)
-      .tag(makeItemTag("plates/netherite"))
+      .tag(makeItemTag("netherite_plates"))
       .lang("Netherite Sheet")
       .register();
 
     NETHERITE_NUGGET = reg.item("netherite_nugget", Item::new)
       .properties(Item.Properties::fireResistant)
-      .tag(makeItemTag("nuggets/netherite"))
+      .tag(makeItemTag("netherite_nuggets"))
       .lang("Netherite Nugget")
       .recipe((ctx, prov) -> prov.storage(ctx, () -> Items.NETHERITE_INGOT))
       .register();
 
     CAST_IRON_NUGGET = reg.item("cast_iron_nugget", Item::new)
-      .tag(makeItemTag("nuggets/cast_iron"))
+      .tag(makeItemTag("cast_iron_nuggets"))
       .lang("Cast Iron Nugget")
       .recipe((ctx, prov) -> prov.storage(ctx, () -> CAST_IRON_INGOT.get()))
       .register();
 
     CAST_IRON_INGOT = reg.item("cast_iron_ingot", Item::new)
-      .tag(makeItemTag("ingots/cast_iron"))
+      .tag(makeItemTag("cast_iron_ingots"))
       .lang("Cast Iron Ingot")
       .recipe((ctx, prov) -> prov.storage(ctx, () -> CAST_IRON_BLOCK.get().asItem()))
       .register();
 
     CAST_IRON_SHEET = reg.item("cast_iron_sheet", Item::new)
-      .tag(makeItemTag("plates/cast_iron"))
+      .tag(makeItemTag("cast_iron_plates"))
       .lang("Cast Iron Sheet")
       .register();
 

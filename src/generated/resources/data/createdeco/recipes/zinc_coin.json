@@ -6,7 +6,7 @@
     }
   ],
   "result": {
-    "item": "createdeco:zinc_coin",
-    "count": 4
+    "count": 4,
+    "item": "createdeco:zinc_coin"
   }
 }

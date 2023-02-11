@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "c:gold_nuggets"
+    },
+    "p": {
+      "tag": "c:gold_plates"
+    },
+    "t": {
+      "item": "minecraft:glow_berries"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/gold"
-    },
-    "t": {
-      "item": "minecraft:glow_berries"
-    },
-    "p": {
-      "tag": "forge:plates/gold"
-    }
-  },
   "result": {
     "item": "createdeco:green_gold_lamp"
   }

@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "c:netherite_nuggets"
+    },
+    "p": {
+      "tag": "c:netherite_plates"
+    },
+    "t": {
+      "item": "minecraft:soul_torch"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/netherite"
-    },
-    "t": {
-      "item": "minecraft:soul_torch"
-    },
-    "p": {
-      "tag": "forge:plates/netherite"
-    }
-  },
   "result": {
     "item": "createdeco:blue_netherite_lamp"
   }

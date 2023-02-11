@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "c:zinc_nuggets"
+    },
+    "p": {
+      "tag": "c:zinc_plates"
+    },
+    "t": {
+      "item": "minecraft:glow_berries"
+    }
+  },
   "pattern": [
     "n",
     "t",
     "p"
   ],
-  "key": {
-    "n": {
-      "tag": "forge:nuggets/zinc"
-    },
-    "t": {
-      "item": "minecraft:glow_berries"
-    },
-    "p": {
-      "tag": "forge:plates/zinc"
-    }
-  },
   "result": {
     "item": "createdeco:green_zinc_lamp"
   }
