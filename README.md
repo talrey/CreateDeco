@@ -45,9 +45,16 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+fabric-1.2.13-1.18.2 & 1.19.2 | 11 FEB 2023:  
+ \* several texture updates
+ \* fixed doors not showing properly  
+ \* fixed recipes for cage lamps  
+ \* fixed cast iron block hardness  
+ \* fixed worn brick cracking  
+
 fabric-1.2.12-1.18.2 & 1.19.2 | 17 DEC 2022:  
- \* fast-forwarding to forge parity after all this time
- \* various minor fixes
+ \* fast-forwarding to forge parity after all this time  
+ \* various minor fixes  
 
 1.2.9-1.18.2 | 07 AUG 2022:  
  \+ vertical slabs should now rotate correctly in most orientations  
