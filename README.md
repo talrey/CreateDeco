@@ -45,7 +45,7 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
-1.2.13-1.18.2 & 1.19.2 | :  
+1.2.13-1.18.2 & 1.19.2 | 11 FEB 2023:  
  \* fixed a warning about mixins - Thanks MrLoLf!
  \* fixed cast iron block properties
  \* changed Zinc Sheets to accept any forge:ingots/zinc
