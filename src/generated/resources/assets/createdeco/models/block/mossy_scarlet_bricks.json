@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "createdeco:block/palettes/bricks/scarlet/mossy_scarlet_bricks"
-  }
-}

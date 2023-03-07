@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "createdeco:block/palettes/sheet_metal/netherite_sheet_metal",
-    "side": "createdeco:block/palettes/sheet_metal/netherite_sheet_metal",
-    "top": "createdeco:block/palettes/sheet_metal/netherite_sheet_metal"
-  }
-}

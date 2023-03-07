@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/iron_bars_side_alt",
-  "textures": {
-    "bars": "createdeco:block/palettes/metal_bars/gold_bars",
-    "edge": "createdeco:block/palettes/metal_bars/gold_bars",
-    "particle": "createdeco:block/palettes/metal_bars/gold_bars"
-  }
-}

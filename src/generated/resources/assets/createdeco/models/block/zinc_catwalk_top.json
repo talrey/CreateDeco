@@ -1,7 +1,0 @@
-{
-  "parent": "createdeco:block/catwalk_top",
-  "textures": {
-    "2": "createdeco:block/palettes/catwalks/zinc_catwalk",
-    "particle": "createdeco:block/palettes/catwalks/zinc_catwalk"
-  }
-}

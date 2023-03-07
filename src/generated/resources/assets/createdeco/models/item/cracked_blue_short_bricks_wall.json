@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/wall_inventory",
-  "textures": {
-    "wall": "createdeco:block/palettes/bricks/blue/cracked_blue_short_bricks"
-  }
-}
