@@ -24,13 +24,37 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.Map;
 
 public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWaterloggedBlock {
+
+  private static final VoxelShape BOX_NORTH = Shapes.join(
+    Block.box(0d, 14d, 8d, 16d, 16d, 16d),
+    Block.box(0d, 6d, 0d, 16d, 8d, 8d),
+    BooleanOp.OR
+  );
+  private static final VoxelShape BOX_SOUTH = Shapes.join(
+    Block.box(0d, 14d, 0d, 16d, 16d, 8d),
+    Block.box(0d, 6d, 8d, 16d, 8d, 16d),
+    BooleanOp.OR
+  );
+  private static final VoxelShape BOX_WEST = Shapes.join(
+    Block.box(8d, 14d, 0d, 16d, 16d, 16d),
+    Block.box(0d, 6d, 0d, 8d, 8d, 16d),
+    BooleanOp.OR
+  );
+  private static final VoxelShape BOX_EAST = Shapes.join(
+    Block.box(0d, 14d, 0d, 8d, 16d, 16),
+    Block.box(8d, 6d, 0d, 16d, 8d, 16d),
+    BooleanOp.OR
+  );
+
   public CatwalkStairBlock (Properties props) {
     super(props);
     this.registerDefaultState(this.defaultBlockState()
@@ -57,12 +81,10 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
         ctx.getLevel().setBlockAndUpdate(ctx.getClickedPos().relative(
           below.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()), state
         );
-        if (ctx.getLevel().isClientSide) {
-          ctx.getLevel().playSound(
-            null, ctx.getClickedPos(), SoundEvents.NETHERITE_BLOCK_PLACE,
-            SoundSource.BLOCKS, 0.5f, 1.25f
-          );
-        }
+        ctx.getLevel().playSound(
+          null, ctx.getClickedPos(), SoundEvents.NETHERITE_BLOCK_PLACE,
+          SoundSource.BLOCKS, 0.5f, 1.25f
+        );
         if (!ctx.getPlayer().isCreative()) {
           ctx.getPlayer().getItemInHand(ctx.getHand()).shrink(1);
         }
@@ -91,12 +113,11 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
 
   @Override
   public VoxelShape getShape (BlockState state, BlockGetter world, BlockPos pos, CollisionContext ctx) {
-    return Blocks.BRICK_STAIRS.getShape(
-      Blocks.BRICK_STAIRS.defaultBlockState().setValue(
-        BlockStateProperties.HORIZONTAL_FACING,
-        state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()
-      ),
-      world, pos, ctx
-    );
+    return switch(state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
+      case SOUTH -> BOX_SOUTH;
+      case EAST  -> BOX_EAST;
+      case WEST  -> BOX_WEST;
+      default    -> BOX_NORTH;
+    };
   }
 }
