@@ -199,9 +199,5 @@
 				"particle": "immersiveengineering:block/metal_device/charging_station"
 			}
 		}
-	},
-	"item_render_order": ["solid", "translucent"],
-	"loader": "forge:obj",
-	"flip_v": true,
-	"model": "create:models/block/flywheel/flywheel.obj"
+	}
 }

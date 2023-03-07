@@ -11,13 +11,17 @@ import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.ForgeRegistries;
 import java.util.Collections;
@@ -67,7 +71,9 @@ public class Registration {
   public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS = new HashMap<>();
   public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS  = new HashMap<>();
 
-  public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM            = new HashMap<>();
+  public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS = new HashMap<>();
+
+  public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM = new HashMap<>();
 
   public static ItemEntry<Item> ZINC_SHEET;
   public static ItemEntry<Item> NETHERITE_SHEET;
@@ -462,6 +468,41 @@ public class Registration {
       .lang("Block of Cast Iron")
       .simpleItem()
       .register();
+
+
+    METAL_TYPES.forEach((metal, getter)-> {
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      ResourceLocation front = new ResourceLocation(
+        CreateDecoMod.MODID, "block/palettes/hull/" + regName + "_hull_front"
+      );
+      ResourceLocation side = new ResourceLocation(
+        CreateDecoMod.MODID, "block/palettes/hull/" + regName + "_hull_side"
+      );
+      HULL_BLOCKS.put(regName, reg.block(regName + "_hull", HullBlock::new)
+          .initialProperties(Material.METAL)
+        .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
+          .requiresCorrectToolForDrops()
+          .sound(SoundType.NETHERITE_BLOCK)
+          .noOcclusion()
+        )
+        .addLayer(() -> RenderType::cutoutMipped)
+        .item()
+          .properties(p -> (metal.contains("Netherite")) ? p.fireResistant() : p)
+          .build()
+        .tag(BlockTags.STAIRS)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .blockstate((ctx,prov)-> prov.horizontalBlock(ctx.get(),
+          prov.models().withExistingParent(ctx.getName(), prov.modLoc("train_hull"))
+            .texture("0", front)
+            .texture("1", side)
+            .texture("particle", front),
+          90
+        ))
+        .simpleItem()
+        .lang(metal + " Train Hull")
+        .register()
+      );
+    });
 
     Props.registerBlocks(reg);
   }
