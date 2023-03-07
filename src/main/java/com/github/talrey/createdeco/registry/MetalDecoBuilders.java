@@ -16,6 +16,7 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -352,6 +353,7 @@ public class MetalDecoBuilders {
   }
 
   public static BlockBuilder<CatwalkStairBlock,?> buildCatwalkStair (Registrate reg, String metal) {
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stair", CatwalkStairBlock::new)
         .initialProperties(Material.METAL)
         .properties(props->
@@ -361,14 +363,13 @@ public class MetalDecoBuilders {
         .addLayer(()-> RenderType::cutoutMipped)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
-        .simpleItem()
         .blockstate((ctx,prov)-> {
-          String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
-
-          BlockModelBuilder builder = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stair"))
-            .texture("0", texture)
-            .texture("particle", texture);
+          BlockModelBuilder builder = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
+            .texture("2", texture + "_rail")
+            .texture("3", texture + "_stairs")
+            .texture("particle", texture  +"_rail");
           prov.horizontalBlock(ctx.get(), builder);
-        });
+        })
+        .simpleItem();
   }
 }

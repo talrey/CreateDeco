@@ -5,13 +5,17 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
@@ -52,5 +56,16 @@ public class CatwalkStairBlock extends Block implements SimpleWaterloggedBlock {
   @Override
   public FluidState getFluidState(BlockState state) {
     return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
+  }
+
+  @Override
+  public VoxelShape getShape (BlockState state, BlockGetter world, BlockPos pos, CollisionContext ctx) {
+    return Blocks.BRICK_STAIRS.getShape(
+      Blocks.BRICK_STAIRS.defaultBlockState().setValue(
+        BlockStateProperties.HORIZONTAL_FACING,
+        state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()
+      ),
+      world, pos, ctx
+    );
   }
 }
