@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "createdeco:block/gold_hull",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "createdeco:block/gold_hull",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "createdeco:block/gold_hull",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "createdeco:block/gold_hull"
+    }
+  }
+}
