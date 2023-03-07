@@ -71,7 +71,8 @@ public class Registration {
   public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS = new HashMap<>();
   public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS  = new HashMap<>();
 
-  public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS = new HashMap<>();
+  public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS       = new HashMap<>();
+  public static HashMap<String, BlockEntry<SupportBlock>> SUPPORT_BLOCKS = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM = new HashMap<>();
 
@@ -479,7 +480,7 @@ public class Registration {
         CreateDecoMod.MODID, "block/palettes/hull/" + regName + "_hull_side"
       );
       HULL_BLOCKS.put(regName, reg.block(regName + "_hull", HullBlock::new)
-          .initialProperties(Material.METAL)
+        .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -489,10 +490,10 @@ public class Registration {
         .item()
           .properties(p -> (metal.contains("Netherite")) ? p.fireResistant() : p)
           .build()
-        .tag(BlockTags.STAIRS)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate((ctx,prov)-> prov.horizontalBlock(ctx.get(),
           prov.models().withExistingParent(ctx.getName(), prov.modLoc("train_hull"))
+            .ao(false)
             .texture("0", front)
             .texture("1", side)
             .texture("particle", front),
@@ -500,6 +501,34 @@ public class Registration {
         ))
         .simpleItem()
         .lang(metal + " Train Hull")
+        .register()
+      );
+    });
+
+    METAL_TYPES.forEach((metal, getter)-> {
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      ResourceLocation texture = new ResourceLocation(
+        CreateDecoMod.MODID, "block/palettes/support/" + regName + "_support"
+      );
+      SUPPORT_BLOCKS.put(regName, reg.block(regName + "_support", SupportBlock::new)
+        .initialProperties(Material.METAL)
+        .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
+          .requiresCorrectToolForDrops()
+          .sound(SoundType.NETHERITE_BLOCK)
+          .noOcclusion()
+        )
+        .addLayer(() -> RenderType::cutoutMipped)
+        .item()
+        .properties(p -> (metal.contains("Netherite")) ? p.fireResistant() : p)
+        .build()
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .blockstate((ctx,prov)-> prov.directionalBlock(ctx.get(),
+          prov.models().withExistingParent(ctx.getName(), prov.modLoc("support"))
+            .texture("0", texture)
+            .texture("particle", texture)
+        ))
+        .simpleItem()
+        .lang(metal + " Support")
         .register()
       );
     });
