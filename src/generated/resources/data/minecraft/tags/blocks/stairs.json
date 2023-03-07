@@ -8,14 +8,6 @@
     "createdeco:cast_iron_sheet_stairs",
     "createdeco:iron_sheet_stairs",
     "createdeco:copper_sheet_stairs",
-    "createdeco:zinc_sheet_stairs",
-    "createdeco:gold_hull",
-    "createdeco:netherite_hull",
-    "createdeco:andesite_hull",
-    "createdeco:brass_hull",
-    "createdeco:cast_iron_hull",
-    "createdeco:iron_hull",
-    "createdeco:copper_hull",
-    "createdeco:zinc_hull"
+    "createdeco:zinc_sheet_stairs"
   ]
 }

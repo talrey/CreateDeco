@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "createdeco:block/copper_support",
+      "x": 180
+    },
+    "facing=up": {
+      "model": "createdeco:block/copper_support"
+    },
+    "facing=north": {
+      "model": "createdeco:block/copper_support",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "createdeco:block/copper_support",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "createdeco:block/copper_support",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "createdeco:block/copper_support",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

@@ -1,5 +1,6 @@
 {
   "parent": "createdeco:block/train_hull",
+  "ambientocclusion": false,
   "textures": {
     "0": "createdeco:block/palettes/hull/netherite_hull_front",
     "1": "createdeco:block/palettes/hull/netherite_hull_side",
