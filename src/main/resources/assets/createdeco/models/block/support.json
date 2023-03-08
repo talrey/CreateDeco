@@ -1,5 +1,7 @@
 {
 	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"render_type": "translucent",
 	"parent": "block/block",
 	"texture_size": [32, 32],
 	"textures": {
@@ -136,28 +138,6 @@
 		},
 		"fixed": {
 			"scale": [0.5, 0.5, 0.5]
-		}
-	},
-	"children": {
-		"solid": {
-			"automatic_culling": false,
-			"flip_v": true,
-			"loader": "forge:obj",
-			"model": "immersiveengineering:models/block/metal_device/charging_station.obj",
-			"render_type": "minecraft:solid",
-			"textures": {
-				"particle": "immersiveengineering:block/metal_device/charging_station"
-			}
-		},
-		"translucent": {
-			"automatic_culling": false,
-			"flip_v": true,
-			"loader": "forge:obj",
-			"model": "immersiveengineering:models/block/metal_device/charging_station_glass.obj",
-			"render_type": "minecraft:translucent",
-			"textures": {
-				"particle": "immersiveengineering:block/metal_device/charging_station"
-			}
 		}
 	}
 }
