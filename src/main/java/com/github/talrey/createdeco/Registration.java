@@ -499,12 +499,19 @@ public class Registration {
           .build()
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .blockstate((ctx,prov)->
-          prov.directionalBlock(ctx.get(), prov.models().withExistingParent(
-            ctx.getName(), prov.modLoc("train_hull")
-          ).texture("0", front)
-            .texture("1", side)
-            .texture("particle", front)
-          )
+          prov.getVariantBuilder(ctx.get())
+            .forAllStates(state -> {
+              Direction dir = state.getValue(BlockStateProperties.FACING);
+              return ConfiguredModel.builder()
+                .modelFile(prov.models().withExistingParent(
+                  ctx.getName(), prov.modLoc("train_hull"))
+                  .texture("0", front)
+                  .texture("1", side)
+                  .texture("particle", front))
+                .rotationX(dir == Direction.DOWN ? 270 : dir.getAxis().isHorizontal() ? 0 : 90)
+                .rotationY(dir.getAxis().isVertical() ? 0 : (((int) dir.toYRot()) + 0) % 360)
+                .build();
+            })
         )
         .simpleItem()
         .lang(metal + " Train Hull")

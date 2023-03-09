@@ -10,4 +10,5 @@
 !.gitattributes
 !ASSETS_LICENSE.txt
 
-src/generated/resources/\.cache/
+src/generated/resources/.cache/
+src/generated/resources/.cache/cache
