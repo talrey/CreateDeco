@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:air"
+          "name": "createdeco:brass_trapdoor"
         }
       ],
       "conditions": [
