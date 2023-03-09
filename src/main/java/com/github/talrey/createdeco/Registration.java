@@ -122,7 +122,11 @@ public class Registration {
   }
 
   public static TagKey<Item> makeItemTag (String path) {
-    return ForgeRegistries.ITEMS.tags().createOptionalTagKey(new ResourceLocation("forge", path), Collections.emptySet());
+    return makeItemTag("forge", path);
+  }
+
+  public static TagKey<Item> makeItemTag(String id, String path) {
+    return ForgeRegistries.ITEMS.tags().createOptionalTagKey(new ResourceLocation(id, path), Collections.emptySet());
   }
 
   public static TagKey<Item> makeItemTagWith (String id, String path, Supplier<Item> item) {
@@ -431,12 +435,13 @@ public class Registration {
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(BlockTags.TRAPDOORS)
         .addLayer(()-> RenderType::cutoutMipped)
+        .item().model((ctx,prov)->prov.getExistingFile(prov.mcLoc("block/air"))).build()
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
           .pattern("mmm")
           .pattern("mmm")
           .define('m', ingot.apply(metal))
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ingot.apply(metal)))
-          //.save(prov)
+          .save(prov)
         )
         .register());
     });
