@@ -1,8 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
-import com.simibubi.create.foundation.utility.Iterate;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -43,14 +41,6 @@ public class HullBlock extends DirectionalBlock {
     BlockState result = super.getStateForPlacement(ctx).setValue(FACING,
       ctx.getClickedFace().getOpposite()
     );
-    for (Direction side : Iterate.directions) {
-      BlockState neighbor = ctx.getLevel()
-        .getBlockState(ctx.getClickedPos()
-          .relative(side));
-      if (neighbor.getBlock() instanceof HullBlock) {
-        result = result.setValue(FACING, neighbor.getValue(FACING));
-      }
-    }
     return result;
   }
 

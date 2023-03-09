@@ -1,8 +1,21 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.simibubi.create.content.contraptions.relays.advanced.GantryShaftBlock;
+import com.simibubi.create.foundation.utility.placement.IPlacementHelper;
+import com.simibubi.create.foundation.utility.placement.PlacementHelpers;
+import com.simibubi.create.foundation.utility.placement.PlacementOffset;
+import com.simibubi.create.foundation.utility.placement.util.PoleHelper;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -12,11 +25,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Predicate;
 
 public class SupportBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
   private static final VoxelShape NORTH = Block.box(
@@ -47,6 +63,8 @@ public class SupportBlock extends DirectionalBlock implements SimpleWaterloggedB
   private static final VoxelShape Y = Shapes.join(UP,    DOWN,  BooleanOp.OR);
   private static final VoxelShape Z = Shapes.join(NORTH, SOUTH, BooleanOp.OR);
 
+  private static final int placementHelperId = PlacementHelpers.register(new SupportBlock.PlacementHelper());
+
   public SupportBlock (Properties props) {
     super(props);
   }
@@ -55,6 +73,21 @@ public class SupportBlock extends DirectionalBlock implements SimpleWaterloggedB
   protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
     builder.add(FACING);
     builder.add(BlockStateProperties.WATERLOGGED);
+  }
+
+  @Override
+  public InteractionResult use(
+    BlockState state, Level world, BlockPos pos, Player player,
+    InteractionHand hand, BlockHitResult ray
+  ) {
+    ItemStack heldItem = player.getItemInHand(hand);
+
+    IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
+    if (!placementHelper.matchesItem(heldItem))
+      return InteractionResult.PASS;
+
+    return placementHelper.getOffset(player, world, state, pos, ray)
+      .placeInWorld(world, ((BlockItem) heldItem.getItem()), player, hand, ray);
   }
 
   @Nullable
@@ -89,5 +122,41 @@ public class SupportBlock extends DirectionalBlock implements SimpleWaterloggedB
       case Z  -> Shapes.join(X,Y, BooleanOp.OR);
       default -> Shapes.join(X,Z, BooleanOp.OR);
     };
+  }
+
+  public static boolean isSupportBlock (ItemStack test) {
+    return (test.getItem() instanceof BlockItem)
+      && isSupportBlock(((BlockItem)test.getItem()).getBlock());
+  }
+
+  public static boolean isSupportBlock (Block test) {
+    return test instanceof SupportBlock;
+  }
+
+  @MethodsReturnNonnullByDefault
+  private static class PlacementHelper extends PoleHelper<Direction> {
+    public PlacementHelper() {
+      super(state -> SupportBlock.isSupportBlock(state.getBlock()),
+        state -> state.getValue(SupportBlock.FACING).getAxis(), SupportBlock.FACING
+      );
+    }
+
+    @Override
+    public Predicate<ItemStack> getItemPredicate () {
+      return (Predicate<ItemStack>) SupportBlock::isSupportBlock;
+    }
+
+    @Override
+    public Predicate<BlockState> getStatePredicate () {
+      return state -> SupportBlock.isSupportBlock(state.getBlock());
+    }
+
+    @Override
+    public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos,
+                                     BlockHitResult ray) {
+      PlacementOffset offset = super.getOffset(player, world, state, pos, ray);
+      offset.withTransform(offset.getTransform());
+      return offset;
+    }
   }
 }
