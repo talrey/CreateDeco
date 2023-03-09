@@ -78,17 +78,24 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
       if (keypair.getValue().get().asItem() == below.getBlock().asItem()
       && ctx.getPlayer() != null && !ctx.getPlayer().isCrouching()
       ) { // it's another stair
-        ctx.getLevel().setBlockAndUpdate(ctx.getClickedPos().relative(
-          below.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()), state
+        BlockPos next = ctx.getClickedPos().relative(
+          below.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()
         );
-        ctx.getLevel().playSound(
-          null, ctx.getClickedPos(), SoundEvents.NETHERITE_BLOCK_PLACE,
-          SoundSource.BLOCKS, 0.5f, 1.25f
-        );
-        if (!ctx.getPlayer().isCreative()) {
-          ctx.getPlayer().getItemInHand(ctx.getHand()).shrink(1);
+        if (ctx.getLevel().getBlockState(next).canBeReplaced(ctx)) {
+          state = state.setValue(
+            BlockStateProperties.WATERLOGGED,
+            ctx.getLevel().getBlockState(next).getFluidState().is(Fluids.WATER)
+          );
+          ctx.getLevel().setBlockAndUpdate(next, state);
+          ctx.getLevel().playSound(
+            null, ctx.getClickedPos(), SoundEvents.NETHERITE_BLOCK_PLACE,
+            SoundSource.BLOCKS, 0.5f, 1.25f
+          );
+          if (!ctx.getPlayer().isCreative()) {
+            ctx.getPlayer().getItemInHand(ctx.getHand()).shrink(1);
+          }
+          state = ctx.getLevel().getBlockState(ctx.getClickedPos()); // keep previous
         }
-        state = ctx.getLevel().getBlockState(ctx.getClickedPos()); // keep previous
       }
     }
     return state;
