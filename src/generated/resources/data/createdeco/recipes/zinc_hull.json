@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " m ",
+    "m m",
+    " m "
+  ],
+  "key": {
+    "m": {
+      "item": "create:zinc_ingot"
+    }
+  },
+  "result": {
+    "item": "createdeco:zinc_hull",
+    "count": 2
+  }
+}

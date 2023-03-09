@@ -11,6 +11,7 @@
     }
   },
   "result": {
-    "item": "createdeco:zinc_door"
+    "item": "createdeco:zinc_door",
+    "count": 3
   }
 }
