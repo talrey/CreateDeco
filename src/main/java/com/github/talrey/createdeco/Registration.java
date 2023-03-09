@@ -435,7 +435,10 @@ public class Registration {
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(BlockTags.TRAPDOORS)
         .addLayer(()-> RenderType::cutoutMipped)
-        .item().model((ctx,prov)->prov.getExistingFile(prov.mcLoc("block/air"))).build()
+        .item().model((ctx,prov)->prov.withExistingParent(ctx.getName(),
+          prov.mcLoc("block/template_trapdoor_bottom"))
+          .texture("texture", prov.modLoc("block/palettes/doors/" + regName + "_trapdoor"))
+        ).build()
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
           .pattern("mmm")
           .pattern("mmm")
