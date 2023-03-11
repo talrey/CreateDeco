@@ -507,7 +507,10 @@ public class Registration {
           .sound(SoundType.NETHERITE_BLOCK)
       )
       .lang("Block of Cast Iron")
-      .simpleItem()
+      .item()
+        .tag(makeItemTag("storage_blocks"))
+        .tag(makeItemTag("storage_blocks/cast_iron"))
+        .build()
       .register();
 
 
