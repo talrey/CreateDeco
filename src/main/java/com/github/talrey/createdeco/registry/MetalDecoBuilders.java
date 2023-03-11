@@ -16,16 +16,13 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.material.Material;
@@ -35,14 +32,10 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.function.Function;
 
@@ -280,51 +273,6 @@ public class MetalDecoBuilders {
         builder.part().modelFile(side)
           .rotationY(270).addModel()
           .condition(BlockStateProperties.NORTH, true).end();
-
-//        prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
-//          String dir = "chainlink_fence";
-//          boolean north,south,east,west;
-//          north = state.getValue(BlockStateProperties.NORTH);
-//          south = state.getValue(BlockStateProperties.SOUTH);
-//          east  = state.getValue(BlockStateProperties.EAST);
-//          west  = state.getValue(BlockStateProperties.WEST);
-//          int sides = (north?1:0) + (south?1:0) + (east?1:0) + (west?1:0);
-//          ResourceLocation mesh = prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_chain_link");
-//          ResourceLocation wall = prov.modLoc("block/palettes/sheet_metal/"      + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal");
-//          switch (sides) {
-//            case 4: return ConfiguredModel.builder().modelFile(
-//              prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_four_way"))
-//                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-//            ).build();
-//            case 3: return ConfiguredModel.builder().modelFile(
-//              prov.models().withExistingParent(ctx.getName() + "_tri_way", prov.modLoc(dir + "_tri_way"))
-//                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-//            ).rotationY(
-//              (north? (south? (east? 90: -90): 0): 180)
-//            ).build();
-//            case 2:
-//              if ((north && south) || (east && west)) {
-//                return ConfiguredModel.builder().modelFile(
-//                  prov.models().withExistingParent(ctx.getName() + "_straight", prov.modLoc(dir + "_straight"))
-//                    .texture("0", mesh).texture("1", wall).texture("particle", wall)
-//                ).rotationY(east?0:90).build();
-//              } else {
-//                return ConfiguredModel.builder().modelFile(
-//                  prov.models().withExistingParent(ctx.getName() + "_corner", prov.modLoc(dir + "_corner"))
-//                    .texture("0", mesh).texture("1", wall).texture("particle", wall)
-//                ).rotationY( (north? (east? 0: -90): (east? 90: 180))).build();
-//              }
-//            case 1: return ConfiguredModel.builder().modelFile(
-//              prov.models().withExistingParent(ctx.getName() + "_end", prov.modLoc(dir + "_end"))
-//                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-//            ).rotationY( (north? -90: south? 90: east? 0: 180) ).build();
-//            case 0: // fall through
-//            default: return ConfiguredModel.builder().modelFile(
-//              prov.models().withExistingParent(ctx.getName() + "_post", prov.modLoc(dir + "_post"))
-//                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-//            ).build();
-//          }
-//        });
       });
   }
 
