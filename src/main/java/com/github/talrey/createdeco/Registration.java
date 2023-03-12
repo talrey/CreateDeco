@@ -24,7 +24,6 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Material;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.function.Function;
@@ -503,7 +502,6 @@ public class Registration {
         CreateDecoMod.MODID, "block/palettes/support/" + regName + "_support"
       );
       SUPPORT_BLOCKS.put(regName, reg.block(regName + "_support", SupportBlock::new)
-        .initialProperties(Material.METAL)
         .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
