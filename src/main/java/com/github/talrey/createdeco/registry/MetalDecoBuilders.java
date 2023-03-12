@@ -368,8 +368,9 @@ public class MetalDecoBuilders {
   }
 
   public static BlockBuilder<CatwalkStairBlock,?> buildCatwalkStair (Registrate reg, String metal) {
-    String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
-    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stair", CatwalkStairBlock::new)
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
+    return reg.block(regName + "_catwalk_stair", CatwalkStairBlock::new)
         .initialProperties(Material.METAL)
         .properties(props->
           props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
@@ -385,6 +386,16 @@ public class MetalDecoBuilders {
             .texture("particle", texture  +"_rail");
           prov.horizontalBlock(ctx.get(), builder);
         })
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get(), 2)
+          .pattern(" c")
+          .pattern("bc")
+          .define('c', Registration.CATWALK_BLOCKS.get(regName).get())
+          .define('b', Registration.BAR_BLOCKS.get(regName).get())
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            Registration.CATWALK_BLOCKS.get(regName).get()
+          ))
+          .save(prov)
+        )
         .simpleItem();
   }
 }
