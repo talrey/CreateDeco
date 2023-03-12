@@ -64,9 +64,11 @@ public class Registration {
   public static HashMap<DyeColor, HashMap<String, BlockEntry<VerticalSlabBlock>>> BRICK_VERT_BLOCK = new HashMap<>();
   public static HashMap<DyeColor, HashMap<String, BlockEntry<WallBlock>>> BRICK_WALL_BLOCK = new HashMap<>();
 
-  public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS = new HashMap<>();
-  public static HashMap<String, BlockEntry<DoorBlock>> LOCK_DOOR_BLOCKS = new HashMap<>();
-  public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_BLOCKS = new HashMap<>();
+  public static HashMap<String, BlockEntry<DoorBlock>> DOOR_BLOCKS          = new HashMap<>();
+  public static HashMap<String, BlockEntry<DoorBlock>> LOCK_DOOR_BLOCKS     = new HashMap<>();
+  public static HashMap<String, BlockEntry<TrapDoorBlock>> TRAPDOOR_BLOCKS  = new HashMap<>();
+  public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_BLOCKS       = new HashMap<>();
+
   public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_PANEL_BLOCKS = new HashMap<>();
 
   public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS = new HashMap<>();
@@ -92,10 +94,11 @@ public class Registration {
     BRICK_COLOR_NAMES.put(DyeColor.LIGHT_BLUE, "Blue");
     BRICK_COLOR_NAMES.put(null, "Red"); // this is funky but it works, I swear.
 
-    DOOR_TYPES.put("Andesite", (str) -> AllItems.ANDESITE_ALLOY.get());
-    DOOR_TYPES.put("Copper", (str) -> Items.COPPER_INGOT);
-    DOOR_TYPES.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
-    DOOR_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
+    DOOR_TYPES.put("Andesite",   (str) -> AllItems.ANDESITE_ALLOY.get());
+    DOOR_TYPES.put("Copper",     (str) -> Items.COPPER_INGOT);
+    DOOR_TYPES.put("Zinc",       (str) -> AllItems.ZINC_INGOT.get());
+    DOOR_TYPES.put("Brass",      (str) -> AllItems.BRASS_INGOT.get());
+    DOOR_TYPES.put("Cast Iron",  (str) -> CAST_IRON_INGOT.get());
 
     METAL_TYPES.put("Andesite", (str) -> AllItems.ANDESITE_ALLOY.get());
     METAL_TYPES.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
@@ -374,10 +377,12 @@ public class Registration {
 
     DOOR_TYPES.forEach((metal, ingot) ->
       DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
-        reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
+        reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door",
+          "block/palettes/doors/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
+        Material.HEAVY_METAL
       )
         .lang(metal + " Door")
-        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 3)
           .pattern("mm")
           .pattern("mm")
           .pattern("mm")
@@ -389,8 +394,7 @@ public class Registration {
 
     DOOR_TYPES.forEach((metal, ingot) ->
       LOCK_DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
-        reg, "locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
-        Material.METAL
+        reg, "locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/palettes/doors/locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
       )
       .lang("Locked " + metal + " Door")
       .recipe((ctx, prov) -> ShapelessRecipeBuilder.shapeless(ctx.get())
@@ -402,6 +406,32 @@ public class Registration {
         .save(prov)
       )
       .register()));
+
+    DOOR_TYPES.forEach((metal, ingot)-> {
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      ResourceLocation texture = new ResourceLocation(
+        CreateDecoMod.MODID, "block/palettes/doors/" + regName + "_trapdoor"
+      );
+      TRAPDOOR_BLOCKS.put(regName, reg.block(regName + "_trapdoor", TrapDoorBlock::new)
+          .initialProperties(Material.HEAVY_METAL)
+        .properties(props -> props.noOcclusion().strength(5, 5)
+          .requiresCorrectToolForDrops()
+          .sound(SoundType.NETHERITE_BLOCK)
+        )
+        .blockstate((ctx, prov)-> prov.trapdoorBlock(ctx.get(), texture, true))
+        .lang(metal + " Trapdoor")
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .tag(BlockTags.TRAPDOORS)
+        .addLayer(()-> RenderType::cutoutMipped)
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
+          .pattern("mmm")
+          .pattern("mmm")
+          .define('m', ingot.apply(metal))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ingot.apply(metal)))
+          //.save(prov)
+        )
+        .register());
+    });
 
     METAL_TYPES.forEach((metal, getter) -> {
       boolean postFlag = (metal.contains("Netherite")/* || metal.contains("Gold")*/ || metal.contains("Cast Iron"));
@@ -501,6 +531,14 @@ public class Registration {
                 .rotationY(dir.getAxis().isVertical() ? 0 : (((int) dir.toYRot()) + 0) % 360)
                 .build();
             })
+        )
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
+          .pattern(" m ")
+          .pattern("m m")
+          .pattern(" m ")
+          .define('m', getter.apply(metal))
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(getter.apply(metal)))
+          .save(prov)
         )
         .simpleItem()
         .lang(metal + " Train Hull")
