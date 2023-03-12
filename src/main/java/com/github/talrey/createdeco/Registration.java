@@ -588,6 +588,17 @@ public class Registration {
             .texture("0", texture)
             .texture("particle", texture)
         ))
+        .recipe((ctx, prov) ->
+          ShapedRecipeBuilder.shaped(ctx.get(), 4)
+            .pattern(" b ")
+            .pattern("b b")
+            .pattern(" b ")
+            .define('b', BAR_BLOCKS.get(regName).get())
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+              BAR_BLOCKS.get(regName).get()
+            ))
+            .save(prov)
+        )
         .simpleItem()
         .lang(metal + " Support")
         .register()
