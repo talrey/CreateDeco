@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "psp",
+    "psp"
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/netherite"
+    },
+    "s": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "createdeco:netherite_mesh_fence",
+    "count": 3
+  }
+}

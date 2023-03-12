@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "createdeco:gold_sheet_slab",
+    "createdeco:netherite_sheet_slab",
+    "createdeco:andesite_sheet_slab",
+    "createdeco:brass_sheet_slab",
+    "createdeco:cast_iron_sheet_slab",
+    "createdeco:iron_sheet_slab",
+    "createdeco:copper_sheet_slab",
+    "createdeco:zinc_sheet_slab"
+  ]
+}

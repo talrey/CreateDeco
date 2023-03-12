@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_scarlet_brick_tiles_slab_vert_from_scarlet_brick_tiles_slab_blasting"
+    ]
+  },
+  "criteria": {
+    "has_scarlet_brick_tiles_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:scarlet_brick_tiles_slab"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:cracked_scarlet_brick_tiles_slab_vert_from_scarlet_brick_tiles_slab_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_scarlet_brick_tiles_slab",
+      "has_the_recipe"
+    ]
+  ]
+}

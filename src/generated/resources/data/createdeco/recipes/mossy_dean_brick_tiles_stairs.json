@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "createdeco:mossy_dean_brick_tiles"
+    }
+  },
+  "result": {
+    "item": "createdeco:mossy_dean_brick_tiles_stairs",
+    "count": 4
+  }
+}

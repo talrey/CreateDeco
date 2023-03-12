@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "tag": "c:plates/gold"
+  },
+  "result": "createdeco:gold_ladder",
+  "count": 2
+}

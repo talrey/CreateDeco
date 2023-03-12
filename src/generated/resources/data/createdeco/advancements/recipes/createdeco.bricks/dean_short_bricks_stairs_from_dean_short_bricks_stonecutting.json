@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:dean_short_bricks_stairs_from_dean_short_bricks_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_dean_short_bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:dean_short_bricks"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:dean_short_bricks_stairs_from_dean_short_bricks_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_dean_short_bricks",
+      "has_the_recipe"
+    ]
+  ]
+}

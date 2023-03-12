@@ -1,0 +1,130 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "east": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "west": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "south": "false",
+        "east": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "south": "true",
+        "east": "false",
+        "west": "false"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "south": "false",
+        "east": "true",
+        "west": "false"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+        "south": "false",
+        "east": "false",
+        "west": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_post"
+      }
+    },
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_side"
+      }
+    },
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_side",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_side",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "createdeco:block/gold_mesh_fence_side",
+        "y": 270
+      }
+    }
+  ]
+}

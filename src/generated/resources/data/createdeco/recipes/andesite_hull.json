@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " m ",
+    "m m",
+    " m "
+  ],
+  "key": {
+    "m": {
+      "item": "create:andesite_alloy"
+    }
+  },
+  "result": {
+    "item": "createdeco:andesite_hull",
+    "count": 2
+  }
+}

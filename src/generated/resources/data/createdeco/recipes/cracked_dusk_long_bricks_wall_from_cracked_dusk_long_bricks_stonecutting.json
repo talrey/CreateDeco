@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "createdeco:cracked_dusk_long_bricks"
+  },
+  "result": "createdeco:cracked_dusk_long_bricks_wall",
+  "count": 1
+}

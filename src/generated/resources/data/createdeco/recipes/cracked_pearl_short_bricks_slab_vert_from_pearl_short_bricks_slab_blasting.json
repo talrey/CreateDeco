@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "createdeco:pearl_short_bricks_slab"
+  },
+  "result": "createdeco:cracked_pearl_short_bricks_slab_vert",
+  "experience": 0.5,
+  "cookingtime": 100
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "tag": "c:nuggets/netherite"
+    },
+    "t": {
+      "item": "minecraft:glow_berries"
+    },
+    "p": {
+      "tag": "c:plates/netherite"
+    }
+  },
+  "result": {
+    "item": "createdeco:green_netherite_lamp"
+  }
+}

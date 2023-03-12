@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_worn_bricks_slab_from_worn_bricks_slab_blasting"
+    ]
+  },
+  "criteria": {
+    "has_worn_bricks_slab": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:worn_bricks_slab"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:cracked_worn_bricks_slab_from_worn_bricks_slab_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_worn_bricks_slab",
+      "has_the_recipe"
+    ]
+  ]
+}

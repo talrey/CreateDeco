@@ -1,0 +1,19 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "tag": "c:nuggets/cast_iron"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:cast_iron_coin"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "createdeco:config",
+      "config": "can_press_coins"
+    }
+  ]
+}

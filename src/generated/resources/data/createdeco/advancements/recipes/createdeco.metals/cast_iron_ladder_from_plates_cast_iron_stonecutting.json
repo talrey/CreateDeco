@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:cast_iron_ladder_from_plates_cast_iron_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_plates_cast_iron": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "c:plates/cast_iron"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:cast_iron_ladder_from_plates_cast_iron_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_plates_cast_iron",
+      "has_the_recipe"
+    ]
+  ]
+}

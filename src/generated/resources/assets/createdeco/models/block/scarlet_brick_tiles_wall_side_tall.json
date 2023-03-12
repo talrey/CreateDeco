@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side_tall",
+  "textures": {
+    "wall": "createdeco:block/palettes/bricks/scarlet/scarlet_brick_tiles"
+  }
+}

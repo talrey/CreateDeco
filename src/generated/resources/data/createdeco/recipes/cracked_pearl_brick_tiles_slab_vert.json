@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s",
+    "s",
+    "s"
+  ],
+  "key": {
+    "s": {
+      "item": "createdeco:cracked_pearl_brick_tiles_slab"
+    }
+  },
+  "result": {
+    "item": "createdeco:cracked_pearl_brick_tiles_slab_vert",
+    "count": 3
+  }
+}

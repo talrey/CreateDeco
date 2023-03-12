@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,waterlogged=false": {
+      "model": "createdeco:block/gold_support",
+      "x": 180
+    },
+    "facing=up,waterlogged=false": {
+      "model": "createdeco:block/gold_support"
+    },
+    "facing=north,waterlogged=false": {
+      "model": "createdeco:block/gold_support",
+      "x": 90
+    },
+    "facing=south,waterlogged=false": {
+      "model": "createdeco:block/gold_support",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,waterlogged=false": {
+      "model": "createdeco:block/gold_support",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,waterlogged=false": {
+      "model": "createdeco:block/gold_support",
+      "x": 90,
+      "y": 90
+    },
+    "facing=down,waterlogged=true": {
+      "model": "createdeco:block/gold_support",
+      "x": 180
+    },
+    "facing=up,waterlogged=true": {
+      "model": "createdeco:block/gold_support"
+    },
+    "facing=north,waterlogged=true": {
+      "model": "createdeco:block/gold_support",
+      "x": 90
+    },
+    "facing=south,waterlogged=true": {
+      "model": "createdeco:block/gold_support",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west,waterlogged=true": {
+      "model": "createdeco:block/gold_support",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east,waterlogged=true": {
+      "model": "createdeco:block/gold_support",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

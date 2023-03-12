@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "mm",
+    "mm",
+    "mm"
+  ],
+  "key": {
+    "m": {
+      "item": "createdeco:cast_iron_ingot"
+    }
+  },
+  "result": {
+    "item": "createdeco:cast_iron_door",
+    "count": 3
+  }
+}

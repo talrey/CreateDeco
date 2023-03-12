@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_scarlet_long_bricks_from_scarlet_long_bricks_blasting"
+    ]
+  },
+  "criteria": {
+    "has_scarlet_long_bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:scarlet_long_bricks"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:cracked_scarlet_long_bricks_from_scarlet_long_bricks_blasting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_scarlet_long_bricks",
+      "has_the_recipe"
+    ]
+  ]
+}

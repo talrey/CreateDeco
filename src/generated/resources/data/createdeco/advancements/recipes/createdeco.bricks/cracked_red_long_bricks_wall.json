@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_red_long_bricks_wall"
+    ]
+  },
+  "criteria": {
+    "has_cracked_red_long_bricks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:cracked_red_long_bricks"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:cracked_red_long_bricks_wall"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_cracked_red_long_bricks",
+      "has_the_recipe"
+    ]
+  ]
+}

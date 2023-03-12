@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/iron_bars_post_ends",
+  "textures": {
+    "edge": "minecraft:block/iron_bars",
+    "particle": "minecraft:block/iron_bars"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "createdeco:cracked_red_brick_tiles"
+    }
+  },
+  "result": {
+    "item": "createdeco:cracked_red_brick_tiles_wall",
+    "count": 6
+  }
+}

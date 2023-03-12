@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "createdeco:dean_bricks"
+    }
+  },
+  "result": {
+    "item": "createdeco:dean_bricks_wall",
+    "count": 6
+  }
+}

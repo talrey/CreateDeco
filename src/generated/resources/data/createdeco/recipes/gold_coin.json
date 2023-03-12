@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "createdeco:gold_coinstack"
+    }
+  ],
+  "result": {
+    "item": "createdeco:gold_coin",
+    "count": 4
+  }
+}

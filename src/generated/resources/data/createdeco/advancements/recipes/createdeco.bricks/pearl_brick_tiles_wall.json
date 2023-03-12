@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:pearl_brick_tiles_wall"
+    ]
+  },
+  "criteria": {
+    "has_pearl_brick_tiles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:pearl_brick_tiles"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:pearl_brick_tiles_wall"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_pearl_brick_tiles",
+      "has_the_recipe"
+    ]
+  ]
+}

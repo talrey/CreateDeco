@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "createdeco:mossy_pearl_brick_tiles"
+  },
+  "result": "createdeco:mossy_pearl_brick_tiles_slab",
+  "count": 2
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " m ",
+    "m m",
+    " m "
+  ],
+  "key": {
+    "m": {
+      "item": "minecraft:netherite_ingot"
+    }
+  },
+  "result": {
+    "item": "createdeco:netherite_hull",
+    "count": 2
+  }
+}

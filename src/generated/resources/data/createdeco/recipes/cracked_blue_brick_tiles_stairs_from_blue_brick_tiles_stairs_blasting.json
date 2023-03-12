@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "createdeco:blue_brick_tiles_stairs"
+  },
+  "result": "createdeco:cracked_blue_brick_tiles_stairs",
+  "experience": 0.5,
+  "cookingtime": 100
+}

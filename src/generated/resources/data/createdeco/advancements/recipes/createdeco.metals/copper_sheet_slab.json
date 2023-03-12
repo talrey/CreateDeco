@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:copper_sheet_slab"
+    ]
+  },
+  "criteria": {
+    "has_copper_sheet_metal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:copper_sheet_metal"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:copper_sheet_slab"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_copper_sheet_metal",
+      "has_the_recipe"
+    ]
+  ]
+}

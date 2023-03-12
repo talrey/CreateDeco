@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "s",
+    "s",
+    "s"
+  ],
+  "key": {
+    "s": {
+      "item": "createdeco:scarlet_brick_tiles_slab"
+    }
+  },
+  "result": {
+    "item": "createdeco:scarlet_brick_tiles_slab_vert",
+    "count": 3
+  }
+}

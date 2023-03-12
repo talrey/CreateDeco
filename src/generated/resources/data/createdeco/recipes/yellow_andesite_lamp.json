@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "key": {
+    "n": {
+      "item": "create:andesite_alloy"
+    },
+    "t": {
+      "item": "minecraft:torch"
+    },
+    "p": {
+      "item": "create:andesite_alloy"
+    }
+  },
+  "result": {
+    "item": "createdeco:yellow_andesite_lamp"
+  }
+}

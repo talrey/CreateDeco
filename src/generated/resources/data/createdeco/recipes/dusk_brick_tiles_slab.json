@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "createdeco:dusk_brick_tiles"
+    }
+  },
+  "result": {
+    "item": "createdeco:dusk_brick_tiles_slab",
+    "count": 6
+  }
+}

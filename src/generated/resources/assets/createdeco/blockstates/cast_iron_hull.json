@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "createdeco:block/cast_iron_hull",
+      "x": 270
+    },
+    "facing=up": {
+      "model": "createdeco:block/cast_iron_hull",
+      "x": 90
+    },
+    "facing=north": {
+      "model": "createdeco:block/cast_iron_hull",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "createdeco:block/cast_iron_hull"
+    },
+    "facing=west": {
+      "model": "createdeco:block/cast_iron_hull",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "createdeco:block/cast_iron_hull",
+      "y": 270
+    }
+  }
+}

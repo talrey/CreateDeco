@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " p ",
+    "pBp",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "tag": "c:plates/cast_iron"
+    },
+    "B": {
+      "item": "createdeco:cast_iron_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:cast_iron_catwalk",
+    "count": 3
+  }
+}
