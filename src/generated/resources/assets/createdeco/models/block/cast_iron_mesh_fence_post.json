@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "createdeco:block/palettes/sheet_metal/cast_iron_sheet_metal"
+  }
+}

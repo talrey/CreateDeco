@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/iron_bars_post",
+  "textures": {
+    "bars": "createdeco:block/palettes/metal_bars/andesite_bars",
+    "particle": "createdeco:block/palettes/metal_bars/andesite_bars"
+  }
+}

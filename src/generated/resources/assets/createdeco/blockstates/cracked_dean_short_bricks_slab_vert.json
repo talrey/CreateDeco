@@ -1,0 +1,78 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert"
+      },
+      "when": {
+        "type": "bottom",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert_double"
+      },
+      "when": {
+        "type": "double"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert",
+        "y": 180
+      },
+      "when": {
+        "type": "bottom",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert_double",
+        "y": 180
+      },
+      "when": {
+        "type": "double"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert",
+        "y": -90
+      },
+      "when": {
+        "type": "bottom",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert_double",
+        "y": -90
+      },
+      "when": {
+        "type": "double"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert",
+        "y": 90
+      },
+      "when": {
+        "type": "bottom",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/cracked_dean_short_bricks_slab_vert_double",
+        "y": 90
+      },
+      "when": {
+        "type": "double"
+      }
+    }
+  ]
+}

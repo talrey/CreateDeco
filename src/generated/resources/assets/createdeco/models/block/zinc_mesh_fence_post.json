@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture": "createdeco:block/palettes/sheet_metal/zinc_sheet_metal"
+  }
+}

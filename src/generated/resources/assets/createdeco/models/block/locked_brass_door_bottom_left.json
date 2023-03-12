@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_left",
+  "textures": {
+    "bottom": "createdeco:block/palettes/doors/locked_brass_door_bottom",
+    "top": "createdeco:block/palettes/doors/locked_brass_door_top"
+  }
+}

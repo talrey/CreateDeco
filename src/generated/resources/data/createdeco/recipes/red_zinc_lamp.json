@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/zinc"
+    },
+    "p": {
+      "tag": "forge:plates/zinc"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "result": {
+    "item": "createdeco:red_zinc_lamp"
+  }
+}

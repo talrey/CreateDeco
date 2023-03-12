@@ -1,0 +1,8 @@
+{
+  "parent": "createdeco:block/train_hull",
+  "textures": {
+    "0": "createdeco:block/palettes/hull/zinc_hull_front",
+    "1": "createdeco:block/palettes/hull/zinc_hull_side",
+    "particle": "createdeco:block/palettes/hull/zinc_hull_front"
+  }
+}

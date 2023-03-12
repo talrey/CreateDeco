@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "createdeco:block/palettes/bricks/scarlet/scarlet_brick_tiles",
+    "side": "createdeco:block/palettes/bricks/scarlet/scarlet_brick_tiles",
+    "top": "createdeco:block/palettes/bricks/scarlet/scarlet_brick_tiles"
+  }
+}

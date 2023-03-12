@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "forge:nuggets/netherite"
+    },
+    "p": {
+      "tag": "forge:plates/netherite"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "result": {
+    "item": "createdeco:red_netherite_lamp"
+  }
+}

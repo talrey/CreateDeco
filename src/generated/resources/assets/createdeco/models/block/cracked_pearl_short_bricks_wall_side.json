@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "createdeco:block/palettes/bricks/pearl/cracked_pearl_short_bricks"
+  }
+}

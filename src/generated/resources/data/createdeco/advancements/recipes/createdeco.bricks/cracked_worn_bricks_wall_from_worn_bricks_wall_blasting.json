@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:cracked_worn_bricks_wall_from_worn_bricks_wall_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_worn_bricks_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:worn_bricks_wall"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_worn_bricks_wall",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_worn_bricks_wall_from_worn_bricks_wall_blasting"
+    ]
+  }
+}
