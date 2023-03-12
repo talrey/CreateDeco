@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "createdeco:cracked_worn_bricks"
-  },
-  "result": "createdeco:cracked_worn_bricks_slab",
-  "count": 2
-}

@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/iron_bars_post",
-  "textures": {
-    "bars": "createdeco:block/palettes/metal_bars/netherite_bars_post",
-    "particle": "createdeco:block/palettes/metal_bars/netherite_bars_post"
-  }
-}

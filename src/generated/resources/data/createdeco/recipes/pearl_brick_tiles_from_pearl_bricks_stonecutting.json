@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "createdeco:pearl_bricks"
-  },
-  "result": "createdeco:pearl_brick_tiles",
-  "count": 1
-}

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "createdeco:pearl_bricks"
-  },
-  "result": "createdeco:mossy_pearl_short_bricks",
-  "count": 1
-}

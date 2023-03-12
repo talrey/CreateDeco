@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "createdeco:scarlet_brick_tiles"
-  },
-  "result": "createdeco:cracked_scarlet_brick_tiles",
-  "experience": 0.5,
-  "cookingtime": 100
-}

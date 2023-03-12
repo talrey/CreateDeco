@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "createdeco:block/palettes/bricks/dusk/dusk_brick_tiles"
-  }
-}

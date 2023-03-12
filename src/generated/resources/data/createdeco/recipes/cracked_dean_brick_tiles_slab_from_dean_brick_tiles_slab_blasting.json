@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "createdeco:dean_brick_tiles_slab"
-  },
-  "result": "createdeco:cracked_dean_brick_tiles_slab",
-  "experience": 0.5,
-  "cookingtime": 100
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "createdeco:block/palettes/decal/white_decal"
-  }
-}

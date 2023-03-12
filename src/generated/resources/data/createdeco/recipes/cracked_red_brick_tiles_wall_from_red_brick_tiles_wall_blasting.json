@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "createdeco:red_brick_tiles_wall"
-  },
-  "result": "createdeco:cracked_red_brick_tiles_wall",
-  "experience": 0.5,
-  "cookingtime": 100
-}

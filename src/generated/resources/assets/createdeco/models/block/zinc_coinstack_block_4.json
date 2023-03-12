@@ -1,8 +1,0 @@
-{
-  "parent": "createdeco:block/layers_bottom_top_4",
-  "textures": {
-    "side": "createdeco:block/zinc_coinstack_side",
-    "bottom": "createdeco:block/zinc_coinstack_bottom",
-    "top": "createdeco:block/zinc_coinstack_top"
-  }
-}

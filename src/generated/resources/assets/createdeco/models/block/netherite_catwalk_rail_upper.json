@@ -1,7 +1,0 @@
-{
-  "parent": "createdeco:block/catwalk_rail_upper",
-  "textures": {
-    "3": "createdeco:block/palettes/catwalks/netherite_catwalk_rail",
-    "particle": "createdeco:block/palettes/catwalks/netherite_catwalk_rail"
-  }
-}

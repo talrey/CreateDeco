@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "createdeco:brass_sheet_metal"
-  },
-  "result": "createdeco:brass_sheet_stairs",
-  "count": 1
-}

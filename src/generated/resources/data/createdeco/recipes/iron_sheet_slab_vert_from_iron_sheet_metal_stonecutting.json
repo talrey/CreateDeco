@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "createdeco:iron_sheet_metal"
-  },
-  "result": "createdeco:iron_sheet_slab_vert",
-  "count": 2
-}

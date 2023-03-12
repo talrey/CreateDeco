@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "createdeco:dean_short_bricks_wall"
-  },
-  "result": "createdeco:cracked_dean_short_bricks_wall",
-  "experience": 0.5,
-  "cookingtime": 100
-}
