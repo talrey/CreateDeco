@@ -1,5 +1,10 @@
 {
 	"credit": "Made with Blockbench",
+<<<<<<< HEAD
+=======
+	"parent": "block/block",
+	"texture_size": [32, 32],
+>>>>>>> dba6d2b1 (light adjustments)
 	"textures": {
 		"0": "createdeco:block/palettes/support/andesite_support",
 		"particle": "createdeco:block/palettes/support/andesite_support"

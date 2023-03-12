@@ -70,7 +70,7 @@ public class Registration {
   public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS = new HashMap<>();
 
   public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS = new HashMap<>();
-
+  public static HashMap<String, BlockEntry<SupportBlock>> SUPPORT_BLOCKS = new HashMap<>();
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM = new HashMap<>();
 
   public static ItemEntry<Item> ZINC_SHEET;
@@ -476,6 +476,7 @@ public class Registration {
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
           .noOcclusion()
+          .isViewBlocking((a,b,c)->false)
         )
         .addLayer(() -> RenderType::cutoutMipped)
         .item()
@@ -492,6 +493,36 @@ public class Registration {
         ))
         .simpleItem()
         .lang(metal + " Train Hull")
+        .register()
+      );
+    });
+
+    METAL_TYPES.forEach((metal, getter)-> {
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      ResourceLocation texture = new ResourceLocation(
+        CreateDecoMod.MODID, "block/palettes/support/" + regName + "_support"
+      );
+      SUPPORT_BLOCKS.put(regName, reg.block(regName + "_support", SupportBlock::new)
+        .initialProperties(Material.METAL)
+        .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
+          .requiresCorrectToolForDrops()
+          .sound(SoundType.NETHERITE_BLOCK)
+          .noOcclusion()
+          .isViewBlocking((a,b,c)->false)
+          .isSuffocating((a,b,c)->false)
+        )
+        .addLayer(() -> RenderType::translucent)
+        .item()
+        .properties(p -> (metal.contains("Netherite")) ? p.fireResistant() : p)
+        .build()
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .blockstate((ctx,prov)-> prov.directionalBlock(ctx.get(),
+          prov.models().withExistingParent(ctx.getName(), prov.modLoc("support"))
+            .texture("0", texture)
+            .texture("particle", texture)
+        ))
+        .simpleItem()
+        .lang(metal + " Support")
         .register()
       );
     });
