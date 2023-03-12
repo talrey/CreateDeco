@@ -14,6 +14,7 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +24,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import java.util.HashMap;
 import java.util.Locale;
@@ -483,13 +485,14 @@ public class Registration {
           .build()
         .tag(BlockTags.STAIRS)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-        .blockstate((ctx,prov)-> prov.horizontalBlock(ctx.get(),
-          prov.models().withExistingParent(ctx.getName(), prov.modLoc("train_hull"))
-            .texture("0", front)
+        .blockstate((ctx,prov)->
+          prov.directionalBlock(ctx.get(), prov.models().withExistingParent(
+            ctx.getName(), prov.modLoc("train_hull")
+          ).texture("0", front)
             .texture("1", side)
-            .texture("particle", front),
-          90
-        ))
+            .texture("particle", front)
+          )
+        )
         .simpleItem()
         .lang(metal + " Train Hull")
         .register()
