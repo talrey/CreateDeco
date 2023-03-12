@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.function.Function;
@@ -120,7 +121,11 @@ public class Registration {
   }
 
   public static TagKey<Item> makeItemTag(String path) {
-    return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation("c", path));
+    return makeItemTag("c", path);
+  }
+
+  public static TagKey<Item> makeItemTag(String id, String path) {
+    return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(id, path));
   }
 
   private static BlockEntry<?> getBrickFromName(String overlay, DyeColor dye, String shape) {
@@ -424,12 +429,13 @@ public class Registration {
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(BlockTags.TRAPDOORS)
         .addLayer(()-> RenderType::cutoutMipped)
+        .item().model((ctx,prov)->prov.getExistingFile(prov.mcLoc("block/air"))).build()
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
           .pattern("mmm")
           .pattern("mmm")
           .define('m', ingot.apply(metal))
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ingot.apply(metal)))
-          //.save(prov)
+          .save(prov)
         )
         .register());
     });
