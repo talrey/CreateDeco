@@ -450,10 +450,11 @@ public class Registration {
     });
 
     METAL_TYPES.forEach((metal, getter) -> {
-      boolean postFlag = (metal.contains("Netherite")/* || metal.contains("Gold")*/ || metal.contains("Cast Iron"));
-      BAR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
-        MetalDecoBuilders.buildBars(reg, (metal.equals("Iron") ? "Polished Iron" : metal), getter, "", postFlag
-        )
+      boolean postFlag = (metal.contains("Netherite") || metal.contains("Gold") || metal.contains("Cast Iron"));
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      BAR_BLOCKS.put(regName,
+        MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "", postFlag
+      )
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .recipe((ctx, prov) -> {
           if (!metal.equals("Iron")) { // Iron will be handled as a polishing recipe
@@ -471,11 +472,11 @@ public class Registration {
         })
         .register());
 
-      BAR_PANEL_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
-        MetalDecoBuilders.buildBars(reg, (metal.equals("Iron") ? "Polished Iron" : metal), getter, "overlay", postFlag
-        )
-        .lang((metal.equals("Iron") ? "Polished Iron" : metal) + " Panel Bars ")
-        .recipe((ctx, prov) -> ShapelessRecipeBuilder.shapeless(ctx.get())
+      BAR_PANEL_BLOCKS.put(regName,
+        MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay", postFlag
+      )
+        .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
+        .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
           .requires(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get()))
           .save(prov)
@@ -496,9 +497,9 @@ public class Registration {
           })
           .register());
       }
-      MESH_FENCE_BLOCKS.put(metal, MetalDecoBuilders.buildFence(reg, metal).register());
-      CATWALK_BLOCKS.put(metal, MetalDecoBuilders.buildCatwalk(reg, metal).register());
-      CATWALK_STAIRS.put(metal, MetalDecoBuilders.buildCatwalkStair(reg, metal).register());
+      MESH_FENCE_BLOCKS.put(regName, MetalDecoBuilders.buildFence(reg, metal).register());
+      CATWALK_BLOCKS.put(regName, MetalDecoBuilders.buildCatwalk(reg, metal).register());
+      CATWALK_STAIRS.put(regName, MetalDecoBuilders.buildCatwalkStair(reg, metal).register());
     });
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
