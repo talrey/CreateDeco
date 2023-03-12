@@ -388,7 +388,7 @@ public class MetalDecoBuilders {
         })
         .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get(), 2)
           .pattern(" c")
-          .pattern("bc")
+          .pattern("cb")
           .define('c', Registration.CATWALK_BLOCKS.get(regName).get())
           .define('b', Registration.BAR_BLOCKS.get(regName).get())
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(

@@ -458,7 +458,8 @@ public class Registration {
 
     METAL_TYPES.forEach((metal, getter) -> {
       boolean postFlag = (metal.contains("Netherite") || metal.contains("Gold") || metal.contains("Cast Iron"));
-      BAR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      BAR_BLOCKS.put(regName,
         MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "", postFlag
       )
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
@@ -478,7 +479,7 @@ public class Registration {
         })
         .register());
 
-      BAR_PANEL_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
+      BAR_PANEL_BLOCKS.put(regName,
         MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "overlay", postFlag
       )
         .lang((metal.equals("Iron")?"Polished Iron":metal) + " Panel Bars ")
@@ -503,9 +504,9 @@ public class Registration {
           })
           .register());
       }
-      MESH_FENCE_BLOCKS.put(metal, MetalDecoBuilders.buildFence(reg, metal).register());
-      CATWALK_BLOCKS.put(metal, MetalDecoBuilders.buildCatwalk(reg, metal).register());
-      CATWALK_STAIRS.put(metal, MetalDecoBuilders.buildCatwalkStair(reg, metal).register());
+      MESH_FENCE_BLOCKS.put(regName, MetalDecoBuilders.buildFence(reg, metal).register());
+      CATWALK_BLOCKS.put(regName, MetalDecoBuilders.buildCatwalk(reg, metal).register());
+      CATWALK_STAIRS.put(regName, MetalDecoBuilders.buildCatwalkStair(reg, metal).register());
     });
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
