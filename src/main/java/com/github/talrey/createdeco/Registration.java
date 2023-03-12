@@ -68,7 +68,7 @@ public class Registration {
 
   public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCE_BLOCKS = new HashMap<>();
   public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALK_BLOCKS = new HashMap<>();
-  
+
   public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM = new HashMap<>();
