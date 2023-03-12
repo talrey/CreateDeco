@@ -78,9 +78,7 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
       if (keypair.getValue().get().asItem() == below.getBlock().asItem()
       && ctx.getPlayer() != null && !ctx.getPlayer().isCrouching()
       ) { // it's another stair
-        BlockPos next = ctx.getClickedPos().relative(
-          below.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite()
-        );
+        BlockPos next = ctx.getClickedPos().relative(facing);
         if (ctx.getLevel().getBlockState(next).canBeReplaced(ctx)) {
           state = state.setValue(
             BlockStateProperties.WATERLOGGED,
