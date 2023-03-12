@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
 	"textures": {
 		"0": "createdeco:block/palettes/support/andesite_support",
 		"particle": "createdeco:block/palettes/support/andesite_support"
@@ -157,9 +158,5 @@
 				"particle": "immersiveengineering:block/metal_device/charging_station"
 			}
 		}
-	},
-	"item_render_order": ["solid", "translucent"],
-	"loader": "forge:obj",
-	"flip_v": true,
-	"model": "create:models/block/flywheel/flywheel.obj"
+	}
 }
