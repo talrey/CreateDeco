@@ -5,6 +5,8 @@ import com.github.talrey.createdeco.registry.*;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 
+import com.simibubi.create.content.curiosities.deco.MetalLadderBlock;
+import com.simibubi.create.foundation.data.BuilderTransformers;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
@@ -31,6 +33,8 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.function.Function;
+
+import static com.simibubi.create.AllTags.pickaxeOnly;
 
 public class Registration {
 
@@ -76,6 +80,9 @@ public class Registration {
 
   public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS = new HashMap<>();
   public static HashMap<String, BlockEntry<SupportBlock>> SUPPORT_BLOCKS = new HashMap<>();
+
+  public static HashMap<String, BlockEntry<MetalLadderBlock>> LADDER_BLOCKS = new HashMap<>();
+
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM = new HashMap<>();
 
   public static ItemEntry<Item> ZINC_SHEET;
@@ -427,7 +434,10 @@ public class Registration {
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(BlockTags.TRAPDOORS)
         .addLayer(()-> RenderType::cutoutMipped)
-        .item().model((ctx,prov)->prov.getExistingFile(prov.mcLoc("block/air"))).build()
+        .item().model((ctx,prov)->prov.withExistingParent(ctx.getName(),
+          prov.mcLoc("block/template_trapdoor_bottom"))
+          .texture("texture", prov.modLoc("block/palettes/doors/" + regName + "_trapdoor"))
+        ).build()
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
           .pattern("mmm")
           .pattern("mmm")
@@ -496,7 +506,10 @@ public class Registration {
           .sound(SoundType.NETHERITE_BLOCK)
       )
       .lang("Block of Cast Iron")
-      .simpleItem()
+      .item()
+        .tag(makeItemTag("storage_blocks"))
+        .tag(makeItemTag("storage_blocks/cast_iron"))
+        .build()
       .register();
 
 
@@ -578,6 +591,36 @@ public class Registration {
         .lang(metal + " Support")
         .register()
       );
+    });
+
+    METAL_TYPES.forEach((metal, ingot)-> {
+      if (metal == "Andesite"
+        || metal == "Copper"
+        || metal == "Brass") {
+        return;
+      } // else
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      String main = "block/palettes/ladders/ladder_" + regName;
+      String hoop = main + "_hoop";
+      LADDER_BLOCKS.put(regName, reg.block(regName + "_ladder", MetalLadderBlock::new)
+        .initialProperties(()-> Blocks.LADDER)
+        .addLayer(() -> RenderType::cutout)
+        .properties(p -> p.sound(SoundType.COPPER))
+        .transform(pickaxeOnly())
+        .tag(BlockTags.CLIMBABLE)
+        .blockstate((c, p) -> p.horizontalBlock(c.get(), p.models()
+          .withExistingParent(c.getName(), p.modLoc("block/ladder"))
+          .texture("0", p.modLoc(hoop))
+          .texture("1", p.modLoc(main))
+          .texture("particle", p.modLoc(main))))
+        .item()
+          .recipe((ctx, prov) -> prov.stonecutting(
+            DataIngredient.tag(AllTags.forgeItemTag("plates/" + regName)),
+            ctx::get, 2
+          ))
+          .model((c, p) -> p.blockSprite(c::get, p.modLoc(main)))
+          .build()
+        .register());
     });
 
     Props.registerBlocks(reg);
