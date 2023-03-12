@@ -32,6 +32,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.function.Function;
