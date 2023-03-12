@@ -14,7 +14,7 @@ public class CreateDecoModData implements DataGeneratorEntrypoint {
 
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator gen) {
-        var existingData = System.getProperty("om.github.talrey.createdeco.existingData").split(";");
+        var existingData = System.getProperty("com.github.talrey.createdeco.existingData").split(";");
         var existingFileHelper = new ExistingFileHelper(Arrays.stream(existingData).map(Paths::get).toList(), Collections.emptySet(),
                 true, null, null);
         CreateDecoMod.createDecoRegistrar.setupDatagen(gen, existingFileHelper);
