@@ -6,7 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -15,39 +15,17 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class HullBlock extends HorizontalDirectionalBlock {
-  private static final VoxelShape NORTH = Block.box(
+public class HullBlock extends DirectionalBlock {
+  private static final VoxelShape OUTER = Block.box(
     0d, 0d, 0d,
-    16d, 16d, 2d
-  );
-  private static final VoxelShape SOUTH = Block.box(
-    0d, 0d, 14d,
     16d, 16d, 16d
   );
-  private static final VoxelShape EAST = Block.box(
-    0d, 0d, 0d,
-    2d, 16d, 16d
+  private static final VoxelShape INNER = Block.box(
+    2d, 2d, 2d,
+    14d, 14d, 14d
   );
-  private static final VoxelShape WEST = Block.box(
-    14d, 0d, 0d,
-    16d, 16d, 16d
-  );
-  private static final VoxelShape UP = Block.box(
-    0d, 14d, 0d,
-    16d, 16d, 16d
-  );
-  private static final VoxelShape DOWN = Block.box(
-    0d, 0d, 0d,
-    16d, 2d, 16d
-  );
-  private static final VoxelShape CUBE = // FFS if this works...
-    Shapes.join(
-      Shapes.join(UP, DOWN, BooleanOp.OR),
-      Shapes.join(
-        Shapes.join(EAST, WEST, BooleanOp.OR),
-        Shapes.join(NORTH, SOUTH, BooleanOp.OR),
-        BooleanOp.OR),
-      BooleanOp.OR
+  private static final VoxelShape CUBE =
+    Shapes.join(OUTER, INNER, BooleanOp.ONLY_FIRST
   );
 
   public HullBlock (Properties props) {
@@ -63,9 +41,9 @@ public class HullBlock extends HorizontalDirectionalBlock {
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
     BlockState result = super.getStateForPlacement(ctx).setValue(FACING,
-      ctx.getHorizontalDirection()
+      ctx.getClickedFace().getOpposite()
     );
-    for (Direction side : Iterate.horizontalDirections) {
+    for (Direction side : Iterate.directions) {
       BlockState neighbor = ctx.getLevel()
         .getBlockState(ctx.getClickedPos()
           .relative(side));
