@@ -1,0 +1,203 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "createdeco:block/palettes/hull/andesite_hull_front",
+		"1": "createdeco:block/palettes/hull/andesite_hull_side",
+		"particle": "createdeco:block/palettes/hull/andesite_hull_front"
+	},
+	"elements": [
+		{
+			"name": "octagon",
+			"from": [0, 1.37258, -8],
+			"to": [16, 14.62742, 24],
+			"rotation": {"angle": 45, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 13, 16], "rotation": 270, "texture": "#1"},
+				"east": {"uv": [6.5, 0, 7, 0.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"down": {"uv": [0, 0, 0.5, 0.5], "rotation": 90, "texture": "#1"}
+			}
+		},
+		{
+			"name": "octagon",
+			"from": [0, 1.37258, -8],
+			"to": [16, 14.62742, 24],
+			"rotation": {"angle": 0, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 13, 16], "rotation": 270, "texture": "#1"},
+				"east": {"uv": [6.5, 0, 7, 0.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"down": {"uv": [0, 0, 0, 0.5], "texture": "#1"}
+			}
+		},
+		{
+			"name": "octagon",
+			"from": [0, -8, 1.37258],
+			"to": [16, 24, 14.62742],
+			"rotation": {"angle": 45, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"east": {"uv": [6.5, 0, 7, 0.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"down": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"}
+			}
+		},
+		{
+			"name": "octagon",
+			"from": [0, -8, 1.37258],
+			"to": [16, 24, 14.62742],
+			"rotation": {"angle": 0, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0.5, 0.5, 0], "texture": "#1"},
+				"east": {"uv": [6.5, 0.5, 7, 0], "texture": "#1"},
+				"south": {"uv": [0, 0.5, 0.5, 0], "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"down": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"}
+			}
+		},
+		{
+			"name": "octagon",
+			"from": [0, 1.37258, -8],
+			"to": [16, 14.62742, 24],
+			"rotation": {"angle": 45, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 13, 16], "rotation": 270, "texture": "#1"},
+				"east": {"uv": [6.5, 0, 7, 0.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"down": {"uv": [0, 0, 0.5, 0.5], "rotation": 90, "texture": "#1"}
+			}
+		},
+		{
+			"name": "octagon",
+			"from": [0, 1.37258, -8],
+			"to": [16, 14.62742, 24],
+			"rotation": {"angle": 0, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 13, 16], "rotation": 270, "texture": "#1"},
+				"east": {"uv": [6.5, 0, 7, 0.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"down": {"uv": [0, 0, 0, 0.5], "texture": "#1"}
+			}
+		},
+		{
+			"name": "octagon",
+			"from": [0, -8, 1.37258],
+			"to": [16, 24, 14.62742],
+			"rotation": {"angle": 45, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"east": {"uv": [6.5, 0, 7, 0.5], "texture": "#1"},
+				"south": {"uv": [0, 0, 0.5, 0.5], "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"down": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"}
+			}
+		},
+		{
+			"name": "octagon",
+			"from": [0, -8, 1.37258],
+			"to": [16, 24, 14.62742],
+			"rotation": {"angle": 0, "axis": "x", "origin": [0, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0.5, 0.5, 0], "texture": "#1"},
+				"east": {"uv": [6.5, 0.5, 7, 0], "texture": "#1"},
+				"south": {"uv": [0, 0.5, 0.5, 0], "texture": "#1"},
+				"west": {"uv": [15, 0, 16, 1], "texture": "#1"},
+				"up": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"},
+				"down": {"uv": [0, 0, 13, 16], "rotation": 90, "texture": "#1"}
+			}
+		},
+		{
+			"from": [-0.05, -7, -7],
+			"to": [16.05, 23, 23],
+			"faces": {
+				"north": {"uv": [0, 0, 0.5, 0.5], "texture": "#0"},
+				"east": {"uv": [0.5, 0.5, 15.5, 15.5], "texture": "#0"},
+				"south": {"uv": [0, 14.5, 0.5, 16], "texture": "#0"},
+				"west": {"uv": [0.5, 0.5, 15.5, 15.5], "texture": "#0"},
+				"up": {"uv": [0, 0, 0.5, 0.5], "texture": "#0"},
+				"down": {"uv": [0, 15.5, 1.5, 16], "rotation": 90, "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 225, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"head": {
+			"rotation": [0, 0, 90],
+			"translation": [0, 12.5, 0],
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"fixed": {
+			"rotation": [0, 90, 0],
+			"scale": [0.4, 0.4, 0.4]
+		}
+	},
+	"groups": [
+		{
+			"name": "octagon",
+			"origin": [8, 8, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3, 4, 5, 6, 7]
+		},
+		8
+	],
+	"children": {
+		"solid": {
+			"automatic_culling": false,
+			"flip_v": true,
+			"loader": "forge:obj",
+			"model": "immersiveengineering:models/block/metal_device/charging_station.obj",
+			"render_type": "minecraft:solid",
+			"textures": {
+				"particle": "immersiveengineering:block/metal_device/charging_station"
+			}
+		},
+		"translucent": {
+			"automatic_culling": false,
+			"flip_v": true,
+			"loader": "forge:obj",
+			"model": "immersiveengineering:models/block/metal_device/charging_station_glass.obj",
+			"render_type": "minecraft:translucent",
+			"textures": {
+				"particle": "immersiveengineering:block/metal_device/charging_station"
+			}
+		}
+	}
+}
