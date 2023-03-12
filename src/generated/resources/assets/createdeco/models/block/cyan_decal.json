@@ -1,7 +1,0 @@
-{
-  "parent": "createdeco:block/decal",
-  "textures": {
-    "face": "createdeco:block/palettes/decal/cyan_decal",
-    "particle": "createdeco:block/palettes/decal/cyan_decal"
-  }
-}

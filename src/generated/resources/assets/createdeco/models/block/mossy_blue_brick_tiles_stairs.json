@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "bottom": "createdeco:block/palettes/bricks/blue/mossy_blue_brick_tiles",
-    "side": "createdeco:block/palettes/bricks/blue/mossy_blue_brick_tiles",
-    "top": "createdeco:block/palettes/bricks/blue/mossy_blue_brick_tiles"
-  }
-}

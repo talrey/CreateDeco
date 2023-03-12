@@ -1,8 +1,0 @@
-{
-  "parent": "createdeco:block/chainlink_fence_tri_way",
-  "textures": {
-    "0": "createdeco:block/palettes/chain_link_fence/zinc_chain_link",
-    "1": "createdeco:block/palettes/sheet_metal/zinc_sheet_metal",
-    "particle": "createdeco:block/palettes/sheet_metal/zinc_sheet_metal"
-  }
-}

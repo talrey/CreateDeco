@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "cookingtime": 100,
-  "experience": 0.5,
-  "ingredient": {
-    "item": "createdeco:dusk_bricks_stairs"
-  },
-  "result": "createdeco:cracked_dusk_bricks_stairs"
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_wall_post",
-  "textures": {
-    "wall": "createdeco:block/palettes/bricks/worn/mossy_worn_short_bricks"
-  }
-}
