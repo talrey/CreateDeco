@@ -43,10 +43,19 @@ Cage Lamps: Torches are old news, industry demands nicer lighting. These come in
 
 Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four - er, five: now featuring Cast Iron.
 
-== Changelog ==
+== Changelog ==  
+
+fabric-1.3.0-1.18.2 & 1.19.2 | 11 MAR 2023:  
+\+ added metal Ladders, Trapdoors, and Doors  
+\+ added Train Hulls  
+\+ added Catwalk Stairs !!  
+\+ added Dyed Placards  
+\+ added metal Supports  
+\* ensured certain metal items were tagged properly  
+\* fixed catwalk model UVs  
 
 fabric-1.2.13-1.18.2 & 1.19.2 | 11 FEB 2023:  
- \* several texture updates
+ \* several texture updates  
  \* fixed doors not showing properly  
  \* fixed recipes for cage lamps  
  \* fixed cast iron block hardness  
