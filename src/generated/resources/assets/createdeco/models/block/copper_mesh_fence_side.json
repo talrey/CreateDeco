@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/chainlink_fence_side",
+  "textures": {
+    "0": "createdeco:block/palettes/chain_link_fence/copper_chain_link",
+    "particle": "createdeco:block/palettes/chain_link_fence/copper_chain_link"
+  }
+}

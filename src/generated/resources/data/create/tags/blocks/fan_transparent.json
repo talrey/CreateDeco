@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "createdeco:gold_bars",
+    "createdeco:gold_catwalk",
+    "createdeco:gold_catwalk_stairs",
+    "createdeco:netherite_bars",
+    "createdeco:netherite_catwalk",
+    "createdeco:netherite_catwalk_stairs",
+    "createdeco:andesite_bars",
+    "createdeco:andesite_catwalk",
+    "createdeco:andesite_catwalk_stairs",
+    "createdeco:brass_bars",
+    "createdeco:brass_catwalk",
+    "createdeco:brass_catwalk_stairs",
+    "createdeco:cast_iron_bars",
+    "createdeco:cast_iron_catwalk",
+    "createdeco:cast_iron_catwalk_stairs",
+    "createdeco:polished_iron_bars",
+    "createdeco:iron_catwalk",
+    "createdeco:iron_catwalk_stairs",
+    "createdeco:copper_bars",
+    "createdeco:copper_catwalk",
+    "createdeco:copper_catwalk_stairs",
+    "createdeco:zinc_bars",
+    "createdeco:zinc_catwalk",
+    "createdeco:zinc_catwalk_stairs"
+  ]
+}

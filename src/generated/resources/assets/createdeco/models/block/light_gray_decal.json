@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/decal",
+  "textures": {
+    "face": "createdeco:block/palettes/decal/light_gray_decal",
+    "particle": "createdeco:block/palettes/decal/light_gray_decal"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "m": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "pattern": [
+    "mmm",
+    "mmm"
+  ],
+  "result": {
+    "count": 2,
+    "item": "createdeco:copper_trapdoor"
+  }
+}

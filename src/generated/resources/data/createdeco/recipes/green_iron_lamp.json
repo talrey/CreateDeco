@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "n": {
+      "tag": "c:iron_nuggets"
+    },
+    "p": {
+      "tag": "c:iron_plates"
+    },
+    "t": {
+      "item": "minecraft:glow_berries"
+    }
+  },
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "result": {
+    "item": "createdeco:green_iron_lamp"
+  }
+}

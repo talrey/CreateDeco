@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/iron_bars_side_alt",
+  "textures": {
+    "bars": "createdeco:block/palettes/metal_bars/iron_bars_overlay",
+    "edge": "minecraft:block/iron_bars",
+    "particle": "minecraft:block/iron_bars"
+  }
+}

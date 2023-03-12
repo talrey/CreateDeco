@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "createdeco:block/palettes/chain_link_fence/brass_chain_link"
+  }
+}

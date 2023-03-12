@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "createdeco:block/palettes/sheet_metal/zinc_sheet_metal"
+  }
+}

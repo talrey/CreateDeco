@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "createdeco:block/mossy_red_brick_tiles_slab"
+    },
+    "type=double": {
+      "model": "createdeco:block/mossy_red_brick_tiles"
+    },
+    "type=top": {
+      "model": "createdeco:block/mossy_red_brick_tiles_slab_top"
+    }
+  }
+}

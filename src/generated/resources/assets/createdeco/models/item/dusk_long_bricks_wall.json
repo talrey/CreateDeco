@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "createdeco:block/palettes/bricks/dusk/dusk_long_bricks"
+  }
+}
