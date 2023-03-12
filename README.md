@@ -43,7 +43,16 @@ Cage Lamps: Torches are old news, industry demands nicer lighting. These come in
 
 Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four - er, five: now featuring Cast Iron.
 
-== Changelog ==
+== Changelog ==  
+
+fabric-1.3.0-1.18.2 & 1.19.2 | 11 MAR 2023:  
+\+ added metal Ladders, Trapdoors, and Doors  
+\+ added Train Hulls  
+\+ added Catwalk Stairs !!  
+\+ added Dyed Placards  
+\+ added metal Supports  
+\* ensured certain metal items were tagged properly  
+\* fixed catwalk model UVs  
 
 fabric-1.2.13-1.18.2 & 1.19.2 | 11 FEB 2023:  
  \* several texture updates  
@@ -53,8 +62,8 @@ fabric-1.2.13-1.18.2 & 1.19.2 | 11 FEB 2023:
  \* fixed worn brick cracking  
 
 fabric-1.2.12-1.18.2 | 17 DEC 2022:  
- \* fast-forwarding to forge parity after all this time
- \* various minor fixes
+ \* fast-forwarding to forge parity after all this time  
+ \* various minor fixes  
 
 1.2.9-1.18.2 | 07 AUG 2022:  
  \+ vertical slabs should now rotate correctly in most orientations  
