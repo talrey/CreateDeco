@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:netherite_ladder_from_plates_netherite_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_plates_netherite": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:plates/netherite"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:netherite_ladder_from_plates_netherite_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_plates_netherite",
+      "has_the_recipe"
+    ]
+  ]
+}

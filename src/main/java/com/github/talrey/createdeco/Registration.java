@@ -5,6 +5,8 @@ import com.github.talrey.createdeco.registry.*;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 
+import com.simibubi.create.content.curiosities.deco.MetalLadderBlock;
+import com.simibubi.create.foundation.data.BuilderTransformers;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
@@ -34,6 +36,8 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import static com.simibubi.create.AllTags.pickaxeOnly;
 
 public class Registration {
 
@@ -79,6 +83,8 @@ public class Registration {
 
   public static HashMap<String, BlockEntry<HullBlock>> HULL_BLOCKS       = new HashMap<>();
   public static HashMap<String, BlockEntry<SupportBlock>> SUPPORT_BLOCKS = new HashMap<>();
+
+  public static HashMap<String, BlockEntry<MetalLadderBlock>> LADDER_BLOCKS = new HashMap<>();
 
   public static HashMap<DyeColor, ItemEntry<Item>> BRICK_ITEM = new HashMap<>();
 
@@ -593,6 +599,36 @@ public class Registration {
         .lang(metal + " Support")
         .register()
       );
+    });
+
+    METAL_TYPES.forEach((metal, ingot)-> {
+      if (metal == "Andesite"
+        || metal == "Copper"
+        || metal == "Brass") {
+        return;
+      } // else
+      String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      String main = "block/palettes/ladders/ladder_" + regName;
+      String hoop = main + "_hoop";
+      LADDER_BLOCKS.put(regName, reg.block(regName + "_ladder", MetalLadderBlock::new)
+        .initialProperties(()-> Blocks.LADDER)
+        .addLayer(() -> RenderType::cutout)
+        .properties(p -> p.sound(SoundType.COPPER))
+        .transform(pickaxeOnly())
+        .tag(BlockTags.CLIMBABLE)
+        .blockstate((c, p) -> p.horizontalBlock(c.get(), p.models()
+          .withExistingParent(c.getName(), p.modLoc("block/ladder"))
+          .texture("0", p.modLoc(hoop))
+          .texture("1", p.modLoc(main))
+          .texture("particle", p.modLoc(main))))
+        .item()
+          .recipe((ctx, prov) -> prov.stonecutting(
+            DataIngredient.tag(AllTags.forgeItemTag("plates/" + regName)),
+            ctx::get, 2
+          ))
+          .model((c, p) -> p.blockSprite(c::get, p.modLoc(main)))
+          .build()
+        .register());
     });
 
     Props.registerBlocks(reg);
