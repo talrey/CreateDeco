@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "createdeco:cast_iron_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:cast_iron_support",
+    "count": 4
+  }
+}

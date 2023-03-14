@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "createdeco:netherite_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:netherite_support",
+    "count": 4
+  }
+}

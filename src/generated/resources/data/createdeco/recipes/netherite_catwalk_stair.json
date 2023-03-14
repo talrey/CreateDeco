@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " c",
+    "bc"
+  ],
+  "key": {
+    "c": {
+      "item": "createdeco:netherite_catwalk"
+    },
+    "b": {
+      "item": "createdeco:netherite_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:netherite_catwalk_stair",
+    "count": 2
+  }
+}

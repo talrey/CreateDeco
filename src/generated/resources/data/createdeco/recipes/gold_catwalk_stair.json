@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " c",
+    "bc"
+  ],
+  "key": {
+    "c": {
+      "item": "createdeco:gold_catwalk"
+    },
+    "b": {
+      "item": "createdeco:gold_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:gold_catwalk_stair",
+    "count": 2
+  }
+}

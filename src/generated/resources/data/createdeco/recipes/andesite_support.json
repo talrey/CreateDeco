@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "createdeco:andesite_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:andesite_support",
+    "count": 4
+  }
+}
