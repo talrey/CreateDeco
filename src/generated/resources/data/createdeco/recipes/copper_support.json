@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "createdeco:copper_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:copper_support",
+    "count": 4
+  }
+}

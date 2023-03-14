@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "createdeco:gold_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:gold_support",
+    "count": 4
+  }
+}
