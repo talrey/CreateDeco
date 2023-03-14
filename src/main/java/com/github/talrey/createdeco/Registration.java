@@ -450,7 +450,7 @@ public class Registration {
     });
 
     METAL_TYPES.forEach((metal, getter) -> {
-      boolean postFlag = (metal.contains("Netherite") || metal.contains("Gold") || metal.contains("Cast Iron"));
+      boolean postFlag = (metal.contains("Netherite")/* || metal.contains("Gold")*/|| metal.contains("Cast Iron"));
       String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
       BAR_BLOCKS.put(regName,
         MetalDecoBuilders.buildBars(reg, (metal.equals("Iron")?"Polished Iron":metal), getter, "", postFlag
