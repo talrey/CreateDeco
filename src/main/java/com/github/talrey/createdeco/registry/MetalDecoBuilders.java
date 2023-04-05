@@ -362,7 +362,8 @@ public class MetalDecoBuilders {
   }
 
   public static BlockBuilder<CatwalkStairBlock,?> buildCatwalkStair (Registrate reg, String metal) {
-    String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String texture = reg.getModid() + ":/block/palettes/catwalks/" + regName + "_catwalk";
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stairs", CatwalkStairBlock::new)
         .initialProperties(Material.METAL)
         .properties(props->
@@ -379,6 +380,16 @@ public class MetalDecoBuilders {
             .texture("particle", texture  +"_rail");
           prov.horizontalBlock(ctx.get(), builder);
         })
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get(), 2)
+          .pattern(" c")
+          .pattern("cb")
+          .define('c', Registration.CATWALK_BLOCKS.get(regName).get())
+          .define('b', Registration.BAR_BLOCKS.get(regName).get())
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            Registration.CATWALK_BLOCKS.get(regName).get()
+          ))
+          .save(prov)
+        )
         .simpleItem();
   }
 }
