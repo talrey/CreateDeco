@@ -46,13 +46,13 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 == Changelog ==  
 
 fabric-1.3.0-1.18.2 & 1.19.2 | 11 MAR 2023:  
-\+ added metal Ladders, Trapdoors, and Doors  
-\+ added Train Hulls  
-\+ added Catwalk Stairs !!  
-\+ added Dyed Placards  
-\+ added metal Supports  
-\* ensured certain metal items were tagged properly  
-\* fixed catwalk model UVs  
+ \+ added metal Ladders, Trapdoors, and Doors  
+ \+ added Train Hulls  
+ \+ added Catwalk Stairs !!  
+ \+ added Dyed Placards  
+ \+ added metal Supports  
+ \* ensured certain metal items were tagged properly  
+ \* fixed catwalk model UVs  
 
 fabric-1.2.13-1.18.2 & 1.19.2 | 11 FEB 2023:  
  \* several texture updates  
