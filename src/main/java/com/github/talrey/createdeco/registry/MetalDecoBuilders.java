@@ -363,7 +363,7 @@ public class MetalDecoBuilders {
 
   public static BlockBuilder<CatwalkStairBlock,?> buildCatwalkStair (Registrate reg, String metal) {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
-    String texture = reg.getModid() + ":/block/palettes/catwalks/" + regName + "_catwalk";
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stairs", CatwalkStairBlock::new)
         .initialProperties(Material.METAL)
         .properties(props->
