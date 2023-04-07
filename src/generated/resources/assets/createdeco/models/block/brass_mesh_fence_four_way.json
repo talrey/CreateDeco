@@ -1,8 +1,0 @@
-{
-  "parent": "createdeco:block/chainlink_fence_four_way",
-  "textures": {
-    "0": "createdeco:block/palettes/chain_link_fence/brass_chain_link",
-    "1": "createdeco:block/palettes/sheet_metal/brass_sheet_metal",
-    "particle": "createdeco:block/palettes/sheet_metal/brass_sheet_metal"
-  }
-}

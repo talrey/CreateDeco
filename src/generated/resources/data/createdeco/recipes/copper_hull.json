@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " m ",
+    "m m",
+    " m "
+  ],
+  "key": {
+    "m": {
+      "item": "minecraft:copper_ingot"
+    }
+  },
+  "result": {
+    "item": "createdeco:copper_hull",
+    "count": 2
+  }
+}

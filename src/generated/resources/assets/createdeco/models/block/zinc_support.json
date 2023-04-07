@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/support",
+  "textures": {
+    "0": "createdeco:block/palettes/support/zinc_support",
+    "particle": "createdeco:block/palettes/support/zinc_support"
+  }
+}

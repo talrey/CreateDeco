@@ -1,25 +1,14 @@
-# eclipse
-bin
-*.launch
-.settings
-.metadata
-.classpath
-.project
+/*
+!/src/
+!.gitignore
+!gradlew*
+!/gradle/
+!/LICENSE.txt
+!/README.md
+!build.gradle
+!/gradle.properties
+!.gitattributes
+!ASSETS_LICENSE.txt
 
-# idea
-out
-*.ipr
-*.iws
-*.iml
-.idea
-
-# gradle
-build
-.gradle
-
-# other
-eclipse
-run
-
-# Files from Forge MDK
-forge*changelog.txt
+src/generated/resources/.cache/
+src/generated/resources/.cache/cache

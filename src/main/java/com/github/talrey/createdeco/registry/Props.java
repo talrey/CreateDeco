@@ -1,19 +1,22 @@
 package com.github.talrey.createdeco.registry;
 
 import com.github.talrey.createdeco.CreateDecoMod;
+import com.github.talrey.createdeco.blocks.*;
 import com.github.talrey.createdeco.Registration;
-import com.github.talrey.createdeco.blocks.CageLampBlock;
-import com.github.talrey.createdeco.blocks.CoinStackBlock;
-import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.items.CoinStackItem;
-import com.jozufozu.flywheel.util.NonNullSupplier;
 import com.mojang.math.Vector3f;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllTags;
+import com.simibubi.create.content.curiosities.deco.PlacardBlock;
+import com.simibubi.create.content.curiosities.deco.PlacardRenderer;
+import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.ItemBuilder;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -26,6 +29,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
@@ -36,11 +40,12 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
-import net.minecraftforge.client.model.generators.ModelBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+
+import static com.simibubi.create.AllTags.pickaxeOnly;
 
 public class Props {
   public static HashMap<DyeColor, BlockEntry<DecalBlock>> DECAL_BLOCKS = new HashMap<>();
@@ -53,6 +58,10 @@ public class Props {
   public static HashMap<String, ItemEntry<Item>> COIN_ITEM               = new HashMap<>();
   public static HashMap<String, ItemEntry<CoinStackItem>> COINSTACK_ITEM = new HashMap<>();
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
+
+  public static TagKey<Item> PLACARD_TAG;
+  public static HashMap<DyeColor, BlockEntry<? extends PlacardBlock>> PLACARDS = new HashMap<>();
+  public static BlockEntityEntry<DyedPlacardBlockEntity> PLACARD_ENTITY;
 
   public static ArrayList<String> COIN_TYPES = new ArrayList<>();
 
@@ -164,7 +173,7 @@ public class Props {
       ResourceLocation side   = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack_side");
       ResourceLocation top    = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack_top");
       ResourceLocation bottom = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack_bottom");
-      COIN_BLOCKS.put(metal, buildCoinStackBlock(reg, ()->COINSTACK_ITEM.get(metal).get(), metal, side, top, bottom).register());
+      COIN_BLOCKS.put(metal, buildCoinStackBlock(reg, ()->COINSTACK_ITEM.get(metal).get(), metal, side, bottom, top).register());
     });
 
     for (DyeColor color : DyeColor.values()) {
@@ -308,6 +317,52 @@ public class Props {
         })
         .register());
     });
+
+    if (PLACARD_TAG == null) {
+      PLACARD_TAG = Registration.makeItemTag(CreateDecoMod.MODID, "placards");
+    }
+
+    for (DyeColor color : DyeColor.values()) {
+      if (color == DyeColor.WHITE) { // Create's is the default
+        continue;
+      }
+      String regName = color.name().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_placard";
+      PLACARDS.put(color, reg.block(regName, DyedPlacardBlock::new)
+        .initialProperties(SharedProperties::copperMetal)
+        .transform(pickaxeOnly())
+        .tag(AllTags.AllBlockTags.SAFE_NBT.tag)
+        .blockstate((ctx, prov) -> prov.horizontalFaceBlock(ctx.get(),
+          prov.models().withExistingParent(regName, prov.modLoc("block/dyed_placard"))
+            .texture("0", prov.modLoc("block/palettes/placard/" + regName))
+            .texture("particle", prov.modLoc("block/palettes/placard/" + regName))
+        ))
+        .simpleItem()
+        .recipe((ctx,prov)->
+          ShapelessRecipeBuilder.shapeless(ctx.get())
+            .requires(PLACARD_TAG)
+            .requires(DyeItem.byColor(color))
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+              ItemPredicate.Builder.item().of(PLACARD_TAG).build()
+            ))
+            .unlockedBy("has_dye", InventoryChangeTrigger.TriggerInstance.hasItems(
+              ItemPredicate.Builder.item().of(DyeItem.byColor(color)).build()
+            ))
+            .group("dye_placard")
+            .save(prov)
+        )
+        .register());
+    }
+
+    @SuppressWarnings("unchecked")
+    BlockEntry<? extends PlacardBlock>[] validPlacards = new BlockEntry[PLACARDS.size()];
+    int color = 0;
+    for (BlockEntry<? extends PlacardBlock> block : PLACARDS.values()) {
+      validPlacards[color] = block;
+    }
+    PLACARD_ENTITY = reg.blockEntity("dyed_placard", DyedPlacardBlockEntity::new)
+      .renderer(()-> PlacardRenderer::new)
+      .validBlocks(PLACARDS.values().toArray(validPlacards))
+      .register();
   }
 
   public static void registerItems (Registrate reg) {

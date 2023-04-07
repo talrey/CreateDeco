@@ -45,9 +45,27 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==
 
+1.3.0-1.18.2 & 1.19.2 | 11 MAR 2023:  
+ \+ added metal Ladders, Trapdoors, and Doors  
+ \+ added Train Hulls  
+ \+ added Catwalk Stairs !!  
+ \+ added Dyed Placards  
+ \+ added metal Supports  
+ \* ensured certain metal items were tagged properly  
+ \* fixed catwalk model UVs  
+
+1.2.13-1.18.2 & 1.19.2 | 11 FEB 2023:  
+ \* fixed a warning about mixins - Thanks MrLoLf!  
+ \* fixed cast iron block properties  
+ \* changed Zinc Sheets to accept any forge:ingots/zinc  
+
+1.2.12-1.18.2 & 1.19.2 | 17 DEC 2022:  
+ \* updated textures for most of the blocks and items  
+ \* minor fixes  
+
 1.2.11-1.18.2 | 25 SEP 2022:  
- \* updated to Create 0.5.0.e!
- \* Coin Stacks, Decals, and Lamps are now waterloggable
+ \* updated to Create 0.5.0.e!  
+ \* Coin Stacks, Decals, and Lamps are now waterloggable  
 
 1.2.10-1.18.2 | 28 AUG 2022:  
  \* updated to Create 0.5.0.d!  

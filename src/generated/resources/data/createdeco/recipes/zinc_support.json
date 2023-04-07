@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "createdeco:zinc_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:zinc_support",
+    "count": 4
+  }
+}

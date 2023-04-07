@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_trapdoor_bottom",
+  "textures": {
+    "texture": "createdeco:block/palettes/doors/andesite_trapdoor"
+  }
+}

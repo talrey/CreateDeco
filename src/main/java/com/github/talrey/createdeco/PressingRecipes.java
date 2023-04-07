@@ -16,7 +16,7 @@ import java.util.Locale;
 public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
   {
     add("zinc_sheet",
-      ts -> ts.require(AllItems.ZINC_INGOT.get()).output(Registration.ZINC_SHEET.get())
+      ts -> ts.require(Registration.makeItemTag("ingots/zinc")).output(Registration.ZINC_SHEET.get())
     );
     add("netherite_sheet",
       ts -> ts.require(Items.NETHERITE_INGOT).output(Registration.NETHERITE_SHEET.get())

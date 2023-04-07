@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "createdeco:brass_bars"
+    }
+  },
+  "result": {
+    "item": "createdeco:brass_support",
+    "count": 4
+  }
+}

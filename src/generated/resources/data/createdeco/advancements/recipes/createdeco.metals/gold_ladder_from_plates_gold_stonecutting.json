@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "createdeco:gold_ladder_from_plates_gold_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_plates_gold": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:plates/gold"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "createdeco:gold_ladder_from_plates_gold_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_plates_gold",
+      "has_the_recipe"
+    ]
+  ]
+}

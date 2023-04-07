@@ -3,6 +3,7 @@ package com.github.talrey.createdeco.registry;
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.Registration;
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
+import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
@@ -21,10 +22,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.material.Material;
@@ -34,12 +32,10 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Collections;
 import java.util.Locale;
 import java.util.function.Function;
 
@@ -212,50 +208,71 @@ public class MetalDecoBuilders {
         }
       })
       .blockstate((ctx,prov)-> {
-        prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
-          String dir = "chainlink_fence";
-          boolean north,south,east,west;
-          north = state.getValue(BlockStateProperties.NORTH);
-          south = state.getValue(BlockStateProperties.SOUTH);
-          east  = state.getValue(BlockStateProperties.EAST);
-          west  = state.getValue(BlockStateProperties.WEST);
-          int sides = (north?1:0) + (south?1:0) + (east?1:0) + (west?1:0);
-          ResourceLocation mesh = prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_chain_link");
-          ResourceLocation wall = prov.modLoc("block/palettes/sheet_metal/"      + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal");
-          switch (sides) {
-            case 4: return ConfiguredModel.builder().modelFile(
-              prov.models().withExistingParent(ctx.getName() + "_four_way", prov.modLoc(dir + "_four_way"))
-                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-            ).build();
-            case 3: return ConfiguredModel.builder().modelFile(
-              prov.models().withExistingParent(ctx.getName() + "_tri_way", prov.modLoc(dir + "_tri_way"))
-                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-            ).rotationY(
-              (north? (south? (east? 90: -90): 0): 180)
-            ).build();
-            case 2:
-              if ((north && south) || (east && west)) {
-                return ConfiguredModel.builder().modelFile(
-                  prov.models().withExistingParent(ctx.getName() + "_straight", prov.modLoc(dir + "_straight"))
-                    .texture("0", mesh).texture("1", wall).texture("particle", wall)
-                ).rotationY(east?0:90).build();
-              } else {
-                return ConfiguredModel.builder().modelFile(
-                  prov.models().withExistingParent(ctx.getName() + "_corner", prov.modLoc(dir + "_corner"))
-                    .texture("0", mesh).texture("1", wall).texture("particle", wall)
-                ).rotationY( (north? (east? 0: -90): (east? 90: 180))).build();
-              }
-            case 1: return ConfiguredModel.builder().modelFile(
-              prov.models().withExistingParent(ctx.getName() + "_end", prov.modLoc(dir + "_end"))
-                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-            ).rotationY( (north? -90: south? 90: east? 0: 180) ).build();
-            case 0: // fall through
-            default: return ConfiguredModel.builder().modelFile(
-              prov.models().withExistingParent(ctx.getName() + "_post", prov.modLoc(dir + "_post"))
-                .texture("0", mesh).texture("1", wall).texture("particle", wall)
-            ).build();
+        String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+        String postDir = "block/palettes/sheet_metal/";
+        String meshDir = "block/palettes/chain_link_fence/";
+        ResourceLocation post = prov.modLoc(postDir + regName + "_sheet_metal");
+        ResourceLocation mesh = prov.modLoc(meshDir + regName + "_chain_link");
+
+        char[][] states = {
+          // N    S      E      W
+          {'f', 'f', 'f', 'f'}, // solo
+          {'t', 'x', 't', 'x'},   // NE corner / tri / cross
+          {'t', 'x', 'x', 't'},   // NW corner / tri / cross
+          {'x', 't', 't', 'x'},   // SE corner / tri / cross
+          {'x', 't', 'x', 't'},   // SW corner / tri / cross
+          {'t', 'f', 'f', 'f'},  // N end
+          {'f', 't', 'f', 'f'},  // S end
+          {'f', 'f', 't', 'f'},  // E end
+          {'f', 'f', 'f', 't'}   // W end
+        };
+        BlockModelBuilder center = prov.models().withExistingParent(
+          ctx.getName() + "_post", prov.mcLoc("block/fence_post")
+        ).texture("texture", post);
+        BlockModelBuilder side = prov.models().withExistingParent(
+          ctx.getName() + "_side", prov.modLoc("block/chainlink_fence_side")
+        ).texture("particle", mesh)
+          .texture("0", mesh);
+        MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
+        for (char[] state : states) {
+          MultiPartBlockStateBuilder.PartBuilder part = builder.part().modelFile(center).addModel();
+          if (state[0] == 't') {
+            part.condition(BlockStateProperties.NORTH, true);
           }
-        });
+          else if (state[0] == 'f') {
+            part.condition(BlockStateProperties.NORTH, false);
+          } // else 'x' don't care
+          if (state[1] == 't') {
+            part.condition(BlockStateProperties.SOUTH, true);
+          }
+          else if (state[1] == 'f') {
+            part.condition(BlockStateProperties.SOUTH, false);
+          } // else 'x' don't care
+          if (state[2] == 't') {
+            part.condition(BlockStateProperties.EAST, true);
+          }
+          else if (state[2] == 'f') {
+            part.condition(BlockStateProperties.EAST, false);
+          } // else 'x' don't care
+          if (state[3] == 't') {
+            part.condition(BlockStateProperties.WEST, true);
+          }
+          else if (state[3] == 'f') {
+            part.condition(BlockStateProperties.WEST, false);
+          } // else 'x' don't care
+          part.end();
+        }
+        builder.part().modelFile(side).addModel()
+          .condition(BlockStateProperties.EAST, true).end();
+        builder.part().modelFile(side)
+          .rotationY(90).addModel()
+          .condition(BlockStateProperties.SOUTH, true).end();
+        builder.part().modelFile(side)
+          .rotationY(180).addModel()
+          .condition(BlockStateProperties.WEST, true).end();
+        builder.part().modelFile(side)
+          .rotationY(270).addModel()
+          .condition(BlockStateProperties.NORTH, true).end();
       });
   }
 
@@ -348,5 +365,37 @@ public class MetalDecoBuilders {
       .onRegister(CreateRegistrate.connectedTextures(
         new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
       ));
+  }
+
+  public static BlockBuilder<CatwalkStairBlock,?> buildCatwalkStair (Registrate reg, String metal) {
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
+    return reg.block(regName + "_catwalk_stair", CatwalkStairBlock::new)
+        .initialProperties(Material.METAL)
+        .properties(props->
+          props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
+            .sound(SoundType.NETHERITE_BLOCK)
+        )
+        .addLayer(()-> RenderType::cutoutMipped)
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+        .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+        .blockstate((ctx,prov)-> {
+          BlockModelBuilder builder = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
+            .texture("2", texture + "_rail")
+            .texture("3", texture + "_stairs")
+            .texture("particle", texture  +"_rail");
+          prov.horizontalBlock(ctx.get(), builder);
+        })
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get(), 2)
+          .pattern(" c")
+          .pattern("cb")
+          .define('c', Registration.CATWALK_BLOCKS.get(regName).get())
+          .define('b', Registration.BAR_BLOCKS.get(regName).get())
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            Registration.CATWALK_BLOCKS.get(regName).get()
+          ))
+          .save(prov)
+        )
+        .simpleItem();
   }
 }
