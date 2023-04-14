@@ -2,7 +2,11 @@ package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.Registration;
 import com.simibubi.create.content.contraptions.wrench.IWrenchable;
+import com.simibubi.create.foundation.utility.placement.IPlacementHelper;
+import com.simibubi.create.foundation.utility.placement.PlacementHelpers;
+import com.simibubi.create.foundation.utility.placement.PlacementOffset;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -10,13 +14,13 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
-import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -31,6 +35,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWaterloggedBlock {
 
@@ -55,6 +60,8 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
     BooleanOp.OR
   );
 
+  private static final int placementHelperId = PlacementHelpers.register(new PlacementHelper());
+
   public CatwalkStairBlock (Properties props) {
     super(props);
     this.registerDefaultState(this.defaultBlockState()
@@ -63,40 +70,30 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
     );
   }
 
+  @Override
+  public InteractionResult use (
+    BlockState state, Level world, BlockPos pos, Player player,
+    InteractionHand hand, BlockHitResult ray
+  ) {
+    ItemStack heldItem = player.getItemInHand(hand);
+
+    IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
+    if (!placementHelper.matchesItem(heldItem))
+      return InteractionResult.PASS;
+
+    return placementHelper.getOffset(player, world, state, pos, ray)
+      .placeInWorld(world, ((BlockItem) heldItem.getItem()), player, hand, ray);
+  }
+
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
     Direction facing = ctx.getHorizontalDirection();
     FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
 
-    BlockState state = defaultBlockState()
+    return defaultBlockState()
       .setValue(BlockStateProperties.HORIZONTAL_FACING, facing.getOpposite())
       .setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
-
-    BlockState below = ctx.getLevel().getBlockState(ctx.getClickedPos().below());
-    for (Map.Entry<String, BlockEntry<CatwalkStairBlock>> keypair : Registration.CATWALK_STAIRS.entrySet()) {
-      if (keypair.getValue().get().asItem() == below.getBlock().asItem()
-      && ctx.getPlayer() != null && !ctx.getPlayer().isCrouching()
-      ) { // it's another stair
-        BlockPos next = ctx.getClickedPos().relative(facing);
-        if (ctx.getLevel().getBlockState(next).canBeReplaced(ctx)) {
-          state = state.setValue(
-            BlockStateProperties.WATERLOGGED,
-            ctx.getLevel().getBlockState(next).getFluidState().is(Fluids.WATER)
-          );
-          ctx.getLevel().setBlockAndUpdate(next, state);
-          ctx.getLevel().playSound(
-            null, ctx.getClickedPos(), SoundEvents.NETHERITE_BLOCK_PLACE,
-            SoundSource.BLOCKS, 0.5f, 1.25f
-          );
-          if (!ctx.getPlayer().isCreative()) {
-            ctx.getPlayer().getItemInHand(ctx.getHand()).shrink(1);
-          }
-          state = ctx.getLevel().getBlockState(ctx.getClickedPos()); // keep previous
-        }
-      }
-    }
-    return state;
   }
 
   @Override
@@ -124,5 +121,36 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
       case WEST  -> BOX_WEST;
       default    -> BOX_NORTH;
     };
+  }
+
+  public static boolean isCatwalkStair (ItemStack test) {
+    return (test.getItem() instanceof BlockItem)
+      && isCatwalkStair(((BlockItem)test.getItem()).getBlock());
+  }
+
+  public static boolean isCatwalkStair (Block test) {
+    return test instanceof CatwalkStairBlock;
+  }
+
+
+  @MethodsReturnNonnullByDefault
+  private static class PlacementHelper implements IPlacementHelper {
+
+    @Override
+    public Predicate<ItemStack> getItemPredicate () {
+      return (Predicate<ItemStack>) CatwalkStairBlock::isCatwalkStair;
+    }
+
+    @Override
+    public Predicate<BlockState> getStatePredicate () {
+      return state -> CatwalkStairBlock.isCatwalkStair(state.getBlock());
+    }
+
+    @Override
+    public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos,
+                                     BlockHitResult ray) {
+      Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
+      return PlacementOffset.success(pos.relative(facing).offset(0, 1, 0));
+    }
   }
 }
