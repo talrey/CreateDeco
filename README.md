@@ -47,6 +47,8 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 1.3.1-1.18.2 & 1.19.2 |  
  \* fixed recipe of metal trapdoors  
+ \* catwalk stairs use a placement helper now  
+ \* dyed placards have a tooltip like the original  
 
 1.3.0-1.18.2 & 1.19.2 | 11 MAR 2023:  
  \+ added metal Ladders, Trapdoors, and Doors  
