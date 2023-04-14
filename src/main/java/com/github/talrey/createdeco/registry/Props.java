@@ -11,6 +11,7 @@ import com.simibubi.create.AllTags;
 import com.simibubi.create.content.curiosities.deco.PlacardBlock;
 import com.simibubi.create.content.curiosities.deco.PlacardRenderer;
 import com.simibubi.create.foundation.data.SharedProperties;
+import com.simibubi.create.foundation.item.TooltipHelper;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -21,6 +22,7 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -350,6 +352,7 @@ public class Props {
             .group("dye_placard")
             .save(prov)
         )
+        .onRegisterAfter(Registry.ITEM_REGISTRY, v-> TooltipHelper.referTo(v, "block.create.placard"))
         .register());
     }
 
