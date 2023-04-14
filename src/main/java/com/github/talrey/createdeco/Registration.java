@@ -38,6 +38,7 @@ import java.util.function.Function;
 import static com.simibubi.create.AllTags.pickaxeOnly;
 
 public class Registration {
+  private static final Material ALT_METAL = (new Material.Builder(MaterialColor.METAL)).build();
 
   private static final HashMap<DyeColor, String> BRICK_COLOR_NAMES = new HashMap<>();
 
@@ -391,7 +392,7 @@ public class Registration {
       DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
         reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door",
           "block/palettes/doors/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
-        Material.HEAVY_METAL
+        ALT_METAL
       )
         .lang(metal + " Door")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 3)
@@ -425,7 +426,7 @@ public class Registration {
         CreateDecoMod.MODID, "block/palettes/doors/" + regName + "_trapdoor"
       );
       TRAPDOOR_BLOCKS.put(regName, reg.block(regName + "_trapdoor", TrapDoorBlock::new)
-          .initialProperties(Material.HEAVY_METAL)
+        .initialProperties(ALT_METAL)
         .properties(props -> props.noOcclusion().strength(5, 5)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -503,7 +504,7 @@ public class Registration {
     });
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
-      .initialProperties(Material.METAL)
+      .initialProperties(ALT_METAL)
       .properties(props->
         props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -525,7 +526,7 @@ public class Registration {
         CreateDecoMod.MODID, "block/palettes/hull/" + regName + "_hull_side"
       );
       HULL_BLOCKS.put(regName, reg.block(regName + "_hull", HullBlock::new)
-        .initialProperties(Material.METAL)
+        .initialProperties(ALT_METAL)
         .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
