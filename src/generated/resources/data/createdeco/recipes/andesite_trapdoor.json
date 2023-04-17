@@ -6,11 +6,10 @@
     }
   },
   "pattern": [
-    "mmm",
-    "mmm"
+    "mm",
+    "mm"
   ],
   "result": {
-    "count": 2,
     "item": "createdeco:andesite_trapdoor"
   }
 }
