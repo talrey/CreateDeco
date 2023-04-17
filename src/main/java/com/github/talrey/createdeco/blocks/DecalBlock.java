@@ -58,12 +58,12 @@ public class DecalBlock extends Block implements SimpleWaterloggedBlock {
   @Nullable
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
-    BlockPos neighbor = ctx.getClickedPos().offset(ctx.getHorizontalDirection().getNormal());
-    if (!canSupportDecal(ctx.getLevel(), neighbor, ctx.getHorizontalDirection().getOpposite())) return null;
+    BlockPos neighbor = ctx.getClickedPos().offset(ctx.getClickedFace().getOpposite().getNormal());
+    if (!canSupportDecal(ctx.getLevel(), neighbor, ctx.getClickedFace())) return null;
 
     FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
     return defaultBlockState()
-      .setValue(BlockStateProperties.HORIZONTAL_FACING, ctx.getHorizontalDirection())
+      .setValue(BlockStateProperties.HORIZONTAL_FACING, ctx.getClickedFace().getOpposite())
       .setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
   }
 
