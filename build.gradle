@@ -52,7 +52,7 @@ loom {
             vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
             vmArg "-Dfabric-api.datagen.modid=createdeco"
             // from ae2
-            property "om.github.talrey.createdeco.existingData", file("src/main/resources").absolutePath
+            property "com.github.talrey.createdeco.existingData", file("src/main/resources").absolutePath
 
             runDir "build/datagen"
         }
