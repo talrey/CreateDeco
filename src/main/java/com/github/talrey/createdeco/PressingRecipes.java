@@ -25,8 +25,8 @@ public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
     );
     Props.COIN_ITEM.forEach((metal, coin) ->
       add(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coin",
-        ts -> ts.require(Registration.makeItemTag("nuggets/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")))
-          .withCondition(new ConfigCondition(Config.CAN_PRESS_COINS))
+        ts -> ts.require(Registration.makeItemTag(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_nuggets"))
+        //  .withCondition(new ConfigCondition(Config.CAN_PRESS_COINS))
           .output(coin.get())
       )
     );
