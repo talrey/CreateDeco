@@ -1,8 +1,8 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "mmm",
-    "mmm"
+    "mm",
+    "mm"
   ],
   "key": {
     "m": {
@@ -11,6 +11,6 @@
   },
   "result": {
     "item": "createdeco:brass_trapdoor",
-    "count": 2
+    "count": 1
   }
 }
