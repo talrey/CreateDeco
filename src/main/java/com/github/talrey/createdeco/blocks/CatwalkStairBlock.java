@@ -150,7 +150,8 @@ public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWater
     public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos,
                                      BlockHitResult ray) {
       Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
-      return PlacementOffset.success(pos.relative(facing).offset(0, 1, 0));
+      PlacementOffset offset = PlacementOffset.success(pos.relative(facing).offset(0, 1, 0));
+      return offset.withTransform(s->state);
     }
   }
 }
