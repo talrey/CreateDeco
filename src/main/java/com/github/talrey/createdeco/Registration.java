@@ -516,6 +516,7 @@ public class Registration {
         props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
       )
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang("Block of Cast Iron")
       .item()
         .tag(makeItemTag("storage_blocks"))
