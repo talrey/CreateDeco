@@ -43,8 +43,10 @@ Cage Lamps: Torches are old news, industry demands nicer lighting. These come in
 
 Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four - er, five: now featuring Cast Iron.
 
-== Changelog ==  
-1.3.1-1.18.2 & 1.19.2 | 18 APR 2023:  
+== Changelog ==
+
+1.3.1-1.18.2 & 1.19.2 | 23 APR 2023:  
+ \* fixed tool requirement for Cast Iron Blocks
  \* fixed recipe of metal trapdoors  
  \* catwalk stairs use a placement helper now  
  \* dyed placards have a tooltip like the original  
