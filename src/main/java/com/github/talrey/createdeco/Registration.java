@@ -654,6 +654,7 @@ public class Registration {
       if (dye == null) {
         WORN_BRICK_ITEM = reg.item("worn_brick", Item::new)
           .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
+          .tag(makeItemTag("ingots/brick"))
           .register();
       } else {
         BRICK_ITEM.put(dye, reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_brick", Item::new)
@@ -667,6 +668,7 @@ public class Registration {
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(DyeItem.byColor(dye)))
             .save(prov)
           )
+          .tag(makeItemTag("ingots/brick"))
           .register());
       }
     });
