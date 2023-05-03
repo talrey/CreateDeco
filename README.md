@@ -45,6 +45,10 @@ Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, 
 
 == Changelog ==  
 
+1.3.2-1.18.2 & 1.19.2 | 03 MAY 2023:  
+ \* fixed a crash with placing Decals  
+ \* fixed locked doors not locking properly  
+
 1.3.1-1.18.2 & 1.19.2 | 23 APR 2023:  
  \* fixed a server startup crash  
  \* fixed tool requirement for Cast Iron Blocks  
