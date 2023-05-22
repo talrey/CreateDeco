@@ -33,11 +33,9 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.function.Function;
 
 public class SheetMetal {
   public static HashMap<String, BlockEntry<Block>> SHEET_METAL_BLOCKS           = new HashMap<>();
