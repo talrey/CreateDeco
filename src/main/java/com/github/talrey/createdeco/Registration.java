@@ -472,6 +472,8 @@ public class Registration {
             .requires(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get()))
             .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_bars_from_panel"));
+
+          prov.stonecutting(DataIngredient.items(getter.apply(metal)), ctx, 4);
         })
         .register());
 
