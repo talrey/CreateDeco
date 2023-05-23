@@ -12,7 +12,9 @@ import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.item.ItemDescription;
+import com.simibubi.create.foundation.item.KineticStats;
 import com.simibubi.create.foundation.item.TooltipHelper;
+import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -355,6 +357,10 @@ public class Props {
         )
         .onRegisterAfter(Registry.ITEM_REGISTRY, v-> ItemDescription.referKey(v, AllBlocks.PLACARD))
         .register());
+      TooltipModifier.REGISTRY.registerDeferred(PLACARDS.get(color).getId(), item ->
+        new ItemDescription.Modifier(item, TooltipHelper.Palette.STANDARD_CREATE)
+          .andThen(TooltipModifier.mapNull(KineticStats.EMPTY))
+      );
     }
 
     @SuppressWarnings("unchecked")
