@@ -1,7 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
-import com.simibubi.create.content.contraptions.wrench.IWrenchable;
-
+import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
