@@ -33,6 +33,8 @@ public class CreateDecoMod
     ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, Config.CLIENT_CONF);
     ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.COMMON_CONF);
 
+    CraftingHelper.register(new ConfigCondition.Serializer());
+
     MinecraftForge.EVENT_BUS.register(this);
 
     createDecoRegistrar = Registrate.create(MODID);

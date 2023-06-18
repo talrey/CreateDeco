@@ -12,7 +12,7 @@ public class ConfigCondition implements ICondition {
   public static final ResourceLocation NAME = new ResourceLocation(CreateDecoMod.MODID, "config");
   private final String configName;
 
-  public static final RecipeSerializer<Recipe<?>> SERIALZIER = null;
+  public static final RecipeSerializer<Recipe<?>> SERIALIZER = null;
 
   public ConfigCondition (String name) {
     configName = name;

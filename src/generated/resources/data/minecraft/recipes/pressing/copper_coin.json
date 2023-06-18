@@ -1,5 +1,11 @@
 {
   "type": "create:pressing",
+  "conditions": [
+    {
+      "type": "createdeco:config",
+      "config": "can_press_coins"
+    }
+  ],
   "ingredients": [
     {
       "tag": "forge:nuggets/copper"
