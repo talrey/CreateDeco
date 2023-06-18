@@ -17,14 +17,14 @@ public class Config {
   public static ForgeConfigSpec COMMON_CONF, CLIENT_CONF;
 
   public static HashMap<String, ForgeConfigSpec.ConfigValue<?>> SETTINGS = new HashMap<>();
-  //public static String CAN_PRESS_COINS = "can_press_coins";
+  public static String CAN_PRESS_COINS = "can_press_coins";
 
   static {
     ForgeConfigSpec.Builder COMMON = new ForgeConfigSpec.Builder();
     ForgeConfigSpec.Builder CLIENT = new ForgeConfigSpec.Builder();
 
     COMMON.comment("General Settings").push(CAT_GENERAL);
-    //SETTINGS.put(CAN_PRESS_COINS, COMMON.comment("allow coin recipe").define(CAN_PRESS_COINS, true));
+    SETTINGS.put(CAN_PRESS_COINS, COMMON.comment("allow coin recipe").define(CAN_PRESS_COINS, false));
     COMMON.pop();
 
     COMMON_CONF = COMMON.build();
