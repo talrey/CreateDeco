@@ -64,7 +64,7 @@ dependencies {
 
     mappings loom.officialMojangMappings()
     modImplementation("net.fabricmc:fabric-loader:${project.loader_version}")
-    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:3.3.1")
+    modImplementation("dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.2.0")
     modImplementation("com.simibubi.create:create-fabric-${minecraft_version}:${create_version}")
 }
 
