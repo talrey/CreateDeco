@@ -1,8 +1,8 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.registry.Props;
-import com.simibubi.create.content.curiosities.deco.PlacardBlock;
-import com.simibubi.create.content.curiosities.deco.PlacardTileEntity;
+import com.simibubi.create.content.decoration.placard.PlacardBlock;
+import com.simibubi.create.content.decoration.placard.PlacardBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class DyedPlacardBlock extends PlacardBlock {
@@ -11,7 +11,7 @@ public class DyedPlacardBlock extends PlacardBlock {
   }
 
   @Override
-  public BlockEntityType<? extends PlacardTileEntity> getTileEntityType() {
+  public BlockEntityType<? extends PlacardBlockEntity> getBlockEntityType() {
     return Props.PLACARD_ENTITY.get();
   }
 }

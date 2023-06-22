@@ -6,12 +6,13 @@ import com.github.talrey.createdeco.Registration;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.github.talrey.createdeco.util.NonNullSupplier;
 import com.mojang.math.Vector3f;
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
-import com.simibubi.create.content.curiosities.deco.PlacardBlock;
-import com.simibubi.create.content.curiosities.deco.PlacardRenderer;
+import com.simibubi.create.content.decoration.placard.PlacardBlock;
+import com.simibubi.create.content.decoration.placard.PlacardRenderer;
 import com.simibubi.create.foundation.data.SharedProperties;
-import com.simibubi.create.foundation.item.TooltipHelper;
+import com.simibubi.create.foundation.item.ItemDescription;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.ItemBuilder;
@@ -31,7 +32,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-import static com.simibubi.create.AllTags.pickaxeOnly;
+import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class Props {
   public static HashMap<DyeColor, BlockEntry<DecalBlock>> DECAL_BLOCKS = new HashMap<>();
@@ -352,7 +352,7 @@ public class Props {
             .group("dye_placard")
             .save(prov)
         )
-        .onRegisterAfter(Registry.ITEM_REGISTRY, v-> TooltipHelper.referTo(v, "block.create.placard"))
+        .onRegisterAfter(Registry.ITEM_REGISTRY, v-> ItemDescription.referKey(v, AllBlocks.PLACARD))
         .register());
     }
 

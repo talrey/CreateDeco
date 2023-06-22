@@ -1,8 +1,8 @@
 package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.DecalBlock;
-import com.simibubi.create.content.contraptions.components.structureMovement.BlockMovementChecks;
-import com.simibubi.create.content.contraptions.components.structureMovement.BlockMovementChecks.CheckResult;
+import com.simibubi.create.content.contraptions.BlockMovementChecks;
+import com.simibubi.create.content.contraptions.BlockMovementChecks.CheckResult;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
