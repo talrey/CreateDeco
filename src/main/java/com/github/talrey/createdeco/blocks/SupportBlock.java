@@ -1,10 +1,9 @@
 package com.github.talrey.createdeco.blocks;
 
-import com.simibubi.create.content.contraptions.relays.advanced.GantryShaftBlock;
-import com.simibubi.create.foundation.utility.placement.IPlacementHelper;
-import com.simibubi.create.foundation.utility.placement.PlacementHelpers;
-import com.simibubi.create.foundation.utility.placement.PlacementOffset;
-import com.simibubi.create.foundation.utility.placement.util.PoleHelper;
+import com.simibubi.create.foundation.placement.IPlacementHelper;
+import com.simibubi.create.foundation.placement.PlacementHelpers;
+import com.simibubi.create.foundation.placement.PlacementOffset;
+import com.simibubi.create.foundation.placement.PoleHelper;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
