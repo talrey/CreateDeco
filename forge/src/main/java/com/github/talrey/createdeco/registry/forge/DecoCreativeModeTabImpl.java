@@ -32,7 +32,7 @@ public class DecoCreativeModeTabImpl {
       }
       @Override
       public Component getDisplayName () {
-        return Component.translatable(CreateDecoMod.MODID + "." + name);
+        return Component.translatable("itemGroup." + CreateDecoMod.MODID + "." + name);
       }
     };
   }
