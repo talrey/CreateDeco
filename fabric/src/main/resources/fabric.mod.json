@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "createdeco",
+  "version": "${version}",
+  "name": "Create Deco",
+  "description": "Create Deco, for when your intricate spinning factory needs a little more beauty.\n\nAdds several varieties of decorative blocks to fill out Create's palette.",
+  "authors": [
+    "Talrey [Code]",
+    "Kayladillo [Art]"
+  ],
+  "contact": {
+    "issues": "https://github.com/talrey/CreateDeco/issues",
+    "sources": "https://github.com/talrey/CreateDeco"
+  },
+
+  "license": "All rights reserved",
+  "icon": "createdeco_ico.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.github.talrey.createdeco.fabric.CreateDecoModFabric"
+    ],
+    "fabric-datagen": [
+      "com.github.talrey.createdeco.fabric.CreateDecoModData"
+    ]
+  },
+  "mixins": [
+    "createdeco.mixins.json",
+    "createdeco-common.mixins.json"
+  ],
+  "depends": {
+    "minecraft": "${minecraft_version}",
+    "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": ">=${fabric_api_version}",
+    "create": "${create_version}"
+  }
+}

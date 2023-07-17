@@ -1,0 +1,38 @@
+modLoader="javafml"
+loaderVersion="[${forge_version},)"
+license="All rights reserved"
+issueTrackerURL="https://github.com/talrey/CreateDeco/issues"
+
+[[mods]]
+modId="createdeco"
+version="${version}"
+displayName="Create Deco"
+logoFile= "createdeco_ico.png"
+credits="Thanks to the Create team for their awesome work!"
+authors="Talrey [Code] & Kayladillo [Art]"
+description='''
+Create Deco, for when your intricate spinning factory needs a little more beauty.
+
+Adds several varieties of decorative blocks to fill out Create's palette.
+'''
+
+[[dependencies.createdeco]]
+    modId="forge"
+    mandatory=true
+    versionRange="[${forge_version},)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.createdeco]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${minecraft_version}"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.createdeco]]
+    modId="create"
+    mandatory=true
+    versionRange="${create_version}"
+    ordering="AFTER"
+    side="BOTH"

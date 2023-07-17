@@ -1,0 +1,7 @@
+{
+  "parent": "create:block/fluid_pipe/drain/down",
+  "textures": {
+    "0": "createdeco:block/palettes/pipes/placeholder_pipes",
+    "particle": "createdeco:block/palettes/pipes/placeholder_pipes"
+  }
+}

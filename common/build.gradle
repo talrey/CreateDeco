@@ -1,0 +1,52 @@
+architectury {
+    common(rootProject.enabled_platforms.split(","))
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/createdeco.accesswidener")
+}
+
+repositories {
+    maven { url = "https://api.modrinth.com/maven" } // Lazy DFU
+    maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu
+    maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, etc
+    maven { url = "https://cursemaven.com" } // Forge Config API Port
+    maven { url = "https://maven.cafeteria.dev/release" } // Fake Player API
+    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
+    maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
+}
+
+dependencies {
+    // we depend on Fabric Loader to use fabric @Environment annotations + mixin deps
+    //   don't use other classes from Fabric!
+    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+    // compile against Create Fabric in common
+    //   beware of platform differences!
+    //   deps are only pulled in to minimize problems, avoid using them
+    modCompileOnly("com.simibubi.create:create-fabric-${minecraft_version}:${create_fabric_version}")
+}
+
+processResources {
+    exclude("resourcepacks/")
+}
+
+sourceSets.main {
+    resources {
+        srcDir("src/generated/resources")
+        exclude("src/generated/resources/.cache")
+    }
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
+            from components.java
+        }
+    }
+
+    repositories {
+        // add publish locations
+        // see https://docs.gradle.org/current/userguide/publishing_maven.html
+    }
+}
