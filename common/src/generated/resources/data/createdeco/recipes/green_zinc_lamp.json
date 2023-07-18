@@ -2,10 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "n": {
-      "tag": "c:zinc_nuggets"
+      "tag": "createdeco:internal/nuggets/zinc_nuggets"
     },
     "p": {
-      "tag": "c:zinc_plates"
+      "tag": "createdeco:internal/plates/zinc_plates"
     },
     "t": {
       "item": "minecraft:glow_berries"

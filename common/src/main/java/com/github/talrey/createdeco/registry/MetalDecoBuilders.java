@@ -11,6 +11,9 @@ import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.providers.DataGenContext;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -32,8 +35,11 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePrope
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.BlockModelBuilder;
 import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Locale;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class MetalDecoBuilders {
 
@@ -163,6 +169,36 @@ public class MetalDecoBuilders {
       .build();
   }
 
+  private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> fenceRecipe (
+    String metal,
+    @Nullable Supplier<Item> nonstandardMaterial
+  ) {
+    return (ctx,prov)-> {
+      if (nonstandardMaterial != null) {
+        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+          .pattern("psp")
+          .pattern("psp")
+          .define('p', nonstandardMaterial.get())
+          .define('s', Items.STRING)
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            nonstandardMaterial.get()
+          ))
+          .save(prov);
+      }
+      else {
+        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+          .pattern("psp")
+          .pattern("psp")
+          .define('p', CDTags.of(metal, "plates").tag)
+          .define('s', Items.STRING)
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+          ))
+          .save(prov);
+      }
+    };
+  }
+
   public static BlockBuilder<FenceBlock,?> buildFence (Registrate reg, String metal) {
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_mesh_fence", FenceBlock::new)
       .initialProperties(Material.METAL)
@@ -178,27 +214,7 @@ public class MetalDecoBuilders {
         ctx.getName(), prov.mcLoc("item/generated"),
         "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_chain_link")))
       .build()
-      .recipe((ctx,prov)-> {
-        if (metal.equals("Andesite")) {
-          ShapedRecipeBuilder.shaped(ctx.get(), 3)
-            .pattern("psp")
-            .pattern("psp")
-            .define('p', AllItems.ANDESITE_ALLOY.get())
-            .define('s', Items.STRING)
-            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.ANDESITE_ALLOY.get()))
-            .save(prov);
-        }
-        else {
-          TagKey<Item> sheet = Registration.makeItemTag(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_plates");
-          ShapedRecipeBuilder.shaped(ctx.get(), 3)
-            .pattern("psp")
-            .pattern("psp")
-            .define('p', sheet)
-            .define('s', Items.STRING)
-            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
-            .save(prov);
-        }
-      })
+      .recipe(fenceRecipe(metal, (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null)))
       .blockstate((ctx,prov)-> {
         String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
         String postDir = "block/palettes/sheet_metal/";
@@ -268,6 +284,36 @@ public class MetalDecoBuilders {
       });
   }
 
+  private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> catwalkRecipe (
+    String metal,
+    @Nullable Supplier<Item> nonstandardMaterial
+  ) {
+    return (ctx,prov)-> {
+      if (nonstandardMaterial != null) {
+        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+          .pattern(" p ")
+          .pattern("pBp")
+          .pattern(" p ")
+          .define('p', nonstandardMaterial.get())
+          .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(nonstandardMaterial.get()))
+          .save(prov);
+      }
+      else {
+        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+          .pattern(" p ")
+          .pattern("pBp")
+          .pattern(" p ")
+          .define('p', CDTags.of(metal, "plates").tag)
+          .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
+          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+          ))
+          .save(prov, ctx.getName() + "_forge");
+      }
+    };
+  }
+
   public static BlockBuilder<CatwalkBlock,?> buildCatwalk (Registrate reg, String metal) {
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk", CatwalkBlock::new)
       .initialProperties(Material.METAL)
@@ -284,29 +330,7 @@ public class MetalDecoBuilders {
         .texture("texture", prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk"))
       )
       .build()
-      .recipe((ctx,prov)-> {
-        if (metal.equals("Andesite")) {
-          ShapedRecipeBuilder.shaped(ctx.get(), 3)
-            .pattern(" p ")
-            .pattern("pBp")
-            .pattern(" p ")
-            .define('p', AllItems.ANDESITE_ALLOY.get())
-            .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
-            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.ANDESITE_ALLOY.get()))
-            .save(prov);
-        }
-        else {
-          TagKey<Item> sheet = Registration.makeItemTag(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_plates");
-          ShapedRecipeBuilder.shaped(ctx.get(), 3)
-            .pattern(" p ")
-            .pattern("pBp")
-            .pattern(" p ")
-            .define('p', sheet)
-            .define('B', Registration.BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
-            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(sheet).build()))
-            .save(prov);
-        }
-      })
+      .recipe(catwalkRecipe(metal, (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null)))
       .blockstate((ctx,prov)-> {
         String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
 

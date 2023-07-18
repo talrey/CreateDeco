@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "tag": "createdeco:internal/plates/netherite_plates"
+  },
+  "result": "createdeco:netherite_ladder"
+}

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:cast_iron_plates"
+            "tag": "createdeco:internal/plates/cast_iron_plates"
           }
         ]
       },

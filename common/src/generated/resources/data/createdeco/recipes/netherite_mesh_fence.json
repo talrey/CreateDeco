@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "p": {
-      "tag": "c:netherite_plates"
+      "tag": "createdeco:internal/plates/netherite_plates"
     },
     "s": {
       "item": "minecraft:string"

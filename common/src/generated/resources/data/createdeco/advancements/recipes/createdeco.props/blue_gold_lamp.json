@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:gold_plates"
+            "tag": "createdeco:internal/plates/gold_plates"
           }
         ]
       },

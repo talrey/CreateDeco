@@ -12,14 +12,12 @@ import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.core.Registry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -122,14 +120,6 @@ public class Registration {
     Props.COIN_TYPES.add("Gold");
     Props.COIN_TYPES.add("Netherite");
     Props.COIN_TYPES.add("Cast Iron");
-  }
-
-  public static TagKey<Item> makeItemTag(String path) {
-    return makeItemTag("c", path);
-  }
-
-  public static TagKey<Item> makeItemTag(String id, String path) {
-    return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(id, path));
   }
 
   private static BlockEntry<?> getBrickFromName(String overlay, DyeColor dye, String shape) {
@@ -507,11 +497,10 @@ public class Registration {
           .sound(SoundType.NETHERITE_BLOCK)
       )
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+      .tag(CDTags.STORAGE.forge, CDTags.STORAGE.fabric)
+      .tag(CDTags.CAST_IRON_BLOCK.forge, CDTags.CAST_IRON_BLOCK.fabric)
       .lang("Block of Cast Iron")
-      .item()
-        .tag(makeItemTag("storage_blocks"))
-        .tag(makeItemTag("storage_blocks/cast_iron"))
-        .build()
+      .simpleItem()
       .register();
 
 
@@ -627,11 +616,13 @@ public class Registration {
           .texture("1", p.modLoc(main))
           .texture("particle", p.modLoc(main))))
         .item()
-          .recipe((ctx, prov) -> prov.stonecutting(
-            DataIngredient.tag(AllTags.forgeItemTag("plates/" + regName)),
-            ctx::get, 2
-          ))
-          .model((c, p) -> p.blockSprite(c::get, p.modLoc(main)))
+          .recipe((ctx, prov) ->
+            prov.stonecutting(
+              DataIngredient.tag(CDTags.of(regName, "plates").tag),
+              ctx, 2
+            )
+          )
+          .model((c, p) -> p.blockSprite(c, p.modLoc(main)))
           .build()
         .register());
     });
@@ -664,37 +655,37 @@ public class Registration {
 
     reg.creativeModeTab(() -> DecoCreativeModeTab.METALS_GROUP, DecoCreativeModeTab.METALS_NAME);
     ZINC_SHEET = reg.item("zinc_sheet", Item::new)
-      .tag(makeItemTag("zinc_plates"))
+      .tag(CDTags.of("zinc", "plates").tag)
       .lang("Zinc Sheet")
       .register();
 
     NETHERITE_SHEET = reg.item("netherite_sheet", Item::new)
       .properties(Item.Properties::fireResistant)
-      .tag(makeItemTag("netherite_plates"))
+      .tag(CDTags.of("netherite", "plates").tag)
       .lang("Netherite Sheet")
       .register();
 
     NETHERITE_NUGGET = reg.item("netherite_nugget", Item::new)
       .properties(Item.Properties::fireResistant)
-      .tag(makeItemTag("netherite_nuggets"))
+      .tag(CDTags.of("netherite", "nuggets").tag)
       .lang("Netherite Nugget")
       .recipe((ctx, prov) -> prov.storage(ctx, () -> Items.NETHERITE_INGOT))
       .register();
 
     CAST_IRON_NUGGET = reg.item("cast_iron_nugget", Item::new)
-      .tag(makeItemTag("cast_iron_nuggets"))
+      .tag(CDTags.of("cast_iron", "nuggets").tag)
       .lang("Cast Iron Nugget")
-      .recipe((ctx, prov) -> prov.storage(ctx, () -> CAST_IRON_INGOT.get()))
+      .recipe((ctx, prov) -> prov.storage(ctx, CAST_IRON_INGOT))
       .register();
 
     CAST_IRON_INGOT = reg.item("cast_iron_ingot", Item::new)
-      .tag(makeItemTag("cast_iron_ingots"))
+      .tag(CDTags.of("cast_iron", "ingots").tag)
       .lang("Cast Iron Ingot")
-      .recipe((ctx, prov) -> prov.storage(ctx, () -> CAST_IRON_BLOCK.get().asItem()))
+      .recipe((ctx, prov) -> prov.storage(ctx, CAST_IRON_BLOCK))
       .register();
 
     CAST_IRON_SHEET = reg.item("cast_iron_sheet", Item::new)
-      .tag(makeItemTag("cast_iron_plates"))
+      .tag(CDTags.of("cast_iron", "plates").tag)
       .lang("Cast Iron Sheet")
       .register();
 

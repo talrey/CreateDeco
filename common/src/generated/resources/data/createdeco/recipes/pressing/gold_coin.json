@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:gold_nuggets"
+      "tag": "createdeco:internal/nuggets/gold_nuggets"
     }
   ],
   "results": [

@@ -2,10 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "n": {
-      "tag": "c:cast_iron_nuggets"
+      "tag": "createdeco:internal/nuggets/cast_iron_nuggets"
     },
     "p": {
-      "tag": "c:cast_iron_plates"
+      "tag": "createdeco:internal/plates/cast_iron_plates"
     },
     "t": {
       "item": "minecraft:soul_torch"

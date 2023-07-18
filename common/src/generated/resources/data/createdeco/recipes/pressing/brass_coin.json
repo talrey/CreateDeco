@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:brass_nuggets"
+      "tag": "createdeco:internal/nuggets/brass_nuggets"
     }
   ],
   "results": [

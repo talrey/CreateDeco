@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:copper_nuggets"
+      "tag": "createdeco:internal/nuggets/copper_nuggets"
     }
   ],
   "results": [

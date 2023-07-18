@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "p": {
-      "tag": "c:cast_iron_plates"
+      "tag": "createdeco:internal/plates/cast_iron_plates"
     },
     "s": {
       "item": "minecraft:string"

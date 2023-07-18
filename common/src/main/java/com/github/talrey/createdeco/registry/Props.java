@@ -15,9 +15,12 @@ import com.simibubi.create.foundation.item.ItemDescription;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.ItemBuilder;
+import com.tterrag.registrate.providers.DataGenContext;
+import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
@@ -32,6 +35,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
@@ -42,10 +47,12 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.function.Supplier;
 
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
@@ -61,7 +68,6 @@ public class Props {
   public static HashMap<String, ItemEntry<CoinStackItem>> COINSTACK_ITEM = new HashMap<>();
   public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
 
-  public static TagKey<Item> PLACARD_TAG;
   public static HashMap<DyeColor, BlockEntry<? extends PlacardBlock>> PLACARDS = new HashMap<>();
   public static BlockEntityEntry<DyedPlacardBlockEntity> PLACARD_ENTITY;
 
@@ -137,6 +143,50 @@ public class Props {
         }
         table.add(block, builder.withPool(pool));
       });
+  }
+
+  private static ShapedRecipeBuilder cageLampRecipeBuilder (
+    ItemLike item, Supplier<Item> light
+  ) {
+    return ShapedRecipeBuilder.shaped(item)
+      .pattern("n")
+      .pattern("t")
+      .pattern("p")
+      .define('t', light.get());
+  }
+
+  private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> cageLampRecipe (
+    String metal,
+    Supplier<Item> light
+  ) {
+    return cageLampRecipe(metal, light, null);
+  }
+
+  private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> cageLampRecipe (
+    String metalName,
+    Supplier<Item> light,
+    @Nullable Supplier<Item> nonstandardMaterial
+  ) {
+    String metal = metalName.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    return (ctx, prov) -> {
+      if (nonstandardMaterial != null) {
+        cageLampRecipeBuilder(ctx.get(), light).unlockedBy("has_item",
+          InventoryChangeTrigger.TriggerInstance.hasItems(nonstandardMaterial.get())
+        )
+        .define('n', nonstandardMaterial.get())
+        .define('p', nonstandardMaterial.get())
+        .save(prov);
+      }
+      else {
+        cageLampRecipeBuilder(ctx.get(), light).unlockedBy("has_item",
+          InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+        ))
+        .define('n', CDTags.of(metal, "nuggets").tag)
+        .define('p', CDTags.of(metal, "plates").tag)
+        .save(prov);
+      }
+    };
   }
 
   public static BlockBuilder<CageLampBlock, ?> buildCageLamp (
@@ -215,115 +265,20 @@ public class Props {
 
     Registration.METAL_TYPES.forEach((metal, getter) -> {
       ResourceLocation cage = new ResourceLocation(CreateDecoMod.MODID, "block/palettes/cage_lamp/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp");
-      String name = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
-      TagKey<Item> nugget = Registration.makeItemTag(name + "_nuggets");
-      TagKey<Item> plate  = Registration.makeItemTag(name + "_plates");
-
+      Supplier<Item> material = (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null);
       YELLOW_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF)
-        .recipe((ctx,prov)-> {
-          if (metal != "Andesite") {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', nugget)
-              .define('t', Items.TORCH)
-              .define('p', plate)
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-              .save(prov);
-          } else {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', AllItems.ANDESITE_ALLOY.get())
-              .define('t', Items.TORCH)
-              .define('p', AllItems.ANDESITE_ALLOY.get())
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
-              .save(prov);
-          }
-        })
+        .recipe(cageLampRecipe(metal, ()->Items.TORCH, material))
         .register());
       RED_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.RED, cage, RED_ON, RED_OFF)
-        .recipe((ctx,prov)-> {
-          if (metal != "Andesite") {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', nugget)
-              .define('t', Items.REDSTONE_TORCH)
-              .define('p', plate)
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-              .save(prov);
-          } else {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', AllItems.ANDESITE_ALLOY.get())
-              .define('t', Items.REDSTONE_TORCH)
-              .define('p', AllItems.ANDESITE_ALLOY.get())
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
-              .save(prov);
-          }
-        })
+        .recipe(cageLampRecipe(metal, ()->Items.REDSTONE_TORCH, material))
         .register());
       GREEN_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.GREEN, cage, GREEN_ON, GREEN_OFF)
-        .recipe((ctx,prov)-> {
-          if (metal != "Andesite") {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', nugget)
-              .define('t', Items.GLOW_BERRIES)
-              .define('p', plate)
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-              .save(prov);
-          } else {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', AllItems.ANDESITE_ALLOY.get())
-              .define('t', Items.GLOW_BERRIES)
-              .define('p', AllItems.ANDESITE_ALLOY.get())
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
-              .save(prov);
-          }
-        })
+        .recipe(cageLampRecipe(metal, ()->Items.GLOW_BERRIES, material))
         .register());
       BLUE_CAGE_LAMPS.put(metal, buildCageLamp(reg, metal, DyeColor.BLUE, cage, BLUE_ON, BLUE_OFF)
-        .recipe((ctx,prov)-> {
-          if (metal != "Andesite") {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', nugget)
-              .define('t', Items.SOUL_TORCH)
-              .define('p', plate)
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(plate).build()))
-              .save(prov);
-          } else {
-            ShapedRecipeBuilder.shaped(ctx.get())
-              .pattern("n")
-              .pattern("t")
-              .pattern("p")
-              .define('n', AllItems.ANDESITE_ALLOY.get())
-              .define('t', Items.SOUL_TORCH)
-              .define('p', AllItems.ANDESITE_ALLOY.get())
-              .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AllItems.ANDESITE_ALLOY.get()).build()))
-              .save(prov);
-          }
-        })
+        .recipe(cageLampRecipe(metal, ()->Items.SOUL_TORCH, material))
         .register());
     });
-
-    if (PLACARD_TAG == null) {
-      PLACARD_TAG = Registration.makeItemTag(CreateDecoMod.MODID, "placards");
-    }
 
     for (DyeColor color : DyeColor.values()) {
       if (color == DyeColor.WHITE) { // Create's is the default
@@ -342,10 +297,10 @@ public class Props {
         .simpleItem()
         .recipe((ctx,prov)->
           ShapelessRecipeBuilder.shapeless(ctx.get())
-            .requires(PLACARD_TAG)
+            .requires(CDTags.PLACARD)
             .requires(DyeItem.byColor(color))
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-              ItemPredicate.Builder.item().of(PLACARD_TAG).build()
+              ItemPredicate.Builder.item().of(CDTags.PLACARD).build()
             ))
             .unlockedBy("has_dye", InventoryChangeTrigger.TriggerInstance.hasItems(
               ItemPredicate.Builder.item().of(DyeItem.byColor(color)).build()

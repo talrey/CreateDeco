@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:netherite_plates"
+            "tag": "createdeco:internal/plates/netherite_plates"
           }
         ]
       },

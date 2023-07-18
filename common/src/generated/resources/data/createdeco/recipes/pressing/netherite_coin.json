@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:netherite_nuggets"
+      "tag": "createdeco:internal/nuggets/netherite_nuggets"
     }
   ],
   "results": [

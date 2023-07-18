@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "c:brass_plates"
+            "tag": "createdeco:internal/plates/brass_plates"
           }
         ]
       },

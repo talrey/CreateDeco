@@ -14,7 +14,7 @@ import java.util.Locale;
 public class PolishingRecipes extends ProcessingRecipeWrapper<SandPaperPolishingRecipe> {
   {
     add("iron_bars_from_polishing",
-      ts -> ts.require(Items.IRON_BARS).output(Registration.BAR_BLOCKS.get("Iron".toLowerCase(Locale.ROOT)).get())
+      ts -> ts.require(Items.IRON_BARS).output(Registration.BAR_BLOCKS.get("iron").get())
     );
   }
   public PolishingRecipes(FabricDataGenerator generatorIn) {

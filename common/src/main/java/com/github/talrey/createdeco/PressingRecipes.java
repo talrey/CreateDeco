@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco;
 
+import com.github.talrey.createdeco.registry.CDTags;
 import com.github.talrey.createdeco.registry.Props;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllRecipeTypes;
@@ -15,21 +16,24 @@ import java.util.Locale;
 public class PressingRecipes extends ProcessingRecipeWrapper<PressingRecipe> {
   {
     add("zinc_sheet",
-      ts -> ts.require(AllItems.ZINC_INGOT.get()).output(Registration.ZINC_SHEET.get())
+      ts -> ts.require(CDTags.of("zinc", "plates").tag)
+        .output(Registration.ZINC_SHEET.get())
     );
     add("netherite_sheet",
-      ts -> ts.require(Items.NETHERITE_INGOT).output(Registration.NETHERITE_SHEET.get())
+      ts -> ts.require(CDTags.of("netherite", "plates").tag)
+        .output(Registration.NETHERITE_SHEET.get())
     );
     add("cast_iron_sheet",
-      ts -> ts.require(Registration.CAST_IRON_INGOT.get()).output(Registration.CAST_IRON_SHEET.get())
+      ts -> ts.require(CDTags.of("cast_iron", "plates").tag)
+        .output(Registration.CAST_IRON_SHEET.get())
     );
-    Props.COIN_ITEM.forEach((metal, coin) ->
-      add(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coin",
-        ts -> ts.require(Registration.makeItemTag(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_nuggets"))
-        //  .withCondition(new ConfigCondition(Config.CAN_PRESS_COINS))
+    Props.COIN_ITEM.forEach((metal, coin) -> {
+      String name = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+      add(name + "_coin",
+        ts -> ts.require(CDTags.of(name, "nuggets").tag)
           .output(coin.get())
-      )
-    );
+      );
+    });
   }
 
   public PressingRecipes(FabricDataGenerator generatorIn) {

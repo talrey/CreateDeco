@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:zinc_nuggets"
+      "tag": "createdeco:internal/nuggets/zinc_nuggets"
     }
   ],
   "results": [

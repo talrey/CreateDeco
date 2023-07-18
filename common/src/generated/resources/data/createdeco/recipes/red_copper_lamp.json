@@ -2,10 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "n": {
-      "tag": "c:copper_nuggets"
+      "tag": "createdeco:internal/nuggets/copper_nuggets"
     },
     "p": {
-      "tag": "c:copper_plates"
+      "tag": "createdeco:internal/plates/copper_plates"
     },
     "t": {
       "item": "minecraft:redstone_torch"

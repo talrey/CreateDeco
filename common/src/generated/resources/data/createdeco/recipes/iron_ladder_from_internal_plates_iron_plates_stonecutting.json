@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "tag": "createdeco:internal/plates/iron_plates"
+  },
+  "result": "createdeco:iron_ladder"
+}

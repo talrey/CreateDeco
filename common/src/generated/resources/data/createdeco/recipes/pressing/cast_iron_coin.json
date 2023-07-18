@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "c:cast_iron_nuggets"
+      "tag": "createdeco:internal/nuggets/cast_iron_nuggets"
     }
   ],
   "results": [

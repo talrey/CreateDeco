@@ -47,9 +47,9 @@ public class SheetMetal {
 
   private static void initialize () {
     METAL_LOOKUP.put("Andesite",  ()->AllBlocks.ANDESITE_CASING.get().asItem());
-    METAL_LOOKUP.put("Zinc",      ()->AllBlocks.ZINC_BLOCK.get().asItem()); //ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:zinc_block")));
+    METAL_LOOKUP.put("Zinc",      ()->AllBlocks.ZINC_BLOCK.get().asItem());
     METAL_LOOKUP.put("Copper",    ()->Items.COPPER_BLOCK);
-    METAL_LOOKUP.put("Brass",     ()->AllBlocks.BRASS_BLOCK.get().asItem()); //ForgeRegistries.ITEMS.getValue(new ResourceLocation("create:brass_block")));
+    METAL_LOOKUP.put("Brass",     ()->AllBlocks.BRASS_BLOCK.get().asItem());
     METAL_LOOKUP.put("Iron",      ()->Items.IRON_BLOCK);
     METAL_LOOKUP.put("Gold",      ()->Items.GOLD_BLOCK);
     METAL_LOOKUP.put("Netherite", ()->Items.NETHERITE_BLOCK);
