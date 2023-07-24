@@ -43,7 +43,21 @@ Cage Lamps: Torches are old news, industry demands nicer lighting. These come in
 
 Ah yes, we've also added Sheets for Zinc and Netherite, and a Netherite Nugget, to bring these two metals into feature parity with the other four - er, five: now featuring Cast Iron.
 
-== Changelog ==
+== Changelog ==  
+
+1.3.2-1.18.2 & 1.19.2 | 03 MAY 2023:  
+ \* fixed a crash with placing Decals  
+ \* fixed locked doors not locking properly  
+ \+ dyed bricks are now tagged with forge:ingots/brick for inter-mod compat  
+
+1.3.1-1.18.2 & 1.19.2 | 23 APR 2023:  
+ \* fixed a server startup crash  
+ \* fixed tool requirement for Cast Iron Blocks  
+ \* fixed recipe of metal trapdoors  
+ \* catwalk stairs use a placement helper now  
+ \* dyed placards have a tooltip like the original  
+ \* trapdoors should be moveable now  
+ \* decals now use block face rather than player facing  
 
 1.3.0-1.18.2 & 1.19.2 | 11 MAR 2023:  
  \+ added metal Ladders, Trapdoors, and Doors  

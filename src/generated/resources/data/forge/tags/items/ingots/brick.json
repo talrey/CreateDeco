@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "createdeco:worn_brick",
+    "createdeco:scarlet_brick",
+    "createdeco:pearl_brick",
+    "createdeco:dean_brick",
+    "createdeco:dusk_brick",
+    "createdeco:blue_brick"
+  ]
+}

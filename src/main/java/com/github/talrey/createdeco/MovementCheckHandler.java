@@ -1,8 +1,7 @@
 package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.DecalBlock;
-import com.simibubi.create.content.contraptions.components.structureMovement.BlockMovementChecks;
-import com.simibubi.create.content.contraptions.components.structureMovement.BlockMovementChecks.CheckResult;
+import com.simibubi.create.content.contraptions.BlockMovementChecks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -23,31 +22,31 @@ public class MovementCheckHandler implements BlockMovementChecks.AllChecks {
   }
 
   @Override
-  public CheckResult isBlockAttachedTowards(BlockState state, Level world, BlockPos pos, Direction direction) {
-    if (! (state.getBlock() instanceof DecalBlock)) return CheckResult.PASS;
-    return DecalBlock.canSupportDecal(world, pos.offset(state.getValue(BlockStateProperties.HORIZONTAL_FACING).getNormal()), direction) ? CheckResult.SUCCESS : CheckResult.FAIL;
+  public BlockMovementChecks.CheckResult isBlockAttachedTowards(BlockState state, Level world, BlockPos pos, Direction direction) {
+    if (! (state.getBlock() instanceof DecalBlock)) return BlockMovementChecks.CheckResult.PASS;
+    return DecalBlock.canSupportDecal(world, pos.offset(state.getValue(BlockStateProperties.HORIZONTAL_FACING).getNormal()), direction) ? BlockMovementChecks.CheckResult.SUCCESS : BlockMovementChecks.CheckResult.FAIL;
   }
 
   @Override
-  public CheckResult isBrittle(BlockState state) {
-    if (state.getBlock() instanceof DecalBlock) return CheckResult.SUCCESS;
-    /*else*/ return CheckResult.PASS;
+  public BlockMovementChecks.CheckResult isBrittle(BlockState state) {
+    if (state.getBlock() instanceof DecalBlock) return BlockMovementChecks.CheckResult.SUCCESS;
+    /*else*/ return BlockMovementChecks.CheckResult.PASS;
   }
 
   @Override
-  public CheckResult isMovementAllowed(BlockState state, Level world, BlockPos pos) {
-    return CheckResult.PASS; // none of our blocks stop movement
+  public BlockMovementChecks.CheckResult isMovementAllowed(BlockState state, Level world, BlockPos pos) {
+    return BlockMovementChecks.CheckResult.PASS; // none of our blocks stop movement
   }
 
   @Override
-  public CheckResult isMovementNecessary(BlockState state, Level world, BlockPos pos) {
-    if (state.getBlock() instanceof DecalBlock) return CheckResult.SUCCESS;
-    /*else*/return CheckResult.PASS;
+  public BlockMovementChecks.CheckResult isMovementNecessary(BlockState state, Level world, BlockPos pos) {
+    if (state.getBlock() instanceof DecalBlock) return BlockMovementChecks.CheckResult.SUCCESS;
+    /*else*/return BlockMovementChecks.CheckResult.PASS;
   }
 
   @Override
-  public CheckResult isNotSupportive(BlockState state, Direction direction) {
-    if (state.getBlock() instanceof DecalBlock) return CheckResult.SUCCESS;
-    /*else*/return CheckResult.PASS;
+  public BlockMovementChecks.CheckResult isNotSupportive(BlockState state, Direction direction) {
+    if (state.getBlock() instanceof DecalBlock) return BlockMovementChecks.CheckResult.SUCCESS;
+    /*else*/return BlockMovementChecks.CheckResult.PASS;
   }
 }

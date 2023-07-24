@@ -4,9 +4,7 @@ import com.github.talrey.createdeco.blocks.*;
 import com.github.talrey.createdeco.registry.*;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
-
-import com.simibubi.create.content.curiosities.deco.MetalLadderBlock;
-import com.simibubi.create.foundation.data.BuilderTransformers;
+import com.simibubi.create.content.decoration.MetalLadderBlock;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
@@ -14,7 +12,6 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -23,8 +20,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -37,9 +32,10 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static com.simibubi.create.AllTags.pickaxeOnly;
+import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class Registration {
+  private static final Material ALT_METAL = (new Material.Builder(MaterialColor.METAL)).build();
 
   private static HashMap<DyeColor, String> BRICK_COLOR_NAMES          = new HashMap<>();
 
@@ -398,7 +394,7 @@ public class Registration {
       DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
         reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door",
           "block/palettes/doors/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
-        Material.HEAVY_METAL
+        ALT_METAL
       )
         .lang(metal + " Door")
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 3)
@@ -432,7 +428,7 @@ public class Registration {
         CreateDecoMod.MODID, "block/palettes/doors/" + regName + "_trapdoor"
       );
       TRAPDOOR_BLOCKS.put(regName, reg.block(regName + "_trapdoor", TrapDoorBlock::new)
-          .initialProperties(Material.HEAVY_METAL)
+        .initialProperties(ALT_METAL)
         .properties(props -> props.noOcclusion().strength(5, 5)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -446,9 +442,9 @@ public class Registration {
           prov.mcLoc("block/template_trapdoor_bottom"))
           .texture("texture", prov.modLoc("block/palettes/doors/" + regName + "_trapdoor"))
         ).build()
-        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
-          .pattern("mmm")
-          .pattern("mmm")
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
+          .pattern("mm")
+          .pattern("mm")
           .define('m', ingot.apply(metal))
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ingot.apply(metal)))
           .save(prov)
@@ -476,6 +472,8 @@ public class Registration {
             .requires(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get()))
             .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_bars_from_panel"));
+
+          prov.stonecutting(DataIngredient.items(getter.apply(metal)), ctx, 4);
         })
         .register());
 
@@ -510,11 +508,12 @@ public class Registration {
     });
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
-      .initialProperties(Material.METAL)
+      .initialProperties(ALT_METAL)
       .properties(props->
         props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
       )
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .lang("Block of Cast Iron")
       .item()
         .tag(makeItemTag("storage_blocks"))
@@ -532,7 +531,7 @@ public class Registration {
         CreateDecoMod.MODID, "block/palettes/hull/" + regName + "_hull_side"
       );
       HULL_BLOCKS.put(regName, reg.block(regName + "_hull", HullBlock::new)
-        .initialProperties(Material.METAL)
+        .initialProperties(ALT_METAL)
         .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -652,6 +651,7 @@ public class Registration {
       if (dye == null) {
         WORN_BRICK_ITEM = reg.item("worn_brick", Item::new)
           .recipe((ctx,prov)-> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
+          .tag(makeItemTag("ingots/brick"))
           .register();
       } else {
         BRICK_ITEM.put(dye, reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_brick", Item::new)
@@ -665,6 +665,7 @@ public class Registration {
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(DyeItem.byColor(dye)))
             .save(prov)
           )
+          .tag(makeItemTag("ingots/brick"))
           .register());
       }
     });
