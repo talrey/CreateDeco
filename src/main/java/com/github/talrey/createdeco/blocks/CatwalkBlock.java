@@ -3,8 +3,6 @@ package com.github.talrey.createdeco.blocks;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -105,18 +103,6 @@ public class CatwalkBlock extends Block implements IWrenchable, SimpleWaterlogge
       .setValue(EAST_FENCE,  (facing == Direction.EAST)  && !hasNeighborTo(Direction.EAST,  ctx))
       .setValue(WEST_FENCE,  (facing == Direction.WEST)  && !hasNeighborTo(Direction.WEST,  ctx))
       .setValue(BlockStateProperties.WATERLOGGED, fluid.getType() == Fluids.WATER);
-
-    if (!lift) {
-      Level world = ctx.getLevel();
-      if (canPlaceCatwalk(world, ctx.getClickedPos().offset(0,1,0))) {
-        world.setBlock(ctx.getClickedPos().offset(0,1,0), state, 3);
-        ctx.getPlayer().getItemInHand(ctx.getHand()).shrink(1);
-        world.playSound(ctx.getPlayer(), ctx.getClickedPos().offset(0,1,0),
-          SoundEvents.NETHERITE_BLOCK_PLACE, SoundSource.BLOCKS, 1f, 1f
-        );
-        return world.getBlockState(ctx.getClickedPos());
-      }
-    }
     return state;
   }
 
