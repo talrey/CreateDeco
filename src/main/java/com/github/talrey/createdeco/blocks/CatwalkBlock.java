@@ -3,6 +3,8 @@ package com.github.talrey.createdeco.blocks;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -94,10 +96,14 @@ public class CatwalkBlock extends Block implements IWrenchable, SimpleWaterlogge
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
     Direction facing = ctx.getHorizontalDirection();
     FluidState fluid = ctx.getLevel().getFluidState(ctx.getClickedPos());
-    boolean lift     = (ctx.getClickLocation().y - ctx.getClickedPos().getY()) < 0.5f;
-
+    CompoundTag placementData = ctx.getItemInHand().getTag();
+    boolean bottom = false;
+    if (placementData != null && placementData.contains("bottom")) {
+      bottom = placementData.getBoolean("bottom");
+      ctx.getItemInHand().removeTagKey("bottom");
+    }
     BlockState state = defaultBlockState()
-      .setValue(LIFTED, lift)
+      .setValue(LIFTED, bottom)
       .setValue(NORTH_FENCE, (facing == Direction.NORTH) && !hasNeighborTo(Direction.NORTH, ctx))
       .setValue(SOUTH_FENCE, (facing == Direction.SOUTH) && !hasNeighborTo(Direction.SOUTH, ctx))
       .setValue(EAST_FENCE,  (facing == Direction.EAST)  && !hasNeighborTo(Direction.EAST,  ctx))

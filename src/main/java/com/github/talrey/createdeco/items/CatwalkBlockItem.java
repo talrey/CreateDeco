@@ -7,6 +7,7 @@ import com.simibubi.create.foundation.placement.PlacementOffset;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -51,9 +52,12 @@ public class CatwalkBlockItem extends BlockItem {
     BlockPos pos = ctx.getClickedPos();
     Direction dir = ctx.getClickedFace();
     boolean bottom = (ctx.getClickLocation().y - pos.getY()) < 0.5f;
+    CompoundTag placementData = ctx.getItemInHand().getOrCreateTag();
+    placementData.putBoolean("bottom", bottom);
     if (!bottom) {
       BlockPos offsetPos = pos.offset(0,1,0);
       if (ctx.getLevel().getBlockState(offsetPos).getMaterial().isReplaceable()) return super.place(BlockPlaceContext.at(ctx, offsetPos, dir));
+      placementData.putBoolean("bottom", true);
     }
     return super.place(ctx);
   }
