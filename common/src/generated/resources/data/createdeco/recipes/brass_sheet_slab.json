@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "X": {
       "item": "createdeco:brass_sheet_metal"
@@ -11,5 +12,6 @@
   "result": {
     "count": 6,
     "item": "createdeco:brass_sheet_slab"
-  }
+  },
+  "show_notification": true
 }

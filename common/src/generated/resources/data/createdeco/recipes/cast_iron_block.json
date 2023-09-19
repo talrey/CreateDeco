@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "X": {
       "item": "createdeco:cast_iron_ingot"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "createdeco:cast_iron_block"
-  }
+  },
+  "show_notification": true
 }

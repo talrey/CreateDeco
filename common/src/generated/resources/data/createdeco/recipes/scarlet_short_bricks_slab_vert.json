@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "s": {
       "item": "createdeco:scarlet_short_bricks_slab"
@@ -13,5 +14,6 @@
   "result": {
     "count": 3,
     "item": "createdeco:scarlet_short_bricks_slab_vert"
-  }
+  },
+  "show_notification": true
 }

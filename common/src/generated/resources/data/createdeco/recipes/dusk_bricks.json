@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "b": {
       "item": "createdeco:dusk_brick"
@@ -11,5 +12,6 @@
   ],
   "result": {
     "item": "createdeco:dusk_bricks"
-  }
+  },
+  "show_notification": true
 }

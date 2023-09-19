@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "createdeco:internal/plates/netherite_plates"
+      "tag": "createdeco:internal/ingots/netherite_ingots"
     }
   ],
   "results": [

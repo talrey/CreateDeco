@@ -27,5 +27,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "createdeco:blocks/mossy_red_brick_tiles_slab"
 }

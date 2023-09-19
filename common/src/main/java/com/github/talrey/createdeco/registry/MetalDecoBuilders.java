@@ -14,27 +14,27 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
-import net.minecraftforge.client.model.generators.MultiPartBlockStateBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
@@ -136,11 +136,13 @@ public class MetalDecoBuilders {
       .build();
   }
 
-  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path) { return buildDoor(reg, name, path, Material.METAL); }
+  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path) {
+    return buildDoor(reg, name, path, BlockSetType.GOLD);
+  }
 
-  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path, Material mat) {
-    return reg.block(name, DoorBlock::new)
-      .initialProperties(mat)
+  public static BlockBuilder<DoorBlock,?> buildDoor (Registrate reg, String name, String path, BlockSetType material) {
+    return reg.block(name, p -> new DoorBlock(p, material))
+      .initialProperties(()->Blocks.IRON_DOOR)
       .properties(props -> props.noOcclusion().strength(5, 5).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
       )
@@ -175,7 +177,7 @@ public class MetalDecoBuilders {
   ) {
     return (ctx,prov)-> {
       if (nonstandardMaterial != null) {
-        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
           .pattern("psp")
           .pattern("psp")
           .define('p', nonstandardMaterial.get())
@@ -186,7 +188,7 @@ public class MetalDecoBuilders {
           .save(prov);
       }
       else {
-        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
           .pattern("psp")
           .pattern("psp")
           .define('p', CDTags.of(metal, "plates").tag)
@@ -201,7 +203,6 @@ public class MetalDecoBuilders {
 
   public static BlockBuilder<FenceBlock,?> buildFence (Registrate reg, String metal) {
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_mesh_fence", FenceBlock::new)
-      .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.CHAIN)
       )
@@ -290,7 +291,7 @@ public class MetalDecoBuilders {
   ) {
     return (ctx,prov)-> {
       if (nonstandardMaterial != null) {
-        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
           .pattern(" p ")
           .pattern("pBp")
           .pattern(" p ")
@@ -300,7 +301,7 @@ public class MetalDecoBuilders {
           .save(prov);
       }
       else {
-        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
           .pattern(" p ")
           .pattern("pBp")
           .pattern(" p ")
@@ -316,7 +317,6 @@ public class MetalDecoBuilders {
 
   public static BlockBuilder<CatwalkBlock,?> buildCatwalk (Registrate reg, String metal) {
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk", CatwalkBlock::new)
-      .initialProperties(Material.METAL)
       .properties(props->
         props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -387,7 +387,6 @@ public class MetalDecoBuilders {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
     String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stairs", CatwalkStairBlock::new)
-        .initialProperties(Material.METAL)
         .properties(props->
           props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
             .sound(SoundType.NETHERITE_BLOCK)
@@ -402,7 +401,7 @@ public class MetalDecoBuilders {
             .texture("particle", texture  +"_rail");
           prov.horizontalBlock(ctx.get(), builder);
         })
-        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(ctx.get(), 2)
+        .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
           .pattern(" c")
           .pattern("cb")
           .define('c', Registration.CATWALK_BLOCKS.get(regName).get())

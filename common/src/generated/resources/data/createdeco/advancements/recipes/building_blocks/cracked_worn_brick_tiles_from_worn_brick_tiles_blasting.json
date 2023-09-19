@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:cracked_worn_brick_tiles_from_worn_brick_tiles_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_worn_brick_tiles": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:worn_brick_tiles"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_worn_brick_tiles",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_worn_brick_tiles_from_worn_brick_tiles_blasting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -3,6 +3,7 @@ package com.github.talrey.createdeco.registry;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -11,14 +12,12 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
 
 import java.util.Locale;
 
@@ -27,11 +26,7 @@ public class BrickBuilders {
     String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
     String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
     BlockBuilder<Block,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf, Block::new);
-    if (dye != null) {
-      ret.initialProperties(Material.STONE, dye);
-    } else {
-      ret.initialProperties(Material.STONE);
-    }
+    ret.initialProperties(()->Blocks.BRICKS);
     return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
@@ -49,11 +44,7 @@ public class BrickBuilders {
     String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
     BlockBuilder<StairBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf + "_stairs",
       (props)->new StairBlock(Blocks.BRICK_STAIRS.defaultBlockState(), props));
-    if (dye != null) {
-      ret.initialProperties(Material.STONE, dye);
-    } else {
-      ret.initialProperties(Material.STONE);
-    }
+    ret.initialProperties(()->Blocks.BRICKS);
     return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
@@ -70,11 +61,7 @@ public class BrickBuilders {
     String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
     String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
     BlockBuilder<SlabBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf  + "_slab", SlabBlock::new);
-    if (dye != null) {
-      ret.initialProperties(Material.STONE, dye);
-    } else {
-      ret.initialProperties(Material.STONE);
-    }
+    ret.initialProperties(()->Blocks.BRICKS);
     return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
@@ -105,11 +92,7 @@ public class BrickBuilders {
     String suf = suffix.replace(' ', '_').toLowerCase(Locale.ROOT);
     String pre = prefix.replace(' ', '_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
     BlockBuilder<VerticalSlabBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf  + "_slab_vert", VerticalSlabBlock::new);
-    if (dye != null) {
-      ret.initialProperties(Material.STONE, dye);
-    } else {
-      ret.initialProperties(Material.STONE);
-    }
+    ret.initialProperties(()->Blocks.BRICKS);
     return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
@@ -158,11 +141,7 @@ public class BrickBuilders {
     String suf = suffix.replace(' ','_').toLowerCase(Locale.ROOT);
     String pre = prefix.replace(' ','_').toLowerCase(Locale.ROOT) + (prefix.equals("")?"":"_");
     BlockBuilder<WallBlock,?> ret = reg.block(pre + name.toLowerCase(Locale.ROOT) + "_" + suf + "_wall", WallBlock::new);
-    if (dye != null) {
-      ret.initialProperties(Material.STONE, dye);
-    } else {
-      ret.initialProperties(Material.STONE);
-    }
+    ret.initialProperties(()->Blocks.BRICKS);
     return ret.properties(props-> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )

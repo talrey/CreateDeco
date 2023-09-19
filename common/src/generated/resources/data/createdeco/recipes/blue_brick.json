@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "minecraft:light_blue_dye"
@@ -16,5 +17,6 @@
   "result": {
     "count": 8,
     "item": "createdeco:blue_brick"
-  }
+  },
+  "show_notification": true
 }

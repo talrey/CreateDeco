@@ -225,7 +225,7 @@ public class CatwalkBlock extends Block implements IWrenchable, SimpleWaterlogge
   }
 
   public static boolean canPlaceCatwalk (Level world, BlockPos pos) {
-    return world.getBlockState(pos).getMaterial().isReplaceable();
+    return world.getBlockState(pos).canBeReplaced();
   }
 
   public static BooleanProperty getPropertyFromDirection (Direction dir) {

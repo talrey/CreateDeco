@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "n": {
       "tag": "createdeco:internal/nuggets/brass_nuggets"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "createdeco:green_brass_lamp"
-  }
+  },
+  "show_notification": true
 }

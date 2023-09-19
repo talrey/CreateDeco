@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "m": {
       "item": "minecraft:netherite_ingot"
@@ -12,5 +13,6 @@
   "result": {
     "count": 16,
     "item": "createdeco:netherite_bars"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "m": {
       "item": "create:brass_ingot"
@@ -13,5 +14,6 @@
   "result": {
     "count": 2,
     "item": "createdeco:brass_hull"
-  }
+  },
+  "show_notification": true
 }

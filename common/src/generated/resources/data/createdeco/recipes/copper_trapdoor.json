@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "m": {
       "item": "minecraft:copper_ingot"
@@ -11,5 +12,6 @@
   ],
   "result": {
     "item": "createdeco:copper_trapdoor"
-  }
+  },
+  "show_notification": true
 }

@@ -2,7 +2,7 @@
   "type": "create:pressing",
   "ingredients": [
     {
-      "tag": "createdeco:internal/plates/cast_iron_plates"
+      "tag": "createdeco:internal/ingots/cast_iron_ingots"
     }
   ],
   "results": [

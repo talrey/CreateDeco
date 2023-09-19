@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "p": {
       "tag": "createdeco:internal/plates/netherite_plates"
@@ -15,5 +16,6 @@
   "result": {
     "count": 3,
     "item": "createdeco:netherite_mesh_fence"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "m": {
       "item": "create:brass_ingot"
@@ -11,5 +12,6 @@
   ],
   "result": {
     "item": "createdeco:brass_trapdoor"
-  }
+  },
+  "show_notification": true
 }

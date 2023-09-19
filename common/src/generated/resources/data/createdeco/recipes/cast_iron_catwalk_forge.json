@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "B": {
       "item": "createdeco:cast_iron_bars"
@@ -16,5 +17,6 @@
   "result": {
     "count": 3,
     "item": "createdeco:cast_iron_catwalk"
-  }
+  },
+  "show_notification": true
 }

@@ -2,7 +2,7 @@ package com.github.talrey.createdeco.registry;
 
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.util.LoaderTag;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -23,7 +23,7 @@ public class CDTags {
   private static final HashMap<Material, HashMap<Form, LoaderTag<Item>>> tags = new HashMap<>();
 
   public static final TagKey<Item> PLACARD = TagKey.create(
-    Registry.ITEM_REGISTRY,
+    Registries.ITEM,
     new ResourceLocation(CreateDecoMod.MODID, "placards")
   );
 
@@ -57,17 +57,17 @@ public class CDTags {
     String forge  = type + "/" + name;
     String fabric = name + "_" + type;
     String common = forge + "_"+ type;
-    return LoaderTag.standard(Registry.ITEM_REGISTRY, common, forge, fabric);
+    return LoaderTag.standard(Registries.ITEM, common, forge, fabric);
   }
 
   private static LoaderTag<Block> block (String type, String name) {
     String forge  = type + "/" + name;
     String fabric = name + "_" + type;
     String common = forge + "_"+ type;
-    return LoaderTag.standard(Registry.BLOCK_REGISTRY, common, forge, fabric);
+    return LoaderTag.standard(Registries.BLOCK, common, forge, fabric);
   }
 
   private static LoaderTag<Block> block (String type) {
-    return LoaderTag.same(Registry.BLOCK_REGISTRY, type);
+    return LoaderTag.same(Registries.BLOCK, type);
   }
 }

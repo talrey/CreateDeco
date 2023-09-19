@@ -5,7 +5,7 @@ import com.simibubi.create.content.kinetics.mixer.CompactingRecipe;
 import com.simibubi.create.content.processing.recipe.HeatCondition;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 
@@ -19,8 +19,8 @@ public class CompactingRecipes extends ProcessingRecipeWrapper<CompactingRecipe>
     );
   }
 
-  public CompactingRecipes(FabricDataGenerator generatorIn) {
-    super(generatorIn);
+  public CompactingRecipes(FabricDataOutput output) {
+    super(output);
   }
 
   @Override

@@ -5,7 +5,7 @@ import com.simibubi.create.content.kinetics.fan.SplashingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeSerializer;
 import com.tterrag.registrate.util.entry.RegistryEntry;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 
@@ -74,8 +74,8 @@ public class SplashingRecipes extends ProcessingRecipeWrapper<SplashingRecipe> {
     }
   }
 
-  public SplashingRecipes(FabricDataGenerator generatorIn) {
-    super(generatorIn);
+  public SplashingRecipes(FabricDataOutput output) {
+    super(output);
   }
 
   @Override

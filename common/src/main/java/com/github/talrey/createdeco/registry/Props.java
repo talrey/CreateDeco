@@ -4,7 +4,6 @@ import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.blocks.*;
 import com.github.talrey.createdeco.Registration;
 import com.github.talrey.createdeco.items.CoinStackItem;
-import com.mojang.math.Vector3f;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
@@ -22,15 +21,16 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
@@ -39,15 +39,14 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,7 +94,7 @@ public class Props {
   public static ItemBuilder<CoinStackItem,?> buildCoinStackItem (Registrate reg, NonNullSupplier<Item> coin, String name) {
     return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack", (p)-> new CoinStackItem(p, name))
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
-      .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
+      .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
         .requires(coin.get(), 4)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(coin.get()))
         .save(prov)
@@ -106,7 +105,7 @@ public class Props {
   public static ItemBuilder<Item,?> buildCoinItem (Registrate reg, NonNullSupplier<Item> coinstack, String name) {
     return reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coin", Item::new)
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
-      .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get(), 4)
+      .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get(), 4)
         .requires(coinstack.get())
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(coinstack.get()))
         .save(prov)
@@ -148,7 +147,7 @@ public class Props {
   private static ShapedRecipeBuilder cageLampRecipeBuilder (
     ItemLike item, Supplier<Item> light
   ) {
-    return ShapedRecipeBuilder.shaped(item)
+    return ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, item)
       .pattern("n")
       .pattern("t")
       .pattern("p")
@@ -194,7 +193,6 @@ public class Props {
   ) {
     return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp",
         (p)-> new CageLampBlock(p, new Vector3f(0.3f, 0.3f, 0f)))
-      .initialProperties(Material.METAL)
       .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN).lightLevel((state)-> state.getValue(BlockStateProperties.LIT)?15:0))
       .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
         int y = 0;
@@ -219,7 +217,7 @@ public class Props {
   }
 
   public static void registerBlocks (Registrate reg) {
-    reg.creativeModeTab(()->DecoCreativeModeTab.PROPS_GROUP);
+    reg.defaultCreativeTab(DecoCreativeModeTab.PROPS_GROUP, DecoCreativeModeTab.PROPS_KEY);
 
     COIN_TYPES.forEach(metal -> {
       ResourceLocation side   = new ResourceLocation(CreateDecoMod.MODID, "block/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_coinstack_side");
@@ -230,7 +228,6 @@ public class Props {
 
     for (DyeColor color : DyeColor.values()) {
       DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_decal", DecalBlock::new)
-        .initialProperties(Material.METAL)
         .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
           int y = 0;
@@ -253,7 +250,7 @@ public class Props {
           "layer0", prov.modLoc("block/palettes/decal/" + ctx.getName())
         ))
         .build()
-        .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(ctx.get())
+        .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
           .requires(AllItems.IRON_SHEET.get(), 1)
           .requires(DyeItem.byColor(color), 1)
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(AllItems.IRON_SHEET.get()))
@@ -296,7 +293,7 @@ public class Props {
         ))
         .simpleItem()
         .recipe((ctx,prov)->
-          ShapelessRecipeBuilder.shapeless(ctx.get())
+          ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
             .requires(CDTags.PLACARD)
             .requires(DyeItem.byColor(color))
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
@@ -308,7 +305,7 @@ public class Props {
             .group("dye_placard")
             .save(prov)
         )
-        .onRegisterAfter(Registry.ITEM_REGISTRY, v-> ItemDescription.referKey(v, AllBlocks.PLACARD))
+        .onRegisterAfter(Registries.ITEM, v-> ItemDescription.referKey(v, AllBlocks.PLACARD))
         .register());
     }
 
@@ -325,7 +322,7 @@ public class Props {
   }
 
   public static void registerItems (Registrate reg) {
-    reg.creativeModeTab(()->DecoCreativeModeTab.PROPS_GROUP, DecoCreativeModeTab.PROPS_NAME);
+    reg.defaultCreativeTab(DecoCreativeModeTab.PROPS_GROUP, DecoCreativeModeTab.PROPS_KEY);
     for (String metal : COIN_TYPES) {
       COIN_ITEM.put(metal, buildCoinItem(reg, ()->COINSTACK_ITEM.get(metal).get(), metal).register());
       COINSTACK_ITEM.put(metal, buildCoinStackItem(reg, ()->COIN_ITEM.get(metal).get(), metal).register());

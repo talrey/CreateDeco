@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "b": {
       "item": "createdeco:cast_iron_bars"
@@ -13,5 +14,6 @@
   "result": {
     "count": 4,
     "item": "createdeco:cast_iron_support"
-  }
+  },
+  "show_notification": true
 }

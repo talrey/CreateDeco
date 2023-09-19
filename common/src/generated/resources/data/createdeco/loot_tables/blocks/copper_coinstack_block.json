@@ -167,5 +167,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "createdeco:blocks/copper_coinstack_block"
 }

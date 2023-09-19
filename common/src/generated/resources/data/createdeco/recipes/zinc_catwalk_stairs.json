@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "b": {
       "item": "createdeco:zinc_bars"
@@ -15,5 +16,6 @@
   "result": {
     "count": 2,
     "item": "createdeco:zinc_catwalk_stairs"
-  }
+  },
+  "show_notification": true
 }

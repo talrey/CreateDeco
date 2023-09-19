@@ -20,5 +20,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "createdeco:blocks/locked_andesite_door"
 }

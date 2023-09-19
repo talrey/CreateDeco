@@ -13,27 +13,21 @@ import java.util.function.Supplier;
 
 public class DecoCreativeModeTabImpl {
   public static void build () {
-    DecoCreativeModeTab.BRICKS_GROUP = group("bricks",
+    DecoCreativeModeTab.BRICKS_GROUP = group(DecoCreativeModeTab.BRICKS_KEY,
       ()-> Registration.BRICK_BLOCK.get(DyeColor.LIGHT_BLUE).asStack()
     );
-    DecoCreativeModeTab.METALS_GROUP = group("metals",
+    DecoCreativeModeTab.METALS_GROUP = group(DecoCreativeModeTab.METALS_KEY,
       ()-> Registration.BAR_BLOCKS.get("brass").asStack()
     );
-    DecoCreativeModeTab.PROPS_GROUP = group("props",
+    DecoCreativeModeTab.PROPS_GROUP = group(DecoCreativeModeTab.PROPS_KEY,
       ()-> Props.COINSTACK_ITEM.get("Brass").asStack()
     );
   }
 
   private static CreativeModeTab group (String name, Supplier<ItemStack> item) {
-    return new CreativeModeTab (CreateDecoMod.MODID) {
-      @Override
-      public ItemStack makeIcon () {
-        return item.get();
-      }
-      @Override
-      public Component getDisplayName () {
-        return Component.translatable("itemGroup." + CreateDecoMod.MODID + "." + name);
-      }
-    };
+    return CreativeModeTab.builder()
+      .icon(item)
+      .title(Component.translatable("itemGroup." + CreateDecoMod.MODID + "." + name))
+      .build();
   }
 }

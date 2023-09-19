@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "n": {
       "tag": "createdeco:internal/nuggets/copper_nuggets"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "createdeco:blue_copper_lamp"
-  }
+  },
+  "show_notification": true
 }

@@ -14,9 +14,11 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.Direction;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -25,14 +27,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.SlabType;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -58,7 +58,6 @@ public class SheetMetal {
 
   public static BlockBuilder<Block,?> buildSheetMetalBlock (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
     return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal", Block::new)
-      .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
       )
@@ -70,7 +69,10 @@ public class SheetMetal {
         .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
         .build()
       .recipe((ctx, prov)-> {
-        prov.stonecutting(DataIngredient.items(material.get()), ctx, 4);
+        prov.stonecutting(
+          DataIngredient.items(material.get()),
+          RecipeCategory.BUILDING_BLOCKS, ctx, 4
+        );
       })
       .onRegister(CreateRegistrate.connectedTextures(
         new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(name)).getSupplier()
@@ -80,7 +82,6 @@ public class SheetMetal {
   public static BlockBuilder<StairBlock,?> buildSheetMetalStair (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
     return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_stairs",
     (props)->new StairBlock(Blocks.BRICK_STAIRS.defaultBlockState(), props))
-        .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
       )
@@ -92,8 +93,13 @@ public class SheetMetal {
       .blockstate((ctx,prov)-> prov.stairsBlock(ctx.get(), texture))
       .lang(name + " Sheet Stairs")
       .recipe((ctx, prov)-> {
-        prov.stonecutting(DataIngredient.items(material.get()), ctx);
-        prov.stairs(DataIngredient.items(material.get()), ctx, null, false);
+        prov.stonecutting(
+          DataIngredient.items(material.get()), RecipeCategory.BUILDING_BLOCKS, ctx
+        );
+        prov.stairs(
+          DataIngredient.items(material.get()),
+          RecipeCategory.BUILDING_BLOCKS, ctx, null, false
+        );
       })
       .onRegister(CreateRegistrate.connectedTextures(
         new SheetMetalCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(name)).getSupplier()
@@ -102,7 +108,6 @@ public class SheetMetal {
 
   public static BlockBuilder<SlabBlock,?> buildSheetMetalSlab (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
     return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_slab", SlabBlock::new)
-      .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
       )
@@ -128,8 +133,11 @@ public class SheetMetal {
       })
       .lang(name + " Sheet Slab")
       .recipe((ctx, prov)-> {
-        prov.stonecutting(DataIngredient.items(material.get()), ctx, 2);
-        prov.slab(DataIngredient.items(material.get()), ctx, null, false);
+        prov.stonecutting(DataIngredient.items(material.get()), RecipeCategory.BUILDING_BLOCKS, ctx, 2);
+        prov.slab(
+          DataIngredient.items(material.get()),
+          RecipeCategory.BUILDING_BLOCKS, ctx, null, false
+        );
       })
       .onRegister(CreateRegistrate.connectedTextures(
         new SheetMetalSlabCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(name)).getSupplier()
@@ -138,7 +146,6 @@ public class SheetMetal {
 
   public static BlockBuilder<VerticalSlabBlock,?> buildSheetMetalVert (Registrate reg, NonNullSupplier<Item> material, String name, ResourceLocation texture) {
     return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_slab_vert", VerticalSlabBlock::new)
-      .initialProperties(Material.METAL)
       .properties(props-> props.strength(5, (name.contains("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.NETHERITE_BLOCK)
       )
@@ -181,14 +188,17 @@ public class SheetMetal {
         table.add(block, builder.withPool(pool));
       })
       .recipe((ctx, prov)-> {
-        ShapedRecipeBuilder.shaped(ctx.get(), 3)
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get(), 3)
           .pattern("s")
           .pattern("s")
           .pattern("s")
           .define('s', SHEET_SLABS.get(name).get())
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(material.get()))
           .save(prov);
-        prov.stonecutting(DataIngredient.items(material.get()), ctx, 2);
+        prov.stonecutting(
+          DataIngredient.items(material.get()),
+          RecipeCategory.BUILDING_BLOCKS, ctx, 2
+        );
       })
       .onRegister(CreateRegistrate.connectedTextures(
         new SheetMetalVertCTBehaviour(SpriteShifts.SHEET_METAL_SIDES.get(name)).getSupplier()
@@ -196,7 +206,7 @@ public class SheetMetal {
   }
 
   public static void registerBlocks (Registrate reg) {
-    reg.creativeModeTab(()->DecoCreativeModeTab.METALS_GROUP);
+    reg.defaultCreativeTab(DecoCreativeModeTab.METALS_GROUP, DecoCreativeModeTab.METALS_KEY);
     initialize();
 
     Registration.METAL_TYPES.forEach((metal, getter)-> {

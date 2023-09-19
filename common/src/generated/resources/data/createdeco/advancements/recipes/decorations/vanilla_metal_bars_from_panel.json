@@ -30,5 +30,6 @@
     "recipes": [
       "createdeco:vanilla_metal_bars_from_panel"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

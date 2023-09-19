@@ -2,8 +2,6 @@ package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.registry.DecoCreativeModeTab;
 import com.tterrag.registrate.Registrate;
-import net.minecraftforge.api.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

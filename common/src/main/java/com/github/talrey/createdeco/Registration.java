@@ -11,19 +11,20 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraftforge.client.model.generators.ConfiguredModel;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -32,7 +33,14 @@ import java.util.function.Function;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class Registration {
-  private static final Material ALT_METAL = (new Material.Builder(MaterialColor.METAL)).build();
+
+  public static final BlockSetType METAL_TYPE = new BlockSetType(
+    "metal", true, SoundType.METAL,
+    SoundEvents.IRON_DOOR_CLOSE, SoundEvents.IRON_DOOR_OPEN,
+    SoundEvents.IRON_TRAPDOOR_CLOSE, SoundEvents.IRON_TRAPDOOR_OPEN,
+    SoundEvents.METAL_PRESSURE_PLATE_CLICK_OFF, SoundEvents.METAL_PRESSURE_PLATE_CLICK_ON,
+    SoundEvents.STONE_BUTTON_CLICK_OFF, SoundEvents.STONE_BUTTON_CLICK_ON
+  );
 
   private static final HashMap<DyeColor, String> BRICK_COLOR_NAMES = new HashMap<>();
 
@@ -181,10 +189,10 @@ public class Registration {
   }
 
   public static void registerBlocks(Registrate reg) {
-    reg.creativeModeTab(() -> DecoCreativeModeTab.BRICKS_GROUP);
+    reg.defaultCreativeTab(DecoCreativeModeTab.BRICKS_KEY);
 
     BlockBuilder<Block, ?> wornBrick = BrickBuilders.buildBrick(reg, null, "", "Worn", "Bricks")
-      .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
+      .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get())
         .pattern("bb")
         .pattern("bb")
         .define('b', WORN_BRICK_ITEM.get())
@@ -200,9 +208,10 @@ public class Registration {
         if (!(pre.equals("") && suf.equals("Bricks"))) {
           WORN_BRICK_TYPES.put(full, BrickBuilders.buildBrick(reg, null, pre, "Worn", suf)
             .recipe((ctx, prov) -> {
-              prov.stonecutting(DataIngredient.items(wornBrick.get()), ctx);
+              prov.stonecutting(DataIngredient.items(wornBrick.get()), RecipeCategory.BUILDING_BLOCKS, ctx);
               if (pre.equals("Cracked")) prov.blasting(
-                DataIngredient.items(WORN_BRICK_TYPES.get("Worn " + suf)), ctx, 0.5f
+                DataIngredient.items(WORN_BRICK_TYPES.get("Worn " + suf).asItem()),
+                RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
               );
             })
             .register()
@@ -210,28 +219,49 @@ public class Registration {
         }
         WORN_STAIRS.put(full, BrickBuilders.buildBrickStairs(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov) -> {
-            prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx);
-            prov.stairs(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
+            prov.stonecutting(
+              DataIngredient.items(WORN_BRICK_TYPES.get(full).asItem()),
+              RecipeCategory.BUILDING_BLOCKS, ctx
+            );
+            prov.stairs(
+              DataIngredient.items(WORN_BRICK_TYPES.get(full).asItem()),
+              RecipeCategory.BUILDING_BLOCKS,
+              ctx, null, false
+            );
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_STAIRS.get("Worn " + suf)), ctx, 0.5f);
+              prov.blasting(
+                DataIngredient.items(WORN_STAIRS.get("Worn " + suf).asItem()),
+                RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+              );
             }
           })
           .register()
         );
         WORN_SLABS.put(full, BrickBuilders.buildBrickSlabs(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov) -> {
-            prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
-            prov.slab(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, null, false);
+            prov.stonecutting(
+              DataIngredient.items(WORN_BRICK_TYPES.get(full).asItem()),
+              RecipeCategory.BUILDING_BLOCKS, ctx, 2
+            );
+            prov.slab(
+              DataIngredient.items(WORN_BRICK_TYPES.get(full).asItem()),
+              RecipeCategory.BUILDING_BLOCKS, ctx, null, false);
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_SLABS.get("Worn " + suf)), ctx, 0.5f);
+              prov.blasting(
+                DataIngredient.items(WORN_SLABS.get("Worn " + suf).asItem()),
+                RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+              );
             }
           })
           .register()
         );
         WORN_VERTS.put(full, BrickBuilders.buildBrickVerts(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov) -> {
-            prov.stonecutting(DataIngredient.items(WORN_BRICK_TYPES.get(full)), ctx, 2);
-            ShapedRecipeBuilder.shaped(ctx.get(), 3)
+            prov.stonecutting(
+              DataIngredient.items(WORN_BRICK_TYPES.get(full).asItem()),
+              RecipeCategory.BUILDING_BLOCKS, ctx, 2
+            );
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get(), 3)
               .pattern("s")
               .pattern("s")
               .pattern("s")
@@ -239,15 +269,24 @@ public class Registration {
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(WORN_SLABS.get(full).get()))
               .save(prov);
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_VERTS.get("Worn " + suf)), ctx, 0.5f);
+              prov.blasting(
+                DataIngredient.items(WORN_VERTS.get("Worn " + suf).asItem()),
+                RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+              );
             }
           }).register()
         );
         WORN_WALLS.put(full, BrickBuilders.buildBrickWalls(reg, null, pre, "Worn", suf)
           .recipe((ctx, prov) -> {
-            prov.wall(DataIngredient.items(WORN_BRICK_TYPES.get(full).get()), ctx);
+            prov.wall(
+              DataIngredient.items(WORN_BRICK_TYPES.get(full).get()),
+              RecipeCategory.BUILDING_BLOCKS, ctx
+            );
             if (pre.equals("Cracked")) {
-              prov.blasting(DataIngredient.items(WORN_WALLS.get("Worn " + suf)), ctx, 0.5f);
+              prov.blasting(
+                DataIngredient.items(WORN_WALLS.get("Worn " + suf).asItem()),
+                RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+              );
             }
           }).register()
         );
@@ -256,7 +295,7 @@ public class Registration {
 
     BRICK_COLOR_NAMES.forEach((dye, name) -> {
       if (dye != null) BRICK_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "", name, "Bricks")
-        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get())
           .pattern("bb")
           .pattern("bb")
           .define('b', getBrickItemFromColor(dye))
@@ -264,50 +303,95 @@ public class Registration {
           .save(prov)
         ).register());
       TILE_BRICK_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "", name, "Brick Tiles")
-        .recipe((ctx, prov) -> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
+        .recipe((ctx, prov) -> prov.stonecutting(
+          DataIngredient.items(getBrickBlockFromColor(dye)),
+          RecipeCategory.BUILDING_BLOCKS, ctx
+        ))
         .register());
       LONG_BRICK_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "", name, "Long Bricks")
-        .recipe((ctx, prov) -> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
+        .recipe((ctx, prov) -> prov.stonecutting(
+          DataIngredient.items(getBrickBlockFromColor(dye)),
+          RecipeCategory.BUILDING_BLOCKS, ctx
+        ))
         .register());
       SHORT_BRICK_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "", name, "Short Bricks")
-        .recipe((ctx, prov) -> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
+        .recipe((ctx, prov) -> prov.stonecutting(
+          DataIngredient.items(getBrickBlockFromColor(dye)),
+          RecipeCategory.BUILDING_BLOCKS, ctx
+        ))
         .register());
       CRACKED_BRICK_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Cracked", name, "Bricks")
         .recipe((ctx, prov) -> {
-          prov.blasting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
+          prov.blasting(
+            DataIngredient.items(getBrickBlockFromColor(dye)),
+            RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+          );
+          prov.stonecutting(
+            DataIngredient.items(getBrickBlockFromColor(dye)),
+            RecipeCategory.BUILDING_BLOCKS, ctx
+          );
         })
         .register());
       CRACKED_TILE_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Cracked", name, "Brick Tiles")
         .recipe((ctx, prov) -> {
-          prov.blasting(DataIngredient.items(TILE_BRICK_BLOCK.get(dye).get()), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
+          prov.blasting(
+            DataIngredient.items(TILE_BRICK_BLOCK.get(dye).get()),
+            RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+          );
+          prov.stonecutting(
+            DataIngredient.items(getBrickBlockFromColor(dye)),
+            RecipeCategory.BUILDING_BLOCKS, ctx
+          );
         })
         .register());
       CRACKED_LONG_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Cracked", name, "Long Bricks")
         .recipe((ctx, prov) -> {
-          prov.blasting(DataIngredient.items(LONG_BRICK_BLOCK.get(dye).get()), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
+          prov.blasting(
+            DataIngredient.items(LONG_BRICK_BLOCK.get(dye).get()),
+            RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+          );
+          prov.stonecutting(
+            DataIngredient.items(getBrickBlockFromColor(dye)),
+            RecipeCategory.BUILDING_BLOCKS, ctx
+          );
         })
         .register());
       CRACKED_SHORT_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Cracked", name, "Short Bricks")
         .recipe((ctx, prov) -> {
-          prov.blasting(DataIngredient.items(SHORT_BRICK_BLOCK.get(dye).get()), ctx, 0.5f);
-          prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx);
+          prov.blasting(
+            DataIngredient.items(SHORT_BRICK_BLOCK.get(dye).get()),
+            RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+          );
+          prov.stonecutting(
+            DataIngredient.items(getBrickBlockFromColor(dye)),
+            RecipeCategory.BUILDING_BLOCKS, ctx
+          );
         })
         .register());
       MOSSY_BRICK_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Mossy", name, "Bricks")
         // washing handled in wrapper class
-        .recipe((ctx, prov) -> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
+        .recipe((ctx, prov) -> prov.stonecutting(
+          DataIngredient.items(getBrickBlockFromColor(dye)),
+          RecipeCategory.BUILDING_BLOCKS, ctx
+        ))
         .register());
       MOSSY_TILE_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Mossy", name, "Brick Tiles")
-        .recipe((ctx, prov) -> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
+        .recipe((ctx, prov) -> prov.stonecutting(
+          DataIngredient.items(getBrickBlockFromColor(dye)),
+          RecipeCategory.BUILDING_BLOCKS, ctx
+        ))
         .register());
       MOSSY_LONG_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Mossy", name, "Long Bricks")
-        .recipe((ctx, prov) -> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
+        .recipe((ctx, prov) -> prov.stonecutting(
+          DataIngredient.items(getBrickBlockFromColor(dye)),
+          RecipeCategory.BUILDING_BLOCKS, ctx
+        ))
         .register());
       MOSSY_SHORT_BLOCK.put(dye, BrickBuilders.buildBrick(reg, dye, "Mossy", name, "Short Bricks")
-        .recipe((ctx, prov) -> prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx))
+        .recipe((ctx, prov) -> prov.stonecutting(
+          DataIngredient.items(getBrickBlockFromColor(dye)),
+          RecipeCategory.BUILDING_BLOCKS, ctx
+        ))
         .register());
 
       HashMap<String, BlockEntry<StairBlock>> stair = new HashMap<>();
@@ -321,29 +405,55 @@ public class Registration {
           if (!((dye == null) && pre.equals("") && suf.equals("Bricks"))) { // vanilla block, stairs, slab, and wall exist already
             stair.put(full, BrickBuilders.buildBrickStairs(reg, dye, pre, name, suf)
               .recipe((ctx, prov) -> {
-                prov.stonecutting(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx);
-                prov.stairs(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, null, false);
+                prov.stonecutting(
+                  DataIngredient.items(getBrickFromName(pre, dye, suf).asItem()),
+                  RecipeCategory.BUILDING_BLOCKS, ctx
+                );
+                prov.stairs(
+                  DataIngredient.items(getBrickFromName(pre, dye, suf).asItem()),
+                  RecipeCategory.BUILDING_BLOCKS, ctx, null, false
+                );
                 if (pre.equals("Cracked")) {
-                  prov.blasting(DataIngredient.items(getBrickStairBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
+                  prov.blasting(
+                    DataIngredient.items(
+                      getBrickStairBlockFromColor(dye, full.substring(8))),
+                    RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f);
                 }
                 // handle washing in the wrapper
               }).register());
 
             slab.put(full, BrickBuilders.buildBrickSlabs(reg, dye, pre, name, suf)
               .recipe((ctx, prov) -> {
-                prov.stonecutting(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, 2);
-                prov.slab(DataIngredient.items(getBrickFromName(pre, dye, suf)), ctx, null, false);
+                prov.stonecutting(
+                  DataIngredient.items(getBrickFromName(pre, dye, suf).asItem()),
+                  RecipeCategory.BUILDING_BLOCKS, ctx, 2
+                );
+                prov.slab(DataIngredient.items(
+                  getBrickFromName(pre, dye, suf).asItem()),
+                  RecipeCategory.BUILDING_BLOCKS, ctx, null, false
+                );
                 if (pre.equals("Cracked")) {
-                  prov.blasting(DataIngredient.items(getBrickSlabBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
+                  prov.blasting(
+                    DataIngredient.items(
+                      getBrickSlabBlockFromColor(dye, full.substring(8))),
+                    RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+                  );
                 }
                 // handle washing in the wrapper
               }).register());
 
             wall.put(full, BrickBuilders.buildBrickWalls(reg, dye, pre, name, suf)
               .recipe((ctx, prov) -> {
-                prov.wall(DataIngredient.items(getBrickFromName(pre, dye, suf).get()), ctx);
+                prov.wall(
+                  DataIngredient.items(getBrickFromName(pre, dye, suf).get()),
+                  RecipeCategory.BUILDING_BLOCKS, ctx
+                );
                 if (pre.equals("Cracked")) {
-                  prov.blasting(DataIngredient.items(getBrickWallBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
+                  prov.blasting(
+                    DataIngredient.items(
+                      getBrickWallBlockFromColor(dye, full.substring(8))),
+                    RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+                  );
                 }
                 // handle washing in the wrapper
               }).register());
@@ -351,8 +461,11 @@ public class Registration {
 
           vert.put(full, BrickBuilders.buildBrickVerts(reg, dye, pre, name, suf)
             .recipe((ctx, prov) -> {
-              prov.stonecutting(DataIngredient.items(getBrickBlockFromColor(dye)), ctx, 2);
-              ShapedRecipeBuilder.shaped(ctx.get(), 3)
+              prov.stonecutting(
+                DataIngredient.items(getBrickBlockFromColor(dye)),
+                RecipeCategory.BUILDING_BLOCKS, ctx, 2
+              );
+              ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get(), 3)
                 .pattern("s")
                 .pattern("s")
                 .pattern("s")
@@ -360,7 +473,11 @@ public class Registration {
                 .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(getBrickSlabBlockFromColor(dye, full)))
                 .save(prov);
               if (pre.equals("Cracked")) {
-                prov.blasting(DataIngredient.items(getBrickSlabBlockFromColor(dye, full.substring(8))), ctx, 0.5f);
+                prov.blasting(
+                  DataIngredient.items(
+                    getBrickSlabBlockFromColor(dye, full.substring(8))),
+                  RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
+                );
               }
               // handle washing in the wrapper
             }).register());
@@ -372,17 +489,16 @@ public class Registration {
       BRICK_WALL_BLOCK.put(dye, wall);
     });
 
-    reg.creativeModeTab(() -> DecoCreativeModeTab.METALS_GROUP);
-    SheetMetal.registerBlocks(reg);
+    reg.defaultCreativeTab(DecoCreativeModeTab.METALS_KEY);
 
     DOOR_TYPES.forEach((metal, ingot) ->
       DOOR_BLOCKS.put(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"), MetalDecoBuilders.buildDoor(
         reg, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door",
           "block/palettes/doors/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
-        ALT_METAL
-      )
+          METAL_TYPE
+        )
         .lang(metal + " Door")
-        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 3)
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
           .pattern("mm")
           .pattern("mm")
           .pattern("mm")
@@ -397,7 +513,7 @@ public class Registration {
         reg, "locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_door", "block/palettes/doors/locked_" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")
       )
       .lang("Locked " + metal + " Door")
-      .recipe((ctx, prov) -> ShapelessRecipeBuilder.shapeless(ctx.get())
+      .recipe((ctx, prov) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
         .requires(Items.REDSTONE_TORCH, 1)
         .requires(Registration.DOOR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get(), 1)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
@@ -412,8 +528,7 @@ public class Registration {
       ResourceLocation texture = new ResourceLocation(
         CreateDecoMod.MODID, "block/palettes/doors/" + regName + "_trapdoor"
       );
-      TRAPDOOR_BLOCKS.put(regName, reg.block(regName + "_trapdoor", TrapDoorBlock::new)
-        .initialProperties(ALT_METAL)
+      TRAPDOOR_BLOCKS.put(regName, reg.block(regName + "_trapdoor", p->new TrapDoorBlock(p, METAL_TYPE))
         .properties(props -> props.noOcclusion().strength(5, 5)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -427,7 +542,7 @@ public class Registration {
           prov.mcLoc("block/template_trapdoor_bottom"))
           .texture("texture", prov.modLoc("block/palettes/doors/" + regName + "_trapdoor"))
         ).build()
-        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get())
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get())
           .pattern("mm")
           .pattern("mm")
           .define('m', ingot.apply(metal))
@@ -446,14 +561,14 @@ public class Registration {
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
         .recipe((ctx, prov) -> {
           if (!metal.equals("Iron")) { // Iron will be handled as a polishing recipe
-            ShapedRecipeBuilder.shaped(ctx.get(), 16)
+            ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 16)
               .pattern("mmm")
               .pattern("mmm")
               .define('m', getter.apply(metal))
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(getter.apply(metal)))
               .save(prov);
           }
-          ShapelessRecipeBuilder.shapeless(ctx.get())
+          ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
             .requires(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_PANEL_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get()))
             .save(prov, new ResourceLocation(CreateDecoMod.MODID, metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_bars_from_panel"));
@@ -464,7 +579,7 @@ public class Registration {
         MetalDecoBuilders.buildBars(reg, (metal.equals("Iron") ? "Polished Iron" : metal), getter, "overlay", postFlag
         )
         .lang((metal.equals("Iron") ? "Polished Iron" : metal) + " Panel Bars ")
-        .recipe((ctx, prov) -> ShapelessRecipeBuilder.shapeless(ctx.get())
+        .recipe((ctx, prov) -> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
           .requires(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get())
           .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(BAR_BLOCKS.get(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_")).get()))
           .save(prov)
@@ -474,11 +589,11 @@ public class Registration {
         BAR_PANEL_BLOCKS.put("vanilla_iron", MetalDecoBuilders.buildBars(reg, metal, getter, "overlay")
           .lang(metal + " Panel Bars")
           .recipe((ctx, prov) -> {
-            ShapelessRecipeBuilder.shapeless(ctx.get())
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
               .requires(Items.IRON_BARS)
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.IRON_BARS))
               .save(prov);
-            ShapelessRecipeBuilder.shapeless(Items.IRON_BARS)
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, Items.IRON_BARS)
               .requires(ctx.get())
               .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(ctx.get()))
               .save(prov, new ResourceLocation(CreateDecoMod.MODID, "vanilla_metal_bars_from_panel"));
@@ -491,7 +606,6 @@ public class Registration {
     });
 
     CAST_IRON_BLOCK = reg.block("cast_iron_block", Block::new)
-      .initialProperties(ALT_METAL)
       .properties(props->
         props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -513,7 +627,6 @@ public class Registration {
         CreateDecoMod.MODID, "block/palettes/hull/" + regName + "_hull_side"
       );
       HULL_BLOCKS.put(regName, reg.block(regName + "_hull", HullBlock::new)
-        .initialProperties(ALT_METAL)
         .properties(props-> props.strength(5, (metal.contains("Netherite")) ? 1200 : 6)
           .requiresCorrectToolForDrops()
           .sound(SoundType.NETHERITE_BLOCK)
@@ -541,7 +654,7 @@ public class Registration {
                 .build();
             })
         )
-        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 2)
+        .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
           .pattern(" m ")
           .pattern("m m")
           .pattern(" m ")
@@ -579,7 +692,7 @@ public class Registration {
             .texture("particle", texture)
         ))
         .recipe((ctx,prov)->
-          ShapedRecipeBuilder.shaped(ctx.get(), 4)
+          ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 4)
             .pattern(" b ")
             .pattern("b b")
             .pattern(" b ")
@@ -619,7 +732,7 @@ public class Registration {
           .recipe((ctx, prov) ->
             prov.stonecutting(
               DataIngredient.tag(CDTags.of(regName, "plates").tag),
-              ctx, 2
+              RecipeCategory.DECORATIONS, ctx, 2
             )
           )
           .model((c, p) -> p.blockSprite(c, p.modLoc(main)))
@@ -631,16 +744,20 @@ public class Registration {
   }
 
   public static void registerItems(Registrate reg) {
-    reg.creativeModeTab(() -> DecoCreativeModeTab.BRICKS_GROUP, DecoCreativeModeTab.BRICKS_NAME);
+    reg.defaultCreativeTab(DecoCreativeModeTab.BRICKS_GROUP, DecoCreativeModeTab.BRICKS_KEY);
+
     BRICK_COLOR_NAMES.forEach((dye, name) -> {
       if (dye == null) {
         WORN_BRICK_ITEM = reg.item("worn_brick", Item::new)
-          .recipe((ctx, prov) -> prov.blasting(DataIngredient.items(Items.BRICK), ctx, 0.3f))
+          .recipe((ctx, prov) -> prov.blasting(
+            DataIngredient.items(Items.BRICK),
+            RecipeCategory.MISC, ctx, 0.3f
+          ))
           .register();
       } else {
         BRICK_ITEM.put(dye, reg.item(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_brick", Item::new)
           .lang(name + " Brick")
-          .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.get(), 8)
+          .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ctx.get(), 8)
             .pattern("bbb")
             .pattern("bCb")
             .pattern("bbb")
@@ -653,7 +770,9 @@ public class Registration {
       }
     });
 
-    reg.creativeModeTab(() -> DecoCreativeModeTab.METALS_GROUP, DecoCreativeModeTab.METALS_NAME);
+    reg.defaultCreativeTab(DecoCreativeModeTab.METALS_GROUP, DecoCreativeModeTab.METALS_KEY);
+    SheetMetal.registerBlocks(reg);
+
     ZINC_SHEET = reg.item("zinc_sheet", Item::new)
       .tag(CDTags.of("zinc", "plates").tag)
       .lang("Zinc Sheet")
@@ -669,19 +788,19 @@ public class Registration {
       .properties(Item.Properties::fireResistant)
       .tag(CDTags.of("netherite", "nuggets").tag)
       .lang("Netherite Nugget")
-      .recipe((ctx, prov) -> prov.storage(ctx, () -> Items.NETHERITE_INGOT))
+      .recipe((ctx, prov) -> prov.storage(ctx, RecipeCategory.MISC, () -> Items.NETHERITE_INGOT))
       .register();
 
     CAST_IRON_NUGGET = reg.item("cast_iron_nugget", Item::new)
       .tag(CDTags.of("cast_iron", "nuggets").tag)
       .lang("Cast Iron Nugget")
-      .recipe((ctx, prov) -> prov.storage(ctx, CAST_IRON_INGOT))
+      .recipe((ctx, prov) -> prov.storage(ctx, RecipeCategory.MISC, CAST_IRON_INGOT))
       .register();
 
     CAST_IRON_INGOT = reg.item("cast_iron_ingot", Item::new)
       .tag(CDTags.of("cast_iron", "ingots").tag)
       .lang("Cast Iron Ingot")
-      .recipe((ctx, prov) -> prov.storage(ctx, CAST_IRON_BLOCK))
+      .recipe((ctx, prov) -> prov.storage(ctx, RecipeCategory.MISC, CAST_IRON_BLOCK))
       .register();
 
     CAST_IRON_SHEET = reg.item("cast_iron_sheet", Item::new)

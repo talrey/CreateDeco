@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:cracked_worn_short_bricks_stairs_from_worn_short_bricks_stairs_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_worn_short_bricks_stairs": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:worn_short_bricks_stairs"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_worn_short_bricks_stairs",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_worn_short_bricks_stairs_from_worn_short_bricks_stairs_blasting"
+    ]
+  },
+  "sends_telemetry_event": false
+}
