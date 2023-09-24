@@ -2,12 +2,10 @@ package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.blocks.*;
 import com.github.talrey.createdeco.registry.*;
-import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 
 import com.simibubi.create.content.decoration.MetalLadderBlock;
 import com.tterrag.registrate.Registrate;
-import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
@@ -27,7 +25,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.function.Function;
 
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
+//import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class Registration {
 
@@ -103,16 +101,16 @@ public class Registration {
     BRICK_COLOR_NAMES.put(DyeColor.LIGHT_BLUE, "Blue");
     BRICK_COLOR_NAMES.put(null, "Red"); // this is funky but it works, I swear.
 
-    DOOR_TYPES.put("Andesite",   (str) -> AllItems.ANDESITE_ALLOY.get());
+    //DOOR_TYPES.put("Andesite",   (str) -> AllItems.ANDESITE_ALLOY.get());
     DOOR_TYPES.put("Copper",     (str) -> Items.COPPER_INGOT);
-    DOOR_TYPES.put("Zinc",       (str) -> AllItems.ZINC_INGOT.get());
-    DOOR_TYPES.put("Brass",      (str) -> AllItems.BRASS_INGOT.get());
+    //DOOR_TYPES.put("Zinc",       (str) -> AllItems.ZINC_INGOT.get());
+    //DOOR_TYPES.put("Brass",      (str) -> AllItems.BRASS_INGOT.get());
     DOOR_TYPES.put("Cast Iron",  (str) -> CAST_IRON_INGOT.get());
 
-    METAL_TYPES.put("Andesite", (str) -> AllItems.ANDESITE_ALLOY.get());
-    METAL_TYPES.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
+    //METAL_TYPES.put("Andesite", (str) -> AllItems.ANDESITE_ALLOY.get());
+    //METAL_TYPES.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
     METAL_TYPES.put("Copper", (str) -> Items.COPPER_INGOT);
-    METAL_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
+    //METAL_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
     METAL_TYPES.put("Iron", (str) -> Items.IRON_INGOT);
     METAL_TYPES.put("Gold", (str) -> Items.GOLD_INGOT);
     METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
@@ -188,15 +186,16 @@ public class Registration {
   public static void registerBlocks(Registrate reg) {
     reg.defaultCreativeTab(DecoCreativeModeTab.BRICKS_KEY);
 
-    BlockBuilder<Block, ?> wornBrick = BrickBuilders.buildBrick(reg, null, "", "Worn", "Bricks")
+    WORN_BRICK_TYPES.put(
+      "Worn Bricks", BrickBuilders.buildBrick(reg, null, "", "Worn", "Bricks")
       .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get())
         .pattern("bb")
         .pattern("bb")
         .define('b', WORN_BRICK_ITEM.get())
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(WORN_BRICK_ITEM.get()))
         .save(prov)
-      );
-    WORN_BRICK_TYPES.put("Worn Bricks", wornBrick.register());
+      ).register()
+    );
     String[] prefs = {"", "Cracked", "Mossy"};
     String[] sufs = {"Bricks", "Brick Tiles", "Long Bricks", "Short Bricks"};
     for (String pre : prefs) {
@@ -205,7 +204,10 @@ public class Registration {
         if (!(pre.equals("") && suf.equals("Bricks"))) {
           WORN_BRICK_TYPES.put(full, BrickBuilders.buildBrick(reg, null, pre, "Worn", suf)
             .recipe((ctx, prov) -> {
-              prov.stonecutting(DataIngredient.items(wornBrick.get()), RecipeCategory.BUILDING_BLOCKS, ctx);
+              prov.stonecutting(
+                DataIngredient.items(WORN_BRICK_TYPES.get("Worn Bricks").get()),
+                RecipeCategory.BUILDING_BLOCKS, ctx
+              );
               if (pre.equals("Cracked")) prov.blasting(
                 DataIngredient.items(WORN_BRICK_TYPES.get("Worn " + suf).asItem()),
                 RecipeCategory.BUILDING_BLOCKS, ctx, 0.5f
@@ -704,7 +706,7 @@ public class Registration {
         .initialProperties(()-> Blocks.LADDER)
         .addLayer(() -> RenderType::cutout)
         .properties(p -> p.sound(SoundType.COPPER))
-        .transform(pickaxeOnly())
+        //.transform(pickaxeOnly())
         .tag(BlockTags.CLIMBABLE)
         .blockstate((c, p) -> p.horizontalBlock(c.get(), p.models()
           .withExistingParent(c.getName(), p.modLoc("block/ladder"))
