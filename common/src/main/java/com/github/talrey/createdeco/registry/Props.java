@@ -21,7 +21,6 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -118,15 +117,7 @@ public class Props {
   ) {
     return reg.block(name.toLowerCase(Locale.ROOT).replaceAll(" ", "_")+"_coinstack_block", (p)->new CoinStackBlock(p, name))
       .properties(props -> props.noOcclusion().strength(0.5f).sound(SoundType.CHAIN))
-      .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
-        int layer = state.getValue(BlockStateProperties.LAYERS);
-        return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
-              ctx.getName() + "_" + layer, prov.modLoc("block/layers_bottom_top_" + layer)
-            )
-            .texture("side",   side)
-            .texture("bottom", bottom)
-            .texture("top",    top)
-        ).build(); }))
+      .blockstate((ctx,prov)-> PerLoaderRegistration.coinStackBlockState(side, bottom, top, ctx, prov))
       .addLayer(()-> RenderType::cutoutMipped)
       .lang(name + " Stack Block")
       .loot((table, block) -> {
@@ -194,23 +185,9 @@ public class Props {
     return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp",
         (p)-> new CageLampBlock(p, new Vector3f(0.3f, 0.3f, 0f)))
       .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN).lightLevel((state)-> state.getValue(BlockStateProperties.LIT)?15:0))
-      .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
-        int y = 0;
-        int x = 90;
-        switch (state.getValue(BlockStateProperties.FACING)) {
-          case NORTH -> y =   0;
-          case SOUTH -> y = 180;
-          case WEST  -> y = -90;
-          case EAST  -> y =  90;
-          case DOWN  -> x = 180;
-          default    -> x =   0; // up
-        }
-        return ConfiguredModel.builder().modelFile(prov.models()
-          .withExistingParent(ctx.getName() + (state.getValue(BlockStateProperties.LIT) ? "" : "_off"), prov.modLoc("block/cage_lamp"))
-          .texture("cage", cage)
-          .texture("lamp", state.getValue(BlockStateProperties.LIT) ? lampOn : lampOff)
-          .texture("particle", cage)
-        ).rotationX(x).rotationY(y).build(); }))
+      .blockstate((ctx,prov)-> PerLoaderRegistration.cageLampBlockState(
+        cage, lampOn, lampOff, ctx, prov
+      ))
       .addLayer(()-> RenderType::cutoutMipped)
       .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " " + name + " Cage Lamp")
       .simpleItem();
@@ -229,19 +206,7 @@ public class Props {
     for (DyeColor color : DyeColor.values()) {
       DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_decal", DecalBlock::new)
         .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN))
-        .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
-          int y = 0;
-          switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-            case NORTH: y =   0; break;
-            case SOUTH: y = 180; break;
-            case WEST:  y = -90; break;
-            case EAST:  y =  90; break;
-          }
-          return ConfiguredModel.builder().modelFile(prov.models()
-            .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
-            .texture("face", prov.modLoc("block/palettes/decal/" + ctx.getName()))
-            .texture("particle", prov.modLoc("block/palettes/decal/" + ctx.getName()))
-          ).rotationY(y).build(); }))
+        .blockstate(PerLoaderRegistration::decalBlockState)
         .addLayer(()-> RenderType::cutoutMipped)
         .lang(prettyName(color.name()) + "Decal")
         .item()

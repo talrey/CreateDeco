@@ -19,7 +19,7 @@ repositories {
 dependencies {
     // we depend on Fabric Loader to use fabric @Environment annotations + mixin deps
     //   don't use other classes from Fabric!
-    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
+//    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
     // compile against Create Fabric in common
     //   beware of platform differences!
     //   deps are only pulled in to minimize problems, avoid using them

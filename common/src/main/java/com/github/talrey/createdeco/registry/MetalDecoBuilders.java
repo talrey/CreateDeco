@@ -14,8 +14,6 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
-import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -71,54 +69,9 @@ public class MetalDecoBuilders {
     return reg.block(base + suf, IronBarsBlock::new)
       .properties(props -> props.noOcclusion().strength(5, (metal.equals("Netherite")) ? 1200 : 6)
         .sound(SoundType.NETHERITE_BLOCK))
-      .blockstate((ctx, prov) -> {
-        MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
-        BlockModelBuilder sideModel = prov.models().withExistingParent(
-            base + "_side", prov.mcLoc("block/iron_bars_side"))
-          .texture("bars", bartex)
-          .texture("edge", postex)
-          .texture("particle", postex);
-        BlockModelBuilder sideAltModel = prov.models().withExistingParent(
-            base + "_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
-          .texture("bars", bartex)
-          .texture("edge", postex)
-          .texture("particle", postex);
-
-        builder.part().modelFile(prov.models().withExistingParent(base + "_post", prov.mcLoc("block/iron_bars_post"))
-            .texture("bars", postex).texture("particle", postex)
-          ).addModel()
-          .condition(BlockStateProperties.NORTH, false)
-          .condition(BlockStateProperties.SOUTH, false)
-          .condition(BlockStateProperties.EAST, false)
-          .condition(BlockStateProperties.WEST, false)
-          .end();
-        builder.part().modelFile(
-          prov.models().withExistingParent(base + "_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
-            .texture("edge", postex).texture("particle", postex)
-        ).addModel().end();
-        builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
-        builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
-        builder.part().modelFile(sideAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
-        builder.part().modelFile(sideAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
-
-        if (!suf.equals("")) {
-          BlockModelBuilder sideOverlayModel = prov.models().withExistingParent(
-              base + suf, prov.mcLoc("block/iron_bars_side"))
-            .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
-            .texture("edge", postex)
-            .texture("particle", postex);
-          BlockModelBuilder sideOverlayAltModel = prov.models().withExistingParent(
-              base + suf + "_alt", prov.mcLoc("block/iron_bars_side_alt"))
-            .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + suf))
-            .texture("edge", postex)
-            .texture("particle", postex);
-
-          builder.part().modelFile(sideOverlayModel).addModel().condition(BlockStateProperties.NORTH, true).end();
-          builder.part().modelFile(sideOverlayModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
-          builder.part().modelFile(sideOverlayAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
-          builder.part().modelFile(sideOverlayAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
-        }
-      })
+      .blockstate((ctx, prov) -> PerLoaderRegistration.barBlockState(
+        base, post, bartex, postex, ctx, prov
+      ))
       .tag(BlockTags.WALLS)
       .addLayer(()-> RenderType::cutoutMipped)
       .item()
@@ -216,73 +169,7 @@ public class MetalDecoBuilders {
         "layer0", prov.modLoc("block/palettes/chain_link_fence/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_chain_link")))
       .build()
       .recipe(fenceRecipe(metal, (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null)))
-      .blockstate((ctx,prov)-> {
-        String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
-        String postDir = "block/palettes/sheet_metal/";
-        String meshDir = "block/palettes/chain_link_fence/";
-        ResourceLocation post = prov.modLoc(postDir + regName + "_sheet_metal");
-        ResourceLocation mesh = prov.modLoc(meshDir + regName + "_chain_link");
-
-        char[][] states = {
-          // N    S      E      W
-          {'f', 'f', 'f', 'f'}, // solo
-          {'t', 'x', 't', 'x'},   // NE corner / tri / cross
-          {'t', 'x', 'x', 't'},   // NW corner / tri / cross
-          {'x', 't', 't', 'x'},   // SE corner / tri / cross
-          {'x', 't', 'x', 't'},   // SW corner / tri / cross
-          {'t', 'f', 'f', 'f'},  // N end
-          {'f', 't', 'f', 'f'},  // S end
-          {'f', 'f', 't', 'f'},  // E end
-          {'f', 'f', 'f', 't'}   // W end
-        };
-        BlockModelBuilder center = prov.models().withExistingParent(
-          ctx.getName() + "_post", prov.mcLoc("block/fence_post")
-        ).texture("texture", post);
-        BlockModelBuilder side = prov.models().withExistingParent(
-          ctx.getName() + "_side", prov.modLoc("block/chainlink_fence_side")
-        ).texture("particle", mesh)
-          .texture("0", mesh);
-        MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
-        for (char[] state : states) {
-          MultiPartBlockStateBuilder.PartBuilder part = builder.part().modelFile(center).addModel();
-          if (state[0] == 't') {
-            part.condition(BlockStateProperties.NORTH, true);
-          }
-          else if (state[0] == 'f') {
-            part.condition(BlockStateProperties.NORTH, false);
-          } // else 'x' don't care
-          if (state[1] == 't') {
-            part.condition(BlockStateProperties.SOUTH, true);
-          }
-          else if (state[1] == 'f') {
-            part.condition(BlockStateProperties.SOUTH, false);
-          } // else 'x' don't care
-          if (state[2] == 't') {
-            part.condition(BlockStateProperties.EAST, true);
-          }
-          else if (state[2] == 'f') {
-            part.condition(BlockStateProperties.EAST, false);
-          } // else 'x' don't care
-          if (state[3] == 't') {
-            part.condition(BlockStateProperties.WEST, true);
-          }
-          else if (state[3] == 'f') {
-            part.condition(BlockStateProperties.WEST, false);
-          } // else 'x' don't care
-          part.end();
-        }
-        builder.part().modelFile(side).addModel()
-          .condition(BlockStateProperties.EAST, true).end();
-        builder.part().modelFile(side)
-          .rotationY(90).addModel()
-          .condition(BlockStateProperties.SOUTH, true).end();
-        builder.part().modelFile(side)
-          .rotationY(180).addModel()
-          .condition(BlockStateProperties.WEST, true).end();
-        builder.part().modelFile(side)
-          .rotationY(270).addModel()
-          .condition(BlockStateProperties.NORTH, true).end();
-      });
+      .blockstate((ctx,prov)-> PerLoaderRegistration.fenceBlockState(metal, ctx, prov));
   }
 
   private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> catwalkRecipe (
@@ -331,53 +218,7 @@ public class MetalDecoBuilders {
       )
       .build()
       .recipe(catwalkRecipe(metal, (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null)))
-      .blockstate((ctx,prov)-> {
-        String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
-
-        BlockModelBuilder lower = prov.models().withExistingParent(ctx.getName()+"_bottom", prov.modLoc("block/catwalk_bottom"))
-          .texture("2", texture)
-          .texture("particle", texture);
-        BlockModelBuilder upper = prov.models().withExistingParent(ctx.getName()+"_top", prov.modLoc("block/catwalk_top"))
-          .texture("2", texture)
-          .texture("particle", texture);
-        BlockModelBuilder rail_upper = prov.models().withExistingParent(ctx.getName()+"_rail_upper",
-            prov.modLoc("block/catwalk_rail_upper"))
-          .texture("3", texture + "_rail")
-          .texture("particle", texture + "_rail");
-        BlockModelBuilder rail_lower = prov.models().withExistingParent(ctx.getName()+"_rail_lower",
-            prov.modLoc("block/catwalk_rail_lower"))
-          .texture("3", texture + "_rail")
-          .texture("particle", texture + "_rail");
-
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(lower).addModel().condition(BlockStateProperties.BOTTOM, true).end();
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(upper).addModel().condition(BlockStateProperties.BOTTOM, false).end();
-
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY( 90).addModel()
-          .condition(BlockStateProperties.BOTTOM, true)
-          .condition(BlockStateProperties.NORTH, true).end();
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(-90).addModel()
-          .condition(BlockStateProperties.BOTTOM, true)
-          .condition(BlockStateProperties.SOUTH, true).end();
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(180).addModel()
-          .condition(BlockStateProperties.BOTTOM, true)
-          .condition(BlockStateProperties.EAST,  true).end();
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(  0).addModel()
-          .condition(BlockStateProperties.BOTTOM, true)
-          .condition(BlockStateProperties.WEST,  true).end();
-
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY( 90).addModel()
-          .condition(BlockStateProperties.BOTTOM, false)
-          .condition(BlockStateProperties.NORTH, true).end();
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(-90).addModel()
-          .condition(BlockStateProperties.BOTTOM, false)
-          .condition(BlockStateProperties.SOUTH, true).end();
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(180).addModel()
-          .condition(BlockStateProperties.BOTTOM, false)
-          .condition(BlockStateProperties.EAST,  true).end();
-        prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_upper).rotationY(  0).addModel()
-          .condition(BlockStateProperties.BOTTOM, false)
-          .condition(BlockStateProperties.WEST,  true).end();
-      })
+      .blockstate((ctx,prov)-> PerLoaderRegistration.catwalkBlockState(reg, metal, ctx, prov))
       .onRegister(CreateRegistrate.connectedTextures(
         new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
       ));
@@ -394,13 +235,7 @@ public class MetalDecoBuilders {
         .addLayer(()-> RenderType::cutoutMipped)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
         .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
-        .blockstate((ctx,prov)-> {
-          BlockModelBuilder builder = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
-            .texture("2", texture + "_rail")
-            .texture("3", texture + "_stairs")
-            .texture("particle", texture  +"_rail");
-          prov.horizontalBlock(ctx.get(), builder);
-        })
+        .blockstate((ctx,prov)-> PerLoaderRegistration.catwalkStairBlockState(texture, ctx, prov))
         .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
           .pattern(" c")
           .pattern("cb")

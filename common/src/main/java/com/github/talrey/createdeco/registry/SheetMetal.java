@@ -14,10 +14,8 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
@@ -153,26 +151,7 @@ public class SheetMetal {
       .properties(p -> (name.contains("Netherite")) ? p.fireResistant() : p)
       .build()
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-      .blockstate(((ctx,prov)-> {
-        BlockModelBuilder half = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/vertical_slab"))
-          .texture("side", texture);
-        BlockModelBuilder both = prov.models().cubeAll(ctx.getName()+"_double", texture);
-
-        int y = 0;
-        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
-          switch (dir) {
-            case NORTH: y =   0; break;
-            case SOUTH: y = 180; break;
-            case WEST:  y = -90; break;
-            case EAST:  y =  90; break;
-          }
-          prov.getMultipartBuilder(ctx.get()).part().modelFile(half).rotationY(y).addModel()
-            .condition(BlockStateProperties.SLAB_TYPE, SlabType.BOTTOM)
-            .condition(BlockStateProperties.HORIZONTAL_FACING, dir).end();
-          prov.getMultipartBuilder(ctx.get()).part().modelFile(both).rotationY(y).addModel()
-            .condition(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE).end();
-        }
-      }))
+      .blockstate((ctx,prov)-> PerLoaderRegistration.sheetMetalVertBlockState(texture, ctx, prov))
       .loot((table, block) -> {
         LootTable.Builder builder = LootTable.lootTable();
         LootPool.Builder pool     = LootPool.lootPool();

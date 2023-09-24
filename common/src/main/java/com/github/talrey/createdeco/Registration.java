@@ -11,10 +11,8 @@ import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.DataIngredient;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -24,7 +22,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -639,21 +636,7 @@ public class Registration {
           .build()
         .tag(BlockTags.STAIRS)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-        .blockstate((ctx,prov)->
-          prov.getVariantBuilder(ctx.get())
-            .forAllStates(state -> {
-              Direction dir = state.getValue(BlockStateProperties.FACING);
-              return ConfiguredModel.builder()
-                .modelFile(prov.models().withExistingParent(
-                  ctx.getName(), prov.modLoc("train_hull"))
-                  .texture("0", front)
-                  .texture("1", side)
-                  .texture("particle", front))
-                .rotationX(dir == Direction.DOWN ? 270 : dir.getAxis().isHorizontal() ? 0 : 90)
-                .rotationY(dir.getAxis().isVertical() ? 0 : (((int) dir.toYRot()) + 0) % 360)
-                .build();
-            })
-        )
+        .blockstate((ctx,prov)-> PerLoaderRegistration.hullBlockState(front, side, ctx, prov))
         .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
           .pattern(" m ")
           .pattern("m m")

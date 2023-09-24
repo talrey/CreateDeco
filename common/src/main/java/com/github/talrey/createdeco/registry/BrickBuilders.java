@@ -3,10 +3,7 @@ package com.github.talrey.createdeco.registry;
 import com.github.talrey.createdeco.blocks.VerticalSlabBlock;
 import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.BlockBuilder;
-import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.*;
@@ -96,28 +93,7 @@ public class BrickBuilders {
     return ret.properties(props -> props.strength(2,6).requiresCorrectToolForDrops()
         .sound(SoundType.STONE)
       )
-      .blockstate((ctx,prov)-> {
-        String texLoc = "block/palettes/bricks/" + name.toLowerCase(Locale.ROOT) + "/" + pre + name.toLowerCase(Locale.ROOT)+"_" + suf;
-        ResourceLocation tex = prov.modLoc(texLoc);
-        BlockModelBuilder half = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/vertical_slab"))
-          .texture("side", tex);
-        BlockModelBuilder both = prov.models().cubeAll(ctx.getName()+"_double", tex);
-
-        int y = 0;
-        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
-          switch (dir) {
-            case NORTH -> y = 0;
-            case SOUTH -> y = 180;
-            case WEST -> y = -90;
-            case EAST -> y = 90;
-          }
-          prov.getMultipartBuilder(ctx.get()).part().modelFile(half).rotationY(y).addModel()
-            .condition(BlockStateProperties.SLAB_TYPE, SlabType.BOTTOM)
-            .condition(BlockStateProperties.HORIZONTAL_FACING, dir).end();
-          prov.getMultipartBuilder(ctx.get()).part().modelFile(both).rotationY(y).addModel()
-            .condition(BlockStateProperties.SLAB_TYPE, SlabType.DOUBLE).end();
-        }
-      })
+      .blockstate((ctx,prov)-> PerLoaderRegistration.brickVertBlockState(pre, name, suf, ctx, prov))
       .loot((table, block) -> {
         LootTable.Builder builder = LootTable.lootTable();
         LootPool.Builder pool     = LootPool.lootPool();
