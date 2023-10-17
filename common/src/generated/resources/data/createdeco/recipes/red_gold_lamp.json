@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "n": {
+      "tag": "createdeco:internal/nuggets/gold_nuggets"
+    },
+    "p": {
+      "tag": "createdeco:internal/plates/gold_plates"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "result": {
+    "item": "createdeco:red_gold_lamp"
+  },
+  "show_notification": true
+}

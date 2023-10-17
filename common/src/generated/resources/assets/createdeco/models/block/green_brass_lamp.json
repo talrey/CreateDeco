@@ -1,0 +1,8 @@
+{
+  "parent": "createdeco:block/cage_lamp",
+  "textures": {
+    "cage": "createdeco:block/palettes/cage_lamp/brass_lamp",
+    "lamp": "createdeco:block/palettes/cage_lamp/light_green",
+    "particle": "createdeco:block/palettes/cage_lamp/brass_lamp"
+  }
+}

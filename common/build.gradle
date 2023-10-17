@@ -29,6 +29,17 @@ dependencies {
     modCompileOnly("com.simibubi.create:create-fabric-${minecraft_version}:${create_fabric_version}")
 }
 
+processResources {
+    exclude("resourcepacks/")
+}
+
+sourceSets.main {
+    resources {
+        srcDir("src/generated/resources")
+        exclude("src/generated/resources/.cache")
+    }
+}
+
 publishing {
     publications {
         mavenCommon(MavenPublication) {

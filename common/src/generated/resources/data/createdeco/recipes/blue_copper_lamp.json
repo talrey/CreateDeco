@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "n": {
+      "tag": "createdeco:internal/nuggets/copper_nuggets"
+    },
+    "p": {
+      "tag": "createdeco:internal/plates/copper_plates"
+    },
+    "t": {
+      "item": "minecraft:soul_torch"
+    }
+  },
+  "pattern": [
+    "n",
+    "t",
+    "p"
+  ],
+  "result": {
+    "item": "createdeco:blue_copper_lamp"
+  },
+  "show_notification": true
+}
