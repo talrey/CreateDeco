@@ -8,6 +8,7 @@ import net.fabricmc.api.ModInitializer;
 public class CreateDecoModFabric implements ModInitializer {
     @Override
     public void onInitialize() {
+        CreativeTabsImpl.register();
         CreateDecoMod.init();
         CreateDecoMod.LOGGER.info(EnvExecutor.unsafeRunForDist(
                 () -> () -> "{} is accessing Porting Lib on a Fabric client!",

@@ -1,8 +1,10 @@
 package com.github.talrey.createdeco.api;
 
+import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.BlockStateGenerator;
 import com.github.talrey.createdeco.CatwalkBlockItem;
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
+import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.simibubi.create.AllItems;
@@ -81,28 +83,30 @@ public class Catwalks {
       ));
   }
 
-//  public static BlockBuilder<CatwalkStairBlock,?> buildCatwalkStair (Registrate reg, String metal) {
-//    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
-//    String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
-//    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stairs", CatwalkStairBlock::new)
-//      .properties(props->
-//        props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
-//          .sound(SoundType.NETHERITE_BLOCK)
-//      )
-//      .addLayer(()-> RenderType::cutoutMipped)
-//      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-//      .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
-//      .blockstate((ctx,prov)-> PerLoaderRegistration.catwalkStairBlockState(texture, ctx, prov))
-//      .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
-//        .pattern(" c")
-//        .pattern("cb")
-//        .define('c', Registration.CATWALK_BLOCKS.get(regName).get())
-//        .define('b', Registration.BAR_BLOCKS.get(regName).get())
-//        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-//          Registration.CATWALK_BLOCKS.get(regName).get()
-//        ))
-//        .save(prov)
-//      )
-//      .simpleItem();
-//  }
+  public static BlockBuilder<CatwalkStairBlock,?> buildStair (
+    CreateRegistrate reg, String metal, ItemLike barItem
+  ) {
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
+    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stairs", CatwalkStairBlock::new)
+      .properties(props->
+        props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
+          .sound(SoundType.NETHERITE_BLOCK)
+      )
+      .addLayer(()-> RenderType::cutoutMipped)
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+      .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+      .blockstate((ctx,prov)-> BlockStateGenerator.catwalkStair(texture, ctx, prov))
+      .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
+        .pattern(" c")
+        .pattern("cb")
+        .define('c', BlockRegistry.CATWALKS.get(regName).get())
+        .define('b', barItem)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+          BlockRegistry.CATWALKS.get(regName).get()
+        ))
+        .save(prov)
+      )
+      .simpleItem();
+  }
 }

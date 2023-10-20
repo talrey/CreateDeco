@@ -5,6 +5,7 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -60,5 +61,15 @@ public class BlockStateGeneratorImpl {
           .replaceAll(" ", "_") + "_catwalk"
         )
       );
+  }
+
+  public static void catwalkStair (
+    String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    BlockModelBuilder builder = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
+      .texture("2", texture + "_rail")
+      .texture("3", texture + "_stairs")
+      .texture("particle", texture  +"_rail");
+    prov.horizontalBlock(ctx.get(), builder);
   }
 }

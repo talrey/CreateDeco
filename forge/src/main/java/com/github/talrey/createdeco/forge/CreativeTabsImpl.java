@@ -34,7 +34,9 @@ public class CreativeTabsImpl {
   private static CreativeModeTab group (String name, Supplier<ItemStack> item) {
     CreativeModeTab tab = CreativeModeTab.builder()
       .icon(item)
-      .title(Component.translatable("itemGroup." + CreateDecoMod.MOD_ID + "." + name))
+      .title(Component.translatableWithFallback(
+        "itemGroup." + CreateDecoMod.MOD_ID + "." + name, "Create Deco Props"
+      ))
       .build();
     return tab;
   }

@@ -36,4 +36,12 @@ public class BlockStateGeneratorImpl {
   ) {
     ConfiguredModel.builder().modelFile(prov.getExistingFile(prov.modLoc(ctx.getName())));
   }
+
+  public static void catwalkStair (
+    String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
 }

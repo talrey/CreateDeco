@@ -9,8 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-import java.util.Locale;
-
 public class BlockStateGenerator {
   @ExpectPlatform
   public static void cageLamp (
@@ -31,6 +29,13 @@ public class BlockStateGenerator {
   @ExpectPlatform
   public static void catwalkItem (
     String metal, DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void catwalkStair (
+    String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
     throw new AssertionError();
   }

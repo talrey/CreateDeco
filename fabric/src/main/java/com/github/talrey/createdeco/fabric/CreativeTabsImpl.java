@@ -22,6 +22,8 @@ public class CreativeTabsImpl {
       .icon(()->BlockRegistry.GREEN_CAGE_LAMPS.get("Brass").asStack())
       .build());
 
+  public static void register () {}
+
   public static CreativeModeTab props () {
     return PROPS.tab();
   }
