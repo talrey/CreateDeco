@@ -1,4 +1,5 @@
 {
+  "block.createdeco.andesite_catwalk": "Andesite Catwalk",
   "block.createdeco.blue_andesite_lamp": "Blue Andesite Cage Lamp",
   "block.createdeco.blue_brass_lamp": "Blue Brass Cage Lamp",
   "block.createdeco.blue_copper_lamp": "Blue Copper Cage Lamp",
@@ -6,6 +7,9 @@
   "block.createdeco.blue_iron_lamp": "Blue Iron Cage Lamp",
   "block.createdeco.blue_netherite_lamp": "Blue Netherite Cage Lamp",
   "block.createdeco.blue_zinc_lamp": "Blue Zinc Cage Lamp",
+  "block.createdeco.brass_catwalk": "Brass Catwalk",
+  "block.createdeco.copper_catwalk": "Copper Catwalk",
+  "block.createdeco.gold_catwalk": "Gold Catwalk",
   "block.createdeco.green_andesite_lamp": "Green Andesite Cage Lamp",
   "block.createdeco.green_brass_lamp": "Green Brass Cage Lamp",
   "block.createdeco.green_copper_lamp": "Green Copper Cage Lamp",
@@ -13,6 +17,8 @@
   "block.createdeco.green_iron_lamp": "Green Iron Cage Lamp",
   "block.createdeco.green_netherite_lamp": "Green Netherite Cage Lamp",
   "block.createdeco.green_zinc_lamp": "Green Zinc Cage Lamp",
+  "block.createdeco.iron_catwalk": "Iron Catwalk",
+  "block.createdeco.netherite_catwalk": "Netherite Catwalk",
   "block.createdeco.red_andesite_lamp": "Red Andesite Cage Lamp",
   "block.createdeco.red_brass_lamp": "Red Brass Cage Lamp",
   "block.createdeco.red_copper_lamp": "Red Copper Cage Lamp",
@@ -26,5 +32,6 @@
   "block.createdeco.yellow_gold_lamp": "Yellow Gold Cage Lamp",
   "block.createdeco.yellow_iron_lamp": "Yellow Iron Cage Lamp",
   "block.createdeco.yellow_netherite_lamp": "Yellow Netherite Cage Lamp",
-  "block.createdeco.yellow_zinc_lamp": "Yellow Zinc Cage Lamp"
+  "block.createdeco.yellow_zinc_lamp": "Yellow Zinc Cage Lamp",
+  "block.createdeco.zinc_catwalk": "Zinc Catwalk"
 }

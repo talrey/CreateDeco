@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "p": {
+      "tag": "createdeco:internal/plates/netherite_plates"
+    }
+  },
+  "pattern": [
+    " p ",
+    "pBp",
+    " p "
+  ],
+  "result": {
+    "count": 3,
+    "item": "createdeco:netherite_catwalk"
+  },
+  "show_notification": true
+}

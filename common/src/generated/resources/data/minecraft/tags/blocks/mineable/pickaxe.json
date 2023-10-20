@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "createdeco:gold_catwalk",
+    "createdeco:netherite_catwalk",
+    "createdeco:andesite_catwalk",
+    "createdeco:brass_catwalk",
+    "createdeco:iron_catwalk",
+    "createdeco:copper_catwalk",
+    "createdeco:zinc_catwalk"
+  ]
+}

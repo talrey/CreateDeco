@@ -2,36 +2,22 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"2": "createdeco:block/palettes/catwalks/andesite_catwalk",
-		"particle": "createdeco:create_deco/andesite_catwalk_rail"
+		"particle": "createdeco:create_deco/andesite_catwalk"
 	},
 	"elements": [
 		{
 			"name": "floor",
-			"from": [0, -2, 0],
-			"to": [16, 0, 16],
+			"from": [0, 14, 0],
+			"to": [16, 16, 16],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 2, 16], "rotation": 90, "texture": "#2", "cullface": "north"},
 				"east": {"uv": [0, 0, 2, 16], "rotation": 90, "texture": "#2", "cullface":  "east"},
 				"south": {"uv": [0, 0, 2, 16], "rotation": 90, "texture": "#2", "cullface": "south"},
 				"west": {"uv": [0, 0, 2, 16], "rotation": 90, "texture": "#2", "cullface": "west"},
-				"up": {"uv": [0, 0, 16, 16], "texture": "#2"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface": "down"}
+				"up": {"uv": [0, 0, 16, 16], "texture": "#2", "cullface":  "up"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#2"}
 			}
-		}
-	],
-	"groups": [0,
-		{
-			"name": "rail_side_right",
-			"origin": [15, 23, 4],
-			"color": 0,
-			"children": []
-		},
-		{
-			"name": "rail_side_left",
-			"origin": [1, 23, 4],
-			"color": 0,
-			"children": []
 		}
 	]
 }

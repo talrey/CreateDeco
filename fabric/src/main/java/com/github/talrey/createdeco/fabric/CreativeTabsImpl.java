@@ -2,6 +2,7 @@ package com.github.talrey.createdeco.fabric;
 
 import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.CreateDecoMod;
+import com.github.talrey.createdeco.CreativeTabs;
 import com.simibubi.create.AllCreativeModeTabs;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
@@ -15,10 +16,10 @@ import net.minecraft.world.item.CreativeModeTab;
 import java.util.function.Supplier;
 
 public class CreativeTabsImpl {
-  private static final AllCreativeModeTabs.TabInfo PROPS = register("props_tab",
+  private static final AllCreativeModeTabs.TabInfo PROPS = register(CreativeTabs.PROPS_KEY,
     ()-> FabricItemGroup.builder()
       .title(Component.translatableWithFallback("props_tab", "Create Deco Props"))
-      .icon(()-> BlockRegistry.GREEN_CAGE_LAMPS.get("Brass").asStack())
+      .icon(()->BlockRegistry.GREEN_CAGE_LAMPS.get("Brass").asStack())
       .build());
 
   public static CreativeModeTab props () {

@@ -1,14 +1,13 @@
 package com.github.talrey.createdeco.api;
 
+import com.github.talrey.createdeco.BlockStateGenerator;
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.blocks.CageLampBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
-import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.client.renderer.RenderType;
@@ -82,38 +81,13 @@ public class CageLamps {
     };
   }
 
-  public static void blockState (
-    ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
-      int y = 0;
-      int x = 90;
-      switch (state.getValue(BlockStateProperties.FACING)) {
-        case NORTH -> y =   0;
-        case SOUTH -> y = 180;
-        case WEST  -> y = -90;
-        case EAST  -> y =  90;
-        case DOWN  -> x = 180;
-        default    -> x =   0; // up
-      }
-      return ConfiguredModel.builder().modelFile(prov.models()
-        .withExistingParent(ctx.getName() + (state.getValue(BlockStateProperties.LIT) ? "" : "_off"), prov.modLoc("block/cage_lamp"))
-        .texture("cage", cage)
-        .texture("lamp", state.getValue(BlockStateProperties.LIT) ? lampOn : lampOff)
-        .texture("particle", cage)
-      ).rotationX(x).rotationY(y).build(); });
-  }
-
   public static BlockBuilder<CageLampBlock, ?> build (
     CreateRegistrate reg, String name, DyeColor color, ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff
   ) {
     return reg.block(color.getName().toLowerCase(Locale.ROOT) + "_" + name.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp",
         (p)-> new CageLampBlock(p, new Vector3f(0.3f, 0.3f, 0f)))
       .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN).lightLevel((state)-> state.getValue(BlockStateProperties.LIT)?15:0))
-      .blockstate((ctx,prov)-> blockState(
-        cage, lampOn, lampOff, ctx, prov
-      ))
+      .blockstate((ctx,prov)-> BlockStateGenerator.cageLamp(cage, lampOn, lampOff, ctx, prov))
       .addLayer(()-> RenderType::cutoutMipped)
       .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase() + " " + name + " Cage Lamp")
       .simpleItem();
