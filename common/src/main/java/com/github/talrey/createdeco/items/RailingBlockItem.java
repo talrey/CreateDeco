@@ -1,6 +1,7 @@
-package com.github.talrey.createdeco;
+package com.github.talrey.createdeco.items;
 
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
+import com.github.talrey.createdeco.blocks.CatwalkRailingBlock;
 import com.simibubi.create.foundation.placement.IPlacementHelper;
 import com.simibubi.create.foundation.placement.PlacementHelpers;
 import com.simibubi.create.foundation.placement.PlacementOffset;
@@ -14,17 +15,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-public class CatwalkBlockItem extends BlockItem {
+public class RailingBlockItem extends BlockItem {
   private final int placementHelperID;
 
-  public CatwalkBlockItem (CatwalkBlock block, Properties props) {
+  public RailingBlockItem (CatwalkRailingBlock block, Properties props) {
     super(block, props);
-    placementHelperID = PlacementHelpers.register(new CatwalkHelper());
+    placementHelperID = PlacementHelpers.register(new RailingHelper());
   }
 
   @Override
@@ -40,32 +42,36 @@ public class CatwalkBlockItem extends BlockItem {
     if (helper.matchesState(state) && player != null) {
       return helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
     }
-    return super.useOn(ctx);
+    return InteractionResult.PASS;
   }
 
   @MethodsReturnNonnullByDefault
-  public static class CatwalkHelper implements IPlacementHelper {
+  public static class RailingHelper implements IPlacementHelper {
     @Override
     public Predicate<ItemStack> getItemPredicate () {
-      return (Predicate<ItemStack>) CatwalkBlock::isCatwalk;
+      return CatwalkRailingBlock::isRailing;
     }
 
     @Override
     public Predicate<BlockState> getStatePredicate () {
-      return state -> CatwalkBlock.isCatwalk(state.getBlock());
+      return state -> CatwalkRailingBlock.isRailing(state.getBlock());
     }
 
     @Override
     public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos, BlockHitResult ray) {
       Direction face = ray.getDirection();
       if (face.getAxis() != Direction.Axis.Y) {
-        return PlacementOffset.success(pos.offset(face.getNormal()), offsetState -> offsetState);
+        return PlacementOffset.success(pos.offset(face.getNormal()), offsetState -> offsetState
+          .setValue(CatwalkRailingBlock.fromDirection(face), true)
+        );
       }
       List<Direction> dirs = IPlacementHelper.orderedByDistanceExceptAxis(pos, ray.getLocation(), Direction.Axis.Y);
       for (Direction dir : dirs) {
-        BlockPos newPos = pos.relative(dir);
-        if (!CatwalkBlock.canPlaceCatwalk(world, newPos)) continue;
-        return PlacementOffset.success(newPos, offsetState -> offsetState);
+        BlockPos newPos = pos.offset(dir.getNormal());
+        if (!world.getBlockState(newPos).canBeReplaced()) continue;
+        return PlacementOffset.success(newPos, offsetState -> offsetState
+          .setValue(CatwalkRailingBlock.fromDirection(face), true)
+        );
       }
       return PlacementOffset.fail();
     }

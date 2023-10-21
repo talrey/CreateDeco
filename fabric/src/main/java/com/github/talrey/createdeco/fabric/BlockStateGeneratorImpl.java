@@ -8,6 +8,7 @@ import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredM
 import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -71,5 +72,33 @@ public class BlockStateGeneratorImpl {
       .texture("3", texture + "_stairs")
       .texture("particle", texture  +"_rail");
     prov.horizontalBlock(ctx.get(), builder);
+  }
+
+  public static void catwalkRailing (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
+
+    BlockModelBuilder rail_lower = prov.models().withExistingParent(ctx.getName(),
+        prov.modLoc("block/catwalk_rail"))
+      .texture("3", texture + "_rail")
+      .texture("particle", texture + "_rail");
+
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY( 90).addModel()
+      .condition(BlockStateProperties.NORTH, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(-90).addModel()
+      .condition(BlockStateProperties.SOUTH, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(180).addModel()
+      .condition(BlockStateProperties.EAST,  true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(  0).addModel()
+      .condition(BlockStateProperties.WEST,  true).end();
+  }
+
+  public static void catwalkRailingItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
   }
 }

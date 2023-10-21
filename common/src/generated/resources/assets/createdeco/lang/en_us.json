@@ -1,5 +1,6 @@
 {
   "block.createdeco.andesite_catwalk": "Andesite Catwalk",
+  "block.createdeco.andesite_catwalk_railing": "Andesite Catwalk Railing",
   "block.createdeco.andesite_catwalk_stairs": "Andesite Catwalk Stairs",
   "block.createdeco.blue_andesite_lamp": "Blue Andesite Cage Lamp",
   "block.createdeco.blue_brass_lamp": "Blue Brass Cage Lamp",
@@ -9,10 +10,13 @@
   "block.createdeco.blue_netherite_lamp": "Blue Netherite Cage Lamp",
   "block.createdeco.blue_zinc_lamp": "Blue Zinc Cage Lamp",
   "block.createdeco.brass_catwalk": "Brass Catwalk",
+  "block.createdeco.brass_catwalk_railing": "Brass Catwalk Railing",
   "block.createdeco.brass_catwalk_stairs": "Brass Catwalk Stairs",
   "block.createdeco.copper_catwalk": "Copper Catwalk",
+  "block.createdeco.copper_catwalk_railing": "Copper Catwalk Railing",
   "block.createdeco.copper_catwalk_stairs": "Copper Catwalk Stairs",
   "block.createdeco.gold_catwalk": "Gold Catwalk",
+  "block.createdeco.gold_catwalk_railing": "Gold Catwalk Railing",
   "block.createdeco.gold_catwalk_stairs": "Gold Catwalk Stairs",
   "block.createdeco.green_andesite_lamp": "Green Andesite Cage Lamp",
   "block.createdeco.green_brass_lamp": "Green Brass Cage Lamp",
@@ -22,8 +26,10 @@
   "block.createdeco.green_netherite_lamp": "Green Netherite Cage Lamp",
   "block.createdeco.green_zinc_lamp": "Green Zinc Cage Lamp",
   "block.createdeco.iron_catwalk": "Iron Catwalk",
+  "block.createdeco.iron_catwalk_railing": "Iron Catwalk Railing",
   "block.createdeco.iron_catwalk_stairs": "Iron Catwalk Stairs",
   "block.createdeco.netherite_catwalk": "Netherite Catwalk",
+  "block.createdeco.netherite_catwalk_railing": "Netherite Catwalk Railing",
   "block.createdeco.netherite_catwalk_stairs": "Netherite Catwalk Stairs",
   "block.createdeco.red_andesite_lamp": "Red Andesite Cage Lamp",
   "block.createdeco.red_brass_lamp": "Red Brass Cage Lamp",
@@ -40,5 +46,6 @@
   "block.createdeco.yellow_netherite_lamp": "Yellow Netherite Cage Lamp",
   "block.createdeco.yellow_zinc_lamp": "Yellow Zinc Cage Lamp",
   "block.createdeco.zinc_catwalk": "Zinc Catwalk",
+  "block.createdeco.zinc_catwalk_railing": "Zinc Catwalk Railing",
   "block.createdeco.zinc_catwalk_stairs": "Zinc Catwalk Stairs"
 }

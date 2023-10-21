@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/catwalk_rail",
+  "textures": {
+    "3": "createdeco:block/palettes/catwalks/andesite_catwalk_rail",
+    "particle": "createdeco:block/palettes/catwalks/andesite_catwalk_rail"
+  }
+}

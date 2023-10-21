@@ -3,17 +3,24 @@
   "values": [
     "createdeco:gold_catwalk",
     "createdeco:gold_catwalk_stairs",
+    "createdeco:gold_catwalk_railing",
     "createdeco:netherite_catwalk",
     "createdeco:netherite_catwalk_stairs",
+    "createdeco:netherite_catwalk_railing",
     "createdeco:andesite_catwalk",
     "createdeco:andesite_catwalk_stairs",
+    "createdeco:andesite_catwalk_railing",
     "createdeco:brass_catwalk",
     "createdeco:brass_catwalk_stairs",
+    "createdeco:brass_catwalk_railing",
     "createdeco:iron_catwalk",
     "createdeco:iron_catwalk_stairs",
+    "createdeco:iron_catwalk_railing",
     "createdeco:copper_catwalk",
     "createdeco:copper_catwalk_stairs",
+    "createdeco:copper_catwalk_railing",
     "createdeco:zinc_catwalk",
-    "createdeco:zinc_catwalk_stairs"
+    "createdeco:zinc_catwalk_stairs",
+    "createdeco:zinc_catwalk_railing"
   ]
 }

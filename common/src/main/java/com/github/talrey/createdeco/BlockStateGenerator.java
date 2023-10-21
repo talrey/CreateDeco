@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco;
 
+import com.ibm.icu.impl.Assert;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -36,6 +37,21 @@ public class BlockStateGenerator {
   @ExpectPlatform
   public static void catwalkStair (
     String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void catwalkRailing (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  public static void catwalkRailingItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
   ) {
     throw new AssertionError();
   }

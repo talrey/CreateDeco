@@ -2,11 +2,13 @@ package com.github.talrey.createdeco.api;
 
 import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.BlockStateGenerator;
-import com.github.talrey.createdeco.CatwalkBlockItem;
+import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
+import com.github.talrey.createdeco.blocks.CatwalkRailingBlock;
 import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
+import com.github.talrey.createdeco.items.RailingBlockItem;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -108,5 +110,24 @@ public class Catwalks {
         .save(prov)
       )
       .simpleItem();
+  }
+
+  public static BlockBuilder<CatwalkRailingBlock,?> buildRailing (
+    CreateRegistrate reg, String metal, ItemLike barItem
+  ) {
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
+    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_railing", CatwalkRailingBlock::new)
+      .properties(props->
+        props.strength(5, (metal.equals("Netherite")) ? 1200 : 6)
+          .requiresCorrectToolForDrops().noOcclusion().sound(SoundType.NETHERITE_BLOCK)
+      )
+      .addLayer(()-> RenderType::cutoutMipped)
+      .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+      .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
+      .blockstate((ctx,prov)-> BlockStateGenerator.catwalkRailing(reg, metal, ctx, prov))
+      .recipe((ctx,prov)-> {})
+      .item(RailingBlockItem::new)
+      .build();
   }
 }

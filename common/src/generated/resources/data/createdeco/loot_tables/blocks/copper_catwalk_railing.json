@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "createdeco:copper_catwalk_railing"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "createdeco:blocks/copper_catwalk_railing"
+}

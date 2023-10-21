@@ -1,5 +1,6 @@
 {
   "block.createdeco.andesite_catwalk": "ʞןɐʍʇɐƆ ǝʇısǝpuⱯ",
+  "block.createdeco.andesite_catwalk_railing": "buıןıɐᴚ ʞןɐʍʇɐƆ ǝʇısǝpuⱯ",
   "block.createdeco.andesite_catwalk_stairs": "sɹıɐʇS ʞןɐʍʇɐƆ ǝʇısǝpuⱯ",
   "block.createdeco.blue_andesite_lamp": "dɯɐꞀ ǝbɐƆ ǝʇısǝpuⱯ ǝnןᗺ",
   "block.createdeco.blue_brass_lamp": "dɯɐꞀ ǝbɐƆ ssɐɹᗺ ǝnןᗺ",
@@ -9,10 +10,13 @@
   "block.createdeco.blue_netherite_lamp": "dɯɐꞀ ǝbɐƆ ǝʇıɹǝɥʇǝN ǝnןᗺ",
   "block.createdeco.blue_zinc_lamp": "dɯɐꞀ ǝbɐƆ ɔuıZ ǝnןᗺ",
   "block.createdeco.brass_catwalk": "ʞןɐʍʇɐƆ ssɐɹᗺ",
+  "block.createdeco.brass_catwalk_railing": "buıןıɐᴚ ʞןɐʍʇɐƆ ssɐɹᗺ",
   "block.createdeco.brass_catwalk_stairs": "sɹıɐʇS ʞןɐʍʇɐƆ ssɐɹᗺ",
   "block.createdeco.copper_catwalk": "ʞןɐʍʇɐƆ ɹǝddoƆ",
+  "block.createdeco.copper_catwalk_railing": "buıןıɐᴚ ʞןɐʍʇɐƆ ɹǝddoƆ",
   "block.createdeco.copper_catwalk_stairs": "sɹıɐʇS ʞןɐʍʇɐƆ ɹǝddoƆ",
   "block.createdeco.gold_catwalk": "ʞןɐʍʇɐƆ pןo⅁",
+  "block.createdeco.gold_catwalk_railing": "buıןıɐᴚ ʞןɐʍʇɐƆ pןo⅁",
   "block.createdeco.gold_catwalk_stairs": "sɹıɐʇS ʞןɐʍʇɐƆ pןo⅁",
   "block.createdeco.green_andesite_lamp": "dɯɐꞀ ǝbɐƆ ǝʇısǝpuⱯ uǝǝɹ⅁",
   "block.createdeco.green_brass_lamp": "dɯɐꞀ ǝbɐƆ ssɐɹᗺ uǝǝɹ⅁",
@@ -22,8 +26,10 @@
   "block.createdeco.green_netherite_lamp": "dɯɐꞀ ǝbɐƆ ǝʇıɹǝɥʇǝN uǝǝɹ⅁",
   "block.createdeco.green_zinc_lamp": "dɯɐꞀ ǝbɐƆ ɔuıZ uǝǝɹ⅁",
   "block.createdeco.iron_catwalk": "ʞןɐʍʇɐƆ uoɹI",
+  "block.createdeco.iron_catwalk_railing": "buıןıɐᴚ ʞןɐʍʇɐƆ uoɹI",
   "block.createdeco.iron_catwalk_stairs": "sɹıɐʇS ʞןɐʍʇɐƆ uoɹI",
   "block.createdeco.netherite_catwalk": "ʞןɐʍʇɐƆ ǝʇıɹǝɥʇǝN",
+  "block.createdeco.netherite_catwalk_railing": "buıןıɐᴚ ʞןɐʍʇɐƆ ǝʇıɹǝɥʇǝN",
   "block.createdeco.netherite_catwalk_stairs": "sɹıɐʇS ʞןɐʍʇɐƆ ǝʇıɹǝɥʇǝN",
   "block.createdeco.red_andesite_lamp": "dɯɐꞀ ǝbɐƆ ǝʇısǝpuⱯ pǝᴚ",
   "block.createdeco.red_brass_lamp": "dɯɐꞀ ǝbɐƆ ssɐɹᗺ pǝᴚ",
@@ -40,5 +46,6 @@
   "block.createdeco.yellow_netherite_lamp": "dɯɐꞀ ǝbɐƆ ǝʇıɹǝɥʇǝN ʍoןןǝʎ",
   "block.createdeco.yellow_zinc_lamp": "dɯɐꞀ ǝbɐƆ ɔuıZ ʍoןןǝʎ",
   "block.createdeco.zinc_catwalk": "ʞןɐʍʇɐƆ ɔuıZ",
+  "block.createdeco.zinc_catwalk_railing": "buıןıɐᴚ ʞןɐʍʇɐƆ ɔuıZ",
   "block.createdeco.zinc_catwalk_stairs": "sɹıɐʇS ʞןɐʍʇɐƆ ɔuıZ"
 }

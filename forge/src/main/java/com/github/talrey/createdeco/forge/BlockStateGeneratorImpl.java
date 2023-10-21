@@ -44,4 +44,20 @@ public class BlockStateGeneratorImpl {
       ctx.getName()
     )));
   }
+
+  public static void catwalkRailing (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void catwalkRailingItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
+  }
 }

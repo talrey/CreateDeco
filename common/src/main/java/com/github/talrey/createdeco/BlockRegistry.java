@@ -33,6 +33,7 @@ public class BlockRegistry {
 
 	public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALKS            = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS = new HashMap<>();
+	public static HashMap<String, BlockEntry<CatwalkRailingBlock>> CATWALK_RAILINGS = new HashMap<>();
 
 	public static HashMap<String, Function<String, Item>> METAL_TYPES = new HashMap<>();
 
@@ -90,6 +91,8 @@ public class BlockRegistry {
 		CATWALKS.put(regName, Catwalks.build(
 			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
 		CATWALK_STAIRS.put(regName, Catwalks.buildStair(
+			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
+		CATWALK_RAILINGS.put(regName, Catwalks.buildRailing(
 			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
 	}
 }
