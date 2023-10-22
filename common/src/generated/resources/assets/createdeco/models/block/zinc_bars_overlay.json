@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/iron_bars_side",
+  "textures": {
+    "bars": "createdeco:block/palettes/metal_bars/zinc_bars_overlay",
+    "edge": "createdeco:block/palettes/metal_bars/zinc_bars",
+    "particle": "createdeco:block/palettes/metal_bars/zinc_bars"
+  }
+}

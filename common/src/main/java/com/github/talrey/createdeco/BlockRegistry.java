@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco;
 
+import com.github.talrey.createdeco.api.Bars;
 import com.github.talrey.createdeco.api.CageLamps;
 import com.github.talrey.createdeco.api.Catwalks;
 import com.github.talrey.createdeco.blocks.*;
@@ -28,11 +29,11 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>   BLUE_CAGE_LAMPS = new HashMap<>();
 
-	public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_BLOCKS       = new HashMap<>();
-	public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_PANEL_BLOCKS = new HashMap<>();
+	public static HashMap<String, BlockEntry<IronBarsBlock>> BARS       = new HashMap<>();
+	public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_PANELS = new HashMap<>();
 
-	public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALKS            = new HashMap<>();
-	public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS = new HashMap<>();
+	public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALKS                = new HashMap<>();
+	public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS     = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkRailingBlock>> CATWALK_RAILINGS = new HashMap<>();
 
 	public static HashMap<String, Function<String, Item>> METAL_TYPES = new HashMap<>();
@@ -51,10 +52,16 @@ public class BlockRegistry {
 		METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 		//METAL_TYPES.put("Cast Iron", (str) -> CAST_IRON_INGOT.get());
 
+		METAL_TYPES.forEach(BlockRegistry::registerBars);
 		METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
 		METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
+	}
 
+	private static void registerBars (String metal, Function<String, Item> getter) {
+		boolean postFlag = (metal.contains("Netherite")|| metal.contains("Cast Iron"));
 
+		BARS.put(metal, Bars.build(REGISTRATE, metal, "", postFlag).register());
+		BAR_PANELS.put(metal, Bars.build(REGISTRATE, metal, "overlay", postFlag).register());
 	}
 
 	private static void registerCageLamps (String metal, Function<String, Item> getter) {
@@ -89,9 +96,9 @@ public class BlockRegistry {
 	private static void registerCatwalks (String metal, Function<String, Item> getter) {
 		String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 		CATWALKS.put(regName, Catwalks.build(
-			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
+			REGISTRATE, metal, BARS.get(metal)).register());
 		CATWALK_STAIRS.put(regName, Catwalks.buildStair(
-			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
+			REGISTRATE, metal, BARS.get(metal)).register());
 		CATWALK_RAILINGS.put(regName, Catwalks.buildRailing(
 			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
 	}

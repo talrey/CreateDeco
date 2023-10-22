@@ -6,15 +6,81 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Locale;
 
 public class BlockStateGeneratorImpl {
+  public static void bar (
+    String name, String suf, ResourceLocation bartex, ResourceLocation postex,
+      DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
+    BlockModelBuilder sideModel = prov.models().withExistingParent(
+        name + "_side", prov.mcLoc("block/iron_bars_side"))
+      .texture("bars", bartex)
+      .texture("edge", postex)
+      .texture("particle", postex);
+    BlockModelBuilder sideAltModel = prov.models().withExistingParent(
+        name + "_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
+      .texture("bars", bartex)
+      .texture("edge", postex)
+      .texture("particle", postex);
+
+    builder.part().modelFile(prov.models().withExistingParent(name + "_post", prov.mcLoc("block/iron_bars_post"))
+        .texture("bars", postex).texture("particle", postex)
+      ).addModel()
+      .condition(BlockStateProperties.NORTH, false)
+      .condition(BlockStateProperties.SOUTH, false)
+      .condition(BlockStateProperties.EAST, false)
+      .condition(BlockStateProperties.WEST, false)
+      .end();
+    builder.part().modelFile(
+      prov.models().withExistingParent(name + "_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
+        .texture("edge", postex).texture("particle", postex)
+    ).addModel().end();
+    builder.part().modelFile(sideModel).addModel().condition(BlockStateProperties.NORTH, true).end();
+    builder.part().modelFile(sideModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
+    builder.part().modelFile(sideAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
+    builder.part().modelFile(sideAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
+
+    if (!suf.equals("")) {
+      BlockModelBuilder sideOverlayModel = prov.models().withExistingParent(
+          name + suf, prov.mcLoc("block/iron_bars_side"))
+        .texture("bars", prov.modLoc("block/palettes/metal_bars/" + name + suf))
+        .texture("edge", postex)
+        .texture("particle", postex);
+      BlockModelBuilder sideOverlayAltModel = prov.models().withExistingParent(
+          name + suf + "_alt", prov.mcLoc("block/iron_bars_side_alt"))
+        .texture("bars", prov.modLoc("block/palettes/metal_bars/" + name + suf))
+        .texture("edge", postex)
+        .texture("particle", postex);
+
+      builder.part().modelFile(sideOverlayModel).addModel().condition(BlockStateProperties.NORTH, true).end();
+      builder.part().modelFile(sideOverlayModel).rotationY(90).addModel().condition(BlockStateProperties.EAST, true).end();
+      builder.part().modelFile(sideOverlayAltModel).addModel().condition(BlockStateProperties.SOUTH, true).end();
+      builder.part().modelFile(sideOverlayAltModel).rotationY(90).addModel().condition(BlockStateProperties.WEST, true).end();
+    }
+  }
+
+  public static void barItem (
+    String base, String suf, ResourceLocation bartex,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    if (suf.isEmpty()) {
+      prov.singleTexture(base, prov.mcLoc("item/generated"),"layer0", bartex);
+    }
+    else {
+      prov.withExistingParent(base + suf, prov.mcLoc("item/generated"))
+        .texture("layer0", bartex)
+        .texture("layer1", prov.modLoc("block/palettes/metal_bars/" + base + suf));
+    }
+  }
+
   public static void cageLamp (
     ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov

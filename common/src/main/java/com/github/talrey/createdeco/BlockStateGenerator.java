@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco;
 
-import com.ibm.icu.impl.Assert;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -11,6 +10,22 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
 public class BlockStateGenerator {
+  @ExpectPlatform
+  public static void bar (
+    String base, String suf, ResourceLocation barTexture, ResourceLocation postTexture,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void barItem (
+    String base, String suf, ResourceLocation bartex,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
   @ExpectPlatform
   public static void cageLamp (
     ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff,

@@ -11,6 +11,22 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 
 public class BlockStateGeneratorImpl {
+  public static void bar (
+    String base, String post, ResourceLocation barTexture, ResourceLocation postTexture,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void barItem (
+    String base, String suf, ResourceLocation bartex,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.getExistingFile(prov.modLoc(ctx.getName())));
+  }
+
   public static void cageLamp (
     ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov

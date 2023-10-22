@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "B": {
-      "item": "minecraft:iron_bars"
+      "item": "createdeco:brass_bars"
     },
     "p": {
       "tag": "createdeco:internal/plates/brass_plates"

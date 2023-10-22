@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "B": {
-      "item": "minecraft:iron_bars"
+      "item": "createdeco:andesite_bars"
     },
     "p": {
       "item": "create:andesite_alloy"
