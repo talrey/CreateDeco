@@ -44,11 +44,13 @@ public class CatwalkBlock extends Block implements IWrenchable, SimpleWaterlogge
   }
 
   public static boolean isCatwalk (ItemStack test) {
-    return (test.getItem() instanceof BlockItem) && isCatwalk(((BlockItem)test.getItem()).getBlock());
+    return (test.getItem() instanceof BlockItem be)
+      && be.getBlock() instanceof CatwalkBlock;
+    //isCatwalk(((BlockItem)test.getItem()).getBlock());
   }
 
   public static boolean isCatwalk (Block test) {
-    return test instanceof CatwalkBlock;
+    return test instanceof CatwalkBlock || test instanceof CatwalkStairBlock;
   }
 
   @Nullable

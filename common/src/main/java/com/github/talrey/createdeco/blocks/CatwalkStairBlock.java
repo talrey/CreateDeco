@@ -1,20 +1,12 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.foundation.placement.IPlacementHelper;
-import com.simibubi.create.foundation.placement.PlacementHelpers;
-import com.simibubi.create.foundation.placement.PlacementOffset;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,14 +15,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
-import java.util.function.Predicate;
 
 public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWaterloggedBlock {
 
@@ -55,8 +45,6 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
     BooleanOp.OR
   );
 
-  private static final int placementHelperId = PlacementHelpers.register(new PlacementHelper());
-
   public CatwalkStairBlock (Properties props) {
     super(props);
     this.registerDefaultState(this.defaultBlockState()
@@ -65,19 +53,14 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
     );
   }
 
-  @Override
-  public InteractionResult use (
-    BlockState state, Level world, BlockPos pos, Player player,
-    InteractionHand hand, BlockHitResult ray
-  ) {
-    ItemStack heldItem = player.getItemInHand(hand);
+  public static boolean isCatwalkStair (ItemStack test) {
+    return (test.getItem() instanceof BlockItem be)
+      && be.getBlock() instanceof CatwalkStairBlock;
+    //isCatwalk(((BlockItem)test.getItem()).getBlock());
+  }
 
-    IPlacementHelper placementHelper = PlacementHelpers.get(placementHelperId);
-    if (!placementHelper.matchesItem(heldItem))
-      return InteractionResult.PASS;
-
-    return placementHelper.getOffset(player, world, state, pos, ray)
-      .placeInWorld(world, ((BlockItem) heldItem.getItem()), player, hand, ray);
+  public static boolean isCatwalkStair (Block test) {
+    return test instanceof CatwalkBlock || test instanceof CatwalkStairBlock;
   }
 
   @Nullable
@@ -116,39 +99,5 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
       case WEST  -> BOX_WEST;
       default    -> BOX_NORTH;
     };
-  }
-
-  public static boolean isCatwalkStair (ItemStack test) {
-    return (test.getItem() instanceof BlockItem)
-      && isCatwalkStair(((BlockItem)test.getItem()).getBlock());
-  }
-
-  public static boolean isCatwalkStair (Block test) {
-    return test instanceof CatwalkStairBlock;
-  }
-
-
-  @MethodsReturnNonnullByDefault
-  private static class PlacementHelper implements IPlacementHelper {
-
-    @Override
-    public Predicate<ItemStack> getItemPredicate () {
-      return (Predicate<ItemStack>) CatwalkStairBlock::isCatwalkStair;
-    }
-
-    @Override
-    public Predicate<BlockState> getStatePredicate () {
-      return state -> CatwalkStairBlock.isCatwalkStair(state.getBlock());
-    }
-
-    @Override
-    public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos,
-                                     BlockHitResult ray) {
-      Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite();
-      PlacementOffset offset = PlacementOffset.success(pos.relative(facing).offset(0, 1, 0));
-      return offset.withTransform(s->s.setValue(BlockStateProperties.HORIZONTAL_FACING,
-        state.getValue(BlockStateProperties.HORIZONTAL_FACING)
-      ));
-    }
   }
 }

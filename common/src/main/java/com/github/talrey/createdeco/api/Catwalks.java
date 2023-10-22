@@ -8,6 +8,7 @@ import com.github.talrey.createdeco.blocks.CatwalkRailingBlock;
 import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
+import com.github.talrey.createdeco.items.CatwalkStairBlockItem;
 import com.github.talrey.createdeco.items.RailingBlockItem;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
@@ -109,7 +110,7 @@ public class Catwalks {
         ))
         .save(prov)
       )
-      .simpleItem();
+      .item(CatwalkStairBlockItem::new).build();
   }
 
   public static BlockBuilder<CatwalkRailingBlock,?> buildRailing (

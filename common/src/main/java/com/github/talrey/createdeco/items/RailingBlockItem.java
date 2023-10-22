@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco.items;
 
-import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.blocks.CatwalkRailingBlock;
 import com.simibubi.create.foundation.placement.IPlacementHelper;
 import com.simibubi.create.foundation.placement.PlacementHelpers;
@@ -15,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
@@ -33,16 +31,25 @@ public class RailingBlockItem extends BlockItem {
   public InteractionResult useOn (UseOnContext ctx) {
     BlockPos pos   = ctx.getClickedPos();
     Direction face = ctx.getClickedFace();
-    Level world    = ctx.getLevel();
+    Level level    = ctx.getLevel();
     Player player  = ctx.getPlayer();
 
-    BlockState state        = world.getBlockState(pos);
+    BlockState state        = level.getBlockState(pos);
     IPlacementHelper helper = PlacementHelpers.get(placementHelperID);
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
-    if (helper.matchesState(state) && player != null) {
-      return helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
+    if (player != null && !player.isShiftKeyDown()) {
+      PlacementOffset offset = null;
+      if (helper.matchesState(state)) {
+        offset = helper.getOffset(player, level, state, pos, ray);
+        //return offset.placeInWorld(world, this, player, ctx.getHand(), ray);
+      }
+      if (offset != null && offset.isSuccessful()) {
+        state = offset.getGhostState(); //level.getBlockState(offset.getBlockPos());
+        level.setBlock(offset.getBlockPos(), offset.getTransform().apply(state), 3);
+        return InteractionResult.SUCCESS;
+      }
     }
-    return InteractionResult.PASS;
+    return super.useOn(ctx);
   }
 
   @MethodsReturnNonnullByDefault
@@ -54,26 +61,36 @@ public class RailingBlockItem extends BlockItem {
 
     @Override
     public Predicate<BlockState> getStatePredicate () {
-      return state -> CatwalkRailingBlock.isRailing(state.getBlock());
+      return state -> true; //CatwalkRailingBlock.isRailing(state.getBlock());
     }
 
     @Override
-    public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos, BlockHitResult ray) {
+    public PlacementOffset getOffset (
+      Player player, Level world, BlockState state, BlockPos pos, BlockHitResult ray
+    ) {
       Direction face = ray.getDirection();
-      if (face.getAxis() != Direction.Axis.Y) {
-        return PlacementOffset.success(pos.offset(face.getNormal()), offsetState -> offsetState
-          .setValue(CatwalkRailingBlock.fromDirection(face), true)
-        );
+      BlockState adjacent = world.getBlockState(pos.relative(face));
+      if (CatwalkRailingBlock.isRailing(adjacent.getBlock())) {
+        pos = pos.relative(face);
+        state = adjacent;
       }
-      List<Direction> dirs = IPlacementHelper.orderedByDistanceExceptAxis(pos, ray.getLocation(), Direction.Axis.Y);
-      for (Direction dir : dirs) {
-        BlockPos newPos = pos.offset(dir.getNormal());
-        if (!world.getBlockState(newPos).canBeReplaced()) continue;
-        return PlacementOffset.success(newPos, offsetState -> offsetState
-          .setValue(CatwalkRailingBlock.fromDirection(face), true)
-        );
+
+      if (!CatwalkRailingBlock.isRailing(state.getBlock())) {
+        return PlacementOffset.fail();
       }
-      return PlacementOffset.fail();
+
+      List<Direction> dirs = IPlacementHelper.orderedByDistanceExceptAxis(
+         pos, ray.getLocation(), Direction.Axis.Y
+      );
+      for (Direction offset : dirs) {
+        if (!state.getValue(CatwalkRailingBlock.fromDirection(offset))) {
+          state = state.setValue(CatwalkRailingBlock.fromDirection(offset), true);
+          break;
+        }
+      }
+
+      BlockState finalState = state;
+      return PlacementOffset.success(pos, newState -> finalState).withGhostState(finalState);
     }
   }
 }
