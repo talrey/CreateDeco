@@ -103,10 +103,10 @@ public class Catwalks {
       .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
         .pattern(" c")
         .pattern("cb")
-        .define('c', BlockRegistry.CATWALKS.get(regName).get())
+        .define('c', BlockRegistry.CATWALKS.get(metal).get())
         .define('b', barItem)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-          BlockRegistry.CATWALKS.get(regName).get()
+          BlockRegistry.CATWALKS.get(metal).get()
         ))
         .save(prov)
       )
