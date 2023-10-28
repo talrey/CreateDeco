@@ -1,23 +1,21 @@
 package com.github.talrey.createdeco;
 
-import com.github.talrey.createdeco.api.Bars;
-import com.github.talrey.createdeco.api.CageLamps;
-import com.github.talrey.createdeco.api.Catwalks;
-import com.github.talrey.createdeco.api.MeshFences;
+import com.github.talrey.createdeco.api.*;
 import com.github.talrey.createdeco.blocks.*;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FenceBlock;
-import net.minecraft.world.level.block.IronBarsBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -31,6 +29,9 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>   BLUE_CAGE_LAMPS = new HashMap<>();
 
+	public static HashMap<String, BlockEntry<DoorBlock>> DOORS          = new HashMap<>();
+	public static HashMap<String, BlockEntry<DoorBlock>> LOCK_DOORS     = new HashMap<>();
+	public static HashMap<String, BlockEntry<TrapDoorBlock>> TRAPDOORS  = new HashMap<>();
 	public static HashMap<String, BlockEntry<IronBarsBlock>> BARS       = new HashMap<>();
 	public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_PANELS = new HashMap<>();
 	public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCES   = new HashMap<>();
@@ -61,6 +62,7 @@ public class BlockRegistry {
 		METAL_TYPES.forEach(BlockRegistry::registerFences);
 		METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
 		METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
+		METAL_TYPES.forEach(BlockRegistry::registerDoors);
 	}
 
 	private static void registerBars (String metal, Function<String, Item> getter) {
@@ -68,10 +70,6 @@ public class BlockRegistry {
 
 		BARS.put(metal, Bars.build(REGISTRATE, metal, "", postFlag).register());
 		BAR_PANELS.put(metal, Bars.build(REGISTRATE, metal, "overlay", postFlag).register());
-	}
-
-	private static void registerFences (String metal, Function<String, Item> getter) {
-		MESH_FENCES.put(metal, MeshFences.build(REGISTRATE, metal).register());
 	}
 
 	private static void registerCageLamps (String metal, Function<String, Item> getter) {
@@ -111,5 +109,25 @@ public class BlockRegistry {
 			REGISTRATE, metal, BARS.get(metal)).register());
 		CATWALK_RAILINGS.put(metal, Catwalks.buildRailing(
 			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
+	}
+
+	private static void registerFences (String metal, Function<String, Item> getter) {
+		MESH_FENCES.put(metal, MeshFences.build(REGISTRATE, metal).register());
+	}
+
+	private static void registerDoors (String metal, Function<String, Item> getter) {
+		if (metal.equals("Iron") || metal.equals("Gold") || metal.equals("Netherite")) {
+			return;
+		}
+
+		DOORS.put(metal, Doors.build(REGISTRATE, metal, false)
+			.recipe(Doors.recipe(()->getter.apply("ingot")))
+			.register());
+		LOCK_DOORS.put(metal, Doors.build(REGISTRATE, metal, true)
+			.recipe(Doors.lockedRecipe(()->DOORS.get(metal).asItem()))
+			.register());
+		TRAPDOORS.put(metal, Doors.buildTrapdoor(REGISTRATE, metal)
+			.recipe(Doors.trapdoorRecipe(()->getter.apply("ingot")))
+			.register());
 	}
 }

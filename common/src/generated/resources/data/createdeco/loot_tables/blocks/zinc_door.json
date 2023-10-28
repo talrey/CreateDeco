@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "createdeco:zinc_door",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "half": "lower"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "createdeco:zinc_door"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "createdeco:blocks/zinc_door"
+}

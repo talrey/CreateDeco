@@ -10,6 +10,7 @@ import io.github.fabricators_of_create.porting_lib.models.generators.block.Multi
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Locale;
@@ -237,5 +238,33 @@ public class BlockStateGeneratorImpl {
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
   ) {
     prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
+  }
+
+  public static void door (
+    CreateRegistrate reg, String metal, boolean locked,
+    DataGenContext<DoorBlock, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = (locked ? "locked_" : "")
+      + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String path = "block/palettes/doors/" +regName;
+    prov.doorBlock(ctx.get(), prov.modLoc(path + "_door_bottom"), prov.modLoc(path + "_door_top"));
+  }
+
+  public static void doorItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
+      "layer0", prov.modLoc("item/" + ctx.getName())
+    );
+  }
+
+  public static void trapdoorItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
+      .texture("texture", prov.modLoc("block/palettes/doors/" + regName + "_trapdoor"));
   }
 }

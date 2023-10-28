@@ -28,6 +28,18 @@
     "createdeco:copper_catwalk_railing",
     "createdeco:zinc_catwalk",
     "createdeco:zinc_catwalk_stairs",
-    "createdeco:zinc_catwalk_railing"
+    "createdeco:zinc_catwalk_railing",
+    "createdeco:andesite_door",
+    "createdeco:locked_andesite_door",
+    "createdeco:andesite_trapdoor",
+    "createdeco:brass_door",
+    "createdeco:locked_brass_door",
+    "createdeco:brass_trapdoor",
+    "createdeco:copper_door",
+    "createdeco:locked_copper_door",
+    "createdeco:copper_trapdoor",
+    "createdeco:zinc_door",
+    "createdeco:locked_zinc_door",
+    "createdeco:zinc_trapdoor"
   ]
 }

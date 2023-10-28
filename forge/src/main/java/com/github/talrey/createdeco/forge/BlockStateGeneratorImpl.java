@@ -7,6 +7,7 @@ import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 
@@ -80,6 +81,29 @@ public class BlockStateGeneratorImpl {
   }
 
   public static void catwalkRailingItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
+  }
+
+  public static void door (
+    CreateRegistrate reg, String metal, boolean locked,
+    DataGenContext<DoorBlock, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void doorItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
+  }
+
+  public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
   ) {

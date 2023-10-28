@@ -8,6 +8,9 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DoorBlock;
+
+import java.util.Locale;
 
 public class BlockStateGenerator {
   @ExpectPlatform
@@ -71,7 +74,32 @@ public class BlockStateGenerator {
     throw new AssertionError();
   }
 
+  @ExpectPlatform
   public static void catwalkRailingItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void door (
+    CreateRegistrate reg, String metal, boolean locked,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void doorItem (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
   ) {
