@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "createdeco:block/zinc_hull",
+      "x": 270
+    },
+    "facing=east": {
+      "model": "createdeco:block/zinc_hull",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "createdeco:block/zinc_hull",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "createdeco:block/zinc_hull"
+    },
+    "facing=up": {
+      "model": "createdeco:block/zinc_hull",
+      "x": 90
+    },
+    "facing=west": {
+      "model": "createdeco:block/zinc_hull",
+      "y": 90
+    }
+  }
+}

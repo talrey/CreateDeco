@@ -99,6 +99,22 @@ public class BlockStateGenerator {
   }
 
   @ExpectPlatform
+  public static void hull (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void support (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
   public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov

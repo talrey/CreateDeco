@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "create:andesite_alloy"
+    }
+  },
+  "pattern": [
+    " b ",
+    "b b",
+    " b "
+  ],
+  "result": {
+    "count": 4,
+    "item": "createdeco:andesite_support"
+  },
+  "show_notification": true
+}

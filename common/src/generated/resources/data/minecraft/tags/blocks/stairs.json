@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "createdeco:gold_hull",
+    "createdeco:netherite_hull",
+    "createdeco:andesite_hull",
+    "createdeco:brass_hull",
+    "createdeco:iron_hull",
+    "createdeco:copper_hull",
+    "createdeco:zinc_hull"
+  ]
+}

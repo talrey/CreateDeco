@@ -40,6 +40,20 @@
     "createdeco:copper_trapdoor",
     "createdeco:zinc_door",
     "createdeco:locked_zinc_door",
-    "createdeco:zinc_trapdoor"
+    "createdeco:zinc_trapdoor",
+    "createdeco:gold_hull",
+    "createdeco:netherite_hull",
+    "createdeco:andesite_hull",
+    "createdeco:brass_hull",
+    "createdeco:iron_hull",
+    "createdeco:copper_hull",
+    "createdeco:zinc_hull",
+    "createdeco:gold_support",
+    "createdeco:netherite_support",
+    "createdeco:andesite_support",
+    "createdeco:brass_support",
+    "createdeco:iron_support",
+    "createdeco:copper_support",
+    "createdeco:zinc_support"
   ]
 }

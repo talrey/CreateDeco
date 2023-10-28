@@ -103,6 +103,24 @@ public class BlockStateGeneratorImpl {
     prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
   }
 
+  public static void hull (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void support (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
   public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov

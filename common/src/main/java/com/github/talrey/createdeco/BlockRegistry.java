@@ -24,6 +24,8 @@ import static com.github.talrey.createdeco.api.CageLamps.*;
 public class BlockRegistry {
 	public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(CreateDecoMod.MOD_ID);
 
+	public static HashMap<String, Function<String, Item>> METAL_TYPES = new HashMap<>();
+
 	public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>    RED_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
@@ -40,9 +42,8 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS     = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkRailingBlock>> CATWALK_RAILINGS = new HashMap<>();
 
-
-
-	public static HashMap<String, Function<String, Item>> METAL_TYPES = new HashMap<>();
+	public static HashMap<String, BlockEntry<HullBlock>> HULLS       = new HashMap<>();
+	public static HashMap<String, BlockEntry<SupportBlock>> SUPPORTS = new HashMap<>();
 
 	public static void init() {
 		// load the class and register everything
@@ -63,6 +64,8 @@ public class BlockRegistry {
 		METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
 		METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
 		METAL_TYPES.forEach(BlockRegistry::registerDoors);
+		METAL_TYPES.forEach(BlockRegistry::registerHulls);
+		METAL_TYPES.forEach(BlockRegistry::registerSupports);
 	}
 
 	private static void registerBars (String metal, Function<String, Item> getter) {
@@ -129,5 +132,19 @@ public class BlockRegistry {
 		TRAPDOORS.put(metal, Doors.buildTrapdoor(REGISTRATE, metal)
 			.recipe(Doors.trapdoorRecipe(()->getter.apply("ingot")))
 			.register());
+	}
+
+	private static void registerHulls (String metal, Function<String, Item> getter) {
+		HULLS.put(metal, Hulls.build(REGISTRATE, metal)
+			.recipe(Hulls.recipe(()->getter.apply("ingot")))
+			.register()
+		);
+	}
+
+	private static void registerSupports (String metal, Function<String, Item> getter) {
+		SUPPORTS.put(metal, Supports.build(REGISTRATE, metal, BARS.get(metal)::asItem)
+			.recipe(Supports.recipe(()->getter.apply("ingot")))
+			.register()
+		);
 	}
 }

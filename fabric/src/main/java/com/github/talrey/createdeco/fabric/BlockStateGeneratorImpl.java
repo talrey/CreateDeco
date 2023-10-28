@@ -7,6 +7,7 @@ import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -256,6 +257,42 @@ public class BlockStateGeneratorImpl {
   ) {
     prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
       "layer0", prov.modLoc("item/" + ctx.getName())
+    );
+  }
+
+  public static void hull (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = ctx.getName();
+    ResourceLocation front = prov.modLoc("block/palettes/hull/" + regName + "_front");
+    ResourceLocation side =  prov.modLoc("block/palettes/hull/" + regName + "_side");
+    prov.getVariantBuilder(ctx.get())
+      .forAllStates(state -> {
+        Direction dir = state.getValue(BlockStateProperties.FACING);
+        return ConfiguredModel.builder()
+          .modelFile(prov.models().withExistingParent(
+              ctx.getName(), prov.modLoc("train_hull"))
+            .texture("0", front)
+            .texture("1", side)
+            .texture("particle", front))
+          .rotationX(dir == Direction.DOWN ? 270 : dir.getAxis().isHorizontal() ? 0 : 90)
+          .rotationY(dir.getAxis().isVertical() ? 0 : (((int) dir.toYRot()) + 0) % 360)
+          .build();
+      });
+  }
+
+  public static void support (
+    CreateRegistrate reg, String metal,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = ctx.getName();
+    ResourceLocation texture = prov.modLoc("block/palettes/support/" + regName);
+
+    prov.directionalBlock(ctx.get(),
+      prov.models().withExistingParent(ctx.getName(), prov.modLoc("support"))
+        .texture("0", texture)
+        .texture("particle", texture)
     );
   }
 
