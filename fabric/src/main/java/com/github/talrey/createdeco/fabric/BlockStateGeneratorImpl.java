@@ -319,4 +319,20 @@ public class BlockStateGeneratorImpl {
         .texture("particle", prov.modLoc("block/palettes/placard/" + regName))
     );
   }
+
+  public static void coinstackBlock (
+    ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
+      int layer = state.getValue(BlockStateProperties.LAYERS);
+      return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
+            ctx.getName() + "_" + layer, prov.modLoc("block/layers_bottom_top_" + layer)
+          )
+          .texture("side", side)
+          .texture("bottom", bottom)
+          .texture("top", top)
+      ).build();
+    });
+  }
 }

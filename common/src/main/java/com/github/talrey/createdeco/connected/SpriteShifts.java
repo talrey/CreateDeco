@@ -1,7 +1,7 @@
 package com.github.talrey.createdeco.connected;
 
-import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.CreateDecoMod;
+import com.github.talrey.createdeco.ItemRegistry;
 import com.simibubi.create.foundation.block.connected.AllCTTypes;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.CTSpriteShifter;
@@ -19,7 +19,7 @@ public class SpriteShifts {
   }
 
   private static void populateMaps () {
-    for (String metal : BlockRegistry.METAL_TYPES.keySet()) {
+    for (String metal : ItemRegistry.METAL_TYPES.keySet()) {
       String path = "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal";
       ResourceLocation blockTexture     = new ResourceLocation(CreateDecoMod.MOD_ID, path);
       ResourceLocation connectedTexture = new ResourceLocation(CreateDecoMod.MOD_ID, path + "_connected");

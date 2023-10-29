@@ -5,11 +5,13 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Locale;
 
@@ -126,6 +128,14 @@ public class BlockStateGenerator {
   @ExpectPlatform
   public static void placard (
     CreateRegistrate reg, DyeColor color,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void coinstackBlock (
+    ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
     throw new AssertionError();

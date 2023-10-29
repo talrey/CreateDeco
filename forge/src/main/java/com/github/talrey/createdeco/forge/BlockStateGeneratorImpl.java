@@ -137,4 +137,13 @@ public class BlockStateGeneratorImpl {
       ctx.getName()
     )));
   }
+
+  public static void coinstackBlock (
+    ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
 }

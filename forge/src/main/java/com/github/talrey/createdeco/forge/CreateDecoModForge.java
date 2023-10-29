@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco.forge;
 
-import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.CreateDecoMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -13,7 +12,7 @@ public class CreateDecoModForge {
         // registrate must be given the mod event bus on forge before registration
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         CreativeTabsImpl.register(eventBus);
-        BlockRegistry.REGISTRATE.registerEventListeners(eventBus);
+        CreateDecoMod.REGISTRATE.registerEventListeners(eventBus);
         MinecraftForge.EVENT_BUS.register(this);
         CreateDecoMod.init();
     }

@@ -7,10 +7,7 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
-import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
-import com.simibubi.create.foundation.item.ItemDescription;
-import com.simibubi.create.foundation.item.TooltipHelper;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -35,10 +32,6 @@ import static com.github.talrey.createdeco.api.CageLamps.*;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class BlockRegistry {
-	public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(CreateDecoMod.MOD_ID);
-
-	public static HashMap<String, Function<String, Item>> METAL_TYPES = new HashMap<>();
-
 	public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>    RED_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
@@ -61,35 +54,30 @@ public class BlockRegistry {
 	public static HashMap<DyeColor, BlockEntry<? extends PlacardBlock>> PLACARDS = new HashMap<>();
 	public static BlockEntityEntry<DyedPlacardBlock.Entity> PLACARD_ENTITY;
 
+	public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
+
 	public static void init() {
 		// load the class and register everything
 		CreateDecoMod.LOGGER.info("Registering blocks for " + CreateDecoMod.NAME);
 
-		REGISTRATE.defaultCreativeTab("props_tab");
-		METAL_TYPES.put("Andesite", (str) -> AllItems.ANDESITE_ALLOY.get());
-		METAL_TYPES.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
-		METAL_TYPES.put("Copper", (str) -> Items.COPPER_INGOT);
-		METAL_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
-		METAL_TYPES.put("Iron", (str) -> Items.IRON_INGOT);
-		METAL_TYPES.put("Gold", (str) -> Items.GOLD_INGOT);
-		METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
-		//METAL_TYPES.put("Cast Iron", (str) -> CAST_IRON_INGOT.get());
+		CreateDecoMod.REGISTRATE.defaultCreativeTab("props_tab");
 
-		METAL_TYPES.forEach(BlockRegistry::registerBars);
-		METAL_TYPES.forEach(BlockRegistry::registerFences);
-		METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
-		METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
-		METAL_TYPES.forEach(BlockRegistry::registerDoors);
-		METAL_TYPES.forEach(BlockRegistry::registerHulls);
-		METAL_TYPES.forEach(BlockRegistry::registerSupports);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerBars);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerFences);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerHulls);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
 		registerPlacards();
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCoins);
 	}
 
 	private static void registerBars (String metal, Function<String, Item> getter) {
 		boolean postFlag = (metal.contains("Netherite")|| metal.contains("Cast Iron"));
 
-		BARS.put(metal, Bars.build(REGISTRATE, metal, "", postFlag).register());
-		BAR_PANELS.put(metal, Bars.build(REGISTRATE, metal, "overlay", postFlag).register());
+		BARS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "", postFlag).register());
+		BAR_PANELS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "overlay", postFlag).register());
 	}
 
 	private static void registerCageLamps (String metal, Function<String, Item> getter) {
@@ -100,22 +88,22 @@ public class BlockRegistry {
 		Supplier<Item> material = (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null);
 
 		YELLOW_CAGE_LAMPS.put(metal, CageLamps.build(
-				REGISTRATE, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF
+				CreateDecoMod.REGISTRATE, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF
 			)
 			.recipe(CageLamps.recipe(metal, ()-> Items.TORCH, material))
 			.register());
 		RED_CAGE_LAMPS.put(metal, CageLamps.build(
-				REGISTRATE, metal, DyeColor.RED, cage, RED_ON, RED_OFF
+				CreateDecoMod.REGISTRATE, metal, DyeColor.RED, cage, RED_ON, RED_OFF
 			)
 			.recipe(CageLamps.recipe(metal, ()->Items.REDSTONE_TORCH, material))
 			.register());
 		GREEN_CAGE_LAMPS.put(metal, CageLamps.build(
-				REGISTRATE, metal, DyeColor.GREEN, cage, GREEN_ON, GREEN_OFF
+				CreateDecoMod.REGISTRATE, metal, DyeColor.GREEN, cage, GREEN_ON, GREEN_OFF
 			)
 			.recipe(CageLamps.recipe(metal, ()->Items.GLOW_BERRIES, material))
 			.register());
 		BLUE_CAGE_LAMPS.put(metal, CageLamps.build(
-				REGISTRATE, metal, DyeColor.BLUE, cage, BLUE_ON, BLUE_OFF
+				CreateDecoMod.REGISTRATE, metal, DyeColor.BLUE, cage, BLUE_ON, BLUE_OFF
 			)
 			.recipe(CageLamps.recipe(metal, ()->Items.SOUL_TORCH, material))
 			.register());
@@ -124,15 +112,15 @@ public class BlockRegistry {
 	private static void registerCatwalks (String metal, Function<String, Item> getter) {
 		//String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 		CATWALKS.put(metal, Catwalks.build(
-			REGISTRATE, metal, BARS.get(metal)).register());
+			CreateDecoMod.REGISTRATE, metal, BARS.get(metal)).register());
 		CATWALK_STAIRS.put(metal, Catwalks.buildStair(
-			REGISTRATE, metal, BARS.get(metal)).register());
+			CreateDecoMod.REGISTRATE, metal, BARS.get(metal)).register());
 		CATWALK_RAILINGS.put(metal, Catwalks.buildRailing(
-			REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
+			CreateDecoMod.REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
 	}
 
 	private static void registerFences (String metal, Function<String, Item> getter) {
-		MESH_FENCES.put(metal, MeshFences.build(REGISTRATE, metal).register());
+		MESH_FENCES.put(metal, MeshFences.build(CreateDecoMod.REGISTRATE, metal).register());
 	}
 
 	private static void registerDoors (String metal, Function<String, Item> getter) {
@@ -140,26 +128,26 @@ public class BlockRegistry {
 			return;
 		}
 
-		DOORS.put(metal, Doors.build(REGISTRATE, metal, false)
+		DOORS.put(metal, Doors.build(CreateDecoMod.REGISTRATE, metal, false)
 			.recipe(Doors.recipe(()->getter.apply("ingot")))
 			.register());
-		LOCK_DOORS.put(metal, Doors.build(REGISTRATE, metal, true)
+		LOCK_DOORS.put(metal, Doors.build(CreateDecoMod.REGISTRATE, metal, true)
 			.recipe(Doors.lockedRecipe(()->DOORS.get(metal).asItem()))
 			.register());
-		TRAPDOORS.put(metal, Doors.buildTrapdoor(REGISTRATE, metal)
+		TRAPDOORS.put(metal, Doors.buildTrapdoor(CreateDecoMod.REGISTRATE, metal)
 			.recipe(Doors.trapdoorRecipe(()->getter.apply("ingot")))
 			.register());
 	}
 
 	private static void registerHulls (String metal, Function<String, Item> getter) {
-		HULLS.put(metal, Hulls.build(REGISTRATE, metal)
+		HULLS.put(metal, Hulls.build(CreateDecoMod.REGISTRATE, metal)
 			.recipe(Hulls.recipe(()->getter.apply("ingot")))
 			.register()
 		);
 	}
 
 	private static void registerSupports (String metal, Function<String, Item> getter) {
-		SUPPORTS.put(metal, Supports.build(REGISTRATE, metal, BARS.get(metal)::asItem)
+		SUPPORTS.put(metal, Supports.build(CreateDecoMod.REGISTRATE, metal, BARS.get(metal)::asItem)
 			.recipe(Supports.recipe(()->getter.apply("ingot")))
 			.register()
 		);
@@ -173,11 +161,11 @@ public class BlockRegistry {
 			String regName = color.name().toLowerCase(Locale.ROOT)
 				.replaceAll(" ", "_") + "_placard";
 
-			PLACARDS.put(color, REGISTRATE.block(regName, DyedPlacardBlock::new)
+			PLACARDS.put(color, CreateDecoMod.REGISTRATE.block(regName, DyedPlacardBlock::new)
 				.initialProperties(SharedProperties::copperMetal)
 				.transform(pickaxeOnly())
 				.tag(AllTags.AllBlockTags.SAFE_NBT.tag)
-				.blockstate((ctx,prov)->BlockStateGenerator.placard(REGISTRATE, color, ctx, prov))
+				.blockstate((ctx,prov)->BlockStateGenerator.placard(CreateDecoMod.REGISTRATE, color, ctx, prov))
 				.simpleItem()
 				.recipe((ctx,prov)->
 					ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
@@ -213,9 +201,23 @@ public class BlockRegistry {
 		for (BlockEntry<? extends PlacardBlock> block : PLACARDS.values()) {
 			validPlacards[color] = block;
 		}
-		PLACARD_ENTITY = REGISTRATE.blockEntity("dyed_placard", DyedPlacardBlock.Entity::new)
+		PLACARD_ENTITY = CreateDecoMod.REGISTRATE.blockEntity("dyed_placard", DyedPlacardBlock.Entity::new)
 			.renderer(()-> PlacardRenderer::new)
 			.validBlocks(PLACARDS.values().toArray(validPlacards))
 			.register();
+	}
+
+	private static void registerCoins (String metal, Function<String, Item> getter) {
+		if (metal.equals("Andesite")) return;
+		String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+		ResourceLocation side   = new ResourceLocation(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_side");
+		ResourceLocation top    = new ResourceLocation(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_top");
+		ResourceLocation bottom = new ResourceLocation(CreateDecoMod.MOD_ID, "block/" + regName + "_coinstack_bottom");
+
+		COIN_BLOCKS.put(metal, Coins.buildCoinStackBlock(
+			CreateDecoMod.REGISTRATE,
+			()-> ItemRegistry.COINSTACKS.get(metal).get(),
+			metal, side, bottom, top
+		).register());
 	}
 }

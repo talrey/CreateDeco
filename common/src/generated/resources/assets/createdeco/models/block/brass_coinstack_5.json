@@ -1,0 +1,8 @@
+{
+  "parent": "createdeco:block/layers_bottom_top_5",
+  "textures": {
+    "bottom": "createdeco:block/brass_coinstack_bottom",
+    "side": "createdeco:block/brass_coinstack_side",
+    "top": "createdeco:block/brass_coinstack_top"
+  }
+}
