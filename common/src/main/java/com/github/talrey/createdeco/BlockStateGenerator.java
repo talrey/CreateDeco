@@ -6,6 +6,7 @@ import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
@@ -118,6 +119,14 @@ public class BlockStateGenerator {
   public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void placard (
+    CreateRegistrate reg, DyeColor color,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
     throw new AssertionError();
   }

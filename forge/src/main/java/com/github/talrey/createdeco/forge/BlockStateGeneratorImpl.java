@@ -5,6 +5,7 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
@@ -126,5 +127,14 @@ public class BlockStateGeneratorImpl {
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
   ) {
     prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
+  }
+
+  public static void placard (
+    CreateRegistrate reg, DyeColor color,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
   }
 }

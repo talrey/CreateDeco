@@ -9,6 +9,7 @@ import io.github.fabricators_of_create.porting_lib.models.generators.block.Block
 import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
@@ -303,5 +304,19 @@ public class BlockStateGeneratorImpl {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
     prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
       .texture("texture", prov.modLoc("block/palettes/doors/" + regName + "_trapdoor"));
+  }
+
+  public static void placard (
+    CreateRegistrate reg, DyeColor color,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = color.name().toLowerCase(Locale.ROOT)
+      .replaceAll(" ", "_") + "_placard";
+
+    prov.horizontalFaceBlock(ctx.get(),
+      prov.models().withExistingParent(regName, prov.modLoc("block/dyed_placard"))
+        .texture("0", prov.modLoc("block/palettes/placard/" + regName))
+        .texture("particle", prov.modLoc("block/palettes/placard/" + regName))
+    );
   }
 }
