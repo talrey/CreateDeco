@@ -17,6 +17,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
@@ -32,6 +33,8 @@ import static com.github.talrey.createdeco.api.CageLamps.*;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class BlockRegistry {
+	public static BlockEntry<Block> CAST_IRON;
+
 	public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>    RED_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
@@ -59,8 +62,19 @@ public class BlockRegistry {
 	public static void init() {
 		// load the class and register everything
 		CreateDecoMod.LOGGER.info("Registering blocks for " + CreateDecoMod.NAME);
-
 		CreateDecoMod.REGISTRATE.defaultCreativeTab("props_tab");
+
+		CAST_IRON = CreateDecoMod.REGISTRATE.block("cast_iron_block", Block::new)
+			.properties(props->
+				props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
+					.sound(SoundType.NETHERITE_BLOCK)
+			)
+			.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+			.tag(CDTags.STORAGE.forge, CDTags.STORAGE.fabric)
+			.tag(CDTags.CAST_IRON_BLOCK.forge, CDTags.CAST_IRON_BLOCK.fabric)
+			.lang("Block of Cast Iron")
+			.simpleItem()
+			.register();
 
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerBars);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerFences);

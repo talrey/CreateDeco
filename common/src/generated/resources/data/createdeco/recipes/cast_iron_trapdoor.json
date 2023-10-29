@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "m": {
+      "item": "createdeco:cast_iron_ingot"
+    }
+  },
+  "pattern": [
+    "mm",
+    "mm"
+  ],
+  "result": {
+    "item": "createdeco:cast_iron_trapdoor"
+  },
+  "show_notification": true
+}
