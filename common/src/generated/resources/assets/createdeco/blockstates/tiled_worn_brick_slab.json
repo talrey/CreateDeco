@@ -4,7 +4,7 @@
       "model": "createdeco:block/tiled_worn_brick_slab"
     },
     "type=double": {
-      "model": "createdeco:block/worn_bricks"
+      "model": "createdeco:block/tiled_worn_bricks"
     },
     "type=top": {
       "model": "createdeco:block/tiled_worn_brick_slab_top"

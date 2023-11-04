@@ -359,12 +359,10 @@ public class BlockStateGeneratorImpl {
   public static void brickSlab (
     DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
   ) {
-    ResourceLocation blockModel = prov.modLoc(
-      "block/" + color + "_bricks"
-    );
+    String block = ctx.getName().replaceAll("_slab", "s");
+    ResourceLocation blockModel = prov.modLoc("block/" + block);
     ResourceLocation texture = prov.modLoc(
-      "block/palettes/bricks/" + color + "/"
-      + ctx.getName().replaceAll("_slab", "s")
+      "block/palettes/bricks/" + color + "/" + block
     );
     prov.slabBlock(ctx.get(), blockModel, texture);
   }

@@ -4,7 +4,7 @@
       "model": "createdeco:block/long_scarlet_brick_slab"
     },
     "type=double": {
-      "model": "createdeco:block/scarlet_bricks"
+      "model": "createdeco:block/long_scarlet_bricks"
     },
     "type=top": {
       "model": "createdeco:block/long_scarlet_brick_slab_top"

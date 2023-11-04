@@ -4,7 +4,7 @@
       "model": "createdeco:block/tiled_pearl_brick_slab"
     },
     "type=double": {
-      "model": "createdeco:block/pearl_bricks"
+      "model": "createdeco:block/tiled_pearl_bricks"
     },
     "type=top": {
       "model": "createdeco:block/tiled_pearl_brick_slab_top"

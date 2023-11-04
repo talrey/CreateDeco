@@ -4,7 +4,7 @@
       "model": "createdeco:block/long_dean_brick_slab"
     },
     "type=double": {
-      "model": "createdeco:block/dean_bricks"
+      "model": "createdeco:block/long_dean_bricks"
     },
     "type=top": {
       "model": "createdeco:block/long_dean_brick_slab_top"
