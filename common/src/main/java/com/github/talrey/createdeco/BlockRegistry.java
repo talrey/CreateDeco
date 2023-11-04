@@ -9,6 +9,7 @@ import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.item.TooltipModifier;
+import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
@@ -24,8 +25,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -34,6 +34,23 @@ import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class BlockRegistry {
 	public static BlockEntry<Block> CAST_IRON;
+
+	public static HashMap<DyeColor, String> BRICK_COLORS = new HashMap<>() {{
+		put(DyeColor.LIGHT_BLUE, "blue");
+		put(DyeColor.YELLOW, "dean");
+		put(DyeColor.BLACK, "dusk");
+		put(DyeColor.WHITE, "pearl");
+		put(DyeColor.RED, "scarlet");
+		put(null, "red");
+	}};
+
+	public static HashMap<DyeColor, HashMap<String, BlockEntry<Block>>>      BRICKS = new HashMap<>();
+	public static HashMap<DyeColor, HashMap<String, BlockEntry<StairBlock>>> STAIRS = new HashMap<>();
+	public static HashMap<DyeColor, HashMap<String, BlockEntry<SlabBlock>>>   SLABS = new HashMap<>();
+
+	public static HashMap<String, BlockEntry<Block>>      WORN_BRICKS = new HashMap<>();
+	public static HashMap<String, BlockEntry<StairBlock>> WORN_STAIRS = new HashMap<>();
+	public static HashMap<String, BlockEntry<SlabBlock>>   WORN_SLABS = new HashMap<>();
 
 	public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>    RED_CAGE_LAMPS = new HashMap<>();
@@ -62,7 +79,9 @@ public class BlockRegistry {
 	public static void init() {
 		// load the class and register everything
 		CreateDecoMod.LOGGER.info("Registering blocks for " + CreateDecoMod.NAME);
-		CreateDecoMod.REGISTRATE.defaultCreativeTab("props_tab");
+
+		// Props registration
+		CreateDecoMod.REGISTRATE.defaultCreativeTab(CreativeTabs.PROPS_KEY);
 
 		CAST_IRON = CreateDecoMod.REGISTRATE.block("cast_iron_block", Block::new)
 			.properties(props->
@@ -85,6 +104,10 @@ public class BlockRegistry {
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
 		registerPlacards();
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCoins);
+
+		// Bricks registration
+		CreateDecoMod.REGISTRATE.defaultCreativeTab(CreativeTabs.BRICKS_KEY);
+		registerBricks();
 	}
 
 	private static void registerBars (String metal, Function<String, Item> getter) {
@@ -233,5 +256,43 @@ public class BlockRegistry {
 			()-> ItemRegistry.COINSTACKS.get(metal).get(),
 			metal, side, bottom, top
 		).register());
+	}
+
+	private static void registerBricks () {
+		BRICK_COLORS.forEach( (color, name)-> {
+			ArrayList<BlockBuilder<Block, ?>>     blocks;
+			ArrayList<BlockBuilder<StairBlock,?>> stairs;
+			ArrayList<BlockBuilder<SlabBlock,?>>  slabs;
+
+			if (color == null) { // do worn brick stuff
+				blocks = Bricks.buildBlock(CreateDecoMod.REGISTRATE, "worn");
+				blocks.forEach(bb ->
+					WORN_BRICKS.put(bb.getName(), bb.register())
+				);
+				stairs = Bricks.buildStair(CreateDecoMod.REGISTRATE, "worn");
+				stairs.forEach(bb ->
+					WORN_STAIRS.put(bb.getName(), bb.register())
+				);
+				slabs = Bricks.buildSlab(CreateDecoMod.REGISTRATE, "worn");
+				slabs.forEach(bb ->
+					WORN_SLABS.put(bb.getName(), bb.register())
+				);
+			}
+			blocks = Bricks.buildBlock(CreateDecoMod.REGISTRATE, name);
+			blocks.forEach(bb -> {
+				BRICKS.putIfAbsent(color, new HashMap<>());
+				BRICKS.get(color).put(bb.getName(), bb.register());
+			});
+			stairs = Bricks.buildStair(CreateDecoMod.REGISTRATE, name);
+			stairs.forEach(bb -> {
+				STAIRS.putIfAbsent(color, new HashMap<>());
+				STAIRS.get(color).put(bb.getName(), bb.register());
+			});
+			slabs = Bricks.buildSlab(CreateDecoMod.REGISTRATE, name);
+			slabs.forEach(bb -> {
+				SLABS.putIfAbsent(color, new HashMap<>());
+				SLABS.get(color).put(bb.getName(), bb.register());
+			});
+		});
 	}
 }

@@ -13,6 +13,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Locale;
@@ -334,5 +336,36 @@ public class BlockStateGeneratorImpl {
           .texture("top", top)
       ).build();
     });
+  }
+
+  public static void brick (
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
+      prov.modLoc("block/palettes/bricks/" + color + "/" + ctx.getName())
+    ));
+  }
+
+  public static void brickStair (
+    DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    prov.stairsBlock(ctx.get(),
+      prov.modLoc("block/palettes/bricks/" + color + "/"
+        + ctx.getName().replaceAll("_stair", "")
+      )
+    );
+  }
+
+  public static void brickSlab (
+    DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    ResourceLocation blockModel = prov.modLoc(
+      "block/" + color + "_bricks"
+    );
+    ResourceLocation texture = prov.modLoc(
+      "block/palettes/bricks/" + color + "/"
+      + ctx.getName().replaceAll("_slab", "s")
+    );
+    prov.slabBlock(ctx.get(), blockModel, texture);
   }
 }

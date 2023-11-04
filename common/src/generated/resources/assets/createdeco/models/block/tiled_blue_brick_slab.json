@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "createdeco:block/palettes/bricks/blue/tiled_blue_bricks",
+    "side": "createdeco:block/palettes/bricks/blue/tiled_blue_bricks",
+    "top": "createdeco:block/palettes/bricks/blue/tiled_blue_bricks"
+  }
+}

@@ -5,15 +5,12 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-
-import java.util.Locale;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 
 public class BlockStateGenerator {
   @ExpectPlatform
@@ -137,6 +134,27 @@ public class BlockStateGenerator {
   public static void coinstackBlock (
     ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void brick (
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void brickStair (
+    DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void brickSlab (
+    DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
   ) {
     throw new AssertionError();
   }

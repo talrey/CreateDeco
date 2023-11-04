@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "createdeco:block/pearl_brick_slab"
+    },
+    "type=double": {
+      "model": "createdeco:block/pearl_bricks"
+    },
+    "type=top": {
+      "model": "createdeco:block/pearl_brick_slab_top"
+    }
+  }
+}

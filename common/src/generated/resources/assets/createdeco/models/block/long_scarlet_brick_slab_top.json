@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "createdeco:block/palettes/bricks/scarlet/long_scarlet_bricks",
+    "side": "createdeco:block/palettes/bricks/scarlet/long_scarlet_bricks",
+    "top": "createdeco:block/palettes/bricks/scarlet/long_scarlet_bricks"
+  }
+}

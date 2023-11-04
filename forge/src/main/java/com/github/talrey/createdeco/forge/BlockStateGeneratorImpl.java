@@ -9,6 +9,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 
@@ -141,6 +142,22 @@ public class BlockStateGeneratorImpl {
   public static void coinstackBlock (
     ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void brick (
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void brickStair (
+    DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String color
   ) {
     ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
       ctx.getName()
