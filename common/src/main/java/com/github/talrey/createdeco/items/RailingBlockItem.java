@@ -7,6 +7,7 @@ import com.simibubi.create.foundation.placement.PlacementOffset;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
 import java.util.List;
@@ -29,26 +31,38 @@ public class RailingBlockItem extends BlockItem {
 
   @Override
   public InteractionResult useOn (UseOnContext ctx) {
-    BlockPos pos   = ctx.getClickedPos();
-    Direction face = ctx.getClickedFace();
-    Level level    = ctx.getLevel();
-    Player player  = ctx.getPlayer();
+    BlockPos pos    = ctx.getClickedPos();
+    Direction face  = ctx.getClickedFace();
+    Level level     = ctx.getLevel();
+    Player player   = ctx.getPlayer();
+    ItemStack stack = ctx.getItemInHand();
 
     BlockState state        = level.getBlockState(pos);
     IPlacementHelper helper = PlacementHelpers.get(placementHelperID);
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
-    if (player != null && !player.isShiftKeyDown()) {
-      PlacementOffset offset = null;
-      if (helper.matchesState(state)) {
-        offset = helper.getOffset(player, level, state, pos, ray);
-        //return offset.placeInWorld(world, this, player, ctx.getHand(), ray);
-      }
-      if (offset != null && offset.isSuccessful()) {
-        state = offset.getGhostState(); //level.getBlockState(offset.getBlockPos());
-        level.setBlock(offset.getBlockPos(), offset.getTransform().apply(state), 3);
-        return InteractionResult.SUCCESS;
-      }
+
+    if (player == null || player.isShiftKeyDown()) return InteractionResult.PASS;
+
+    PlacementOffset offset = null;
+    if (helper.matchesState(state)) {
+      offset = helper.getOffset(player, level, state, pos, ray);
+      //return offset.placeInWorld(world, this, player, ctx.getHand(), ray);
     }
+
+    if (offset != null && offset.isSuccessful()) {
+      state = offset.getGhostState(); //level.getBlockState(offset.getBlockPos());
+      var offsetPos = offset.getBlockPos();
+      var soundType = state.getSoundType();
+
+      level.setBlock(offsetPos, offset.getTransform().apply(state), 3);
+      level.playSound(player, offsetPos, this.getPlaceSound(state), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+      level.gameEvent(GameEvent.BLOCK_PLACE, offsetPos, GameEvent.Context.of(player, state));
+      if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+      }
+      return InteractionResult.SUCCESS;
+    }
+
     return super.useOn(ctx);
   }
 
@@ -75,7 +89,11 @@ public class RailingBlockItem extends BlockItem {
         state = adjacent;
       }
 
-      if (!CatwalkRailingBlock.isRailing(state.getBlock())) {
+      if (!CatwalkRailingBlock.isRailing(state.getBlock()) ||
+              (state.getValue(CatwalkRailingBlock.NORTH_FENCE)
+              && state.getValue(CatwalkRailingBlock.SOUTH_FENCE)
+              && state.getValue(CatwalkRailingBlock.EAST_FENCE)
+              && state.getValue(CatwalkRailingBlock.WEST_FENCE))) {
         return PlacementOffset.fail();
       }
 
