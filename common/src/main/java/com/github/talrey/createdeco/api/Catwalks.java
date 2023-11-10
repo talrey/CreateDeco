@@ -19,7 +19,9 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.BlockTags;
@@ -27,6 +29,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
@@ -128,6 +137,22 @@ public class Catwalks {
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalkRailing(reg, metal, ctx, prov))
       .recipe((ctx,prov)-> {})
+      .loot((table, block) -> {
+        LootTable.Builder builder = LootTable.lootTable();
+        LootPool.Builder pool     = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
+        LootItem.Builder<?> entry = LootItem.lootTableItem(block);
+
+        entry.apply(SetItemCountFunction.setCount(ConstantValue.exactly(0)));
+        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
+          entry.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1), true)
+              .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                .setProperties(StatePropertiesPredicate.Builder.properties()
+                  .hasProperty(CatwalkRailingBlock.fromDirection(dir), true)
+                )));
+        }
+        pool.add(entry);
+        table.add(block, builder.withPool(pool));
+      })
       .item(RailingBlockItem::new)
       .build();
   }
