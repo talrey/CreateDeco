@@ -1,0 +1,10 @@
+{
+  "parent": "createdeco:block/shipping_container",
+  "textures": {
+    "0": "createdeco:block/palettes/shipping_containers/white/vault_bottom_small",
+    "1": "createdeco:block/palettes/shipping_containers/white/vault_front_small",
+    "2": "createdeco:block/palettes/shipping_containers/white/vault_side_small",
+    "3": "createdeco:block/palettes/shipping_containers/white/vault_top_small",
+    "particle": "createdeco:block/palettes/shipping_containers/white/vault_top_small"
+  }
+}

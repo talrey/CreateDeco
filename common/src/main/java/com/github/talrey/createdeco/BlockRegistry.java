@@ -7,13 +7,19 @@ import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
+import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
+import com.simibubi.create.content.logistics.vault.ItemVaultCTBehaviour;
+import com.simibubi.create.content.logistics.vault.ItemVaultItem;
+import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -24,12 +30,14 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.material.MapColor;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.github.talrey.createdeco.api.CageLamps.*;
+import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class BlockRegistry {
@@ -68,13 +76,17 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS     = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkRailingBlock>> CATWALK_RAILINGS = new HashMap<>();
 
-	public static HashMap<String, BlockEntry<HullBlock>> HULLS       = new HashMap<>();
-	public static HashMap<String, BlockEntry<SupportBlock>> SUPPORTS = new HashMap<>();
+	public static HashMap<String, BlockEntry<HullBlock>> HULLS          = new HashMap<>();
+	public static HashMap<String, BlockEntry<SupportBlock>> SUPPORTS    = new HashMap<>();
+	public static HashMap<String, BlockEntry<SupportWedgeBlock>> WEDGES = new HashMap<>();
 
 	public static HashMap<DyeColor, BlockEntry<? extends PlacardBlock>> PLACARDS = new HashMap<>();
-	public static BlockEntityEntry<DyedPlacardBlock.Entity> PLACARD_ENTITY;
+	public static BlockEntityEntry<DyedPlacardBlock.Entity> PLACARD_ENTITIES;
 
 	public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
+
+	public static HashMap<DyeColor, BlockEntry<ShippingContainerBlock>> SHIPPING_CONTAINERS = new HashMap<>();
+	public static BlockEntityEntry<ShippingContainerBlock.Entity> SHIPPING_CONTAINER_ENTITIES;
 
 	public static void init() {
 		// load the class and register everything
@@ -103,6 +115,7 @@ public class BlockRegistry {
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerHulls);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
 		registerPlacards();
+		registerShippingContainers();
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCoins);
 
 		// Bricks registration
@@ -148,6 +161,8 @@ public class BlockRegistry {
 
 	private static void registerCatwalks (String metal, Function<String, Item> getter) {
 		//String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+		WEDGES.put(metal, Wedges.build(
+				CreateDecoMod.REGISTRATE, metal).register());
 		CATWALKS.put(metal, Catwalks.build(
 			CreateDecoMod.REGISTRATE, metal, BARS.get(metal)).register());
 		CATWALK_STAIRS.put(metal, Catwalks.buildStair(
@@ -190,47 +205,72 @@ public class BlockRegistry {
 		);
 	}
 
+	private static void registerShippingContainers () {
+		for (DyeColor color : DyeColor.values()) {
+			String regName = color.name().toLowerCase(Locale.ROOT)
+				.replaceAll(" ", "_");
+
+			SHIPPING_CONTAINERS.put(color, ShippingContainers.build(CreateDecoMod.REGISTRATE, regName)
+					.recipe(ShippingContainers.recipe(color))
+					.register()
+			);
+		}
+
+		@SuppressWarnings("unchecked")
+		BlockEntry<? extends ItemVaultBlock>[] validPlacards = new BlockEntry[SHIPPING_CONTAINERS.size()];
+		int color = 0;
+		for (BlockEntry<? extends ItemVaultBlock> block : SHIPPING_CONTAINERS.values()) {
+			validPlacards[color] = block;
+		}
+		SHIPPING_CONTAINER_ENTITIES = CreateDecoMod.REGISTRATE.blockEntity("shipping_container", ShippingContainerBlock.Entity::new)
+			//.renderer(()-> PlacardRenderer::new)
+			.validBlocks(SHIPPING_CONTAINERS.values().toArray(validPlacards))
+			.register();
+	}
+
 	private static void registerPlacards () {
 		for (DyeColor color : DyeColor.values()) {
 			if (color == DyeColor.WHITE) { // Create's is the default
 				continue;
 			}
 			String regName = color.name().toLowerCase(Locale.ROOT)
-				.replaceAll(" ", "_") + "_placard";
+					.replaceAll(" ", "_") + "_placard";
 
 			PLACARDS.put(color, CreateDecoMod.REGISTRATE.block(regName, DyedPlacardBlock::new)
-				.initialProperties(SharedProperties::copperMetal)
-				.transform(pickaxeOnly())
-				.tag(AllTags.AllBlockTags.SAFE_NBT.tag)
-				.blockstate((ctx,prov)->BlockStateGenerator.placard(CreateDecoMod.REGISTRATE, color, ctx, prov))
-				.simpleItem()
-				.recipe((ctx,prov)->
-					ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
-						.requires(CDTags.PLACARD)
-						.requires(DyeItem.byColor(color))
-						.unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-							ItemPredicate.Builder.item().of(CDTags.PLACARD).build()
-						))
-						.unlockedBy("has_dye", InventoryChangeTrigger.TriggerInstance.hasItems(
-							ItemPredicate.Builder.item().of(DyeItem.byColor(color)).build()
-						))
-						.group("dye_placard")
-						.save(prov)
-				)
-				.onRegisterAfter(Registries.ITEM, placard -> {
-					// none of this works. TODO ask about tooltips
-					TooltipModifier original = TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem());
-					if (original == null) {
-						CreateDecoMod.LOGGER.info("placard tooltip was null"); // why is it null?
-					} else if (original.equals(TooltipModifier.EMPTY)) {
-						CreateDecoMod.LOGGER.info("placard tooltip was empty");
-					}
-					TooltipModifier.REGISTRY.register(placard.asItem(),
-						TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem())
-					);
-				})
-				.register());
+					.initialProperties(SharedProperties::copperMetal)
+					.transform(pickaxeOnly())
+					.tag(AllTags.AllBlockTags.SAFE_NBT.tag)
+					.blockstate((ctx,prov)->BlockStateGenerator.placard(CreateDecoMod.REGISTRATE, color, ctx, prov))
+					.simpleItem()
+					.recipe((ctx,prov)->
+							ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
+									.requires(CDTags.PLACARD)
+									.requires(DyeItem.byColor(color))
+									.unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+											ItemPredicate.Builder.item().of(CDTags.PLACARD).build()
+									))
+									.unlockedBy("has_dye", InventoryChangeTrigger.TriggerInstance.hasItems(
+											ItemPredicate.Builder.item().of(DyeItem.byColor(color)).build()
+									))
+									.group("dye_placard")
+									.save(prov)
+					)
+					.onRegisterAfter(Registries.ITEM, placard -> {
+						// none of this works. TODO ask about tooltips
+						TooltipModifier original = TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem());
+						if (original == null) {
+							CreateDecoMod.LOGGER.info("placard tooltip was null"); // why is it null?
+						} else if (original.equals(TooltipModifier.EMPTY)) {
+							CreateDecoMod.LOGGER.info("placard tooltip was empty");
+						}
+						TooltipModifier.REGISTRY.register(placard.asItem(),
+								TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem())
+						);
+					})
+					.register());
 		}
+
+
 
 		@SuppressWarnings("unchecked")
 		BlockEntry<? extends PlacardBlock>[] validPlacards = new BlockEntry[PLACARDS.size()];
@@ -238,10 +278,10 @@ public class BlockRegistry {
 		for (BlockEntry<? extends PlacardBlock> block : PLACARDS.values()) {
 			validPlacards[color] = block;
 		}
-		PLACARD_ENTITY = CreateDecoMod.REGISTRATE.blockEntity("dyed_placard", DyedPlacardBlock.Entity::new)
-			.renderer(()-> PlacardRenderer::new)
-			.validBlocks(PLACARDS.values().toArray(validPlacards))
-			.register();
+		PLACARD_ENTITIES = CreateDecoMod.REGISTRATE.blockEntity("dyed_placard", DyedPlacardBlock.Entity::new)
+				.renderer(()-> PlacardRenderer::new)
+				.validBlocks(PLACARDS.values().toArray(validPlacards))
+				.register();
 	}
 
 	private static void registerCoins (String metal, Function<String, Item> getter) {

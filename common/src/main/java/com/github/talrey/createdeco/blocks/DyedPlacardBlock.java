@@ -14,7 +14,7 @@ public class DyedPlacardBlock extends PlacardBlock {
 
   @Override
   public BlockEntityType<? extends PlacardBlockEntity> getBlockEntityType() {
-    return BlockRegistry.PLACARD_ENTITY.get();
+    return BlockRegistry.PLACARD_ENTITIES.get();
   }
 
   // the BlockEntity for the Dyed Placard

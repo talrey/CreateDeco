@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/support_wedge",
+  "textures": {
+    "0": "createdeco:block/palettes/support_wedges/brass_support_wedge",
+    "particle": "createdeco:block/palettes/support_wedges/brass_support_wedge"
+  }
+}

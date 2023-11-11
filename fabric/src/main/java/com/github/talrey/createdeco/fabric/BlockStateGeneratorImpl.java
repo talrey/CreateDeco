@@ -1,5 +1,8 @@
 package com.github.talrey.createdeco.fabric;
 
+import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
+import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
+import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -299,6 +302,67 @@ public class BlockStateGeneratorImpl {
     );
   }
 
+  public static void supportWedge (
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+
+    String regName = ctx.getName();
+    ResourceLocation wedge = prov.modLoc("block/palettes/support_wedges/" + regName);
+
+    prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
+      int y = 0;
+      int x = 0;
+      var facing = state.getValue(SupportWedgeBlock.FACING);
+      var orientation = state.getValue(SupportWedgeBlock.ORIENTATION);
+      var horizontal = false;
+
+      switch (facing) {
+        case NORTH -> {
+          switch (orientation) {
+            case 1 -> {x = 0; y = 0;}
+            case 2 -> {x = 0; y = 270; horizontal = true;}
+            case 3 -> {x = 270; y = 0;}
+            case 4 -> {x = 0; y = 0; horizontal = true;}
+          }
+        }
+        case SOUTH -> {
+          switch (orientation) {
+            case 1 -> {x = 0; y = 180;}
+            case 2 -> {x = 0; y = 180; horizontal = true;}
+            case 3 -> {x = 270; y = 180;}
+            case 4 -> {x = 0; y = 90; horizontal = true;}
+          }
+        }
+        case EAST -> {
+          switch (orientation) {
+            case 1 -> {x = 0; y = 90;}
+            case 2 -> {x = 0; y = 0;   horizontal = true;}
+            case 3 -> {x = 270; y = 90;}
+            case 4 -> {x = 0; y = 90; horizontal = true;}
+          }
+        }
+        case WEST -> {
+          switch (orientation) {
+            case 1 -> {x = 0; y = 270;}
+            case 2 -> {x = 0; y = 270; horizontal = true;}
+            case 3 -> {x = 270; y = 270;}
+            case 4 -> {x = 0; y = 180; horizontal = true;}
+          }
+        }
+      }
+
+      return ConfiguredModel.builder().modelFile(prov.models()
+                      .withExistingParent(
+                              ctx.getName() + (horizontal ? "_horizontal" : ""),
+                              prov.modLoc("block/support_wedge" + (horizontal ? "_horizontal" : "")))
+                      .texture("0", wedge)
+                      .texture("particle", wedge))
+              .rotationX(x).rotationY(y).build();
+    });
+
+  }
+
   public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
@@ -320,6 +384,27 @@ public class BlockStateGeneratorImpl {
         .texture("0", prov.modLoc("block/palettes/placard/" + regName))
         .texture("particle", prov.modLoc("block/palettes/placard/" + regName))
     );
+  }
+
+  public static void shippingContainer (
+          CreateRegistrate reg, DyeColor color,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
+      String regName = color.name().toLowerCase(Locale.ROOT)
+              .replaceAll(" ", "_");
+
+      return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
+          regName + "_shipping_container", prov.modLoc("block/shipping_container"))
+          .texture("0", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_bottom_small"))
+          .texture("1", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_front_small"))
+          .texture("2", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_side_small"))
+          .texture("3", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small"))
+          .texture("particle",  prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small")))
+          .rotationY(state.getValue(ItemVaultBlock.HORIZONTAL_AXIS) == Direction.Axis.X ? 90 : 0)
+          .build();
+    });
+
   }
 
   public static void coinstackBlock (

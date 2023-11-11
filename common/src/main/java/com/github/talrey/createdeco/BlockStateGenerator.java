@@ -115,6 +115,14 @@ public class BlockStateGenerator {
   }
 
   @ExpectPlatform
+  public static void supportWedge (
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
   public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
@@ -123,9 +131,17 @@ public class BlockStateGenerator {
   }
 
   @ExpectPlatform
+  public static void shippingContainer (
+          CreateRegistrate reg, DyeColor color,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
   public static void placard (
-    CreateRegistrate reg, DyeColor color,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+          CreateRegistrate reg, DyeColor color,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
     throw new AssertionError();
   }

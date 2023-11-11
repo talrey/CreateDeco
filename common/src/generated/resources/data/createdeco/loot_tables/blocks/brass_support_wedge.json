@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "createdeco:brass_support_wedge"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "createdeco:blocks/brass_support_wedge"
+}

@@ -123,6 +123,16 @@ public class BlockStateGeneratorImpl {
     )));
   }
 
+
+  public static void supportWedge (
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+            ctx.getName()
+    )));
+  }
+
   public static void trapdoorItem (
     CreateRegistrate reg, String metal,
     DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
