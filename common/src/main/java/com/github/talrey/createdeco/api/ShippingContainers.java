@@ -64,7 +64,7 @@ public class ShippingContainers {
   public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> recipe (
           DyeColor color
   ) {
-    return (ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
+    return (ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 1)
             .pattern("CSC")
             .pattern("SBS")
             .pattern("CSC")

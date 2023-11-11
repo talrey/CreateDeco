@@ -46,7 +46,7 @@ public class Wedges {
       .lang(metal + " Support Wedge");
   }
 
-  private static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> recipe (
+  public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> recipe (
           String metal,
           @Nullable Supplier<Item> nonstandardMaterial
   ) {

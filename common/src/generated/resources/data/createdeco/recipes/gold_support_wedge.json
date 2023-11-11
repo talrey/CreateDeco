@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": {
+      "tag": "createdeco:internal/plates/gold_plates"
+    }
+  },
+  "pattern": [
+    " p",
+    "pp"
+  ],
+  "result": {
+    "count": 3,
+    "item": "createdeco:gold_support_wedge"
+  },
+  "show_notification": true
+}

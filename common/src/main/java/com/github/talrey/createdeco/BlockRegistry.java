@@ -162,7 +162,9 @@ public class BlockRegistry {
 	private static void registerCatwalks (String metal, Function<String, Item> getter) {
 		//String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 		WEDGES.put(metal, Wedges.build(
-				CreateDecoMod.REGISTRATE, metal).register());
+				CreateDecoMod.REGISTRATE, metal)
+				.recipe(Wedges.recipe(metal, metal.contains("Andesite") ? AllItems.ANDESITE_ALLOY : null))
+				.register());
 		CATWALKS.put(metal, Catwalks.build(
 			CreateDecoMod.REGISTRATE, metal, BARS.get(metal)).register());
 		CATWALK_STAIRS.put(metal, Catwalks.buildStair(
