@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco.fabric;
 
+import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
 import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
 import com.simibubi.create.foundation.data.AssetLookup;
@@ -401,7 +402,7 @@ public class BlockStateGeneratorImpl {
           .texture("2", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_side_small"))
           .texture("3", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small"))
           .texture("particle",  prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small")))
-          .rotationY(state.getValue(ItemVaultBlock.HORIZONTAL_AXIS) == Direction.Axis.X ? 90 : 0)
+          .rotationY(state.getValue(ShippingContainerBlock.HORIZONTAL_AXIS) == Direction.Axis.X ? 90 : 0)
           .build();
     });
 

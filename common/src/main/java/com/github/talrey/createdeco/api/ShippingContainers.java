@@ -7,6 +7,7 @@ import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
 import com.github.talrey.createdeco.connected.ShippingContainerCTBehavior;
 import com.github.talrey.createdeco.items.RailingBlockItem;
 import com.github.talrey.createdeco.items.ShippingContainerBlockItem;
+import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.logistics.vault.ItemVaultCTBehaviour;
 import com.simibubi.create.content.logistics.vault.ItemVaultItem;
@@ -21,6 +22,7 @@ import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
@@ -65,14 +67,25 @@ public class ShippingContainers {
           DyeColor color
   ) {
     return (ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 1)
-            .pattern("CSC")
-            .pattern("SBS")
-            .pattern("CSC")
+            .pattern("CS")
+            .pattern("SB")
             .define('S', AllItems.IRON_SHEET)
             .define('C', DyeItem.byColor(color))
             .define('B', Items.BARREL)
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
                     ItemPredicate.Builder.item().of(AllItems.IRON_SHEET).build()
+            ))
+            .save(prov);
+  }
+
+  public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> redyeRecipe (
+          DyeColor color
+  ) {
+    return (ctx,prov)-> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
+            .requires(DyeItem.byColor(color))
+            .requires(AllBlocks.ITEM_VAULT.asItem())
+            .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+                    ItemPredicate.Builder.item().of(AllBlocks.ITEM_VAULT.asItem()).build()
             ))
             .save(prov);
   }

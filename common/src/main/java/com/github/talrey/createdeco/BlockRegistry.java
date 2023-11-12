@@ -214,14 +214,15 @@ public class BlockRegistry {
 
 			SHIPPING_CONTAINERS.put(color, ShippingContainers.build(CreateDecoMod.REGISTRATE, regName)
 					.recipe(ShippingContainers.recipe(color))
+					.recipe(ShippingContainers.redyeRecipe(color))
 					.register()
 			);
 		}
 
 		@SuppressWarnings("unchecked")
-		BlockEntry<? extends ItemVaultBlock>[] validPlacards = new BlockEntry[SHIPPING_CONTAINERS.size()];
+		BlockEntry<? extends ShippingContainerBlock>[] validPlacards = new BlockEntry[SHIPPING_CONTAINERS.size()];
 		int color = 0;
-		for (BlockEntry<? extends ItemVaultBlock> block : SHIPPING_CONTAINERS.values()) {
+		for (BlockEntry<? extends ShippingContainerBlock> block : SHIPPING_CONTAINERS.values()) {
 			validPlacards[color] = block;
 		}
 		SHIPPING_CONTAINER_ENTITIES = CreateDecoMod.REGISTRATE.blockEntity("shipping_container", ShippingContainerBlock.Entity::new)

@@ -1,24 +1,15 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "key": {
-    "B": {
-      "item": "minecraft:barrel"
-    },
-    "C": {
+  "ingredients": [
+    {
       "item": "minecraft:orange_dye"
     },
-    "S": {
-      "item": "create:iron_sheet"
+    {
+      "item": "create:item_vault"
     }
-  },
-  "pattern": [
-    "CSC",
-    "SBS",
-    "CSC"
   ],
   "result": {
     "item": "createdeco:orange_shipping_container"
-  },
-  "show_notification": true
+  }
 }

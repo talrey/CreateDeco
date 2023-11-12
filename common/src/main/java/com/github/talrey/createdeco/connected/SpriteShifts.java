@@ -17,25 +17,40 @@ import java.util.Locale;
 public class SpriteShifts {
   public static final HashMap<String, CTSpriteShiftEntry> SHEET_METAL_SIDES = new HashMap<>();
   public static final HashMap<String, CTSpriteShiftEntry> CATWALK_TOPS      = new HashMap<>();
+  public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULTS  = new HashMap<>();
 
-  public static final Couple<CTSpriteShiftEntry> VAULT_TOP = vault("top"), VAULT_FRONT = vault("front"),
-          VAULT_SIDE = vault("side"), VAULT_BOTTOM = vault("bottom");
+  public static final Couple<CTSpriteShiftEntry>
+          VAULT_TOP = vault("top"),
+          VAULT_FRONT = vault("front"),
+          VAULT_SIDE = vault("side"),
+          VAULT_BOTTOM = vault("bottom");
 
   static {
     populateMaps();
   }
 
   private static Couple<CTSpriteShiftEntry> vault(String name) {
-    //for (DyeColor color : DyeColor.values()) {
+    for (DyeColor color : DyeColor.values()) {
       //final String prefixed = "block/vault/vault_" + name;
-      final String prefixed = "block/palettes/shipping_containers/" + "blue" + "/vault_" + name;
+      final String prefixed = "block/palettes/shipping_containers/" + color + "/vault_" + name;
       return Couple.createWithContext(
               medium -> CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, CreateDecoMod.id(prefixed + "_small"),
                       CreateDecoMod.id(medium ? prefixed + "_medium" : prefixed + "_large")));
-    //}
+    }
+    //todo figure this shit out
   }
 
   private static void populateMaps () {
+    //for (DyeColor color : DyeColor.values()) {
+    //  //String prefixed = "block/vault/vault_" + name;
+    //
+    //  String prefixed = "block/palettes/shipping_containers/" + color.toString() + "/vault_" + name;
+    //  Couple.createWithContext(
+    //        medium -> CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, CreateDecoMod.id(prefixed + "_small"),
+    //                CreateDecoMod.id(medium ? prefixed + "_medium" : prefixed + "_large")));
+    //}
+
+
 
     for (String metal : ItemRegistry.METAL_TYPES.keySet()) {
       String path = "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal";
