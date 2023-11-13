@@ -3,14 +3,8 @@ package com.github.talrey.createdeco.blocks;
         import com.github.talrey.createdeco.BlockRegistry;
         import com.github.talrey.createdeco.blocks.block_entities.ShippingContainerBlockEntity;
         import com.github.talrey.createdeco.items.ShippingContainerBlockItem;
-        import com.simibubi.create.AllBlockEntityTypes;
-        import com.simibubi.create.AllBlocks;
         import com.simibubi.create.api.connectivity.ConnectivityHandler;
-        import com.simibubi.create.content.decoration.placard.PlacardBlockEntity;
         import com.simibubi.create.content.equipment.wrench.IWrenchable;
-        import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
-        import com.simibubi.create.content.logistics.vault.ItemVaultBlockEntity;
-        import com.simibubi.create.content.logistics.vault.ItemVaultItem;
         import com.simibubi.create.foundation.block.IBE;
         import com.simibubi.create.foundation.item.ItemHelper;
         import io.github.fabricators_of_create.porting_lib.block.CustomSoundTypeBlock;
@@ -19,7 +13,6 @@ package com.github.talrey.createdeco.blocks;
         import net.minecraft.core.Direction;
         import net.minecraft.sounds.SoundEvents;
         import net.minecraft.world.InteractionResult;
-        import net.minecraft.world.entity.Entity;
         import net.minecraft.world.item.DyeColor;
         import net.minecraft.world.item.context.BlockPlaceContext;
         import net.minecraft.world.item.context.UseOnContext;
@@ -43,21 +36,29 @@ package com.github.talrey.createdeco.blocks;
 public class ShippingContainerBlock extends Block implements IWrenchable, IBE<ShippingContainerBlockEntity>, CustomSoundTypeBlock {
     public static final Property<Direction.Axis> HORIZONTAL_AXIS = BlockStateProperties.HORIZONTAL_AXIS;
     public static final BooleanProperty LARGE = BooleanProperty.create("large");
+    public final DyeColor COLOR;
 
-
-    public ShippingContainerBlock(Properties properties) {
+    public ShippingContainerBlock (Properties properties, DyeColor color) {
         super(properties);
+        COLOR = color;
         registerDefaultState(defaultBlockState().setValue(LARGE, false));
     }
 
+    public static DyeColor getColor (BlockState state) {
+      if (state.getBlock() instanceof ShippingContainerBlock scb) {
+        return scb.COLOR;
+      }
+      return DyeColor.BLUE;
+    }
+
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> pBuilder) {
+    protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> pBuilder) {
         pBuilder.add(HORIZONTAL_AXIS, LARGE);
         super.createBlockStateDefinition(pBuilder);
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext pContext) {
+    public BlockState getStateForPlacement (BlockPlaceContext pContext) {
         if (pContext.getPlayer() == null || !pContext.getPlayer()
                 .isSteppingCarefully()) {
             BlockState placedOn = pContext.getLevel()
@@ -75,7 +76,7 @@ public class ShippingContainerBlock extends Block implements IWrenchable, IBE<Sh
     }
 
     @Override
-    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
+    public void onPlace (BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pIsMoving) {
         if (pOldState.getBlock() == pState.getBlock())
             return;
         if (pIsMoving)
@@ -88,7 +89,7 @@ public class ShippingContainerBlock extends Block implements IWrenchable, IBE<Sh
     }
 
     @Override
-    public InteractionResult onWrenched(BlockState state, UseOnContext context) {
+    public InteractionResult onWrenched (BlockState state, UseOnContext context) {
         if (context.getClickedFace()
                 .getAxis()
                 .isVertical()) {
@@ -106,7 +107,7 @@ public class ShippingContainerBlock extends Block implements IWrenchable, IBE<Sh
     }
 
     @Override
-    public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean pIsMoving) {
+    public void onRemove (BlockState state, Level world, BlockPos pos, BlockState newState, boolean pIsMoving) {
         if (state.hasBlockEntity() && (state.getBlock() != newState.getBlock() || !newState.hasBlockEntity())) {
             BlockEntity be = world.getBlockEntity(pos);
             if (!(be instanceof ShippingContainerBlockEntity))
@@ -118,7 +119,7 @@ public class ShippingContainerBlock extends Block implements IWrenchable, IBE<Sh
         }
     }
 
-    public static boolean isVault(BlockState state) {
+    public static boolean isVault (BlockState state) {
         boolean bool = false;
         for (DyeColor color : DyeColor.values()) {
             if (BlockRegistry.SHIPPING_CONTAINERS.get(color).has(state)) {

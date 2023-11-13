@@ -388,24 +388,23 @@ public class BlockStateGeneratorImpl {
   }
 
   public static void shippingContainer (
-          CreateRegistrate reg, DyeColor color,
-          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+    CreateRegistrate reg, DyeColor color,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
     prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
       String regName = color.name().toLowerCase(Locale.ROOT)
-              .replaceAll(" ", "_");
+        .replaceAll(" ", "_");
 
       return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
-          regName + "_shipping_container", prov.modLoc("block/shipping_container"))
-          .texture("0", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_bottom_small"))
-          .texture("1", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_front_small"))
-          .texture("2", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_side_small"))
-          .texture("3", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small"))
-          .texture("particle",  prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small")))
-          .rotationY(state.getValue(ShippingContainerBlock.HORIZONTAL_AXIS) == Direction.Axis.X ? 90 : 0)
-          .build();
+        regName + "_shipping_container", prov.modLoc("block/shipping_container"))
+        .texture("0", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_bottom_small"))
+        .texture("1", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_front_small"))
+        .texture("2", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_side_small"))
+        .texture("3", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small"))
+        .texture("particle",  prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small")))
+        .rotationY(state.getValue(ShippingContainerBlock.HORIZONTAL_AXIS) == Direction.Axis.X ? 90 : 0)
+        .build();
     });
-
   }
 
   public static void coinstackBlock (

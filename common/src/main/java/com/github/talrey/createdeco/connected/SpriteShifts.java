@@ -17,40 +17,32 @@ import java.util.Locale;
 public class SpriteShifts {
   public static final HashMap<String, CTSpriteShiftEntry> SHEET_METAL_SIDES = new HashMap<>();
   public static final HashMap<String, CTSpriteShiftEntry> CATWALK_TOPS      = new HashMap<>();
-  public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULTS  = new HashMap<>();
 
-  public static final Couple<CTSpriteShiftEntry>
-          VAULT_TOP = vault("top"),
-          VAULT_FRONT = vault("front"),
-          VAULT_SIDE = vault("side"),
-          VAULT_BOTTOM = vault("bottom");
+  public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_TOP = new HashMap<>();
+  public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_FRONT = new HashMap<>();
+  public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_SIDE = new HashMap<>();
+  public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_BOTTOM = new HashMap<>();
 
   static {
     populateMaps();
   }
 
-  private static Couple<CTSpriteShiftEntry> vault(String name) {
-    for (DyeColor color : DyeColor.values()) {
-      //final String prefixed = "block/vault/vault_" + name;
-      final String prefixed = "block/palettes/shipping_containers/" + color + "/vault_" + name;
-      return Couple.createWithContext(
-              medium -> CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, CreateDecoMod.id(prefixed + "_small"),
-                      CreateDecoMod.id(medium ? prefixed + "_medium" : prefixed + "_large")));
-    }
-    //todo figure this shit out
+  private static Couple<CTSpriteShiftEntry> vault (DyeColor color, String face) {
+    //final String prefixed = "block/vault/vault_" + name;
+    final String prefixed = "block/palettes/shipping_containers/" + color + "/vault_" + face;
+    return Couple.createWithContext(medium -> CTSpriteShifter.getCT(
+      AllCTTypes.RECTANGLE, CreateDecoMod.id(prefixed + "_small"),
+      CreateDecoMod.id(medium ? prefixed + "_medium" : prefixed + "_large")
+    ));
   }
 
   private static void populateMaps () {
-    //for (DyeColor color : DyeColor.values()) {
-    //  //String prefixed = "block/vault/vault_" + name;
-    //
-    //  String prefixed = "block/palettes/shipping_containers/" + color.toString() + "/vault_" + name;
-    //  Couple.createWithContext(
-    //        medium -> CTSpriteShifter.getCT(AllCTTypes.RECTANGLE, CreateDecoMod.id(prefixed + "_small"),
-    //                CreateDecoMod.id(medium ? prefixed + "_medium" : prefixed + "_large")));
-    //}
-
-
+    for (DyeColor color : DyeColor.values()) {
+      VAULT_TOP   .put(color, vault(color, "top"));
+      VAULT_BOTTOM.put(color, vault(color, "bottom"));
+      VAULT_FRONT .put(color, vault(color, "front"));
+      VAULT_SIDE  .put(color, vault(color, "side"));
+    }
 
     for (String metal : ItemRegistry.METAL_TYPES.keySet()) {
       String path = "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal";

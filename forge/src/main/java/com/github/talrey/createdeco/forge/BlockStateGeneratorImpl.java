@@ -149,6 +149,15 @@ public class BlockStateGeneratorImpl {
     )));
   }
 
+  public static void shippingContainer (
+    CreateRegistrate reg, DyeColor color,
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
   public static void coinstackBlock (
     ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
