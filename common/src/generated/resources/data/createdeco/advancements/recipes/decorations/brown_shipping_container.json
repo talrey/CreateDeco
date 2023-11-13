@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "create:item_vault"
+              "create:iron_sheet"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:brown_shipping_container"
+        "recipe": "minecraft:brown_shipping_container"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:brown_shipping_container"
+      "minecraft:brown_shipping_container"
     ]
   },
   "sends_telemetry_event": false

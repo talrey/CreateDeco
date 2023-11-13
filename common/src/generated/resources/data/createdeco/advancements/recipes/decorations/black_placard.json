@@ -1,23 +1,13 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_dye": {
-      "conditions": {
-        "items": [
-          {
-            "items": [
-              "minecraft:black_dye"
-            ]
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
     "has_item": {
       "conditions": {
         "items": [
           {
-            "tag": "createdeco:placards"
+            "items": [
+              "create:brass_sheet"
+            ]
           }
         ]
       },
@@ -25,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:black_placard"
+        "recipe": "minecraft:black_placard"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -33,13 +23,12 @@
   "requirements": [
     [
       "has_item",
-      "has_dye",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "createdeco:black_placard"
+      "minecraft:black_placard"
     ]
   },
   "sends_telemetry_event": false

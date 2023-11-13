@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:orange_dye"
+    },
+    {
+      "item": "create:item_vault"
+    }
+  ],
+  "result": {
+    "item": "createdeco:orange_shipping_container"
+  }
+}

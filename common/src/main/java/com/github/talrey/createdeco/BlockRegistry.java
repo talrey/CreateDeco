@@ -203,21 +203,22 @@ public class BlockRegistry {
 	private static void registerShippingContainers () {
 		for (DyeColor color : DyeColor.values()) {
 			SHIPPING_CONTAINERS.put(color, ShippingContainers.build(CreateDecoMod.REGISTRATE, color)
-				.recipe(ShippingContainers.recipe(color))
-				.recipe(ShippingContainers.redyeRecipe(color))
+				.recipe( (ctx, prov)-> {
+					ShippingContainers.recipeCrafting(color, ctx, prov);
+					ShippingContainers.recipeDyeing(color, ctx, prov);
+				})
 				.register()
 			);
 		}
 
 		@SuppressWarnings("unchecked")
-		BlockEntry<? extends ShippingContainerBlock>[] validPlacards = new BlockEntry[SHIPPING_CONTAINERS.size()];
+		BlockEntry<? extends ShippingContainerBlock>[] validContainers = new BlockEntry[SHIPPING_CONTAINERS.size()];
 		int color = 0;
 		for (BlockEntry<? extends ShippingContainerBlock> block : SHIPPING_CONTAINERS.values()) {
-			validPlacards[color] = block;
+			validContainers[color] = block;
 		}
 		SHIPPING_CONTAINER_ENTITIES = CreateDecoMod.REGISTRATE.blockEntity("shipping_container", ShippingContainerBlockEntity::new)
-			//.renderer(()-> PlacardRenderer::new)
-			.validBlocks(SHIPPING_CONTAINERS.values().toArray(validPlacards))
+			.validBlocks(SHIPPING_CONTAINERS.values().toArray(validContainers))
 			.register();
 	}
 
@@ -235,19 +236,10 @@ public class BlockRegistry {
 				.tag(AllTags.AllBlockTags.SAFE_NBT.tag)
 				.blockstate((ctx,prov)->BlockStateGenerator.placard(CreateDecoMod.REGISTRATE, color, ctx, prov))
 				.simpleItem()
-				.recipe((ctx,prov)->
-					ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
-						.requires(CDTags.PLACARD)
-						.requires(DyeItem.byColor(color))
-						.unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-							ItemPredicate.Builder.item().of(CDTags.PLACARD).build()
-						))
-						.unlockedBy("has_dye", InventoryChangeTrigger.TriggerInstance.hasItems(
-							ItemPredicate.Builder.item().of(DyeItem.byColor(color)).build()
-						))
-						.group("dye_placard")
-						.save(prov)
-				)
+				.recipe( (ctx, prov)-> {
+					Placards.recipeCrafting(color, ctx, prov);
+					Placards.recipeDyeing(color, ctx, prov);
+				})
 				.onRegisterAfter(Registries.ITEM, placard -> {
 					// none of this works. TODO ask about tooltips
 					TooltipModifier original = TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem());

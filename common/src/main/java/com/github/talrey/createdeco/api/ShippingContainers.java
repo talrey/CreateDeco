@@ -12,7 +12,6 @@ import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -27,7 +26,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.Locale;
-import java.util.function.Supplier;
 
 import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
@@ -47,15 +45,14 @@ public class ShippingContainers {
       .item(ShippingContainerBlockItem::new)
         .build()
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-      .lang(color + " Shipping Container")
+      .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase().replaceAll(" ", "_") + " Shipping Container")
+
       .blockstate((ctx, prov) -> BlockStateGenerator.shippingContainer(CreateDecoMod.REGISTRATE, color, ctx, prov))
       .onRegister(connectedTextures(ShippingContainerCTBehavior::new));
   }
 
-  public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> recipe (
-    DyeColor color
-  ) {
-    return (ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 1)
+  public static <T extends Block> void recipeCrafting (DyeColor color, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov) {
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get())
       .pattern("CS")
       .pattern("SB")
       .define('S', AllItems.IRON_SHEET)
@@ -64,18 +61,16 @@ public class ShippingContainers {
       .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
         ItemPredicate.Builder.item().of(AllItems.IRON_SHEET).build()
       ))
-      .save(prov);
+      .save(prov, color.getName() + "_shipping_container");
   }
 
-  public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> redyeRecipe (
-    DyeColor color
-  ) {
-    return (ctx,prov)-> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
+  public static <T extends Block> void recipeDyeing (DyeColor color, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov) {
+    ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
       .requires(DyeItem.byColor(color))
       .requires(AllBlocks.ITEM_VAULT.asItem())
       .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
         ItemPredicate.Builder.item().of(AllBlocks.ITEM_VAULT.asItem()).build()
       ))
-      .save(prov);
+      .save(prov, color.getName() + "_shipping_container_from_dyeing_vaults");
   }
 }

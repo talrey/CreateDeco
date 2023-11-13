@@ -1,10 +1,12 @@
 {
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
-  "group": "dye_placard",
   "ingredients": [
     {
-      "tag": "createdeco:placards"
+      "item": "minecraft:item_frame"
+    },
+    {
+      "item": "create:brass_sheet"
     },
     {
       "item": "minecraft:magenta_dye"
