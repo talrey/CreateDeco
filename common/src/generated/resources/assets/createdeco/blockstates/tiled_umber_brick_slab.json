@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "createdeco:block/tiled_umber_brick_slab"
+    },
+    "type=double": {
+      "model": "createdeco:block/tiled_umber_bricks"
+    },
+    "type=top": {
+      "model": "createdeco:block/tiled_umber_brick_slab_top"
+    }
+  }
+}

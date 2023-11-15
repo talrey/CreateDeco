@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "tag": "createdeco:internal/blocks/zinc_blocks"
+  },
+  "result": "createdeco:zinc_hull"
+}

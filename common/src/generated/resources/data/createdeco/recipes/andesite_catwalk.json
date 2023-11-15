@@ -1,22 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "B": {
-      "item": "createdeco:andesite_bars"
-    },
-    "p": {
-      "item": "create:andesite_alloy"
-    }
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "create:andesite_alloy"
   },
-  "pattern": [
-    " p ",
-    "pBp",
-    " p "
-  ],
-  "result": {
-    "count": 3,
-    "item": "createdeco:andesite_catwalk"
-  },
-  "show_notification": true
+  "result": "createdeco:andesite_catwalk"
 }

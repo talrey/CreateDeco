@@ -1,21 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "b": {
-      "item": "createdeco:brass_bars"
-    },
-    "c": {
-      "item": "createdeco:brass_catwalk"
-    }
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "create:brass_ingot"
   },
-  "pattern": [
-    " c",
-    "cb"
-  ],
-  "result": {
-    "count": 2,
-    "item": "createdeco:brass_catwalk_stairs"
-  },
-  "show_notification": true
+  "result": "createdeco:brass_catwalk_stairs"
 }

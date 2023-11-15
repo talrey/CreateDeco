@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "createdeco:internal/plates/gold_plates"
+            "items": [
+              "minecraft:gold_ingot"
+            ]
           }
         ]
       },

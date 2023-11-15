@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "createdeco:internal/plates/iron_plates"
+            "items": [
+              "minecraft:iron_ingot"
+            ]
           }
         ]
       },

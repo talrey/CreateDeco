@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "createdeco:internal/plates/copper_plates"
+            "items": [
+              "minecraft:copper_ingot"
+            ]
           }
         ]
       },

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "createdeco:internal/plates/brass_plates"
+            "items": [
+              "create:brass_ingot"
+            ]
           }
         ]
       },

@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "createdeco:internal/plates/zinc_plates"
+            "items": [
+              "create:zinc_ingot"
+            ]
           }
         ]
       },

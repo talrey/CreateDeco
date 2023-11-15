@@ -42,6 +42,8 @@ public class BlockRegistry {
 		put(DyeColor.BLACK, "dusk");
 		put(DyeColor.WHITE, "pearl");
 		put(DyeColor.RED, "scarlet");
+		put(DyeColor.GREEN, "verdant");
+		put(DyeColor.BROWN, "umber");
 		put(null, "red");
 	}};
 
@@ -49,10 +51,7 @@ public class BlockRegistry {
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<StairBlock>>> STAIRS = new HashMap<>();
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<SlabBlock>>>   SLABS = new HashMap<>();
 
-	public static HashMap<String, BlockEntry<Block>>      WORN_BRICKS = new HashMap<>();
-	public static HashMap<String, BlockEntry<StairBlock>> WORN_STAIRS = new HashMap<>();
-	public static HashMap<String, BlockEntry<SlabBlock>>   WORN_SLABS = new HashMap<>();
-
+	public static HashMap<String, BlockEntry<DecalBlock>> DECALS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>    RED_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
@@ -107,6 +106,7 @@ public class BlockRegistry {
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerHulls);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
+		registerDecals();
 		registerPlacards();
 		registerShippingContainers();
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCoins);
@@ -119,9 +119,25 @@ public class BlockRegistry {
 	private static void registerBars (String metal, Function<String, Item> getter) {
 		boolean postFlag = (metal.contains("Netherite")|| metal.contains("Cast Iron"));
 
-		BARS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "", postFlag).register());
-		BAR_PANELS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "overlay", postFlag).register());
+		BARS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "", postFlag)
+				.recipe( (ctx, prov)-> {
+					Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
+				}).register());
+		BAR_PANELS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "overlay", postFlag)
+				.recipe( (ctx, prov)-> {
+					Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
+				}).register());
 	}
+
+	private static void registerDecals () {
+			ArrayList<BlockBuilder<DecalBlock, ?>> decals;
+			decals = Decals.build(CreateDecoMod.REGISTRATE);
+			decals.forEach(bb -> {
+				//DECALS.putIfAbsent("null", new HashMap<>());
+				DECALS.put(bb.getName(), bb.register());
+			});
+	}
+
 
 	private static void registerCageLamps (String metal, Function<String, Item> getter) {
 		ResourceLocation cage = new ResourceLocation(CreateDecoMod.MOD_ID,
@@ -159,15 +175,19 @@ public class BlockRegistry {
 				.recipe(Wedges.recipe(metal, metal.contains("Andesite") ? AllItems.ANDESITE_ALLOY : null))
 				.register());
 		CATWALKS.put(metal, Catwalks.build(
-			CreateDecoMod.REGISTRATE, metal, BARS.get(metal)).register());
+			CreateDecoMod.REGISTRATE, metal, BARS.get(metal))
+				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
 		CATWALK_STAIRS.put(metal, Catwalks.buildStair(
-			CreateDecoMod.REGISTRATE, metal, BARS.get(metal)).register());
+			CreateDecoMod.REGISTRATE, metal, BARS.get(metal))
+				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
 		CATWALK_RAILINGS.put(metal, Catwalks.buildRailing(
-			CreateDecoMod.REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS).register());
+			CreateDecoMod.REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS)
+				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
 	}
 
 	private static void registerFences (String metal, Function<String, Item> getter) {
-		MESH_FENCES.put(metal, MeshFences.build(CreateDecoMod.REGISTRATE, metal).register());
+		MESH_FENCES.put(metal, MeshFences.build(CreateDecoMod.REGISTRATE, metal)
+				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
 	}
 
 	private static void registerDoors (String metal, Function<String, Item> getter) {
@@ -188,7 +208,10 @@ public class BlockRegistry {
 
 	private static void registerHulls (String metal, Function<String, Item> getter) {
 		HULLS.put(metal, Hulls.build(CreateDecoMod.REGISTRATE, metal)
-			.recipe(Hulls.recipe(()->getter.apply("ingot")))
+				.recipe( (ctx, prov)-> {
+					Hulls.recipeCrafting(metal, metal.contains("Andesite") ? AllItems.ANDESITE_ALLOY : null, ctx, prov);
+					Hulls.recipeStonecutting(metal, metal.contains("Andesite") ? AllItems.ANDESITE_ALLOY : null, ctx, prov);
+				})
 			.register()
 		);
 	}
@@ -288,21 +311,6 @@ public class BlockRegistry {
 			ArrayList<BlockBuilder<Block, ?>>     blocks;
 			ArrayList<BlockBuilder<StairBlock,?>> stairs;
 			ArrayList<BlockBuilder<SlabBlock,?>>  slabs;
-
-			if (color == null) { // do worn brick stuff
-				blocks = Bricks.buildBlock(CreateDecoMod.REGISTRATE, "worn");
-				blocks.forEach(bb ->
-					WORN_BRICKS.put(bb.getName(), bb.register())
-				);
-				stairs = Bricks.buildStair(CreateDecoMod.REGISTRATE, "worn");
-				stairs.forEach(bb ->
-					WORN_STAIRS.put(bb.getName(), bb.register())
-				);
-				slabs = Bricks.buildSlab(CreateDecoMod.REGISTRATE, "worn");
-				slabs.forEach(bb ->
-					WORN_SLABS.put(bb.getName(), bb.register())
-				);
-			}
 			blocks = Bricks.buildBlock(CreateDecoMod.REGISTRATE, name);
 			blocks.forEach(bb -> {
 				BRICKS.putIfAbsent(color, new HashMap<>());

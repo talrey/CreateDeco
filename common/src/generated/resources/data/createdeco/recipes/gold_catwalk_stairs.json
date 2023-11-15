@@ -1,21 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "b": {
-      "item": "createdeco:gold_bars"
-    },
-    "c": {
-      "item": "createdeco:gold_catwalk"
-    }
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "minecraft:gold_ingot"
   },
-  "pattern": [
-    " c",
-    "cb"
-  ],
-  "result": {
-    "count": 2,
-    "item": "createdeco:gold_catwalk_stairs"
-  },
-  "show_notification": true
+  "result": "createdeco:gold_catwalk_stairs"
 }

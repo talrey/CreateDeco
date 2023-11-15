@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "create:brass_ingot"
-            ]
+            "tag": "createdeco:internal/blocks/brass_blocks"
           }
         ]
       },

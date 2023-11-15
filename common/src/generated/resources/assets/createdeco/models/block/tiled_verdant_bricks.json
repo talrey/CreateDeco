@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "createdeco:block/palettes/bricks/verdant/tiled_verdant_bricks"
+  }
+}

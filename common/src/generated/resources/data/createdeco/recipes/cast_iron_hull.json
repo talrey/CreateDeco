@@ -3,12 +3,15 @@
   "category": "misc",
   "key": {
     "m": {
-      "item": "createdeco:cast_iron_ingot"
+      "tag": "createdeco:internal/plates/cast_iron_plates"
+    },
+    "p": {
+      "tag": "createdeco:internal/blocks/cast_iron_blocks"
     }
   },
   "pattern": [
     " m ",
-    "m m",
+    "mpm",
     " m "
   ],
   "result": {

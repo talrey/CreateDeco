@@ -1,21 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "b": {
-      "item": "createdeco:netherite_bars"
-    },
-    "c": {
-      "item": "createdeco:netherite_catwalk"
-    }
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "minecraft:netherite_ingot"
   },
-  "pattern": [
-    " c",
-    "cb"
-  ],
-  "result": {
-    "count": 2,
-    "item": "createdeco:netherite_catwalk_stairs"
-  },
-  "show_notification": true
+  "result": "createdeco:netherite_catwalk_stairs"
 }

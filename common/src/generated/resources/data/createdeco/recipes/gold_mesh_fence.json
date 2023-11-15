@@ -1,21 +1,8 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "category": "misc",
-  "key": {
-    "p": {
-      "tag": "createdeco:internal/plates/gold_plates"
-    },
-    "s": {
-      "item": "minecraft:string"
-    }
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "minecraft:gold_ingot"
   },
-  "pattern": [
-    "psp",
-    "psp"
-  ],
-  "result": {
-    "count": 3,
-    "item": "createdeco:gold_mesh_fence"
-  },
-  "show_notification": true
+  "result": "createdeco:gold_mesh_fence"
 }

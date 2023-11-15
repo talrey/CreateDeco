@@ -4,11 +4,14 @@
   "key": {
     "m": {
       "item": "create:andesite_alloy"
+    },
+    "p": {
+      "item": "create:andesite_alloy_block"
     }
   },
   "pattern": [
     " m ",
-    "m m",
+    "mpm",
     " m "
   ],
   "result": {

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "create:zinc_ingot"
+  },
+  "result": "createdeco:zinc_bars_overlay"
+}

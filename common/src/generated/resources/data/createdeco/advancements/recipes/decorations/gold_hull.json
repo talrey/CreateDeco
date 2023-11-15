@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:gold_ingot"
-            ]
+            "tag": "createdeco:internal/blocks/gold_blocks"
           }
         ]
       },

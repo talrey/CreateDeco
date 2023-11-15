@@ -3,12 +3,15 @@
   "category": "misc",
   "key": {
     "m": {
-      "item": "create:zinc_ingot"
+      "tag": "createdeco:internal/plates/zinc_plates"
+    },
+    "p": {
+      "tag": "createdeco:internal/blocks/zinc_blocks"
     }
   },
   "pattern": [
     " m ",
-    "m m",
+    "mpm",
     " m "
   ],
   "result": {

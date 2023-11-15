@@ -5,7 +5,9 @@
       "conditions": {
         "items": [
           {
-            "tag": "createdeco:internal/plates/netherite_plates"
+            "items": [
+              "minecraft:netherite_ingot"
+            ]
           }
         ]
       },

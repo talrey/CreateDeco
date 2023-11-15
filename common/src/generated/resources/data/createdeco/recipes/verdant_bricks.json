@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "a": {
+      "item": "create:veridium"
+    },
+    "b": {
+      "item": "minecraft:brick"
+    }
+  },
+  "pattern": [
+    "bbb",
+    "bab",
+    "bbb"
+  ],
+  "result": {
+    "count": 4,
+    "item": "createdeco:verdant_bricks"
+  },
+  "show_notification": true
+}

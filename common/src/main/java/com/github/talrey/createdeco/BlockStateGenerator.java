@@ -37,6 +37,14 @@ public class BlockStateGenerator {
   }
 
   @ExpectPlatform
+  public static void decal (
+      CreateRegistrate reg, String type,
+      DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
   public static void cageLamp (
     ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
