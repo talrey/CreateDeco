@@ -1,51 +1,50 @@
 {
-  "credit": "Made with Blockbench",
-  "ambientocclusion": false,
-  "render_type": "translucent",
-  "parent": "block/block",
-  "textures": {
-    "0": "createdeco:block/palettes/support_wedges/brass_support_wedge",
-    "particle": "createdeco:block/palettes/support_wedges/brass_support_wedge"
-  },
-  "elements": [
-    {
-      "from": [0, 5, 7],
-      "to": [2, 11, 16],
-      "rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 8]},
-      "faces": {
-        "north": {"uv": [2, 14, 8, 16], "rotation": 90, "texture": "#0"},
-        "east": {"uv": [0, 0, 6, 9], "rotation": 270, "texture": "#0"},
-        "south": {"uv": [0, 9, 6, 11], "rotation": 270, "texture": "#0"},
-        "west": {"uv": [0, 0, 6, 9], "rotation": 270, "texture": "#0"},
-        "up": {"uv": [15, 0, 6, 2], "rotation": 270, "texture": "#0"},
-        "down": {"uv": [6, 0, 15, 2], "rotation": 270, "texture": "#0"}
-      }
-    },
-    {
-      "from": [2, 8, 8],
-      "to": [8, 8, 14],
-      "rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 8]},
-      "faces": {
-        "north": {"uv": [0, 0, 0, 6], "rotation": 90, "texture": "#0"},
-        "east": {"uv": [0, 0, 0, 6], "rotation": 270, "texture": "#missing"},
-        "south": {"uv": [0, 0, 0, 6], "rotation": 270, "texture": "#missing"},
-        "west": {"uv": [0, 0, 0, 6], "rotation": 270, "texture": "#missing"},
-        "up": {"uv": [6, 2, 12, 8], "rotation": 270, "texture": "#0"},
-        "down": {"uv": [12, 2, 6, 8], "rotation": 270, "texture": "#0"}
-      }
-    },
-    {
-      "from": [2, 5, 14],
-      "to": [9, 11, 16],
-      "rotation": {"angle": 0, "axis": "z", "origin": [8, 8, 8]},
-      "faces": {
-        "north": {"uv": [10, 9, 16, 16], "rotation": 90, "texture": "#0"},
-        "east": {"uv": [2, 14, 8, 16], "rotation": 270, "texture": "#0"},
-        "south": {"uv": [10, 9, 16, 16], "rotation": 270, "texture": "#0"},
-        "west": {"uv": [2, 14, 8, 16], "rotation": 270, "texture": "#0"},
-        "up": {"uv": [10, 9, 8, 16], "rotation": 270, "texture": "#0"},
-        "down": {"uv": [8, 9, 10, 16], "rotation": 270, "texture": "#0"}
-      }
-    }
-  ]
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"ambientocclusion": false,
+	"render_type": "translucent",
+	"textures": {
+		"particle": "createdeco:block/palettes/support_wedges/brass_support_wedge"
+	},
+	"elements": [
+		{
+			"from": [2, 5, 14],
+			"to": [8, 11, 16],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [10, 2, 16, 8], "rotation": 180, "texture": "#missing"},
+				"east": {"uv": [8, 2, 14, 0], "rotation": 270, "texture": "#missing"},
+				"south": {"uv": [14, 2, 8, 8], "texture": "#missing"},
+				"west": {"uv": [2, 14, 8, 16], "rotation": 270, "texture": "#missing"},
+				"up": {"uv": [0, 2, 2, 8], "rotation": 270, "texture": "#missing"},
+				"down": {"uv": [2, 2, 0, 8], "rotation": 270, "texture": "#missing"}
+			}
+		},
+		{
+			"from": [2, 8, 8],
+			"to": [8, 8, 14],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 0, 6], "rotation": 90, "texture": "#missing"},
+				"east": {"uv": [0, 0, 0, 6], "rotation": 270, "texture": "#missing"},
+				"south": {"uv": [0, 0, 0, 6], "rotation": 270, "texture": "#missing"},
+				"west": {"uv": [0, 0, 0, 6], "rotation": 270, "texture": "#missing"},
+				"up": {"uv": [2, 2, 8, 8], "rotation": 270, "texture": "#missing"},
+				"down": {"uv": [8, 2, 2, 8], "rotation": 270, "texture": "#missing"}
+			}
+		},
+		{
+			"from": [0, 5, 8],
+			"to": [2, 11, 16],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [8, 0, 14, 2], "rotation": 90, "texture": "#missing"},
+				"east": {"uv": [8, 2, 16, 8], "texture": "#missing"},
+				"south": {"uv": [16, 2, 14, 8], "texture": "#missing"},
+				"west": {"uv": [8, 2, 16, 8], "texture": "#missing"},
+				"up": {"uv": [0, 0, 8, 2], "rotation": 270, "texture": "#missing"},
+				"down": {"uv": [8, 0, 0, 2], "rotation": 270, "texture": "#missing"}
+			}
+		}
+	]
 }
