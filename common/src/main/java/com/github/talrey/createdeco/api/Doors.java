@@ -8,7 +8,6 @@ import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.recipes.RecipeCategory;

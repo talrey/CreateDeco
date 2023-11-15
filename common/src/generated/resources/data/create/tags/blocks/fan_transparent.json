@@ -1,12 +1,6 @@
 {
   "replace": false,
   "values": [
-    "createdeco:gold_catwalk",
-    "createdeco:gold_catwalk_stairs",
-    "createdeco:gold_catwalk_railing",
-    "createdeco:netherite_catwalk",
-    "createdeco:netherite_catwalk_stairs",
-    "createdeco:netherite_catwalk_railing",
     "createdeco:andesite_catwalk",
     "createdeco:andesite_catwalk_stairs",
     "createdeco:andesite_catwalk_railing",

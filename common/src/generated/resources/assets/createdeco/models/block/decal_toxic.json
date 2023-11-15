@@ -1,7 +1,0 @@
-{
-  "parent": "createdeco:block/decal",
-  "textures": {
-    "0": "createdeco:block/palettes/decals/decal_toxic",
-    "particle": "createdeco:block/palettes/decals/decal_toxic"
-  }
-}

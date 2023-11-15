@@ -2,10 +2,7 @@ package com.github.talrey.createdeco.blocks.block_entities;
 
 import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
-import com.simibubi.create.AllBlockEntityTypes;
 import com.simibubi.create.api.connectivity.ConnectivityHandler;
-import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
-import com.simibubi.create.content.logistics.vault.ItemVaultBlockEntity;
 import com.simibubi.create.foundation.blockEntity.IMultiBlockEntityContainer;
 import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
 import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;

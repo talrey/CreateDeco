@@ -13,20 +13,17 @@ import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.function.Function;
 import java.util.function.Supplier;
 

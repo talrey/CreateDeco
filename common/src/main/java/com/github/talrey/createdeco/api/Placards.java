@@ -1,34 +1,16 @@
 package com.github.talrey.createdeco.api;
 
-import com.github.talrey.createdeco.BlockStateGenerator;
-import com.github.talrey.createdeco.CreateDecoMod;
-import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
-import com.github.talrey.createdeco.connected.ShippingContainerCTBehavior;
-import com.github.talrey.createdeco.items.ShippingContainerBlockItem;
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.foundation.data.CreateRegistrate;
-import com.simibubi.create.foundation.data.SharedProperties;
-import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-
-import java.util.Locale;
-
-import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
-import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class Placards {
 

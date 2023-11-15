@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "createdeco:block/palettes/metal_bars/netherite_bars",
-    "layer1": "createdeco:block/palettes/metal_bars/netherite_bars_overlay"
-  }
-}

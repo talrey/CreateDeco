@@ -38,8 +38,8 @@ public class ItemRegistry {
     METAL_TYPES.put("Copper", (str) -> Items.COPPER_INGOT);
     METAL_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
     METAL_TYPES.put("Iron", (str) -> Items.IRON_INGOT);
-    METAL_TYPES.put("Gold", (str) -> Items.GOLD_INGOT);
-    METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
+    //METAL_TYPES.put("Gold", (str) -> Items.GOLD_INGOT);
+    //METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
     METAL_TYPES.put("Cast Iron", (str) -> CAST_IRON_INGOT.get());
 
     METAL_TYPES.forEach(ItemRegistry::registerCoins);

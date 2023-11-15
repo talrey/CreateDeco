@@ -1,0 +1,8 @@
+{
+  "parent": "createdeco:block/decal",
+  "textures": {
+    "0": "createdeco:block/palettes/decals/decal_back",
+    "1": "createdeco:block/palettes/decals/decal_fire",
+    "particle": "createdeco:block/palettes/decals/decal_fire"
+  }
+}

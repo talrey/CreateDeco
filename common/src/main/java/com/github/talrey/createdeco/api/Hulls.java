@@ -7,7 +7,6 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.client.renderer.RenderType;
@@ -19,7 +18,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.TrapDoorBlock;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;

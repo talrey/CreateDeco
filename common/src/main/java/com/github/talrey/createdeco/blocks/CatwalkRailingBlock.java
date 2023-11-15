@@ -1,12 +1,9 @@
 package com.github.talrey.createdeco.blocks;
 
-import com.github.talrey.createdeco.CreateDecoMod;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;

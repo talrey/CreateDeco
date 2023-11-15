@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "tag": "createdeco:internal/blocks/netherite_blocks"
-  },
-  "result": "createdeco:netherite_hull"
-}

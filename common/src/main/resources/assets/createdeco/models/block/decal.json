@@ -3,9 +3,9 @@
 	"ambientocclusion": false,
 	"render_type": "translucent",
 	"textures": {
-		"0": "D:/Pictures/Pixel Art/MC stuff/my stuff woo/STUFF/decals/decal_back",
-		"1": "D:/Pictures/Pixel Art/MC stuff/my stuff woo/STUFF/decals/decal_fire",
-		"particle": "D:/Pictures/Pixel Art/MC stuff/my stuff woo/STUFF/decals/decal_back"
+		"0": "createdeco:block/palettes/decal/decal_back",
+		"1": "createdeco:block/palettes/decal/decal_fire",
+		"particle": "createdeco:block/palettes/decal/decal_fire"
 	},
 	"elements": [
 		{

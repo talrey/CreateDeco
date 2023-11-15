@@ -1,11 +1,8 @@
 package com.github.talrey.createdeco.fabric;
 
-import com.github.talrey.createdeco.api.Decals;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
-import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
-import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -204,7 +201,8 @@ public class BlockStateGeneratorImpl {
 
       return ConfiguredModel.builder().modelFile(prov.models()
           .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
-          .texture("0", texture)
+          .texture("0", reg.getModid() + ":block/palettes/decals/decal_back")
+          .texture("1", texture)
           .texture("particle", texture)
       ).rotationX(x).rotationY(y).build();
     });

@@ -2,12 +2,12 @@ package com.github.talrey.createdeco.api;
 
 import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.BlockStateGenerator;
-import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.github.talrey.createdeco.blocks.CatwalkRailingBlock;
 import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.connected.CatwalkCTBehaviour;
 import com.github.talrey.createdeco.connected.SpriteShifts;
+import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.items.CatwalkStairBlockItem;
 import com.github.talrey.createdeco.items.RailingBlockItem;
 import com.simibubi.create.AllItems;

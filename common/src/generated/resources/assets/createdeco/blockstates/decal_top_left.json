@@ -1,0 +1,57 @@
+{
+  "variants": {
+    "face=ceiling,facing=east": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 270,
+      "y": 90
+    },
+    "face=ceiling,facing=north": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 270
+    },
+    "face=ceiling,facing=south": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 270,
+      "y": 180
+    },
+    "face=ceiling,facing=west": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 270,
+      "y": 270
+    },
+    "face=floor,facing=east": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 90,
+      "y": 90
+    },
+    "face=floor,facing=north": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 90
+    },
+    "face=floor,facing=south": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 90,
+      "y": 180
+    },
+    "face=floor,facing=west": {
+      "model": "createdeco:block/decal_top_left",
+      "x": 90,
+      "y": 270
+    },
+    "face=wall,facing=east": {
+      "model": "createdeco:block/decal_top_left",
+      "y": 270
+    },
+    "face=wall,facing=north": {
+      "model": "createdeco:block/decal_top_left",
+      "y": 180
+    },
+    "face=wall,facing=south": {
+      "model": "createdeco:block/decal_top_left"
+    },
+    "face=wall,facing=west": {
+      "model": "createdeco:block/decal_top_left",
+      "y": 90
+    }
+  }
+}

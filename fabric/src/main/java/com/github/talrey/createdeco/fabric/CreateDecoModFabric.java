@@ -1,7 +1,7 @@
 package com.github.talrey.createdeco.fabric;
 
-import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import com.github.talrey.createdeco.CreateDecoMod;
+import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import net.fabricmc.api.ModInitializer;
 
 public class CreateDecoModFabric implements ModInitializer {
