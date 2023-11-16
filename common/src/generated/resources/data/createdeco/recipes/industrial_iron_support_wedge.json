@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": {
+      "tag": "createdeco:internal/plates/industrial_iron_plates"
+    }
+  },
+  "pattern": [
+    " p",
+    "pp"
+  ],
+  "result": {
+    "count": 3,
+    "item": "createdeco:industrial_iron_support_wedge"
+  },
+  "show_notification": true
+}

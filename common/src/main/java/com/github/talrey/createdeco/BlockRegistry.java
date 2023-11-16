@@ -31,7 +31,6 @@ import static com.github.talrey.createdeco.api.CageLamps.*;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class BlockRegistry {
-	public static BlockEntry<Block> CAST_IRON;
 
 	public static HashMap<DyeColor, String> BRICK_COLORS = new HashMap<>() {{
 		put(DyeColor.LIGHT_BLUE, "blue");
@@ -84,28 +83,16 @@ public class BlockRegistry {
 		// Props registration
 		CreateDecoMod.REGISTRATE.defaultCreativeTab(CreativeTabs.PROPS_KEY);
 
-		CAST_IRON = CreateDecoMod.REGISTRATE.block("cast_iron_block", Block::new)
-			.properties(props->
-				props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
-					.sound(SoundType.NETHERITE_BLOCK)
-			)
-			.tag(BlockTags.MINEABLE_WITH_PICKAXE)
-			.tag(CDTags.STORAGE.forge, CDTags.STORAGE.fabric)
-			.tag(CDTags.CAST_IRON_BLOCK.forge, CDTags.CAST_IRON_BLOCK.fabric)
-			.lang("Block of Cast Iron")
-			.simpleItem()
-			.register();
-
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerBars);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerFences);
-		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerHulls);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
+		registerShippingContainers();
 		registerDecals();
 		registerPlacards();
-		registerShippingContainers();
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCoins);
 
 		// Bricks registration
@@ -114,14 +101,27 @@ public class BlockRegistry {
 	}
 
 	private static void registerBars (String metal, Function<String, Item> getter) {
-		boolean postFlag = (metal.contains("Netherite")|| metal.contains("Cast Iron"));
+		boolean postFlag = (metal.contains("Netherite")|| metal.contains("Industrial Iron"));
+
+		BAR_PANELS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "overlay", postFlag)
+				.recipe( (ctx, prov)-> {
+					Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
+					Bars.recipeCraftingPanels(metal, ctx, prov);
+				}).register());
+
+		if (metal.equals("Iron")) return;
 
 		BARS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "", postFlag)
 				.recipe( (ctx, prov)-> {
 					Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
+					Bars.recipeCrafting(()->getter.apply("ingot"), ctx, prov);
 				}).register());
-		BAR_PANELS.put(metal, Bars.build(CreateDecoMod.REGISTRATE, metal, "overlay", postFlag)
+	}
+
+	private static void registerFences (String metal, Function<String, Item> getter) {
+		MESH_FENCES.put(metal, MeshFences.build(CreateDecoMod.REGISTRATE, metal)
 				.recipe( (ctx, prov)-> {
+					MeshFences.fenceRecipe(metal, ctx, prov);
 					Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
 				}).register());
 	}
@@ -167,24 +167,22 @@ public class BlockRegistry {
 
 	private static void registerCatwalks (String metal, Function<String, Item> getter) {
 		//String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
-		WEDGES.put(metal, Wedges.build(
-				CreateDecoMod.REGISTRATE, metal)
-				.recipe(Wedges.recipe(metal, metal.contains("Andesite") ? AllItems.ANDESITE_ALLOY : null))
-				.register());
 		CATWALKS.put(metal, Catwalks.build(
 			CreateDecoMod.REGISTRATE, metal, BARS.get(metal))
-				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
+				.recipe((ctx, prov)-> Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
 		CATWALK_STAIRS.put(metal, Catwalks.buildStair(
 			CreateDecoMod.REGISTRATE, metal, BARS.get(metal))
-				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
+				.recipe((ctx, prov)-> Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
 		CATWALK_RAILINGS.put(metal, Catwalks.buildRailing(
 			CreateDecoMod.REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS)
-				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
-	}
-
-	private static void registerFences (String metal, Function<String, Item> getter) {
-		MESH_FENCES.put(metal, MeshFences.build(CreateDecoMod.REGISTRATE, metal)
-				.recipe((ctx, prov)-> Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
+				.recipe((ctx, prov)-> Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
+		WEDGES.put(metal, Wedges.build(
+						CreateDecoMod.REGISTRATE, metal)
+				.recipe( (ctx, prov)-> {
+					Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
+					Wedges.recipe(metal, ctx, prov);
+				})
+				.register());
 	}
 
 	private static void registerDoors (String metal, Function<String, Item> getter) {
@@ -206,15 +204,15 @@ public class BlockRegistry {
 	private static void registerHulls (String metal, Function<String, Item> getter) {
 		HULLS.put(metal, Hulls.build(CreateDecoMod.REGISTRATE, metal)
 				.recipe( (ctx, prov)-> {
-					Hulls.recipeCrafting(metal, metal.contains("Andesite") ? AllItems.ANDESITE_ALLOY : null, ctx, prov);
-					Hulls.recipeStonecutting(metal, metal.contains("Andesite") ? AllItems.ANDESITE_ALLOY : null, ctx, prov);
+					Hulls.recipeCrafting(metal, ctx, prov);
+					Hulls.recipeStonecutting(metal, ctx, prov);
 				})
 			.register()
 		);
 	}
 
 	private static void registerSupports (String metal, Function<String, Item> getter) {
-		SUPPORTS.put(metal, Supports.build(CreateDecoMod.REGISTRATE, metal, BARS.get(metal)::asItem)
+		SUPPORTS.put(metal, Supports.build(CreateDecoMod.REGISTRATE, metal)
 			.recipe(Supports.recipe(()->getter.apply("ingot")))
 			.register()
 		);

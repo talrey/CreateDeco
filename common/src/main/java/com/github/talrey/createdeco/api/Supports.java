@@ -21,8 +21,7 @@ import java.util.function.Supplier;
 
 public class Supports {
   public static BlockBuilder<SupportBlock,?> build (
-    CreateRegistrate reg, String metal,
-    Supplier<Item> barItem
+    CreateRegistrate reg, String metal
   ) {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_support";
 

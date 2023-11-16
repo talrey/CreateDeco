@@ -1,0 +1,54 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_bars_post"
+      },
+      "when": {
+        "east": "false",
+        "north": "false",
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_bars_post_ends"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_bars_side"
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_bars_side",
+        "y": 90
+      },
+      "when": {
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_bars_side_alt"
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_bars_side_alt",
+        "y": 90
+      },
+      "when": {
+        "west": "true"
+      }
+    }
+  ]
+}

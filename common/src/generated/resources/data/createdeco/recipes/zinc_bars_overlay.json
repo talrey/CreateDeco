@@ -1,8 +1,18 @@
 {
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "create:zinc_ingot"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": {
+      "tag": "createdeco:internal/plates/zinc_plates"
+    }
   },
-  "result": "createdeco:zinc_bars_overlay"
+  "pattern": [
+    "ppp",
+    "ppp"
+  ],
+  "result": {
+    "count": 16,
+    "item": "createdeco:zinc_bars_overlay"
+  },
+  "show_notification": true
 }

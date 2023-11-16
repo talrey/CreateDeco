@@ -1,8 +1,18 @@
 {
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "create:andesite_alloy"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "create:andesite_alloy"
+    }
   },
-  "result": "createdeco:andesite_bars"
+  "pattern": [
+    "bbb",
+    "bbb"
+  ],
+  "result": {
+    "count": 16,
+    "item": "createdeco:andesite_bars"
+  },
+  "show_notification": true
 }

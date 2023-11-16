@@ -1,0 +1,130 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "east": "false",
+        "north": "false",
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "east": "true",
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "north": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "east": "true",
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "south": "true",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "east": "false",
+        "north": "true",
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "east": "false",
+        "north": "false",
+        "south": "true",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "east": "true",
+        "north": "false",
+        "south": "false",
+        "west": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_post"
+      },
+      "when": {
+        "east": "false",
+        "north": "false",
+        "south": "false",
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_side"
+      },
+      "when": {
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_side",
+        "y": 90
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_side",
+        "y": 180
+      },
+      "when": {
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_mesh_fence_side",
+        "y": 270
+      },
+      "when": {
+        "north": "true"
+      }
+    }
+  ]
+}

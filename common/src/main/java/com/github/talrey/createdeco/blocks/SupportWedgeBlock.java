@@ -163,24 +163,24 @@ public class SupportWedgeBlock extends Block implements IWrenchable, SimpleWater
     static {
         FACING = HorizontalDirectionalBlock.FACING;
         WATERLOGGED = BlockStateProperties.WATERLOGGED;
-        NORTH_1_AABB = Shapes.or(Block.box(5.0D, 7.0D, 14.0D, 11.0D, 14.0D, 16.0D), Block.box(5.0D, 14.0D, 7.0D, 11.0D, 16.0D, 16.0D));
-        NORTH_2_AABB = Shapes.or(Block.box(7.0D, 5.0D, 14.0D, 14.0D, 11.0D, 16.0D), Block.box(14.0D, 5.0D, 7.0D, 16.0D, 11.0D, 16.0D));
-        NORTH_3_AABB = Shapes.or(Block.box(5.0D, 2.0D, 14.0D, 11.0D, 9.0D, 16.0D), Block.box(5.0D, 0.0D, 7.0D, 11.0D, 2.0D, 16.0D));
-        NORTH_4_AABB = Shapes.or(Block.box(2.0D, 5.0D, 14.0D, 9.0D, 11.0D, 16.0D), Block.box(0.0D, 5.0D, 7.0D, 2.0D, 11.0D, 16.0D));
+        NORTH_1_AABB = Shapes.or(Block.box(5.0D, 8.0D, 14.0D, 11.0D, 14.0D, 16.0D), Block.box(5.0D, 14.0D, 8.0D, 11.0D, 16.0D, 16.0D));
+        NORTH_2_AABB = Shapes.or(Block.box(8.0D, 5.0D, 14.0D, 14.0D, 11.0D, 16.0D), Block.box(14.0D, 5.0D, 8.0D, 16.0D, 11.0D, 16.0D));
+        NORTH_3_AABB = Shapes.or(Block.box(5.0D, 2.0D, 14.0D, 11.0D, 8.0D, 16.0D), Block.box(5.0D, 0.0D, 8.0D, 11.0D, 2.0D, 16.0D));
+        NORTH_4_AABB = Shapes.or(Block.box(2.0D, 5.0D, 14.0D, 8.0D, 11.0D, 16.0D), Block.box(0.0D, 5.0D, 8.0D, 2.0D, 11.0D, 16.0D));
 
-        SOUTH_1_AABB = Shapes.or(Block.box(5.0D, 7.0D, 0.0D, 11.0D, 14.0D, 2.0D), Block.box(5.0D, 14.0D, 0.0D, 11.0D, 16.0D, 9.0D));
-        SOUTH_2_AABB = Shapes.or(Block.box(7.0D, 5.0D, 0.0D, 14.0D, 11.0D, 2.0D), Block.box(14.0D, 5.0D, 0.0D, 16.0D, 11.0D, 9.0D));
-        SOUTH_3_AABB = Shapes.or(Block.box(5.0D, 2.0D, 0.0D, 11.0D, 9.0D, 2.0D), Block.box(5.0D, 0.0D, 0.0D, 11.0D, 2.0D, 9.0D));
-        SOUTH_4_AABB = Shapes.or(Block.box(2.0D, 5.0D, 0.0D, 9.0D, 11.0D, 2.0D), Block.box(0.0D, 5.0D, 0.0D, 2.0D, 11.0D, 9.0D));
+        SOUTH_1_AABB = Shapes.or(Block.box(5.0D, 8.0D, 0.0D, 11.0D, 14.0D, 2.0D), Block.box(5.0D, 14.0D, 0.0D, 11.0D, 16.0D, 8.0D));
+        SOUTH_2_AABB = Shapes.or(Block.box(8.0D, 5.0D, 0.0D, 14.0D, 11.0D, 2.0D), Block.box(14.0D, 5.0D, 0.0D, 16.0D, 11.0D, 8.0D));
+        SOUTH_3_AABB = Shapes.or(Block.box(5.0D, 2.0D, 0.0D, 11.0D, 8.0D, 2.0D), Block.box(5.0D, 0.0D, 0.0D, 11.0D, 2.0D, 8.0D));
+        SOUTH_4_AABB = Shapes.or(Block.box(2.0D, 5.0D, 0.0D, 8.0D, 11.0D, 2.0D), Block.box(0.0D, 5.0D, 0.0D, 2.0D, 11.0D, 8.0D));
 
-        EAST_1_AABB = Shapes.or(Block.box(0.0D, 7.0D, 5.0D, 2.0D, 14.0D, 11.0D), Block.box(0.0D, 14.0D, 5.0D, 9.0D, 16.0D, 11.0D));
-        EAST_2_AABB = Shapes.or(Block.box(0.0D, 5.0D, 7.0D, 2.0D, 11.0D, 14.0D), Block.box(0.0D, 5.0D, 14.0D, 9.0D, 11.0D, 16.0D));
-        EAST_3_AABB = Shapes.or(Block.box(0.0D, 2.0D, 5.0D, 2.0D, 9.0D, 11.0D), Block.box(0.0D, 0.0D, 5.0D, 9.0D, 2.0D, 11.0D));
-        EAST_4_AABB = Shapes.or(Block.box(0.0D, 5.0D, 2.0D, 2.0D, 11.0D, 9.0D), Block.box(0.0D, 5.0D, 0.0D, 9.0D, 11.0D, 2.0D));
+        EAST_1_AABB = Shapes.or(Block.box(0.0D, 8.0D, 5.0D, 2.0D, 14.0D, 11.0D), Block.box(0.0D, 14.0D, 5.0D, 8.0D, 16.0D, 11.0D));
+        EAST_2_AABB = Shapes.or(Block.box(0.0D, 5.0D, 8.0D, 2.0D, 11.0D, 14.0D), Block.box(0.0D, 5.0D, 14.0D, 8.0D, 11.0D, 16.0D));
+        EAST_3_AABB = Shapes.or(Block.box(0.0D, 2.0D, 5.0D, 2.0D, 8.0D, 11.0D), Block.box(0.0D, 0.0D, 5.0D, 8.0D, 2.0D, 11.0D));
+        EAST_4_AABB = Shapes.or(Block.box(0.0D, 5.0D, 2.0D, 2.0D, 11.0D, 8.0D), Block.box(0.0D, 5.0D, 0.0D, 8.0D, 11.0D, 2.0D));
 
-        WEST_1_AABB = Shapes.or(Block.box(14.0D, 7.0D, 5.0D, 16.0D, 14.0D, 11.0D), Block.box(7.0D, 14.0D, 5.0D, 16.0D, 16.0D, 11.0D));
-        WEST_2_AABB = Shapes.or(Block.box(14.0D, 5.0D, 7.0D, 16.0D, 11.0D, 14.0D), Block.box(7.0D, 5.0D, 14.0D, 16.0D, 11.0D, 16.0D));
-        WEST_3_AABB = Shapes.or(Block.box(14.0D, 2.0D, 5.0D, 16.0D, 9.0D, 11.0D), Block.box(7.0D, 0.0D, 5.0D, 16.0D, 2.0D, 11.0D));
-        WEST_4_AABB = Shapes.or(Block.box(14.0D, 5.0D, 2.0D, 16.0D, 11.0D, 9.0D), Block.box(7.0D, 5.0D, 0.0D, 16.0D, 11.0D, 2.0D));
+        WEST_1_AABB = Shapes.or(Block.box(14.0D, 8.0D, 5.0D, 16.0D, 14.0D, 11.0D), Block.box(8.0D, 14.0D, 5.0D, 16.0D, 16.0D, 11.0D));
+        WEST_2_AABB = Shapes.or(Block.box(14.0D, 5.0D, 8.0D, 16.0D, 11.0D, 14.0D), Block.box(8.0D, 5.0D, 14.0D, 16.0D, 11.0D, 16.0D));
+        WEST_3_AABB = Shapes.or(Block.box(14.0D, 2.0D, 5.0D, 16.0D, 8.0D, 11.0D), Block.box(8.0D, 0.0D, 5.0D, 16.0D, 2.0D, 11.0D));
+        WEST_4_AABB = Shapes.or(Block.box(14.0D, 5.0D, 2.0D, 16.0D, 11.0D, 8.0D), Block.box(8.0D, 5.0D, 0.0D, 16.0D, 11.0D, 2.0D));
     }
 }

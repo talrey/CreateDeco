@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "createdeco:industrial_iron_ingot"
+    }
+  },
+  "pattern": [
+    "bbb",
+    "bbb"
+  ],
+  "result": {
+    "count": 16,
+    "item": "createdeco:industrial_iron_bars"
+  },
+  "show_notification": true
+}

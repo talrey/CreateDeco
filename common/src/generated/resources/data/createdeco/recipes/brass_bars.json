@@ -1,8 +1,18 @@
 {
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "create:brass_ingot"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "create:brass_ingot"
+    }
   },
-  "result": "createdeco:brass_bars"
+  "pattern": [
+    "bbb",
+    "bbb"
+  ],
+  "result": {
+    "count": 16,
+    "item": "createdeco:brass_bars"
+  },
+  "show_notification": true
 }

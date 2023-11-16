@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "m": {
+      "tag": "createdeco:internal/plates/industrial_iron_plates"
+    },
+    "p": {
+      "tag": "createdeco:internal/blocks/industrial_iron_blocks"
+    }
+  },
+  "pattern": [
+    " m ",
+    "mpm",
+    " m "
+  ],
+  "result": {
+    "count": 2,
+    "item": "createdeco:industrial_iron_hull"
+  },
+  "show_notification": true
+}

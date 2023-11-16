@@ -42,6 +42,7 @@ public class Bricks {
     String name;
     ArrayList<BlockBuilder<Block,?>> ret = new ArrayList<>();
     for (String prefix : TYPES) {
+      if (color.isEmpty() && prefix.isEmpty()) continue;
       name = (prefix.isEmpty() ? "" : prefix + "_") + color + "_bricks";
       ret.add(reg.block(name, Block::new)
 
@@ -75,6 +76,7 @@ public class Bricks {
     ArrayList<BlockBuilder<StairBlock, ?>> ret = new ArrayList<>();
 
     for (String prefix : TYPES) {
+      if (color.isEmpty() && prefix.isEmpty()) continue;
       name = (prefix.isEmpty() ? "" : prefix + "_") + color + "_brick_stairs";
       ret.add(reg.block(name, p-> new StairBlock(Blocks.BRICK_STAIRS.defaultBlockState(), p))
         .initialProperties(()-> Blocks.BRICKS)
@@ -103,6 +105,7 @@ public class Bricks {
     ArrayList<BlockBuilder<SlabBlock, ?>> ret = new ArrayList<>();
 
     for (String prefix : TYPES) {
+      if (color.isEmpty() && prefix.isEmpty()) continue;
       name = (prefix.isEmpty() ? "" : prefix + "_") + color + "_brick_slab";
       ret.add(reg.block(name, SlabBlock::new)
         .initialProperties(()-> Blocks.BRICKS)

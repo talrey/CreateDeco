@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "create:andesite_alloy"
-            ]
+            "tag": "createdeco:internal/plates/andesite_plates"
           }
         ]
       },
@@ -15,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:andesite_bars_overlay"
+        "recipe": "minecraft:andesite_bars_overlay"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:andesite_bars_overlay"
+      "minecraft:andesite_bars_overlay"
     ]
   },
   "sends_telemetry_event": false

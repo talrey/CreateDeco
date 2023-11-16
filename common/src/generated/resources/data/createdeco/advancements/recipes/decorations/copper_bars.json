@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:copper_bars"
+        "recipe": "minecraft:copper_bars"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:copper_bars"
+      "minecraft:copper_bars"
     ]
   },
   "sends_telemetry_event": false

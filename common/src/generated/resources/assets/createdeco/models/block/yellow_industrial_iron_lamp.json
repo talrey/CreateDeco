@@ -1,0 +1,8 @@
+{
+  "parent": "createdeco:block/cage_lamp",
+  "textures": {
+    "cage": "createdeco:block/palettes/cage_lamp/industrial_iron_lamp",
+    "lamp": "createdeco:block/palettes/cage_lamp/light_default",
+    "particle": "createdeco:block/palettes/cage_lamp/industrial_iron_lamp"
+  }
+}

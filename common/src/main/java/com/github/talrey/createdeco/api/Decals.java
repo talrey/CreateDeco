@@ -4,6 +4,8 @@ import com.github.talrey.createdeco.BlockStateGenerator;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import com.simibubi.create.foundation.data.recipe.CreateRecipeProvider;
+import com.simibubi.create.foundation.data.recipe.PressingRecipeGen;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;

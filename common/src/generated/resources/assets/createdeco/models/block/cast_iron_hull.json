@@ -1,8 +1,0 @@
-{
-  "parent": "createdeco:block/train_hull",
-  "textures": {
-    "0": "createdeco:block/palettes/hull/cast_iron_hull_front",
-    "1": "createdeco:block/palettes/hull/cast_iron_hull_side",
-    "particle": "createdeco:block/palettes/hull/cast_iron_hull_front"
-  }
-}

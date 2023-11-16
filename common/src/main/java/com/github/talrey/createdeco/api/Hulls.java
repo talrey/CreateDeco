@@ -47,22 +47,9 @@ public class Hulls {
   }
 
   public static <T extends Block> void recipeCrafting (
-      String metal, @Nullable Supplier<Item> nonstandardMaterial, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+      String metal, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    if (nonstandardMaterial != null) {
-      ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
-        .pattern(" m ")
-        .pattern("mpm")
-        .pattern(" m ")
-        //.define('m', ingot.get())
-        .define('m', nonstandardMaterial.get())
-        .define('p', AllBlocks.ANDESITE_ALLOY_BLOCK)
-        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            AllBlocks.ANDESITE_ALLOY_BLOCK
-        ))
-        .save(prov);
-    } else {
-      ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
         .pattern(" m ")
         .pattern("mpm")
         .pattern(" m ")
@@ -73,24 +60,15 @@ public class Hulls {
             ItemPredicate.Builder.item().of(CDTags.of(metal, "blocks").tag).build()
         ))
         .save(prov);
-    }
   }
 
   public static <T extends Block> void recipeStonecutting (
-      String metal, @Nullable Supplier<Item> nonstandardMaterial, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+      String metal, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    if (nonstandardMaterial != null) {
-      SingleItemRecipeBuilder.stonecutting(Ingredient.of(AllBlocks.ANDESITE_ALLOY_BLOCK), RecipeCategory.DECORATIONS, ctx.get(), 1)
-      .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-          ItemPredicate.Builder.item().of(AllBlocks.ANDESITE_ALLOY_BLOCK).build()
-      ))
-      .save(prov, "andesite_hull_from_stonecutting");
-    }
-    else
-      SingleItemRecipeBuilder.stonecutting(Ingredient.of(CDTags.of(metal, "blocks").tag), RecipeCategory.DECORATIONS, ctx.get(), 1)
-      .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-          ItemPredicate.Builder.item().of(CDTags.of(metal, "blocks").tag).build()
-      ))
-      .save(prov, metal.toLowerCase().replaceAll(" ", "_") + "_hull_from_stonecutting");
+    SingleItemRecipeBuilder.stonecutting(Ingredient.of(CDTags.of(metal, "blocks").tag), RecipeCategory.DECORATIONS, ctx.get(), 1)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(CDTags.of(metal, "blocks").tag).build()
+        ))
+        .save(prov, metal.toLowerCase().replaceAll(" ", "_") + "_hull_from_stonecutting");
   }
 }

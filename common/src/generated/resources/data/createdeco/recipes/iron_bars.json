@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "minecraft:iron_ingot"
-  },
-  "result": "createdeco:iron_bars"
-}

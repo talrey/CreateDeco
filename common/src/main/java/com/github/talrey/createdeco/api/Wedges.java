@@ -6,7 +6,6 @@ import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.client.renderer.RenderType;
@@ -44,31 +43,19 @@ public class Wedges {
       .lang(metal + " Support Wedge");
   }
 
-  public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> recipe (
+  public static <T extends Block> void recipe (
           String metal,
-          @Nullable Supplier<Item> nonstandardMaterial
+          DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    return (ctx,prov)-> {
-      if (nonstandardMaterial != null) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
-                .pattern(" p")
-                .pattern("pp")
-                .define('p', nonstandardMaterial.get())
-                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-                        nonstandardMaterial.get()
-                ))
-                .save(prov);
-      }
-      else {
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
-                .pattern(" p")
-                .pattern("pp")
-                .define('p', CDTags.of(metal, "plates").tag)
-                .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-                        ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
-                ))
-                .save(prov);
-      }
-    };
+
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
+        .pattern(" p")
+        .pattern("pp")
+        .define('p', CDTags.of(metal, "plates").tag)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+        ))
+        .save(prov);
+
   }
 }

@@ -5,10 +5,10 @@
     "createdeco:locked_andesite_door",
     "createdeco:brass_door",
     "createdeco:locked_brass_door",
-    "createdeco:cast_iron_door",
-    "createdeco:locked_cast_iron_door",
     "createdeco:copper_door",
     "createdeco:locked_copper_door",
+    "createdeco:industrial_iron_door",
+    "createdeco:locked_industrial_iron_door",
     "createdeco:zinc_door",
     "createdeco:locked_zinc_door"
   ]

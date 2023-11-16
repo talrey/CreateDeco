@@ -1,7 +1,0 @@
-{
-  "parent": "createdeco:block/support",
-  "textures": {
-    "0": "createdeco:block/palettes/support/cast_iron_support",
-    "particle": "createdeco:block/palettes/support/cast_iron_support"
-  }
-}

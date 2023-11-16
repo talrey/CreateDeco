@@ -6,7 +6,7 @@
       "item": "create:andesite_alloy"
     },
     "p": {
-      "item": "create:andesite_alloy"
+      "tag": "createdeco:internal/plates/andesite_plates"
     },
     "t": {
       "item": "minecraft:glow_berries"

@@ -66,7 +66,7 @@ public class CageLamps {
             InventoryChangeTrigger.TriggerInstance.hasItems(nonstandardMaterial.get())
           )
           .define('n', nonstandardMaterial.get())
-          .define('p', nonstandardMaterial.get())
+          .define('p', CDTags.of(metal, "plates").tag)
           .save(prov);
       }
       else {

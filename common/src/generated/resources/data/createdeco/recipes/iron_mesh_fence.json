@@ -1,8 +1,21 @@
 {
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "minecraft:iron_ingot"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "p": {
+      "tag": "createdeco:internal/plates/iron_plates"
+    },
+    "s": {
+      "item": "minecraft:string"
+    }
   },
-  "result": "createdeco:iron_mesh_fence"
+  "pattern": [
+    "psp",
+    "psp"
+  ],
+  "result": {
+    "count": 8,
+    "item": "createdeco:iron_mesh_fence"
+  },
+  "show_notification": true
 }

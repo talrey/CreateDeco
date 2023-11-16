@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "create:andesite_alloy_block"
-            ]
+            "tag": "createdeco:internal/blocks/andesite_blocks"
           }
         ]
       },

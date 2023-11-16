@@ -1,8 +1,18 @@
 {
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "minecraft:copper_ingot"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "minecraft:copper_ingot"
+    }
   },
-  "result": "createdeco:copper_bars"
+  "pattern": [
+    "bbb",
+    "bbb"
+  ],
+  "result": {
+    "count": 16,
+    "item": "createdeco:copper_bars"
+  },
+  "show_notification": true
 }

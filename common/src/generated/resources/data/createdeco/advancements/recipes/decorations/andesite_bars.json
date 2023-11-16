@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:andesite_bars"
+        "recipe": "minecraft:andesite_bars"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:andesite_bars"
+      "minecraft:andesite_bars"
     ]
   },
   "sends_telemetry_event": false

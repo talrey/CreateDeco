@@ -12,7 +12,7 @@ import java.util.Locale;
 
 public class CDTags {
   private enum Material {
-    iron, gold, copper, zinc, brass, cast_iron, netherite;
+    andesite, iron, gold, copper, zinc, brass, industrial_iron, netherite;
   }
 
   private enum Form {
@@ -50,7 +50,7 @@ public class CDTags {
 
   public static final LoaderTag<Block>
     STORAGE         = block("storage_blocks"),
-    CAST_IRON_BLOCK = block("storage_blocks", "cast_iron");
+    INDUSTRIAL_IRON_BLOCK = block("storage_blocks", "industrial_iron");
 
   private static LoaderTag<Item> item (String type, String name) {
     String forge  = type + "/" + name;

@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "createdeco:industrial_iron_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:industrial_iron_sheet"
+    }
+  ]
+}

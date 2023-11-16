@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:brass_bars"
+        "recipe": "minecraft:brass_bars"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:brass_bars"
+      "minecraft:brass_bars"
     ]
   },
   "sends_telemetry_event": false

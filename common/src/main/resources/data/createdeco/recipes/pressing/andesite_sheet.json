@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "create:andesite_alloy"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:andesite_sheet"
+    }
+  ]
+}

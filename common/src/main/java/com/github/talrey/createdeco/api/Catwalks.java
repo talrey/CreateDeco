@@ -10,13 +10,11 @@ import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.github.talrey.createdeco.items.CatwalkBlockItem;
 import com.github.talrey.createdeco.items.CatwalkStairBlockItem;
 import com.github.talrey.createdeco.items.RailingBlockItem;
-import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -24,8 +22,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -36,41 +36,25 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.function.Supplier;
 
 public class Catwalks {
-  public static <T extends Block> NonNullBiConsumer<DataGenContext<Block, T>, RegistrateRecipeProvider> recipe (
-    String metal,
-    ItemLike barItem,
-    @Nullable Supplier<Item> nonstandardMaterial
+  public static <T extends Block> void recipe (
+    String metal, ItemLike barItem,
+    DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    return (ctx,prov)-> {
-      if (nonstandardMaterial != null) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
-          .pattern(" p ")
-          .pattern("pBp")
-          .pattern(" p ")
-          .define('p', nonstandardMaterial.get())
-          .define('B', barItem)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(nonstandardMaterial.get()))
-          .save(prov);
-      }
-      else {
-        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
-          .pattern(" p ")
-          .pattern("pBp")
-          .pattern(" p ")
-          .define('p', CDTags.of(metal, "plates").tag)
-          .define('B', barItem)
-          .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
+        .pattern(" p ")
+        .pattern("pBp")
+        .pattern(" p ")
+        .define('p', CDTags.of(metal, "plates").tag)
+        .define('B', barItem)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
             ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
-          ))
-          .save(prov, ctx.getName() + "_forge");
-      }
-    };
+        ))
+        .save(prov, ctx.getName() + "_forge");
   }
 
   public static BlockBuilder<CatwalkBlock,?> build (
@@ -88,7 +72,9 @@ public class Catwalks {
       .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .model((ctx,prov)-> BlockStateGenerator.catwalkItem(metal, ctx, prov))
       .build()
-      .recipe(recipe(metal, barItem, (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null)))
+      .recipe( (ctx, prov)-> {
+        recipe(metal, barItem, ctx, prov);
+      })
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalk(reg, metal, ctx, prov))
       .onRegister(CreateRegistrate.connectedTextures(
         new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
@@ -155,5 +141,17 @@ public class Catwalks {
       })
       .item(RailingBlockItem::new)
       .build();
+  }
+
+
+  public static <T extends Block> void recipeStonecutting (
+      Supplier<Item> ingot, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+  ) {
+    SingleItemRecipeBuilder.stonecutting(Ingredient.of(ingot.get()), RecipeCategory.DECORATIONS, ctx.get(), 4)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(ingot.get()).build()
+        ))
+        .save(prov);
+
   }
 }

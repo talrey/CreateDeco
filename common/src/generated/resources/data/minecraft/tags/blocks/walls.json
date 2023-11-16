@@ -1,17 +1,16 @@
 {
   "replace": false,
   "values": [
-    "createdeco:andesite_bars",
     "createdeco:andesite_bars_overlay",
-    "createdeco:brass_bars",
+    "createdeco:andesite_bars",
     "createdeco:brass_bars_overlay",
-    "createdeco:cast_iron_bars",
-    "createdeco:cast_iron_bars_overlay",
-    "createdeco:iron_bars",
+    "createdeco:brass_bars",
     "createdeco:iron_bars_overlay",
-    "createdeco:copper_bars",
     "createdeco:copper_bars_overlay",
-    "createdeco:zinc_bars",
-    "createdeco:zinc_bars_overlay"
+    "createdeco:copper_bars",
+    "createdeco:industrial_iron_bars_overlay",
+    "createdeco:industrial_iron_bars",
+    "createdeco:zinc_bars_overlay",
+    "createdeco:zinc_bars"
   ]
 }

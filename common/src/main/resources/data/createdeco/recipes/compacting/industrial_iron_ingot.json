@@ -1,0 +1,14 @@
+{
+  "type": "create:compacting",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_ingot"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:industrial_iron_ingot"
+    }
+  ]
+}

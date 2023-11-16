@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left",
+  "textures": {
+    "bottom": "createdeco:block/palettes/doors/industrial_iron_door_bottom",
+    "top": "createdeco:block/palettes/doors/industrial_iron_door_top"
+  }
+}

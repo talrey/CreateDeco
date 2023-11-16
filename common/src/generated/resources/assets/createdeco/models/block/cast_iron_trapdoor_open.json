@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_orientable_trapdoor_open",
-  "textures": {
-    "texture": "createdeco:block/palettes/doors/cast_iron_trapdoor"
-  }
-}

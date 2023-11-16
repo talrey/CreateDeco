@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 1,
-  "ingredient": {
-    "item": "createdeco:cast_iron_ingot"
-  },
-  "result": "createdeco:cast_iron_catwalk"
-}
