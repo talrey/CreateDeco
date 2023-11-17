@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "tag": "createdeco:internal/ingots/copper_ingots"
+    },
+    "X": {
+      "tag": "c:colorless_glass"
+    }
+  },
+  "pattern": [
+    " # ",
+    "#X#"
+  ],
+  "result": {
+    "count": 2,
+    "item": "createdeco:copper_window"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/connected_glass_pane/side_alt",
+  "textures": {
+    "edge": "createdeco:block/palettes/windows/iron_window_end",
+    "pane": "createdeco:block/palettes/windows/iron_window"
+  }
+}

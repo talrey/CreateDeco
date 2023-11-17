@@ -1,9 +1,6 @@
 package com.github.talrey.createdeco.api;
 
-import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.BlockStateGenerator;
-import com.github.talrey.createdeco.CreateDecoMod;
-import com.simibubi.create.AllBlocks;
 import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -12,10 +9,10 @@ import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.data.recipes.*;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.*;
@@ -51,6 +48,7 @@ public class Bricks {
     put("umber", AllPaletteStoneTypes.SCORIA);
   }};
 
+  /*
   public static HashMap<String, Block> SOURCE_BRICK = new HashMap<>() {{
     put("blue", BlockRegistry.BRICKS.get(DyeColor.BLUE).get("blue").get());
     put("dean", BlockRegistry.BRICKS.get(DyeColor.YELLOW).get("dean").get());
@@ -60,6 +58,8 @@ public class Bricks {
     put("verdant", BlockRegistry.BRICKS.get(DyeColor.GREEN).get("verdant").get());
     put("umber", BlockRegistry.BRICKS.get(DyeColor.BROWN).get("umber").get());
   }};
+
+   */
 
   public static ArrayList<BlockBuilder<Block,?>> buildBlock (CreateRegistrate reg, String color) {
     String name;
@@ -87,7 +87,7 @@ public class Bricks {
           .defaultLoot()
           .recipe((ctx, prov) -> {
           if (prefix.isEmpty()) recipeCrafting(color, ctx, prov);
-          recipeVariants(color, prefix, ctx, prov);
+          //recipeVariants(color, prefix, ctx, prov);
           //if (prefix.contains("mossy") || prefix.contains("cracked")) recipeCrackedAndMossy(color, prefix, ctx, prov);
             //else if (!prefix.contains("mossy") || !prefix.contains("cracked")) recipeStonecutting(color, prefix, ctx, prov);
           })
@@ -189,6 +189,8 @@ public class Bricks {
         .save(prov);
   }
 
+
+  /*
   public static <T extends Block> void recipeVariants (
       String color, String type, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
@@ -224,6 +226,8 @@ public class Bricks {
     }
 
   }
+
+   */
 
 
   public static <T extends Block> void recipeStonecuttingFromBrick (

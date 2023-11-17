@@ -18,7 +18,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.SoundType;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.function.Supplier;

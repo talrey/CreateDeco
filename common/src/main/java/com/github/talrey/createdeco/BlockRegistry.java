@@ -6,6 +6,7 @@ import com.github.talrey.createdeco.blocks.block_entities.ShippingContainerBlock
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.content.decoration.palettes.WindowBlock;
 import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
@@ -16,7 +17,6 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -92,7 +92,7 @@ public class BlockRegistry {
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerHulls);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
-		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerWindows);
+		//ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerWindows);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
 		registerShippingContainers();
 		registerDecals();
@@ -199,12 +199,27 @@ public class BlockRegistry {
 				.register());
 	}
 
+	/*
 	private static void registerWindows (String metal, Function<String, Item> getter) {
-		WINDOWS.put(metal, Doors.build(CreateDecoMod.REGISTRATE, metal, false)
-				.recipe(Doors.recipe(()->getter.apply("ingot")))
-				.register());
-
+		WINDOWS.put(metal, Windows.metalWindowBlock(metal, CDTags.of(metal, "blocks").tag));
 	}
+	 */
+
+	public static final BlockEntry<WindowBlock>
+			ANDESITE_WINDOW = Windows.metalWindowBlock("Andesite"),
+			COPPER_WINDOW = Windows.metalWindowBlock("Copper"),
+			IRON_WINDOW = Windows.metalWindowBlock("Iron"),
+			INDUSTRIAL_IRON_WINDOW = Windows.metalWindowBlock("Industrial Iron"),
+			BRASS_WINDOW = Windows.metalWindowBlock("Brass"),
+			ZINC_WINDOW = Windows.metalWindowBlock("Zinc");
+
+	public static final BlockEntry<ConnectedGlassPaneBlock>
+			ANDESITE_WINDOW_PANE = Windows.metalWindowPane("Andesite", ANDESITE_WINDOW),
+			COPPER_WINDOW_PANE = Windows.metalWindowPane("Copper", COPPER_WINDOW),
+			IRON_WINDOW_PANE = Windows.metalWindowPane("Iron", IRON_WINDOW),
+			INDUSTRIAL_IRON_WINDOW_PANE = Windows.metalWindowPane("Industrial Iron", INDUSTRIAL_IRON_WINDOW),
+			BRASS_WINDOW_PANE = Windows.metalWindowPane("Brass", BRASS_WINDOW),
+			ZINC_WINDOW_PANE = Windows.metalWindowPane("Zinc", ZINC_WINDOW);
 
 	private static void registerDoors (String metal, Function<String, Item> getter) {
 		if (metal.equals("Iron") || metal.equals("Gold") || metal.equals("Netherite")) {

@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "createdeco:cast_iron_block"
+    "create:industrial_iron_block"
   ]
 }

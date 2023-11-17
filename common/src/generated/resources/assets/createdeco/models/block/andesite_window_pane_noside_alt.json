@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:block/connected_glass_pane/noside_alt",
+  "textures": {
+    "edge": "createdeco:block/palettes/windows/andesite_window_end",
+    "pane": "createdeco:block/palettes/windows/andesite_window"
+  }
+}

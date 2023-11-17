@@ -1,0 +1,7 @@
+{
+  "parent": "createdeco:item/pane",
+  "textures": {
+    "edge": "createdeco:block/palettes/windows/brass_window_end",
+    "pane": "createdeco:block/palettes/windows/brass_window"
+  }
+}
