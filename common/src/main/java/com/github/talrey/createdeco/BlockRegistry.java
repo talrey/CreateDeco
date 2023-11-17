@@ -6,6 +6,7 @@ import com.github.talrey.createdeco.blocks.block_entities.ShippingContainerBlock
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.decoration.palettes.WindowBlock;
 import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
 import com.simibubi.create.foundation.data.SharedProperties;
@@ -53,6 +54,8 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CageLampBlock>>  GREEN_CAGE_LAMPS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>>   BLUE_CAGE_LAMPS = new HashMap<>();
 
+	public static HashMap<String, BlockEntry<WindowBlock>> WINDOWS      = new HashMap<>();
+	public static HashMap<String, BlockEntry<WindowBlock>> WINDOW_PANES = new HashMap<>();
 	public static HashMap<String, BlockEntry<DoorBlock>> DOORS          = new HashMap<>();
 	public static HashMap<String, BlockEntry<DoorBlock>> LOCK_DOORS     = new HashMap<>();
 	public static HashMap<String, BlockEntry<TrapDoorBlock>> TRAPDOORS  = new HashMap<>();
@@ -86,10 +89,11 @@ public class BlockRegistry {
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerBars);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerFences);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
-		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerHulls);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerWindows);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
 		registerShippingContainers();
 		registerDecals();
 		registerPlacards();
@@ -193,6 +197,13 @@ public class BlockRegistry {
 					Wedges.recipe(metal, ctx, prov);
 				})
 				.register());
+	}
+
+	private static void registerWindows (String metal, Function<String, Item> getter) {
+		WINDOWS.put(metal, Doors.build(CreateDecoMod.REGISTRATE, metal, false)
+				.recipe(Doors.recipe(()->getter.apply("ingot")))
+				.register());
+
 	}
 
 	private static void registerDoors (String metal, Function<String, Item> getter) {
