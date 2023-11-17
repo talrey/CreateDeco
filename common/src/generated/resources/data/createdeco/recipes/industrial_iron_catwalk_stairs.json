@@ -1,8 +1,21 @@
 {
-  "type": "minecraft:stonecutting",
-  "count": 4,
-  "ingredient": {
-    "item": "createdeco:industrial_iron_ingot"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "createdeco:industrial_iron_bars"
+    },
+    "c": {
+      "item": "createdeco:industrial_iron_catwalk"
+    }
   },
-  "result": "createdeco:industrial_iron_catwalk_stairs"
+  "pattern": [
+    " c",
+    "cb"
+  ],
+  "result": {
+    "count": 2,
+    "item": "createdeco:industrial_iron_catwalk_stairs"
+  },
+  "show_notification": true
 }

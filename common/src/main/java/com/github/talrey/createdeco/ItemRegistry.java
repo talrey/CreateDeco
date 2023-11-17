@@ -23,8 +23,9 @@ public class ItemRegistry {
   public static ItemEntry<Item> INDUSTRIAL_IRON_SHEET;
 
   public static HashMap<String, Function<String, Item>> METAL_TYPES = new HashMap<>();
+  public static HashMap<String, Function<String, Item>> COIN_METALS = new HashMap<>();
 
-  public static HashMap<String, ItemEntry<Item>> COINS= new HashMap<>();
+  public static HashMap<String, ItemEntry<Item>> COINS = new HashMap<>();
   public static HashMap<String, ItemEntry<CoinStackItem>> COINSTACKS = new HashMap<>();
 
   public static void init () {
@@ -40,11 +41,12 @@ public class ItemRegistry {
     METAL_TYPES.put("Copper", (str) -> Items.COPPER_INGOT);
     METAL_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
     METAL_TYPES.put("Iron", (str) -> Items.IRON_INGOT);
-    //METAL_TYPES.put("Gold", (str) -> Items.GOLD_INGOT);
-    //METAL_TYPES.put("Netherite", (str) -> Items.NETHERITE_INGOT);
     METAL_TYPES.put("Industrial Iron", (str) -> INDUSTRIAL_IRON_INGOT.get());
+    COIN_METALS.put("Gold", (str) -> Items.GOLD_INGOT);
+    COIN_METALS.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 
     METAL_TYPES.forEach(ItemRegistry::registerCoins);
+    COIN_METALS.forEach(ItemRegistry::registerCoins);
   }
 
   private static void registerSheets () {

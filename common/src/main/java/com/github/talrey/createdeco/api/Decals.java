@@ -46,7 +46,7 @@ public class Decals {
           //.initialProperties(()-> Blocks.BRICKS)
           .properties(props -> props
               .strength(2,2)
-              .sound(SoundType.CANDLE)
+              .sound(SoundType.LANTERN)
               .noOcclusion()
               .isViewBlocking((a, b, c) -> false)
               .isSuffocating((a, b, c) -> false)

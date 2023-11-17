@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "create:veridium"
+  },
+  "result": "createdeco:mossy_verdant_bricks"
+}

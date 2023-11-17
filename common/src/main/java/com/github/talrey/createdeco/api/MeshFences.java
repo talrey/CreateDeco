@@ -24,7 +24,7 @@ public class MeshFences {
       String metal,
       DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 8)
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 16)
         .pattern("psp")
         .pattern("psp")
         .define('p', CDTags.of(metal, "plates").tag)

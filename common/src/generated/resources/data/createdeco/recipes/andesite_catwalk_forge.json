@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "createdeco:andesite_bars"
+    },
+    "p": {
+      "tag": "createdeco:internal/plates/andesite_plates"
+    }
+  },
+  "pattern": [
+    " p ",
+    "pBp",
+    " p "
+  ],
+  "result": {
+    "count": 4,
+    "item": "createdeco:andesite_catwalk"
+  },
+  "show_notification": true
+}

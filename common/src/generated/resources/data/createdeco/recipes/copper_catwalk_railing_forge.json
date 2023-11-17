@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "createdeco:copper_bars"
+    },
+    "p": {
+      "tag": "createdeco:internal/plates/copper_plates"
+    }
+  },
+  "pattern": [
+    "ppp",
+    "B B",
+    "B B"
+  ],
+  "result": {
+    "count": 8,
+    "item": "createdeco:copper_catwalk_railing"
+  },
+  "show_notification": true
+}

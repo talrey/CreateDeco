@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "create:scoria"
+  },
+  "result": "createdeco:cracked_umber_bricks"
+}

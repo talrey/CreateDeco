@@ -41,24 +41,9 @@ import java.util.Locale;
 import java.util.function.Supplier;
 
 public class Catwalks {
-  public static <T extends Block> void recipe (
-    String metal, ItemLike barItem,
-    DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
-  ) {
-    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
-        .pattern(" p ")
-        .pattern("pBp")
-        .pattern(" p ")
-        .define('p', CDTags.of(metal, "plates").tag)
-        .define('B', barItem)
-        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
-        ))
-        .save(prov, ctx.getName() + "_forge");
-  }
 
   public static BlockBuilder<CatwalkBlock,?> build (
-    CreateRegistrate reg, String metal, ItemLike barItem
+    CreateRegistrate reg, String metal
   ) {
     return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk", CatwalkBlock::new)
       .properties(props->
@@ -72,9 +57,6 @@ public class Catwalks {
       .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
       .model((ctx,prov)-> BlockStateGenerator.catwalkItem(metal, ctx, prov))
       .build()
-      .recipe( (ctx, prov)-> {
-        recipe(metal, barItem, ctx, prov);
-      })
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalk(reg, metal, ctx, prov))
       .onRegister(CreateRegistrate.connectedTextures(
         new CatwalkCTBehaviour(SpriteShifts.CATWALK_TOPS.get(metal)).getSupplier()
@@ -82,7 +64,7 @@ public class Catwalks {
   }
 
   public static BlockBuilder<CatwalkStairBlock,?> buildStair (
-    CreateRegistrate reg, String metal, ItemLike barItem
+    CreateRegistrate reg, String metal
   ) {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
     String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
@@ -95,21 +77,11 @@ public class Catwalks {
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalkStair(texture, ctx, prov))
-      .recipe((ctx,prov)-> ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
-        .pattern(" c")
-        .pattern("cb")
-        .define('c', BlockRegistry.CATWALKS.get(metal).get())
-        .define('b', barItem)
-        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-          BlockRegistry.CATWALKS.get(metal).get()
-        ))
-        .save(prov)
-      )
       .item(CatwalkStairBlockItem::new).build();
   }
 
   public static BlockBuilder<CatwalkRailingBlock,?> buildRailing (
-    CreateRegistrate reg, String metal, ItemLike barItem
+    CreateRegistrate reg, String metal
   ) {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
     String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
@@ -145,13 +117,63 @@ public class Catwalks {
 
 
   public static <T extends Block> void recipeStonecutting (
-      Supplier<Item> ingot, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+      Supplier<Item> ingot, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov, int count
   ) {
-    SingleItemRecipeBuilder.stonecutting(Ingredient.of(ingot.get()), RecipeCategory.DECORATIONS, ctx.get(), 4)
+    SingleItemRecipeBuilder.stonecutting(Ingredient.of(ingot.get()), RecipeCategory.DECORATIONS, ctx.get(), count)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
             ItemPredicate.Builder.item().of(ingot.get()).build()
         ))
-        .save(prov);
+        .save(prov, ctx.getName() + "_from_stonecutting");
 
+  }
+
+  public static <T extends Block> void recipeStairs (
+      String metal, ItemLike barItem,
+      DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+
+  ) {
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 2)
+        .pattern(" c")
+        .pattern("cb")
+        .define('c', BlockRegistry.CATWALKS.get(metal).get())
+        .define('b', barItem)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            BlockRegistry.CATWALKS.get(metal).get()
+        ))
+        .save(prov);
+  }
+
+  public static <T extends Block> void recipeCatwalk (
+      String metal, ItemLike barItem,
+      DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+
+  ) {
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 4)
+        .pattern(" p ")
+        .pattern("pBp")
+        .pattern(" p ")
+        .define('p', CDTags.of(metal, "plates").tag)
+        .define('B', barItem)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+        ))
+        .save(prov, ctx.getName() + "_forge");
+  }
+
+  public static <T extends Block> void recipeRailing (
+      String metal, ItemLike barItem,
+      DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+
+  ) {
+    ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 8)
+        .pattern("ppp")
+        .pattern("B B")
+        .pattern("B B")
+        .define('p', CDTags.of(metal, "plates").tag)
+        .define('B', barItem)
+        .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+        ))
+        .save(prov, ctx.getName() + "_forge");
   }
 }

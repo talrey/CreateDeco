@@ -168,14 +168,24 @@ public class BlockRegistry {
 	private static void registerCatwalks (String metal, Function<String, Item> getter) {
 		//String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 		CATWALKS.put(metal, Catwalks.build(
-			CreateDecoMod.REGISTRATE, metal, BARS.get(metal))
-				.recipe((ctx, prov)-> Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
+			CreateDecoMod.REGISTRATE, metal)
+				.recipe( (ctx, prov)-> {
+					Catwalks.recipeCatwalk(metal, metal.equals("Iron") ? Items.IRON_BARS : BARS.get(metal), ctx, prov);
+					Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov, 4);
+				})
+				.register());
 		CATWALK_STAIRS.put(metal, Catwalks.buildStair(
-			CreateDecoMod.REGISTRATE, metal, BARS.get(metal))
-				.recipe((ctx, prov)-> Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
+			CreateDecoMod.REGISTRATE, metal)
+						.recipe( (ctx, prov)-> {
+							Catwalks.recipeStairs(metal, metal.equals("Iron") ? Items.IRON_BARS : BARS.get(metal), ctx, prov);
+							Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov, 2);
+						}).register());
 		CATWALK_RAILINGS.put(metal, Catwalks.buildRailing(
-			CreateDecoMod.REGISTRATE, metal, /*BAR_BLOCKS.get(metal)*/ Blocks.IRON_BARS)
-				.recipe((ctx, prov)-> Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov)).register());
+			CreateDecoMod.REGISTRATE, metal)
+				.recipe( (ctx, prov)-> {
+					Catwalks.recipeRailing(metal, metal.equals("Iron") ? Items.IRON_BARS : BARS.get(metal), ctx, prov);
+					Catwalks.recipeStonecutting(()->getter.apply("ingot"), ctx, prov, 8);
+				}).register());
 		WEDGES.put(metal, Wedges.build(
 						CreateDecoMod.REGISTRATE, metal)
 				.recipe( (ctx, prov)-> {

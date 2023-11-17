@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "create:copper_nugget"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:copper_coin"
+    }
+  ]
+}

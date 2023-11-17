@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "create:zinc_nugget"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:zinc_coin"
+    }
+  ]
+}

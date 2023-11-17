@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "create:crimsite"
+  },
+  "result": "createdeco:cracked_scarlet_bricks"
+}

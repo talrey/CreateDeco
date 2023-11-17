@@ -1,8 +1,21 @@
 {
-  "type": "minecraft:stonecutting",
-  "count": 4,
-  "ingredient": {
-    "item": "create:zinc_ingot"
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "createdeco:zinc_bars"
+    },
+    "c": {
+      "item": "createdeco:zinc_catwalk"
+    }
   },
-  "result": "createdeco:zinc_catwalk_stairs"
+  "pattern": [
+    " c",
+    "cb"
+  ],
+  "result": {
+    "count": 2,
+    "item": "createdeco:zinc_catwalk_stairs"
+  },
+  "show_notification": true
 }

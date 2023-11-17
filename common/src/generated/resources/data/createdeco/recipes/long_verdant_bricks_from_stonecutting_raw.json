@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "create:veridium"
+  },
+  "result": "createdeco:long_verdant_bricks"
+}

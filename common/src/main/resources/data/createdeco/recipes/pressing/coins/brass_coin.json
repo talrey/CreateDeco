@@ -1,0 +1,13 @@
+{
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "create:brass_nugget"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:brass_coin"
+    }
+  ]
+}
