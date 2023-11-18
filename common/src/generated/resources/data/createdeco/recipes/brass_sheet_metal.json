@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "m": {
+      "tag": "createdeco:internal/plates/brass_plates"
+    }
+  },
+  "pattern": [
+    "mm",
+    "mm"
+  ],
+  "result": {
+    "count": 4,
+    "item": "createdeco:brass_sheet_metal"
+  },
+  "show_notification": true
+}

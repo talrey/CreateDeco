@@ -45,7 +45,7 @@ public class ShippingContainers {
       .item(ShippingContainerBlockItem::new)
         .build()
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-      .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase().replaceAll(" ", "_") + " Shipping Container")
+      .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase().replaceAll("_", " ") + " Shipping Container")
 
       .blockstate((ctx, prov) -> BlockStateGenerator.shippingContainer(CreateDecoMod.REGISTRATE, color, ctx, prov))
       .onRegister(connectedTextures(ShippingContainerCTBehavior::new));

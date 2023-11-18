@@ -6,7 +6,9 @@ import com.github.talrey.createdeco.blocks.block_entities.ShippingContainerBlock
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.decoration.MetalLadderBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
+import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
 import com.simibubi.create.content.decoration.palettes.WindowBlock;
 import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
@@ -62,11 +64,13 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<IronBarsBlock>> BARS       = new HashMap<>();
 	public static HashMap<String, BlockEntry<IronBarsBlock>> BAR_PANELS = new HashMap<>();
 	public static HashMap<String, BlockEntry<FenceBlock>> MESH_FENCES   = new HashMap<>();
+	public static HashMap<String, BlockEntry<ConnectedPillarBlock>> SHEET_METAL_PILLARS = new HashMap<>();
 
 	public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALKS                = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS     = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkRailingBlock>> CATWALK_RAILINGS = new HashMap<>();
 
+	public static HashMap<String, BlockEntry<MetalLadderBlock>> LADDERS = new HashMap<>();
 	public static HashMap<String, BlockEntry<HullBlock>> HULLS          = new HashMap<>();
 	public static HashMap<String, BlockEntry<SupportBlock>> SUPPORTS    = new HashMap<>();
 	public static HashMap<String, BlockEntry<SupportWedgeBlock>> WEDGES = new HashMap<>();
@@ -89,10 +93,11 @@ public class BlockRegistry {
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerBars);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerFences);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCatwalks);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerLadders);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerHulls);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSupports);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
-		//ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerWindows);
+		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSheetMetal);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
 		registerShippingContainers();
 		registerDecals();
@@ -205,6 +210,14 @@ public class BlockRegistry {
 	}
 	 */
 
+	private static void registerSheetMetal (String metal, Function<String, Item> getter) {
+		SHEET_METAL_PILLARS.put(metal, SheetMetal.build(CreateDecoMod.REGISTRATE, metal)
+				.recipe( (ctx, prov)-> {
+					SheetMetal.recipeCrafting(metal, ctx, prov);
+				})
+				.register());
+	}
+
 	public static final BlockEntry<WindowBlock>
 			ANDESITE_WINDOW = Windows.metalWindowBlock("Andesite"),
 			COPPER_WINDOW = Windows.metalWindowBlock("Copper"),
@@ -244,6 +257,17 @@ public class BlockRegistry {
 					Hulls.recipeStonecutting(metal, ctx, prov);
 				})
 			.register()
+		);
+	}
+
+	private static void registerLadders (String metal, Function<String, Item> getter) {
+		if (metal.contains("opper") || metal.contains("ndesite") || metal.contains("rass")) return;
+
+		LADDERS.put(metal, Ladders.build(CreateDecoMod.REGISTRATE, metal)
+				.recipe( (ctx, prov)-> {
+					Ladders.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
+				})
+				.register()
 		);
 	}
 

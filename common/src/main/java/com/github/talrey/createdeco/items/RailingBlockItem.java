@@ -40,8 +40,9 @@ public class RailingBlockItem extends BlockItem {
     BlockState state        = level.getBlockState(pos);
     IPlacementHelper helper = PlacementHelpers.get(placementHelperID);
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
+    boolean railMatchTest = stack.getItem() == state.getBlock().asItem();
 
-    if (player == null || player.isShiftKeyDown()) return InteractionResult.PASS;
+    if (player == null) return InteractionResult.PASS;
 
     PlacementOffset offset = null;
     if (helper.matchesState(state)) {
@@ -49,7 +50,8 @@ public class RailingBlockItem extends BlockItem {
       //return offset.placeInWorld(world, this, player, ctx.getHand(), ray);
     }
 
-    if (offset != null && offset.isSuccessful()) {
+    if (offset != null && offset.isSuccessful() && !player.isShiftKeyDown() //&& railMatchTest
+    ) {
       state = offset.getGhostState(); //level.getBlockState(offset.getBlockPos());
       var offsetPos = offset.getBlockPos();
       var soundType = state.getSoundType();
@@ -89,11 +91,13 @@ public class RailingBlockItem extends BlockItem {
         state = adjacent;
       }
 
+      boolean railMatchTest = player.isHolding(state.getBlock().asItem());
+
       if (!CatwalkRailingBlock.isRailing(state.getBlock()) ||
               (state.getValue(CatwalkRailingBlock.NORTH_FENCE)
               && state.getValue(CatwalkRailingBlock.SOUTH_FENCE)
               && state.getValue(CatwalkRailingBlock.EAST_FENCE)
-              && state.getValue(CatwalkRailingBlock.WEST_FENCE))) {
+              && state.getValue(CatwalkRailingBlock.WEST_FENCE)) || !railMatchTest) {
         return PlacementOffset.fail();
       }
 

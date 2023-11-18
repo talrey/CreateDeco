@@ -1,8 +1,10 @@
 package com.github.talrey.createdeco.fabric;
 
+import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
+import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -87,6 +89,32 @@ public class BlockStateGeneratorImpl {
           .texture("layer0", bartex)
           .texture("layer1", prov.modLoc("block/palettes/metal_bars/" + base + suf));
     }
+  }
+
+  public static void sheetMetal (
+      String metal,
+      DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov) {
+    var name = metal.toLowerCase().replace(" ", "_") + "_sheet_metal";
+    var side = CreateDecoMod.id("block/palettes/sheet_metal/" + name);
+    var end = CreateDecoMod.id("block/palettes/sheet_metal/" + name + "_top");
+    prov.getVariantBuilder(ctx.getEntry())
+        .forAllStatesExcept(state -> {
+              Direction.Axis axis = state.getValue(BlockStateProperties.AXIS);
+              if (axis == Direction.Axis.Y)
+                return ConfiguredModel.builder()
+                    .modelFile(prov.models()
+                        .cubeColumn(ctx.getName(), side, end))
+                    .uvLock(false)
+                    .build();
+              return ConfiguredModel.builder()
+                  .modelFile(prov.models()
+                      .cubeColumnHorizontal(ctx.getName() + "_horizontal", side, end))
+                  .uvLock(false)
+                  .rotationX(90)
+                  .rotationY(axis == Direction.Axis.X ? 90 : 0)
+                  .build();
+            }, BlockStateProperties.WATERLOGGED, ConnectedPillarBlock.NORTH, ConnectedPillarBlock.SOUTH,
+            ConnectedPillarBlock.EAST, ConnectedPillarBlock.WEST);
   }
 
   public static void fence (

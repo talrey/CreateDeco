@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "createdeco:block/palettes/sheet_metal/zinc_sheet_metal_top",
+    "side": "createdeco:block/palettes/sheet_metal/zinc_sheet_metal"
+  }
+}

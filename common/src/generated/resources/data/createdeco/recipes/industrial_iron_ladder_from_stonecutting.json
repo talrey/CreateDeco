@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "createdeco:industrial_iron_ingot"
+  },
+  "result": "createdeco:industrial_iron_ladder"
+}
