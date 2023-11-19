@@ -8,7 +8,7 @@
     "Kayla, Talrey"
   ],
   "license": "Insert License Here",
-  "icon": "assets/createdeco/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [

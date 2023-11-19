@@ -1,4 +1,4 @@
-// 1.20.1	2023-11-18T01:36:32.6238395	Create Deco/Registrate Provider for createdeco [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
+// 1.20.1	2023-11-18T12:21:04.0299662	Create Deco/Registrate Provider for createdeco [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 ef7720185eaf4ec0e3de39c152f045433d55a163 data\createdeco\loot_tables\blocks\verdant_brick_slab.json
 6d17bdf6ab27651df4abc1c5a1a02736198443ed data\createdeco\loot_tables\blocks\blue_zinc_lamp.json
 0842eed9406b504d6e77b780e987a2a74f78bc76 assets\createdeco\models\item\brown_placard.json
@@ -887,7 +887,7 @@ c1c99a5ab3e54facdb218ff6ae8ec6ead0586dd1 assets\createdeco\models\block\long_red
 dd30ce895007a25880d3d8e294d6a781341376be data\createdeco\advancements\recipes\decorations\pink_placard.json
 cc4e722d8f9b61c704923d5c276ef04e5e13887a assets\createdeco\models\block\yellow_andesite_lamp.json
 2762988ee43dc6e6c02db4cda2276acc4f7ce749 data\createdeco\recipes\zinc_sheet_metal.json
-0aedd42fafcec51985f1a56e0abc78b368038901 data\minecraft\tags\blocks\mineable\pickaxe.json
+1bf88a06bee0208b8ed61b9131314a753f0c7de1 data\minecraft\tags\blocks\mineable\pickaxe.json
 8c7019e48da08ccb5d69bc2f56d3da301430d56a assets\createdeco\blockstates\iron_coinstack.json
 8bfb319d45057e1637b1251230d7a4d31e5d32b9 data\createdeco\loot_tables\blocks\green_brass_lamp.json
 e2cbd3b7f837f336c922611e800d00ad1742bfb4 assets\createdeco\models\item\mossy_blue_brick_stairs.json
@@ -1002,8 +1002,8 @@ aee0be1a6e93f72ce8b0713660568d8295e6e1fa assets\createdeco\models\block\long_red
 c8074e12f07a8f1fdab0727550462e05d6d69efb assets\createdeco\models\item\pink_placard.json
 28bb4020acae79e9993978c5f29dbb2ae7cbf3ba assets\createdeco\models\block\locked_zinc_door_top_right_open.json
 19894c76afd08cc0d1062b59ea05d14d880c2c4b assets\createdeco\models\block\locked_zinc_door_top_right.json
-7c8091f46e91a24cf9f71f10109b726c2d95185f assets\createdeco\models\item\red_andesite_lamp.json
 bbb66e0eb016b98de50fad2f28703fefede2a17c assets\createdeco\models\item\tiled_scarlet_bricks.json
+7c8091f46e91a24cf9f71f10109b726c2d95185f assets\createdeco\models\item\red_andesite_lamp.json
 69959f68bf9204175d490a4b0de6f94e54f5766f assets\createdeco\models\item\tiled_scarlet_brick_stairs.json
 e072ea56946c577ccd5d2f3d293e10b3880d9966 assets\createdeco\models\block\brass_trapdoor_top.json
 041e9f56ffd57fd74a0ca5d23ac7baff70110a52 assets\createdeco\models\item\decal_warning.json
