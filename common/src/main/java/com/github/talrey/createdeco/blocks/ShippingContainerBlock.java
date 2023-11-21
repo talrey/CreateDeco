@@ -1,14 +1,13 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.BlockRegistry;
+import com.github.talrey.createdeco.LoaderUtil;
 import com.github.talrey.createdeco.blocks.block_entities.ShippingContainerBlockEntity;
 import com.github.talrey.createdeco.items.ShippingContainerBlockItem;
 import com.simibubi.create.api.connectivity.ConnectivityHandler;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.item.ItemHelper;
-import io.github.fabricators_of_create.porting_lib.block.CustomSoundTypeBlock;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
@@ -17,7 +16,6 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -33,7 +31,7 @@ import net.minecraft.world.level.block.state.properties.Property;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-public class ShippingContainerBlock extends Block implements IWrenchable, IBE<ShippingContainerBlockEntity>, CustomSoundTypeBlock {
+public class ShippingContainerBlock extends Block implements IWrenchable, IBE<ShippingContainerBlockEntity> {//}, CustomSoundTypeBlock {
     public static final Property<Direction.Axis> HORIZONTAL_AXIS = BlockStateProperties.HORIZONTAL_AXIS;
     public static final BooleanProperty LARGE = BooleanProperty.create("large");
     public final DyeColor COLOR;
@@ -106,18 +104,18 @@ public class ShippingContainerBlock extends Block implements IWrenchable, IBE<Sh
         return onWrenched;
     }
 
-    @Override
-    public void onRemove (BlockState state, Level world, BlockPos pos, BlockState newState, boolean pIsMoving) {
-        if (state.hasBlockEntity() && (state.getBlock() != newState.getBlock() || !newState.hasBlockEntity())) {
-            BlockEntity be = world.getBlockEntity(pos);
-            if (!(be instanceof ShippingContainerBlockEntity))
-                return;
-            ShippingContainerBlockEntity vaultBE = (ShippingContainerBlockEntity) be;
-            ItemHelper.dropContents(world, pos, vaultBE.getInventoryOfBlock());
-            world.removeBlockEntity(pos);
-            ConnectivityHandler.splitMulti(vaultBE);
-        }
-    }
+//    @Override
+//    public void onRemove (BlockState state, Level world, BlockPos pos, BlockState newState, boolean pIsMoving) {
+//        if (state.hasBlockEntity() && (state.getBlock() != newState.getBlock() || !newState.hasBlockEntity())) {
+//            BlockEntity be = world.getBlockEntity(pos);
+//            if (!(be instanceof ShippingContainerBlockEntity))
+//                return;
+//            ShippingContainerBlockEntity vaultBE = (ShippingContainerBlockEntity) be;
+//            ItemHelper.dropContents(world, pos, vaultBE.getInventoryOfBlock());
+//            world.removeBlockEntity(pos);
+//            ConnectivityHandler.splitMulti(vaultBE);
+//        }
+//    }
 
     public static boolean isVault (BlockState state) {
         boolean bool = false;
@@ -161,13 +159,13 @@ public class ShippingContainerBlock extends Block implements IWrenchable, IBE<Sh
                     SoundEvents.NETHERITE_BLOCK_PLACE, SoundEvents.NETHERITE_BLOCK_HIT,
                     SoundEvents.NETHERITE_BLOCK_FALL);
 
-    @Override
-    public SoundType getSoundType(BlockState state, LevelReader world, BlockPos pos, net.minecraft.world.entity.Entity entity) {
-        SoundType soundType = getSoundType(state);
-        if (entity != null)
-            return SILENCED_METAL;
-        return soundType;
-    }
+//    @Override
+//    public SoundType getSoundType(BlockState state, LevelReader world, BlockPos pos, net.minecraft.world.entity.Entity entity) {
+//        SoundType soundType = getSoundType(state);
+//        if (entity != null)
+//            return SILENCED_METAL;
+//        return soundType;
+//    }
 
     @Override
     public boolean hasAnalogOutputSignal(BlockState p_149740_1_) {
@@ -176,11 +174,7 @@ public class ShippingContainerBlock extends Block implements IWrenchable, IBE<Sh
 
     @Override
     public int getAnalogOutputSignal(BlockState pState, Level pLevel, BlockPos pPos) {
-        return getBlockEntityOptional(pLevel, pPos)
-                .filter(vte -> !Transaction.isOpen()) // fabric: hack fix for comparators updating when they shouldn't
-                .map(vte -> vte.getItemStorage(null))
-                .map(ItemHelper::calcRedstoneFromInventory)
-                .orElse(0);
+        return LoaderUtil.getSignal(this, pState, pLevel, pPos);
     }
 
     @Override

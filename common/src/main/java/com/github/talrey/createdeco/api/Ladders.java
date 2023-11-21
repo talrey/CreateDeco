@@ -1,7 +1,6 @@
 package com.github.talrey.createdeco.api;
 
 import com.github.talrey.createdeco.BlockStateGenerator;
-import com.github.talrey.createdeco.blocks.HullBlock;
 import com.simibubi.create.content.decoration.MetalLadderBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -11,7 +10,6 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -33,11 +31,8 @@ public class Ladders {
     return reg.block(regName + "_ladder", MetalLadderBlock::new)
         .initialProperties(() -> Blocks.LADDER)
         .addLayer(() -> RenderType::cutout)
-        .blockstate((c, p) -> p.horizontalBlock(c.get(), p.models()
-            .withExistingParent(c.getName(), p.modLoc("block/ladder"))
-            .texture("0", p.modLoc("block/palettes/ladders/ladder_" + regName + "_hoop"))
-            .texture("1", p.modLoc("block/palettes/ladders/ladder_" + regName))
-            .texture("particle", p.modLoc("block/palettes/ladders/ladder_" + regName))))
+        .blockstate((ctx, prov)-> BlockStateGenerator.ladder(ctx,prov,regName)
+        )
         .properties(p -> p.sound(SoundType.COPPER))
         .tag(BlockTags.CLIMBABLE)
         .tag(BlockTags.MINEABLE_WITH_PICKAXE)

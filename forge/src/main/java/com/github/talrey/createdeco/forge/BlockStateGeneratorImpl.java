@@ -1,14 +1,18 @@
 package com.github.talrey.createdeco.forge;
 
+import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -177,6 +181,39 @@ public class BlockStateGeneratorImpl {
 
   public static void brickStair (
     DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void brickSlab (
+    DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void window (
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov,
+    NonNullFunction<String, ResourceLocation> sideTexture,
+    NonNullFunction<String, ResourceLocation> endTexture
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static NonNullBiConsumer<DataGenContext<Block, ConnectedGlassPaneBlock>, RegistrateBlockstateProvider> windowPane (
+    String CGPparents, String prefix, ResourceLocation sideTexture, ResourceLocation topTexture
+  ) {
+    // will this explode...?
+    return (ctx,prov)-> BlockStateGeneratorImpl.window(ctx,prov, s->sideTexture, s->topTexture);
+  }
+
+  public static void ladder (
+    DataGenContext<Block,?> ctx, RegistrateBlockstateProvider prov, String regName
   ) {
     ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
       ctx.getName()

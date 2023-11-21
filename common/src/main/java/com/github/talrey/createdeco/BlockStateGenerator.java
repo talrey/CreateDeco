@@ -1,9 +1,12 @@
 package com.github.talrey.createdeco;
 
+import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
@@ -186,6 +189,29 @@ public class BlockStateGenerator {
   @ExpectPlatform
   public static void brickSlab (
     DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void window (
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov,
+    NonNullFunction<String, ResourceLocation> sideTexture,
+    NonNullFunction<String, ResourceLocation> endTexture
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static NonNullBiConsumer<DataGenContext<Block, ConnectedGlassPaneBlock>, RegistrateBlockstateProvider> windowPane (
+    String CGPparents, String prefix, ResourceLocation sideTexture, ResourceLocation topTexture
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void ladder (
+    DataGenContext<Block,?> ctx, RegistrateBlockstateProvider prov, String regName
   ) {
     throw new AssertionError();
   }

@@ -4,12 +4,16 @@ import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
+import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
+import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
 import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
 import net.minecraft.core.Direction;
@@ -23,6 +27,7 @@ import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Locale;
+import java.util.function.Function;
 
 public class BlockStateGeneratorImpl {
   public static void bar (
@@ -527,5 +532,52 @@ public class BlockStateGeneratorImpl {
         "block/palettes/bricks/" + color + "/" + block
     );
     prov.slabBlock(ctx.get(), blockModel, texture);
+  }
+
+  public static void window (
+    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov,
+    NonNullFunction<String, ResourceLocation> sideTexture,
+    NonNullFunction<String, ResourceLocation> endTexture
+  ) {
+    prov.simpleBlock(ctx.get(), prov.models()
+      .cubeColumn(ctx.getName(), sideTexture.apply(ctx.getName()), endTexture.apply(ctx.getName()))
+    );
+  }
+
+  public static NonNullBiConsumer<DataGenContext<Block, ConnectedGlassPaneBlock>, RegistrateBlockstateProvider> windowPane (
+    String CGPparents, String prefix, ResourceLocation sideTexture, ResourceLocation topTexture
+  ) {
+    Function<RegistrateBlockstateProvider, ModelFile> post =
+      getPaneModelProvider(CGPparents, prefix, "post", sideTexture, topTexture),
+      side = getPaneModelProvider(CGPparents, prefix, "side", sideTexture, topTexture),
+      sideAlt = getPaneModelProvider(CGPparents, prefix, "side_alt", sideTexture, topTexture),
+      noSide = getPaneModelProvider(CGPparents, prefix, "noside", sideTexture, topTexture),
+      noSideAlt = getPaneModelProvider(CGPparents, prefix, "noside_alt", sideTexture, topTexture);
+
+    return (c, p) -> p.paneBlock(c.get(),
+      post.apply(p),
+      side.apply(p),
+      sideAlt.apply(p),
+      noSide.apply(p),
+      noSideAlt.apply(p)
+    );
+  }
+
+  private static Function<RegistrateBlockstateProvider, ModelFile> getPaneModelProvider (String CGPparents, String prefix, String partial, ResourceLocation sideTexture, ResourceLocation topTexture) {
+    return p -> p.models()
+      .withExistingParent(prefix + partial, CreateDecoMod.id(CGPparents + partial))
+      .texture("pane", sideTexture)
+      .texture("edge", topTexture);
+  }
+
+  public static void ladder (
+    DataGenContext<Block,?> ctx, RegistrateBlockstateProvider prov, String regName
+  ) {
+    prov.horizontalBlock(ctx.get(), prov.models()
+      .withExistingParent(ctx.getName(), prov.modLoc("block/ladder"))
+      .texture("0", prov.modLoc("block/palettes/ladders/ladder_" + regName + "_hoop"))
+      .texture("1", prov.modLoc("block/palettes/ladders/ladder_" + regName))
+      .texture("particle", prov.modLoc("block/palettes/ladders/ladder_" + regName))
+    );
   }
 }

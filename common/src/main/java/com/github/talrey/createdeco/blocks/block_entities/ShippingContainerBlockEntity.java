@@ -1,31 +1,30 @@
 package com.github.talrey.createdeco.blocks.block_entities;
 
-import com.github.talrey.createdeco.BlockRegistry;
-import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
-import com.simibubi.create.api.connectivity.ConnectivityHandler;
-import com.simibubi.create.foundation.blockEntity.IMultiBlockEntityContainer;
-import com.simibubi.create.foundation.blockEntity.SmartBlockEntity;
-import com.simibubi.create.foundation.blockEntity.behaviour.BlockEntityBehaviour;
-import com.simibubi.create.infrastructure.config.AllConfigs;
-import io.github.fabricators_of_create.porting_lib.transfer.item.ItemStackHandler;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.CombinedStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
+import com.simibubi.create.content.logistics.vault.ItemVaultBlockEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
-import java.util.List;
+public class ShippingContainerBlockEntity extends ItemVaultBlockEntity {
+    public ShippingContainerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
-public class ShippingContainerBlockEntity extends SmartBlockEntity implements IMultiBlockEntityContainer.Inventory, SidedStorageBlockEntity {
+    @Override
+    public ShippingContainerBlockEntity getControllerBE() {
+        BlockEntity be = super.getControllerBE();
+        if (be instanceof ShippingContainerBlockEntity sc) return sc;
+
+        return null; // could be dangerous?
+    }
+
+    @Override
+    public void updateConnectivity() {
+        super.updateConnectivity();
+    }
+
+    /*extends SmartBlockEntity implements IMultiBlockEntityContainer.Inventory, SidedStorageBlockEntity {
     protected Storage<ItemVariant> itemCapability;
 
     protected ItemStackHandler inventory;
@@ -319,4 +318,5 @@ public class ShippingContainerBlockEntity extends SmartBlockEntity implements IM
 
     @Override
     public boolean hasInventory() { return true; }
+    */
 }

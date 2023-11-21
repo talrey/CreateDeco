@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco.api;
 
+import com.github.talrey.createdeco.BlockStateGenerator;
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.connected.SpriteShifts;
 import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
@@ -17,8 +18,6 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
-import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
-import io.github.fabricators_of_create.porting_lib.tags.Tags;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.client.renderer.RenderType;
@@ -36,7 +35,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
@@ -85,7 +83,7 @@ public class Windows {
             .pattern(" # ")
             .pattern("#X#")
             .define('#', Ingredient.of(CDTags.of(name.replace("_window", ""), "ingots").tag))
-            .define('X', DataIngredient.tag(Tags.Items.GLASS_COLORLESS))
+            .define('X', DataIngredient.tag(CDTags.GLASS_ITEM.tag))
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
                 ItemPredicate.Builder.item().of(CDTags.of(name.replace("_window", ""), "ingots").tag).build()
             ))
@@ -94,8 +92,7 @@ public class Windows {
         .properties(Windows::glassProperties)
         .properties(p -> p.mapColor(color.get()))
         .loot((t, g) -> t.dropWhenSilkTouch(g))
-        .blockstate((c, p) -> p.simpleBlock(c.get(), p.models()
-            .cubeColumn(c.getName(), sideTexture.apply(c.getName()), endTexture.apply(c.getName()))))
+        .blockstate((ctx,prov)-> BlockStateGenerator.window(ctx, prov, sideTexture, endTexture))
         .tag(BlockTags.IMPERMEABLE)
         .simpleItem()
         .register();
@@ -123,27 +120,8 @@ public class Windows {
     String CGPparents = "block/connected_glass_pane/";
     String prefix = name + "_pane_";
 
-    Function<RegistrateBlockstateProvider, ModelFile> post =
-        getPaneModelProvider(CGPparents, prefix, "post", sideTexture, topTexture),
-        side = getPaneModelProvider(CGPparents, prefix, "side", sideTexture, topTexture),
-        sideAlt = getPaneModelProvider(CGPparents, prefix, "side_alt", sideTexture, topTexture),
-        noSide = getPaneModelProvider(CGPparents, prefix, "noside", sideTexture, topTexture),
-        noSideAlt = getPaneModelProvider(CGPparents, prefix, "noside_alt", sideTexture, topTexture);
-
-    NonNullBiConsumer<DataGenContext<Block, ConnectedGlassPaneBlock>, RegistrateBlockstateProvider> stateProvider =
-        (c, p) -> p.paneBlock(c.get(), post.apply(p), side.apply(p), sideAlt.apply(p), noSide.apply(p),
-            noSideAlt.apply(p));
-
     return glassPane(name, parent, itemSideTexture, topTexture, ConnectedGlassPaneBlock::new, renderType,
-        connectedTextures, stateProvider);
-  }
-
-  private static Function<RegistrateBlockstateProvider, ModelFile> getPaneModelProvider(String CGPparents,
-                                                                                        String prefix, String partial, ResourceLocation sideTexture, ResourceLocation topTexture) {
-    return p -> p.models()
-        .withExistingParent(prefix + partial, CreateDecoMod.id(CGPparents + partial))
-        .texture("pane", sideTexture)
-        .texture("edge", topTexture);
+        connectedTextures, BlockStateGenerator.windowPane(CGPparents, prefix, sideTexture, topTexture));
   }
 
   private static <G extends GlassPaneBlock> BlockEntry<G> glassPane(String name, Supplier<? extends Block> parent,
@@ -165,10 +143,10 @@ public class Windows {
             .define('#', parent.get())
             .unlockedBy("has_ingredient", RegistrateRecipeProvider.has(parent.get()))
             .save(p::accept))
-        .tag(Tags.Blocks.GLASS_PANES)
+        .tag(CDTags.GLASS_PANE.tag)
         .loot((t, g) -> t.dropWhenSilkTouch(g))
         .item()
-        .tag(Tags.Items.GLASS_PANES)
+        .tag(CDTags.GLASS_PANE_ITEM.tag)
         .model((c, p) -> p.withExistingParent(c.getName(), CreateDecoMod.id("item/pane"))
             .texture("pane", sideTexture)
             .texture("edge", topTexture))

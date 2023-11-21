@@ -2,7 +2,6 @@ package com.github.talrey.createdeco.connected;
 
 import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.ItemRegistry;
-import com.simibubi.create.AllSpriteShifts;
 import com.simibubi.create.foundation.block.connected.AllCTTypes;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.CTSpriteShifter;
