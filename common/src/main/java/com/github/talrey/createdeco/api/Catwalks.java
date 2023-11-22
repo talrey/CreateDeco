@@ -24,6 +24,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
@@ -75,21 +76,33 @@ public class Catwalks {
       )
       .loot((table, block) -> {
         LootTable.Builder builder = LootTable.lootTable();
-        LootPool.Builder pool     = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
-        LootItem.Builder<?> entry = LootItem.lootTableItem(block);
+        LootPool.Builder stairsPool     = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
+        LootPool.Builder railingsPool     = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
+        LootItem.Builder<?> stairs = LootItem.lootTableItem(block);
+        stairs.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)));
 
-        entry.apply(SetItemCountFunction.setCount(ConstantValue.exactly(0)));
+        //todo: add map for checking stairs type against railing type, use it below
+        LootItem.Builder<?> rails = LootItem.lootTableItem(
+            /* REMOVE `block` */ block
+            //[ADD CALL FOR APPROPRIATE RAILING TYPE HERE]
+        );
 
-        //todo: add check for having multiple railings and dropping as many railings as it has
-        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
-          entry.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1), true)
-              .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                  .setProperties(StatePropertiesPredicate.Builder.properties()
-                      .hasProperty(CatwalkStairBlock.RAILING_LEFT, true)
-                  )));
-        }
-        pool.add(entry);
-        table.add(block, builder.withPool(pool));
+        rails.apply(SetItemCountFunction.setCount(ConstantValue.exactly(0)));
+
+        rails.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1), true)
+            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                .setProperties(StatePropertiesPredicate.Builder.properties()
+                    .hasProperty(CatwalkStairBlock.RAILING_LEFT, true)
+                )));
+        rails.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1), true)
+            .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                .setProperties(StatePropertiesPredicate.Builder.properties()
+                    .hasProperty(CatwalkStairBlock.RAILING_RIGHT, true)
+                )));
+
+        railingsPool.add(rails);
+        stairsPool.add(stairs);
+        table.add(block, builder.withPool(stairsPool).withPool(railingsPool));
       })
       .addLayer(()-> RenderType::cutoutMipped)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)

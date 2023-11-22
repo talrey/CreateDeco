@@ -295,7 +295,7 @@ public class BlockStateGeneratorImpl {
       String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
 
-    BlockModelBuilder stair = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
+        BlockModelBuilder stair = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
         .texture("2", texture + "_rail")
         .texture("3", texture + "_stairs")
         .texture("particle", texture  +"_rail");
@@ -315,6 +315,8 @@ public class BlockStateGeneratorImpl {
     prov.getMultipartBuilder(ctx.get()).part().modelFile(stair).rotationY(  0).addModel()
         .condition(BlockStateProperties.WEST,  true).end();
 
+    //todo: determine reason it refuses to recognize CatwalkStairBlock.RAILING_LEFT and CatwalkStairBlock.RAILING_RIGHT
+    //todo: also port to forge half once this is working
     prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_right).rotationY( 90).addModel()
         .condition(BlockStateProperties.NORTH, true).condition(CatwalkStairBlock.RAILING_RIGHT, true).end();
     prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_left).rotationY( 90).addModel()

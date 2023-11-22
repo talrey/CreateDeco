@@ -139,8 +139,11 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
 
       level.setBlock(pos, state.setValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT, false), 3);
 
-      //todo: needs item supplier call, rather than andesite alloy
-      if (!player.getAbilities().instabuild) player.addItem(new ItemStack(AllItems.ANDESITE_ALLOY));
+      //todo: add map for checking stairs type against railing type, use item form of railing it below
+      if (!player.getAbilities().instabuild) player.addItem(new ItemStack(
+          /* `REMOVE `AllItems.ANDESITE_ALLOY` */AllItems.ANDESITE_ALLOY
+          //[ADD CALL FOR APPROPRIATE RAILING TYPE HERE]
+      ));
       playRemoveSound(level, pos);
       return InteractionResult.SUCCESS;
     }

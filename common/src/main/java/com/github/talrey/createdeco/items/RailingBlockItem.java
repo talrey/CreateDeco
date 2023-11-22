@@ -45,8 +45,9 @@ public class RailingBlockItem extends BlockItem {
 
     if (player == null) return InteractionResult.PASS;
 
-    //todo: needs type match check
+    //todo: add map for checking stairs type against railing type, use to check if railing matches targeted stairs
     if (state.getBlock() instanceof CatwalkStairBlock) {
+      // ADD `if ([stack != state]) return;` CHECK
       var dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
       var xPos = ctx.getClickLocation().x - (double) pos.getX() - 0.5;
       var zPos = ctx.getClickLocation().z - (double) pos.getZ() - 0.5;
