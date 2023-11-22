@@ -73,6 +73,24 @@ public class Catwalks {
         props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)
       )
+      .loot((table, block) -> {
+        LootTable.Builder builder = LootTable.lootTable();
+        LootPool.Builder pool     = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
+        LootItem.Builder<?> entry = LootItem.lootTableItem(block);
+
+        entry.apply(SetItemCountFunction.setCount(ConstantValue.exactly(0)));
+
+        //todo: add check for having multiple railings and dropping as many railings as it has
+        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
+          entry.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1), true)
+              .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                  .setProperties(StatePropertiesPredicate.Builder.properties()
+                      .hasProperty(CatwalkStairBlock.RAILING_LEFT, true)
+                  )));
+        }
+        pool.add(entry);
+        table.add(block, builder.withPool(pool));
+      })
       .addLayer(()-> RenderType::cutoutMipped)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)

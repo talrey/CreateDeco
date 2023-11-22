@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"lamp": "createdeco:block/palettes/cage_lamp/light_redstone",
-		"cage": "createdeco:block/palettes/cage_lamp/cast_iron_lamp",
+		"cage": "createdeco:block/palettes/cage_lamp/industrial_iron_lamp",
 		"particle": "createdeco:block/palettes/cage_lamp/light_redstone"
 	},
 	"elements": [

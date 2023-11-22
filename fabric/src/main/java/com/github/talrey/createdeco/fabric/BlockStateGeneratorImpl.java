@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.fabric;
 
 import com.github.talrey.createdeco.CreateDecoMod;
+import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
@@ -293,11 +294,44 @@ public class BlockStateGeneratorImpl {
   public static void catwalkStair (
       String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    BlockModelBuilder builder = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
+
+    BlockModelBuilder stair = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs"))
         .texture("2", texture + "_rail")
         .texture("3", texture + "_stairs")
         .texture("particle", texture  +"_rail");
-    prov.horizontalBlock(ctx.get(), builder);
+    BlockModelBuilder rail_right = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs_rail_right"))
+        .texture("3", texture + "_rail")
+        .texture("particle", texture + "_rail");
+    BlockModelBuilder rail_left = prov.models().withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_stairs_rail_left"))
+        .texture("3", texture + "_rail")
+        .texture("particle", texture + "_rail");
+
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(stair).rotationY( 90).addModel()
+        .condition(BlockStateProperties.NORTH, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(stair).rotationY(-90).addModel()
+        .condition(BlockStateProperties.SOUTH, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(stair).rotationY(180).addModel()
+        .condition(BlockStateProperties.EAST,  true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(stair).rotationY(  0).addModel()
+        .condition(BlockStateProperties.WEST,  true).end();
+
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_right).rotationY( 90).addModel()
+        .condition(BlockStateProperties.NORTH, true).condition(CatwalkStairBlock.RAILING_RIGHT, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_left).rotationY( 90).addModel()
+        .condition(BlockStateProperties.NORTH, true).condition(CatwalkStairBlock.RAILING_LEFT, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_right).rotationY( 270).addModel()
+        .condition(BlockStateProperties.SOUTH, true).condition(CatwalkStairBlock.RAILING_RIGHT, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_left).rotationY( 270).addModel()
+        .condition(BlockStateProperties.SOUTH, true).condition(CatwalkStairBlock.RAILING_LEFT, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_right).rotationY( 180).addModel()
+        .condition(BlockStateProperties.EAST, true).condition(CatwalkStairBlock.RAILING_RIGHT, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_left).rotationY( 180).addModel()
+        .condition(BlockStateProperties.EAST, true).condition(CatwalkStairBlock.RAILING_LEFT, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_right).rotationY( 0).addModel()
+        .condition(BlockStateProperties.WEST, true).condition(CatwalkStairBlock.RAILING_RIGHT, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_left).rotationY( 0).addModel()
+        .condition(BlockStateProperties.WEST, true).condition(CatwalkStairBlock.RAILING_LEFT, true).end();
+
   }
 
   public static void catwalkRailing (

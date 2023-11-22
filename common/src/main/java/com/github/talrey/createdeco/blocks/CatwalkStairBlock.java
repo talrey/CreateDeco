@@ -1,20 +1,29 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.github.talrey.createdeco.BlockRegistry;
+import com.simibubi.create.AllItems;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -23,6 +32,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 
 public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWaterloggedBlock {
+  public static final BooleanProperty RAILING_LEFT = BooleanProperty.create("railing_left");
+  public static final BooleanProperty RAILING_RIGHT = BooleanProperty.create("railing_right");
 
   private static final VoxelShape BOX_NORTH = Shapes.join(
     Block.box(0d, 14d, 8d, 16d, 16d, 16d),
@@ -50,6 +61,8 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
     this.registerDefaultState(this.defaultBlockState()
       .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
       .setValue(BlockStateProperties.WATERLOGGED, false)
+      .setValue(RAILING_LEFT, false)
+      .setValue(RAILING_RIGHT, false)
     );
   }
 
@@ -79,6 +92,8 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
     super.createBlockStateDefinition(builder);
     builder.add(BlockStateProperties.HORIZONTAL_FACING);
     builder.add(BlockStateProperties.WATERLOGGED);
+    builder.add(RAILING_LEFT);
+    builder.add(RAILING_RIGHT);
   }
 
   @Override
@@ -99,5 +114,41 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
       case WEST  -> BOX_WEST;
       default    -> BOX_NORTH;
     };
+  }
+
+  @Override
+  public InteractionResult onSneakWrenched (BlockState state, UseOnContext context) {
+    BlockPos pos   = context.getClickedPos();
+    Vec3 subbox    = context.getClickLocation().subtract(pos.getCenter());
+    Level level    = context.getLevel();
+    Player player  = context.getPlayer();
+
+    if (state.getValue(RAILING_RIGHT) || state.getValue(RAILING_LEFT)) {
+      var xPos = subbox.x;
+      var zPos = subbox.z;
+
+      var dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+      boolean left = false;
+
+      if (dir == Direction.NORTH) left = xPos > 0;
+      if (dir == Direction.SOUTH) left = xPos < 0;
+      if (dir == Direction.EAST) left = zPos > 0;
+      if (dir == Direction.WEST) left = zPos < 0;
+
+      if (level instanceof ClientLevel) return InteractionResult.PASS;
+
+      level.setBlock(pos, state.setValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT, false), 3);
+
+      //todo: needs item supplier call, rather than andesite alloy
+      if (!player.getAbilities().instabuild) player.addItem(new ItemStack(AllItems.ANDESITE_ALLOY));
+      playRemoveSound(level, pos);
+      return InteractionResult.SUCCESS;
+    }
+
+    level.removeBlock(pos, false);
+    if (!player.getAbilities().instabuild) player.addItem(new ItemStack(state.getBlock().asItem()));
+    playRemoveSound(level, pos);
+    return InteractionResult.SUCCESS;
+
   }
 }

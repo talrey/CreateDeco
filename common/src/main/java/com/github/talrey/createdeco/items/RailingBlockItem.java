@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.items;
 
 import com.github.talrey.createdeco.blocks.CatwalkRailingBlock;
+import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.simibubi.create.foundation.placement.IPlacementHelper;
 import com.simibubi.create.foundation.placement.PlacementHelpers;
 import com.simibubi.create.foundation.placement.PlacementOffset;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -40,9 +42,31 @@ public class RailingBlockItem extends BlockItem {
     BlockState state        = level.getBlockState(pos);
     IPlacementHelper helper = PlacementHelpers.get(placementHelperID);
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
-    boolean railMatchTest = stack.getItem() == state.getBlock().asItem();
 
     if (player == null) return InteractionResult.PASS;
+
+    //todo: needs type match check
+    if (state.getBlock() instanceof CatwalkStairBlock) {
+      var dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+      var xPos = ctx.getClickLocation().x - (double) pos.getX() - 0.5;
+      var zPos = ctx.getClickLocation().z - (double) pos.getZ() - 0.5;
+      boolean left = false;
+
+      if (dir == Direction.NORTH) left = xPos > 0;
+      if (dir == Direction.SOUTH) left = xPos < 0;
+      if (dir == Direction.EAST) left = zPos > 0;
+      if (dir == Direction.WEST) left = zPos < 0;
+
+
+      var soundType = state.getSoundType();
+      level.setBlock(pos, state.setValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT, true), 3);
+      level.playSound(player, pos, this.getPlaceSound(state), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
+      level.gameEvent(GameEvent.BLOCK_PLACE, pos, GameEvent.Context.of(player, state));
+      if (!player.getAbilities().instabuild) {
+        stack.shrink(1);
+      }
+      return InteractionResult.SUCCESS;
+    }
 
     PlacementOffset offset = null;
     if (helper.matchesState(state)) {

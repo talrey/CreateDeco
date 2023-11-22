@@ -1,13 +1,14 @@
 {
-  "type": "create:pressing",
+  "type": "create:compacting",
+  "heatRequirement": "heated",
   "ingredients": [
     {
-      "item": "createdeco:industrial_iron_nugget"
+      "item": "minecraft:iron_block"
     }
   ],
   "results": [
     {
-      "item": "createdeco:industrial_iron_coin"
+      "item": "create:industrial_iron_block"
     }
   ]
 }

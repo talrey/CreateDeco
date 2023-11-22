@@ -6,7 +6,7 @@
       "tag": "createdeco:internal/ingots/brass_ingots"
     },
     "X": {
-      "tag": "c:colorless_glass"
+      "tag": "createdeco:internal/colorless_glass"
     }
   },
   "pattern": [
