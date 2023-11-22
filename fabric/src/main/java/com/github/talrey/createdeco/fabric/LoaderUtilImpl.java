@@ -5,6 +5,9 @@ import com.simibubi.create.foundation.item.ItemHelper;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -18,5 +21,10 @@ public class LoaderUtilImpl {
       })
       .map(ItemHelper::calcRedstoneFromInventory)
       .orElse(0);
+  }
+
+  public static boolean checkPlacingNbt (BlockPlaceContext ctx) {
+    ItemStack item = ctx.getItemInHand();
+    return BlockItem.getBlockEntityData(item) != null;
   }
 }

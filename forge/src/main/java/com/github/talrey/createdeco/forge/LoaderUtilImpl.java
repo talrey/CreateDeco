@@ -3,6 +3,7 @@ package com.github.talrey.createdeco.forge;
 import com.simibubi.create.foundation.block.IBE;
 import com.simibubi.create.foundation.item.ItemHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -14,5 +15,9 @@ public class LoaderUtilImpl {
     ).map((lo) ->
       lo.map(ItemHelper::calcRedstoneFromInventory).orElse(0)
     ).orElse(0);
+  }
+
+  public static boolean checkPlacingNbt (BlockPlaceContext ctx) {
+    return true;
   }
 }

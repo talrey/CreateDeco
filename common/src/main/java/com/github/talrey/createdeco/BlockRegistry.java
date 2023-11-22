@@ -2,7 +2,6 @@ package com.github.talrey.createdeco;
 
 import com.github.talrey.createdeco.api.*;
 import com.github.talrey.createdeco.blocks.*;
-import com.github.talrey.createdeco.blocks.block_entities.ShippingContainerBlockEntity;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllTags;
@@ -81,7 +80,7 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
 
 	public static HashMap<DyeColor, BlockEntry<ShippingContainerBlock>> SHIPPING_CONTAINERS = new HashMap<>();
-	public static BlockEntityEntry<ShippingContainerBlockEntity> SHIPPING_CONTAINER_ENTITIES;
+	public static BlockEntityEntry<ShippingContainerBlock.Entity> SHIPPING_CONTAINER_ENTITIES;
 
 	public static void init() {
 		// load the class and register everything
@@ -295,7 +294,8 @@ public class BlockRegistry {
 		for (BlockEntry<? extends ShippingContainerBlock> block : SHIPPING_CONTAINERS.values()) {
 			validContainers[color] = block;
 		}
-		SHIPPING_CONTAINER_ENTITIES = CreateDecoMod.REGISTRATE.blockEntity("shipping_container", ShippingContainerBlockEntity::new)
+		SHIPPING_CONTAINER_ENTITIES = CreateDecoMod.REGISTRATE.blockEntity(
+			"shipping_container", ShippingContainerBlock.Entity::new)
 			.validBlocks(SHIPPING_CONTAINERS.values().toArray(validContainers))
 			.register();
 	}
