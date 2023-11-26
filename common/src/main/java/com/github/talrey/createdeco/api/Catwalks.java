@@ -69,10 +69,14 @@ public class Catwalks {
   ) {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
     String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
-    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_stairs", CatwalkStairBlock::new)
-      .properties(props->
-        props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops().noOcclusion()
-          .sound(SoundType.NETHERITE_BLOCK)
+    return reg.block(metal.toLowerCase(Locale.ROOT)
+      .replaceAll(" ", "_") + "_catwalk_stairs",
+      p -> new CatwalkStairBlock(p, metal)
+    )
+      .properties(props-> props
+        .strength(5, (metal.equals("Netherite")) ? 1200 : 6)
+        .requiresCorrectToolForDrops().noOcclusion()
+        .sound(SoundType.NETHERITE_BLOCK)
       )
       .loot((table, block) -> {
         LootTable.Builder builder = LootTable.lootTable();
@@ -81,10 +85,8 @@ public class Catwalks {
         LootItem.Builder<?> stairs = LootItem.lootTableItem(block);
         stairs.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)));
 
-        //todo: add map for checking stairs type against railing type, use it below
         LootItem.Builder<?> rails = LootItem.lootTableItem(
-            /* REMOVE `block` */ block
-            //[ADD CALL FOR APPROPRIATE RAILING TYPE HERE]
+          BlockRegistry.CATWALK_RAILINGS.get(metal)
         );
 
         rails.apply(SetItemCountFunction.setCount(ConstantValue.exactly(0)));

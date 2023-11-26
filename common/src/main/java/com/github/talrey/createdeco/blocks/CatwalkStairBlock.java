@@ -1,7 +1,6 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.BlockRegistry;
-import com.simibubi.create.AllItems;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
@@ -31,9 +30,11 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWaterloggedBlock {
+public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWaterloggedBlock {
   public static final BooleanProperty RAILING_LEFT = BooleanProperty.create("railing_left");
   public static final BooleanProperty RAILING_RIGHT = BooleanProperty.create("railing_right");
+
+  public final String metal;
 
   private static final VoxelShape BOX_NORTH = Shapes.join(
     Block.box(0d, 14d, 8d, 16d, 16d, 16d),
@@ -56,8 +57,9 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
     BooleanOp.OR
   );
 
-  public CatwalkStairBlock (Properties props) {
+  public CatwalkStairBlock (Properties props, String metal) {
     super(props);
+    this.metal = metal;
     this.registerDefaultState(this.defaultBlockState()
       .setValue(BlockStateProperties.HORIZONTAL_FACING, Direction.NORTH)
       .setValue(BlockStateProperties.WATERLOGGED, false)
@@ -139,10 +141,8 @@ public class CatwalkStairBlock  extends Block implements IWrenchable, SimpleWate
 
       level.setBlock(pos, state.setValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT, false), 3);
 
-      //todo: add map for checking stairs type against railing type, use item form of railing it below
       if (!player.getAbilities().instabuild) player.addItem(new ItemStack(
-          /* `REMOVE `AllItems.ANDESITE_ALLOY` */AllItems.ANDESITE_ALLOY
-          //[ADD CALL FOR APPROPRIATE RAILING TYPE HERE]
+        BlockRegistry.CATWALK_RAILINGS.get(metal)
       ));
       playRemoveSound(level, pos);
       return InteractionResult.SUCCESS;

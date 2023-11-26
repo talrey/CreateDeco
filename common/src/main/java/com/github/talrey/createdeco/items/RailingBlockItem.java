@@ -1,5 +1,6 @@
 package com.github.talrey.createdeco.items;
 
+import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.blocks.CatwalkRailingBlock;
 import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.simibubi.create.foundation.placement.IPlacementHelper;
@@ -45,8 +46,9 @@ public class RailingBlockItem extends BlockItem {
 
     if (player == null) return InteractionResult.PASS;
 
-    //todo: add map for checking stairs type against railing type, use to check if railing matches targeted stairs
-    if (state.getBlock() instanceof CatwalkStairBlock) {
+    if (state.getBlock() instanceof CatwalkStairBlock catstair
+     && this.getBlock().equals(BlockRegistry.CATWALK_RAILINGS.get(catstair.metal).get())
+    ) {
       // ADD `if ([stack != state]) return;` CHECK
       var dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
       var xPos = ctx.getClickLocation().x - (double) pos.getX() - 0.5;
