@@ -1,0 +1,6 @@
+{
+  "parent": "createdeco:block/catwalk_stairs_rail_left",
+  "textures": {
+    "2": "createdeco:block/palettes/catwalks/copper_catwalk_rail"
+  }
+}

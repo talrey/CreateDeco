@@ -328,7 +328,16 @@ public class BlockStateGeneratorImpl {
       );
   }
 
+
   public static void catwalkStair (
+      String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+        ctx.getName()
+    )));
+  }
+
+  public static void catwalkStairOld (
     String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
     prov.simpleBlock(ctx.get(), prov.models()

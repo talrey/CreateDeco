@@ -61,6 +61,7 @@ public class RailingBlockItem extends BlockItem {
       if (dir == Direction.WEST) left = zPos < 0;
 
 
+      if (state.getValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT)) return InteractionResult.PASS;
       var soundType = state.getSoundType();
       level.setBlock(pos, state.setValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT, true), 3);
       level.playSound(player, pos, this.getPlaceSound(state), SoundSource.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);

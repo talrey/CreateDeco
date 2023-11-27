@@ -1,0 +1,117 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "facing": "east"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "facing": "west"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "facing": "south"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "facing": "north"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs"
+      }
+    },
+    {
+      "when": {
+        "railing_left": "true",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_left",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "railing_right": "true",
+        "facing": "east"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_right",
+        "y": 90
+      }
+    },
+    {
+      "when": {
+        "railing_left": "true",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_left",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "railing_right": "true",
+        "facing": "west"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_right",
+        "y": 270
+      }
+    },
+    {
+      "when": {
+        "railing_left": "true",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_left",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "railing_right": "true",
+        "facing": "south"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_right",
+        "y": 180
+      }
+    },
+    {
+      "when": {
+        "railing_left": "true",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_left"
+      }
+    },
+    {
+      "when": {
+        "railing_right": "true",
+        "facing": "north"
+      },
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_stairs_rail_right"
+      }
+    }
+  ]
+}
