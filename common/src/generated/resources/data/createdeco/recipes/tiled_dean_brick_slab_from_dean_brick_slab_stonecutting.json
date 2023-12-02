@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "createdeco:dean_brick_slab"
+  },
+  "result": "createdeco:tiled_dean_brick_slab"
+}

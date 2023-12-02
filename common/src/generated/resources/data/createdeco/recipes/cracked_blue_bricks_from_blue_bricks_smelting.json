@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "createdeco:blue_bricks"
+  },
+  "result": "createdeco:cracked_blue_bricks"
+}

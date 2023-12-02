@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "createdeco:long_verdant_bricks"
+  },
+  "result": "createdeco:tiled_verdant_brick_slab"
+}

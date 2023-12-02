@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "createdeco:dean_brick_stairs"
+  },
+  "result": "createdeco:long_dean_brick_stairs"
+}

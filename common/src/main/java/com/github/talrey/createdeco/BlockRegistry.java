@@ -82,6 +82,13 @@ public class BlockRegistry {
 	public static HashMap<DyeColor, BlockEntry<ShippingContainerBlock>> SHIPPING_CONTAINERS = new HashMap<>();
 	public static BlockEntityEntry<ShippingContainerBlock.Entity> SHIPPING_CONTAINER_ENTITIES;
 
+	public static DyeColor fromName (String color) {
+		for (DyeColor dye : BRICK_COLORS.keySet()) {
+			if (BRICK_COLORS.get(dye).equals(color)) return dye;
+		}
+		return null;
+	}
+
 	public static void init() {
 		// load the class and register everything
 		CreateDecoMod.LOGGER.info("Registering blocks for " + CreateDecoMod.NAME);

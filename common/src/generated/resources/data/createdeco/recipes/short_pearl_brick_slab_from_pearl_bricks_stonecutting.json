@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "createdeco:pearl_bricks"
+  },
+  "result": "createdeco:short_pearl_brick_slab"
+}

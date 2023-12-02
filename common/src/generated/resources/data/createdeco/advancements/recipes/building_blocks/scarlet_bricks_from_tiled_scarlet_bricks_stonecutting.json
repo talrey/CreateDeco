@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:scarlet_bricks_from_tiled_scarlet_bricks_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tiled_scarlet_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:tiled_scarlet_bricks"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tiled_scarlet_bricks",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:scarlet_bricks_from_tiled_scarlet_bricks_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

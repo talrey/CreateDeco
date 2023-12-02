@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:cracked_verdant_bricks_from_verdant_bricks_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_verdant_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:verdant_bricks"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_verdant_bricks",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:cracked_verdant_bricks_from_verdant_bricks_blasting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

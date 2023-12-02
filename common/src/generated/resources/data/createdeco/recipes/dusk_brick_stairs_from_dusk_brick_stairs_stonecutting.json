@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "createdeco:dusk_brick_stairs"
+  },
+  "result": "createdeco:dusk_brick_stairs"
+}

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_long_blue_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:long_blue_bricks"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:tiled_blue_brick_stairs_from_long_blue_bricks_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_long_blue_bricks",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:tiled_blue_brick_stairs_from_long_blue_bricks_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

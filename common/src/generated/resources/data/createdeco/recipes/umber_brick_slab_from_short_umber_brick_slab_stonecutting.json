@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "createdeco:short_umber_brick_slab"
+  },
+  "result": "createdeco:umber_brick_slab"
+}
