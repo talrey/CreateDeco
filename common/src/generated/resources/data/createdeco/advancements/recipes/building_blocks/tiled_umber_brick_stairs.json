@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:tiled_umber_brick_stairs"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_tiled_umber_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:tiled_umber_bricks"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_tiled_umber_bricks",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:tiled_umber_brick_stairs"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -2,6 +2,7 @@ package com.github.talrey.createdeco.api;
 
 import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.BlockStateGenerator;
+import com.github.talrey.createdeco.CreateDecoMod;
 import com.simibubi.create.content.decoration.palettes.AllPaletteStoneTypes;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -119,6 +120,16 @@ public class Bricks {
         )
         .defaultLoot()
         .recipe((ctx, prov) -> {
+          prov.stairs(
+            DataIngredient.items(
+              (ItemLike)BlockRegistry.BRICKS.get(BlockRegistry.fromName(color)).get(
+                (prefix.isEmpty() ? "" : prefix + "_") + color + "_bricks"
+            )),
+            RecipeCategory.BUILDING_BLOCKS,
+            ctx,
+            CreateDecoMod.MOD_ID,
+            true
+          );
           recipeStonecuttingStair(finalName, color, prefix, ctx, prov);
         })
         .simpleItem()
@@ -168,6 +179,16 @@ public class Bricks {
           table.add(block, builder.withPool(pool));
         })
         .recipe((ctx, prov) -> {
+          prov.slab(
+            DataIngredient.items(
+              (ItemLike)BlockRegistry.BRICKS.get(BlockRegistry.fromName(color)).get(
+                (prefix.isEmpty() ? "" : prefix + "_") + color + "_bricks"
+              )),
+            RecipeCategory.BUILDING_BLOCKS,
+            ctx,
+            CreateDecoMod.MOD_ID,
+            true
+          );
           recipeStonecuttingSlab(finalName, color, prefix, ctx, prov);
         })
         .simpleItem()
@@ -252,34 +273,31 @@ public class Bricks {
     String original, String color, String prefix, int amount, int type,
     DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    if (!prefix.equals("mossy")) return;
-    if (type == 0) return;
-    DyeColor dye = BlockRegistry.fromName(color);
-    prov.stonecutting(DataIngredient.items(
-      (dye == null)
-        ? Blocks.BRICKS
-        : BlockRegistry.BRICKS.get(dye).get(original)
-      ),
-      RecipeCategory.BUILDING_BLOCKS,
-      ctx, amount
-    );
+//    if (!prefix.equals("mossy")) return;
+//    if (type == 0) return;
+//    DyeColor dye = BlockRegistry.fromName(color);
+//    prov.stonecutting(
+//      DataIngredient.items((ItemLike)BlockRegistry.BRICKS.get(dye).get(original)),
+//      RecipeCategory.BUILDING_BLOCKS,
+//      ctx, amount
+//    );
   }
 
   private static <T extends Block> void recipeStonecuttingCracked (
     String original, String color, String prefix, int amount, int type,
     DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    if (!prefix.equals("cracked")) return;
-    if (type == 0) return;
-    DyeColor dye = BlockRegistry.fromName(color);
-    prov.stonecutting(DataIngredient.items(
-        (dye == null)
-          ? Blocks.BRICKS
-          : BlockRegistry.BRICKS.get(dye).get(original)
-      ),
-      RecipeCategory.BUILDING_BLOCKS,
-      ctx, amount
-    );
+//    if (!prefix.equals("cracked")) return;
+//    if (type == 0) return;
+//    DyeColor dye = BlockRegistry.fromName(color);
+//    prov.stonecutting(DataIngredient.items(
+//        (dye == null)
+//          ? Blocks.BRICKS
+//          : BlockRegistry.BRICKS.get(dye).get(original)
+//      ),
+//      RecipeCategory.BUILDING_BLOCKS,
+//      ctx, amount
+//    );
   }
 
   private static <T extends Block> void recipeStonecutting (
@@ -302,8 +320,8 @@ public class Bricks {
     for (String pref : TYPES) {
       String fix = (pref.isEmpty() ? "" : pref + "_");
       String otherName = fix + color + "_bricks";
-      // this line prevents brick from stonecutting into itself
-      if (otherName.equals(original)) continue;
+      // this line prevents bricks from stonecutting into themselves
+      if (pref.equals(prefix)) continue;
       // this line prevents mossy / cracked variants from being stonecut
       if (pref.equals("mossy") || pref.equals("cracked")) continue;
 
@@ -334,7 +352,7 @@ public class Bricks {
         prov.stonecutting(
           DataIngredient.items((ItemLike)BlockRegistry.SLABS.get(dye).get(slabName)),
           RecipeCategory.BUILDING_BLOCKS,
-          ctx, amount
+          ctx, 1
         );
       }
     }

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "count": 2,
-  "ingredient": {
-    "item": "createdeco:verdant_brick_slab"
-  },
-  "result": "createdeco:verdant_brick_slab"
-}
