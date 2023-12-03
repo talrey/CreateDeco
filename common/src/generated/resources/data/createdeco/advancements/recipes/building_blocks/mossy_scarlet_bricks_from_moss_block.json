@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:mossy_dean_bricks"
+        "recipe": "minecraft:mossy_scarlet_bricks_from_moss_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -12,7 +12,7 @@
         "items": [
           {
             "items": [
-              "createdeco:dean_bricks"
+              "createdeco:scarlet_bricks"
             ]
           }
         ]
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:mossy_dean_bricks"
+      "minecraft:mossy_scarlet_bricks_from_moss_block"
     ]
   },
   "sends_telemetry_event": false

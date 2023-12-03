@@ -229,7 +229,20 @@ public class Bricks {
           ? Blocks.BRICKS
           : BlockRegistry.BRICKS.get(dye).get(original)
       ))
-      .save(prov);
+      .save(prov, ctx.getName() + "_from_vine");
+
+    ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ctx.get())
+        .requires(DataIngredient.items( (dye == null)
+            ? Blocks.BRICKS
+            : BlockRegistry.BRICKS.get(dye).get(original)
+        ))
+        .requires(Blocks.MOSS_BLOCK)
+        .unlockedBy("hasitem", InventoryChangeTrigger.TriggerInstance.hasItems(
+            (dye == null)
+                ? Blocks.BRICKS
+                : BlockRegistry.BRICKS.get(dye).get(original)
+        ))
+        .save(prov, ctx.getName() + "_from_moss_block");
   }
 
   public static <T extends Block> void recipeSmeltingCracked (

@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:mossy_verdant_bricks"
+        "recipe": "minecraft:mossy_scarlet_bricks_from_vine"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -12,7 +12,7 @@
         "items": [
           {
             "items": [
-              "createdeco:verdant_bricks"
+              "createdeco:scarlet_bricks"
             ]
           }
         ]
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:mossy_verdant_bricks"
+      "minecraft:mossy_scarlet_bricks_from_vine"
     ]
   },
   "sends_telemetry_event": false

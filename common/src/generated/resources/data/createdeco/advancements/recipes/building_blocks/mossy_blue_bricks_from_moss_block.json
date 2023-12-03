@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "createdeco:mossy_scarlet_bricks"
+        "recipe": "minecraft:mossy_blue_bricks_from_moss_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -12,7 +12,7 @@
         "items": [
           {
             "items": [
-              "createdeco:scarlet_bricks"
+              "createdeco:blue_bricks"
             ]
           }
         ]
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "createdeco:mossy_scarlet_bricks"
+      "minecraft:mossy_blue_bricks_from_moss_block"
     ]
   },
   "sends_telemetry_event": false
