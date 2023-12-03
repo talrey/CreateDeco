@@ -80,7 +80,8 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
 
 	public static HashMap<DyeColor, BlockEntry<ShippingContainerBlock>> SHIPPING_CONTAINERS = new HashMap<>();
-	public static BlockEntityEntry<ShippingContainerBlock.Entity> SHIPPING_CONTAINER_ENTITIES;
+	//public static BlockEntityEntry<ShippingContainerBlock.Entity> SHIPPING_CONTAINER_ENTITIES;
+	public static HashMap<DyeColor, BlockEntityEntry<ShippingContainerBlock.Entity>> CONTAINER_ENTITIES = new HashMap<>();
 
 	public static DyeColor fromName (String color) {
 		for (DyeColor dye : BRICK_COLORS.keySet()) {
@@ -293,18 +294,13 @@ public class BlockRegistry {
 				})
 				.register()
 			);
+			CONTAINER_ENTITIES.put(color, CreateDecoMod.REGISTRATE.blockEntity(
+				"shipping_container_" + color.getName().toLowerCase(Locale.ROOT).replaceAll(" ", "_"),
+				ShippingContainerBlock.Entity::new)
+					.validBlocks(SHIPPING_CONTAINERS.get(color))
+					.register()
+			);
 		}
-
-		@SuppressWarnings("unchecked")
-		BlockEntry<? extends ShippingContainerBlock>[] validContainers = new BlockEntry[SHIPPING_CONTAINERS.size()];
-		int color = 0;
-		for (BlockEntry<? extends ShippingContainerBlock> block : SHIPPING_CONTAINERS.values()) {
-			validContainers[color] = block;
-		}
-		SHIPPING_CONTAINER_ENTITIES = CreateDecoMod.REGISTRATE.blockEntity(
-			"shipping_container", ShippingContainerBlock.Entity::new)
-			.validBlocks(SHIPPING_CONTAINERS.values().toArray(validContainers))
-			.register();
 	}
 
 	private static void registerPlacards () {

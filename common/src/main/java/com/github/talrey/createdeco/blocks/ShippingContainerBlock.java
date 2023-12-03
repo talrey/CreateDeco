@@ -31,6 +31,11 @@ public class ShippingContainerBlock extends ItemVaultBlock {
     return DyeColor.BLUE;
   }
 
+  public boolean isSameType (BlockState other) {
+    return (other.getBlock() instanceof ShippingContainerBlock container)
+      && (container.COLOR == this.COLOR);
+  }
+
   public static boolean isVault (BlockState state) {
     return (state.getBlock() instanceof ShippingContainerBlock);
   }
@@ -66,7 +71,7 @@ public class ShippingContainerBlock extends ItemVaultBlock {
 
   @Override
   public BlockEntityType<? extends ItemVaultBlockEntity> getBlockEntityType() {
-    return BlockRegistry.SHIPPING_CONTAINER_ENTITIES.get();
+    return BlockRegistry.CONTAINER_ENTITIES.get(COLOR).get();
   }
 
   public static class Entity extends ItemVaultBlockEntity {
@@ -98,6 +103,14 @@ public class ShippingContainerBlock extends ItemVaultBlock {
         level.setBlock(getBlockPos(), state.setValue(ItemVaultBlock.LARGE, radius > 2), 6);
       }
       super.notifyMultiUpdated();
+    }
+
+    @Override
+    public void removeController (boolean keepContents) {
+      super.removeController(keepContents);
+      BlockState state = getBlockState();
+      state = state.setValue(ItemVaultBlock.LARGE, false);
+      getLevel().setBlock(worldPosition, state, 22);
     }
   }
 }

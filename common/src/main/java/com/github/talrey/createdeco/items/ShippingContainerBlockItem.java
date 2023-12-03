@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -41,6 +42,7 @@ public class ShippingContainerBlockItem extends ItemVaultItem {
     Player player = ctx.getPlayer();
     if (player == null || player.isSteppingCarefully()) return;
 
+    ShippingContainerBlock myBlock = (ShippingContainerBlock) this.getBlock();
     Direction face = ctx.getClickedFace();
     ItemStack stack = ctx.getItemInHand();
     Level level = ctx.getLevel();
@@ -48,9 +50,9 @@ public class ShippingContainerBlockItem extends ItemVaultItem {
     BlockPos placedOn = pos.relative(face.getOpposite());
     BlockState placedOnState = level.getBlockState(placedOn);
 
-    if (!ShippingContainerBlock.isVault(placedOnState)) return;
+    if (!myBlock.isSameType(placedOnState)) return;
     ShippingContainerBlock.Entity beAt = ConnectivityHandler.partAt(
-      BlockRegistry.SHIPPING_CONTAINER_ENTITIES.get(), level, placedOn
+      BlockRegistry.CONTAINER_ENTITIES.get(myBlock.COLOR).get(), level, placedOn
     );
     if (beAt == null) return;
     ShippingContainerBlock.Entity controller = beAt.getControllerBE();
@@ -88,7 +90,7 @@ public class ShippingContainerBlockItem extends ItemVaultItem {
           ? start.offset(0, xOffset, zOffset)
           : start.offset(xOffset, zOffset, 0);
         BlockState other = level.getBlockState(offset);
-        if (ShippingContainerBlock.isVault(other)) continue;
+        if (myBlock.isSameType(other)) continue;
         BlockPlaceContext context = BlockPlaceContext.at(ctx, offset, face);
         IS_PLACING_NBT = LoaderUtil.checkPlacingNbt(context);
         super.place(context);
