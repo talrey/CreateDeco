@@ -1,7 +1,6 @@
 package com.github.talrey.createdeco.fabric;
 
 import com.github.talrey.createdeco.CreateDecoMod;
-import com.github.talrey.createdeco.blocks.CatwalkStairBlock;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.github.talrey.createdeco.blocks.SupportWedgeBlock;

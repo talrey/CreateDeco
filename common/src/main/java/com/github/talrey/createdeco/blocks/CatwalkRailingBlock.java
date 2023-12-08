@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,7 +15,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -30,7 +30,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CatwalkRailingBlock extends Block implements IWrenchable, SimpleWaterloggedBlock {
+public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWaterloggedBlock {
   private static final VoxelShape VOXEL_NORTH = Block.box(
           0d, 0d, 0d,
           16d, 14d, 2d
@@ -213,5 +213,10 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, SimpleWat
       safe |= state.getValue(fromDirection(dir));
     }
     return !safe;
+  }
+
+  @Override
+  public FluidState getFluidState(BlockState state) {
+    return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
   }
 }
