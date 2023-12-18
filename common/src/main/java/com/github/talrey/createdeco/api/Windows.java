@@ -35,6 +35,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 
+import java.util.Locale;
 import java.util.function.Supplier;
 
 import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
@@ -73,7 +74,7 @@ public class Windows {
                                                     Supplier<CTSpriteShiftEntry> ct, Supplier<Supplier<RenderType>> renderType, boolean translucent,
                                                     NonNullFunction<String, ResourceLocation> endTexture, NonNullFunction<String, ResourceLocation> sideTexture,
                                                     Supplier<MapColor> color) {
-    return CreateDecoMod.REGISTRATE.block(name.toLowerCase().replace(" ", "_"), p -> new WindowBlock(p, translucent))
+    return CreateDecoMod.REGISTRATE.block(name.toLowerCase(Locale.ROOT).replace(" ", "_"), p -> new WindowBlock(p, translucent))
         //.onRegister(connectedTextures(() -> new HorizontalCTBehaviour(ct.get())))
         .onRegister(CreateRegistrate.connectedTextures(() ->
             new HorizontalCTBehaviour(SpriteShifts.METAL_WINDOWS.get(name.replace("_window", ""))

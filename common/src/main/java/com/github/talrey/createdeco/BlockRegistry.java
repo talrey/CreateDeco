@@ -80,7 +80,6 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CoinStackBlock>> COIN_BLOCKS  = new HashMap<>();
 
 	public static HashMap<DyeColor, BlockEntry<ShippingContainerBlock>> SHIPPING_CONTAINERS = new HashMap<>();
-	//public static BlockEntityEntry<ShippingContainerBlock.Entity> SHIPPING_CONTAINER_ENTITIES;
 	public static HashMap<DyeColor, BlockEntityEntry<ShippingContainerBlock.Entity>> CONTAINER_ENTITIES = new HashMap<>();
 
 	public static DyeColor fromName (String color) {
@@ -211,12 +210,6 @@ public class BlockRegistry {
 				.register());
 	}
 
-	/*
-	private static void registerWindows (String metal, Function<String, Item> getter) {
-		WINDOWS.put(metal, Windows.metalWindowBlock(metal, CDTags.of(metal, "blocks").tag));
-	}
-	 */
-
 	private static void registerSheetMetal (String metal, Function<String, Item> getter) {
 		SHEET_METAL_PILLARS.put(metal, SheetMetal.build(CreateDecoMod.REGISTRATE, metal)
 				.recipe( (ctx, prov)-> {
@@ -233,13 +226,13 @@ public class BlockRegistry {
 			BRASS_WINDOW = Windows.metalWindowBlock("Brass"),
 			ZINC_WINDOW = Windows.metalWindowBlock("Zinc");
 
-	public static final BlockEntry<ConnectedGlassPaneBlock>
-			ANDESITE_WINDOW_PANE = Windows.metalWindowPane("Andesite", ANDESITE_WINDOW),
-			COPPER_WINDOW_PANE = Windows.metalWindowPane("Copper", COPPER_WINDOW),
-			IRON_WINDOW_PANE = Windows.metalWindowPane("Iron", IRON_WINDOW),
-			INDUSTRIAL_IRON_WINDOW_PANE = Windows.metalWindowPane("Industrial Iron", INDUSTRIAL_IRON_WINDOW),
-			BRASS_WINDOW_PANE = Windows.metalWindowPane("Brass", BRASS_WINDOW),
-			ZINC_WINDOW_PANE = Windows.metalWindowPane("Zinc", ZINC_WINDOW);
+//	public static final BlockEntry<ConnectedGlassPaneBlock>
+//			ANDESITE_WINDOW_PANE = Windows.metalWindowPane("Andesite", ANDESITE_WINDOW),
+//			COPPER_WINDOW_PANE = Windows.metalWindowPane("Copper", COPPER_WINDOW),
+//			IRON_WINDOW_PANE = Windows.metalWindowPane("Iron", IRON_WINDOW),
+//			INDUSTRIAL_IRON_WINDOW_PANE = Windows.metalWindowPane("Industrial Iron", INDUSTRIAL_IRON_WINDOW),
+//			BRASS_WINDOW_PANE = Windows.metalWindowPane("Brass", BRASS_WINDOW),
+//			ZINC_WINDOW_PANE = Windows.metalWindowPane("Zinc", ZINC_WINDOW);
 
 	private static void registerDoors (String metal, Function<String, Item> getter) {
 		if (metal.equals("Iron") || metal.equals("Gold") || metal.equals("Netherite")) {
