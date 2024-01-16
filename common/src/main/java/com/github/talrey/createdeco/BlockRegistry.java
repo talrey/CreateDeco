@@ -108,7 +108,7 @@ public class BlockRegistry {
 		registerShippingContainers();
 		registerDecals();
 		registerPlacards();
-		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCoins);
+		ItemRegistry.COIN_METALS.forEach(BlockRegistry::registerCoins);
 
 		// Bricks registration
 		CreateDecoMod.REGISTRATE.defaultCreativeTab(CreativeTabs.BRICKS_KEY);
@@ -226,13 +226,13 @@ public class BlockRegistry {
 			BRASS_WINDOW = Windows.metalWindowBlock("Brass"),
 			ZINC_WINDOW = Windows.metalWindowBlock("Zinc");
 
-//	public static final BlockEntry<ConnectedGlassPaneBlock>
-//			ANDESITE_WINDOW_PANE = Windows.metalWindowPane("Andesite", ANDESITE_WINDOW),
-//			COPPER_WINDOW_PANE = Windows.metalWindowPane("Copper", COPPER_WINDOW),
-//			IRON_WINDOW_PANE = Windows.metalWindowPane("Iron", IRON_WINDOW),
-//			INDUSTRIAL_IRON_WINDOW_PANE = Windows.metalWindowPane("Industrial Iron", INDUSTRIAL_IRON_WINDOW),
-//			BRASS_WINDOW_PANE = Windows.metalWindowPane("Brass", BRASS_WINDOW),
-//			ZINC_WINDOW_PANE = Windows.metalWindowPane("Zinc", ZINC_WINDOW);
+	public static final BlockEntry<ConnectedGlassPaneBlock>
+			ANDESITE_WINDOW_PANE = Windows.metalWindowPane("Andesite", ANDESITE_WINDOW),
+			COPPER_WINDOW_PANE = Windows.metalWindowPane("Copper", COPPER_WINDOW),
+			IRON_WINDOW_PANE = Windows.metalWindowPane("Iron", IRON_WINDOW),
+			INDUSTRIAL_IRON_WINDOW_PANE = Windows.metalWindowPane("Industrial Iron", INDUSTRIAL_IRON_WINDOW),
+			BRASS_WINDOW_PANE = Windows.metalWindowPane("Brass", BRASS_WINDOW),
+			ZINC_WINDOW_PANE = Windows.metalWindowPane("Zinc", ZINC_WINDOW);
 
 	private static void registerDoors (String metal, Function<String, Item> getter) {
 		if (metal.equals("Iron") || metal.equals("Gold") || metal.equals("Netherite")) {

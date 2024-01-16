@@ -42,10 +42,15 @@ public class ItemRegistry {
     METAL_TYPES.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
     METAL_TYPES.put("Iron", (str) -> Items.IRON_INGOT);
     METAL_TYPES.put("Industrial Iron", (str) -> INDUSTRIAL_IRON_INGOT.get());
+
+    COIN_METALS.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
+    COIN_METALS.put("Copper", (str) -> Items.COPPER_INGOT);
+    COIN_METALS.put("Brass", (str) -> AllItems.BRASS_INGOT.get());
+    COIN_METALS.put("Iron", (str) -> Items.IRON_INGOT);
+    COIN_METALS.put("Industrial Iron", (str) -> INDUSTRIAL_IRON_INGOT.get());
     COIN_METALS.put("Gold", (str) -> Items.GOLD_INGOT);
     COIN_METALS.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 
-    METAL_TYPES.forEach(ItemRegistry::registerCoins);
     COIN_METALS.forEach(ItemRegistry::registerCoins);
   }
 

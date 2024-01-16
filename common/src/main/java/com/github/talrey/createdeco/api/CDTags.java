@@ -27,10 +27,6 @@ public class CDTags {
   );
 
   public static final LoaderTag<Item> GLASS_ITEM = LoaderTag.same(Registries.ITEM, "colorless_glass");
-  public static final LoaderTag<Item> GLASS_PANE_ITEM = LoaderTag.same(Registries.ITEM, "colorless_glass_panes");
-
-  public static final LoaderTag<Block> GLASS = LoaderTag.same(Registries.BLOCK, "colorless_glass");
-  public static final LoaderTag<Block> GLASS_PANE = LoaderTag.same(Registries.BLOCK, "colorless_glass_panes");
 
   static {
     init();
