@@ -1,7 +1,17 @@
 {
-  "variants": {
-    "": {
-      "model": "createdeco:block/brass_catwalk"
+  "multipart": [
+    {
+      "apply": {
+        "model": "createdeco:block/brass_catwalk"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/brass_catwalk_support"
+      },
+      "when": {
+        "bottom": "true"
+      }
     }
-  }
+  ]
 }

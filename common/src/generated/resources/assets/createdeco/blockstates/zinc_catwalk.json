@@ -1,7 +1,17 @@
 {
-  "variants": {
-    "": {
-      "model": "createdeco:block/zinc_catwalk"
+  "multipart": [
+    {
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/zinc_catwalk_support"
+      },
+      "when": {
+        "bottom": "true"
+      }
     }
-  }
+  ]
 }

@@ -305,15 +305,29 @@ public class BlockStateGeneratorImpl {
   }
 
   public static void catwalk(
-    CreateRegistrate reg, String metal,
+    CreateRegistrate reg, String name,
     DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
+    var metal = name.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
 
-    prov.simpleBlock(ctx.get(), prov.models()
-      .withExistingParent(ctx.getName(), prov.modLoc("block/catwalk_top"))
-      .texture("2", texture)
-      .texture("particle", texture));
+    ResourceLocation catwalkTexture = prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk");
+    ResourceLocation supportTexture = prov.modLoc("block/palettes/support/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_support");
+
+    BlockModelBuilder catwalk = prov.models()
+        .withExistingParent(metal + "_catwalk", prov.modLoc("block/catwalk_top"))
+        .texture("2", catwalkTexture)
+        .texture("particle", catwalkTexture);
+
+    BlockModelBuilder support = prov.models()
+        .withExistingParent(metal + "_catwalk_support", prov.modLoc("block/catwalk_support"))
+        .texture("0", supportTexture)
+        .texture("particle", supportTexture);
+
+
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(catwalk).addModel().end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(support).addModel()
+      .condition(BlockStateProperties.BOTTOM, true).end();
+
   }
 
   public static void catwalkItem(
@@ -489,8 +503,7 @@ public class BlockStateGeneratorImpl {
     prov.directionalBlock(ctx.get(),
       prov.models().withExistingParent(ctx.getName(), prov.modLoc("support"))
         .texture("0", texture)
-        .texture("particle", texture)
-    );
+        .texture("particle", texture));
   }
 
   public static void supportWedge(

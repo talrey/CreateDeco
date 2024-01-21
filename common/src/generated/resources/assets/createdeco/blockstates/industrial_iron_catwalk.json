@@ -1,7 +1,17 @@
 {
-  "variants": {
-    "": {
-      "model": "createdeco:block/industrial_iron_catwalk"
+  "multipart": [
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_catwalk"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/industrial_iron_catwalk_support"
+      },
+      "when": {
+        "bottom": "true"
+      }
     }
-  }
+  ]
 }

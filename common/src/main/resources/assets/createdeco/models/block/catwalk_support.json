@@ -1,0 +1,9 @@
+{
+	"parent": "createdeco:block/support",
+	"ambientocclusion": false,
+	"render_type": "translucent",
+	"textures": {
+		"0": "createdeco:block/palettes/support/andesite_support",
+		"particle": "createdeco:block/palettes/support/andesite_support"
+	}
+}

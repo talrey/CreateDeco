@@ -4,6 +4,8 @@
 		"2": "createdeco:block/palettes/catwalks/andesite_catwalk",
 		"particle": "createdeco:create_deco/andesite_catwalk"
 	},
+	"ambientocclusion": false,
+	"render_type": "translucent",
 	"elements": [
 		{
 			"name": "floor",
