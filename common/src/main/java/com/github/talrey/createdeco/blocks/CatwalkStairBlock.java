@@ -1,9 +1,9 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.BlockRegistry;
+import com.github.talrey.createdeco.MinecraftServerSupplier;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
@@ -137,7 +137,9 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
       if (dir == Direction.EAST) left = zPos > 0;
       if (dir == Direction.WEST) left = zPos < 0;
 
-      if (level instanceof ClientLevel || !state.getValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT)) return InteractionResult.PASS;
+      if ((MinecraftServerSupplier.getServer() == null || MinecraftServerSupplier.getServer().isSingleplayer())
+                      || !state.getValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT))
+        return InteractionResult.PASS;
 
       level.setBlock(pos, state.setValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT, false), 3);
 
