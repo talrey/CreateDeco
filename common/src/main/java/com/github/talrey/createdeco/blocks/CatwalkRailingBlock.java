@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco.blocks;
 
-import com.github.talrey.createdeco.MinecraftServerSupplier;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
@@ -74,7 +73,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     var x = subbox.x;
     var z = subbox.z;
 
-    if (MinecraftServerSupplier.getServer() == null || MinecraftServerSupplier.getServer().isSingleplayer())
+    if (level.isClientSide)
       return InteractionResult.PASS;
 
     //check if the top face is wrenched, remove side
