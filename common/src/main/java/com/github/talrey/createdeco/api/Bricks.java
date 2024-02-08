@@ -192,6 +192,50 @@ public class Bricks {
     }
     return ret;
   }
+  public static ArrayList<BlockBuilder<WallBlock,?>> buildWall (CreateRegistrate reg, String color) {
+    String name;
+    ArrayList<BlockBuilder<WallBlock, ?>> ret = new ArrayList<>();
+
+    for (String prefix : TYPES) {
+      if (color.isEmpty() && prefix.isEmpty()) continue;
+      name = (prefix.isEmpty() ? "" : prefix + "_") + color + "_brick_wall";
+
+      if (color.contains("red") && prefix.isEmpty()) continue;
+
+      String finalName = name; // "effectively final" for lambda purposes
+      ret.add(reg.block(name, WallBlock::new)
+        .initialProperties(() -> Blocks.BRICKS)
+        .properties(props -> props
+          .strength(2, 6)
+            .requiresCorrectToolForDrops()
+            .sound(SoundType.STONE)
+          )
+          .blockstate((ctx, prov) -> BlockStateGenerator.brickWall(ctx, prov, color))
+          .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+          .tag(BlockTags.WALLS)
+          .lang(
+      CAPITALS.get(TYPES.indexOf(prefix))
+            + color.substring(0, 1).toUpperCase()
+            + color.substring(1)
+            + " " + "Brick Wall"
+          )
+          .defaultLoot()
+          .recipe((ctx, prov) -> {
+            prov.wall(
+              DataIngredient.items(
+                (ItemLike)BlockRegistry.BRICKS.get(BlockRegistry.fromName(color)).get(
+                  (prefix.isEmpty() ? "" : prefix + "_") + color + "_bricks"
+                )),
+                RecipeCategory.BUILDING_BLOCKS,
+                ctx
+                );
+              recipeStonecuttingWall(finalName, color, prefix, ctx, prov);
+              })
+          .item().model((ctx, prov) -> BlockStateGenerator.brickWallItem(ctx,prov, color)).build()
+      );
+    }
+    return ret;
+  }
 
   public static <T extends Block> void recipeCrafting (
       String color, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
@@ -278,6 +322,13 @@ public class Bricks {
     recipeStonecutting(original, color, prefix, 2, 2, ctx, prov);
   }
 
+  public static <T extends Block> void recipeStonecuttingWall(
+          String original, String color, String prefix,
+          DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+  ) {
+    recipeStonecutting(original, color, prefix, 1, 3, ctx, prov);
+  }
+
   private static <T extends Block> void recipeStonecuttingMossy (
     String original, String color, String prefix, int amount, int type,
     DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
@@ -362,6 +413,14 @@ public class Bricks {
           DataIngredient.items((ItemLike)BlockRegistry.SLABS.get(dye).get(slabName)),
           RecipeCategory.BUILDING_BLOCKS,
           ctx, 1
+        );
+      }
+      if (type == 3) {
+        String wallName = fix + color + "_brick_wall";
+        prov.stonecutting(
+                DataIngredient.items((ItemLike)BlockRegistry.WALLS.get(dye).get(wallName)),
+                RecipeCategory.BUILDING_BLOCKS,
+                ctx, 1
         );
       }
     }

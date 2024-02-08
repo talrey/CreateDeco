@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_mossy_red_bricks": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:mossy_red_bricks"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:mossy_red_brick_wall_from_mossy_red_bricks_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_mossy_red_bricks",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:mossy_red_brick_wall_from_mossy_red_bricks_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

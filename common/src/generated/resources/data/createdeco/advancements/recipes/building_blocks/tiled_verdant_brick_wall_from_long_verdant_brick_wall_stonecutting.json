@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_long_verdant_brick_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "createdeco:long_verdant_brick_wall"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "createdeco:tiled_verdant_brick_wall_from_long_verdant_brick_wall_stonecutting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_long_verdant_brick_wall",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "createdeco:tiled_verdant_brick_wall_from_long_verdant_brick_wall_stonecutting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

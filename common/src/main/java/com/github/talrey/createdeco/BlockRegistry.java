@@ -48,6 +48,7 @@ public class BlockRegistry {
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<Block>>>      BRICKS = new HashMap<>();
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<StairBlock>>> STAIRS = new HashMap<>();
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<SlabBlock>>>   SLABS = new HashMap<>();
+	public static HashMap<DyeColor, HashMap<String, BlockEntry<WallBlock>>>   WALLS= new HashMap<>();
 
 	public static HashMap<String, BlockEntry<DecalBlock>> DECALS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
@@ -362,6 +363,8 @@ public class BlockRegistry {
 			ArrayList<BlockBuilder<Block, ?>>     blocks;
 			ArrayList<BlockBuilder<StairBlock,?>> stairs;
 			ArrayList<BlockBuilder<SlabBlock,?>>  slabs;
+			ArrayList<BlockBuilder<WallBlock,?>>  walls;
+
 			blocks = Bricks.buildBlock(CreateDecoMod.REGISTRATE, name);
 			blocks.forEach(bb -> {
 				BRICKS.putIfAbsent(color, new HashMap<>());
@@ -376,6 +379,11 @@ public class BlockRegistry {
 			slabs.forEach(bb -> {
 				SLABS.putIfAbsent(color, new HashMap<>());
 				SLABS.get(color).put(bb.getName(), bb.register());
+			});
+			walls = Bricks.buildWall(CreateDecoMod.REGISTRATE, name);
+			walls.forEach(bb -> {
+				WALLS.putIfAbsent(color, new HashMap<>());
+				WALLS.get(color).put(bb.getName(), bb.register());
 			});
 		});
 	}

@@ -18,12 +18,10 @@ import io.github.fabricators_of_create.porting_lib.models.generators.block.Block
 import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Locale;
@@ -711,6 +709,26 @@ public class BlockStateGeneratorImpl {
       "block/palettes/bricks/" + color + "/" + block
     );
     prov.slabBlock(ctx.get(), blockModel, texture);
+  }
+
+  public static void brickWall(
+    DataGenContext<Block, WallBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    String block = ctx.getName().replaceAll("_wall", "s");
+    ResourceLocation texture = prov.modLoc(
+"block/palettes/bricks/" + color + "/" + block
+    );
+    prov.wallBlock(ctx.get(), block, texture);
+  }
+
+  public static void brickWallItem(
+    DataGenContext<Item, BlockItem> ctx, RegistrateItemModelProvider prov, String color
+  ) {
+    String block = ctx.getName().replaceAll("_wall", "s");
+    ResourceLocation texture = prov.modLoc(
+      "block/palettes/bricks/" + color + "/" + block
+    );
+    prov.wallInventory(ctx.getName(), texture);
   }
 
   public static void window(
