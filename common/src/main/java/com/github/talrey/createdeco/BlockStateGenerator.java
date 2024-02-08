@@ -9,11 +9,13 @@ import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 
 public class BlockStateGenerator {
   @ExpectPlatform
@@ -189,6 +191,20 @@ public class BlockStateGenerator {
   @ExpectPlatform
   public static void brickSlab (
     DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void brickWall (
+          DataGenContext<Block, WallBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static void brickWallItem (
+    DataGenContext<Item, BlockItem> ctx, RegistrateItemModelProvider prov, String color
   ) {
     throw new AssertionError();
   }

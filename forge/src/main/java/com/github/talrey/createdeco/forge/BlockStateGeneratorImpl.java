@@ -10,10 +10,7 @@ import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 
@@ -189,6 +186,14 @@ public class BlockStateGeneratorImpl {
 
   public static void brickSlab (
     DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
+  ) {
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+      ctx.getName()
+    )));
+  }
+
+  public static void brickWall(
+          DataGenContext<Block, WallBlock> ctx, RegistrateBlockstateProvider prov, String color
   ) {
     ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
       ctx.getName()
