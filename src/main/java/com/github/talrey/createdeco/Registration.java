@@ -628,7 +628,7 @@ public class Registration {
           .texture("particle", p.modLoc(main))))
         .item()
           .recipe((ctx, prov) -> prov.stonecutting(
-            DataIngredient.tag(AllTags.forgeItemTag("plates/" + regName)),
+            DataIngredient.tag(AllTags.forgeItemTag(regName + "_plates")),
             ctx::get, 2
           ))
           .model((c, p) -> p.blockSprite(c::get, p.modLoc(main)))
