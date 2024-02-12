@@ -74,7 +74,7 @@ public class Catwalks {
         supportPool.add(supports);
         table.add(block, builder.withPool(catwalksPool).withPool(supportPool));
       })
-      .addLayer(()-> RenderType::cutoutMipped)
+      .addLayer(()-> RenderType::translucent)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .item(CatwalkBlockItem::new)
@@ -129,7 +129,7 @@ public class Catwalks {
         stairsPool.add(stairs);
         table.add(block, builder.withPool(stairsPool).withPool(railingsPool));
       })
-      .addLayer(()-> RenderType::cutoutMipped)
+      .addLayer(()-> RenderType::translucent)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalkStair(texture, ctx, prov))
@@ -146,7 +146,7 @@ public class Catwalks {
         props.strength(5, (metal.equals("Netherite")) ? 1200 : 6)
           .requiresCorrectToolForDrops().noOcclusion().sound(SoundType.NETHERITE_BLOCK)
       )
-      .addLayer(()-> RenderType::cutoutMipped)
+      .addLayer(()-> RenderType::translucent)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalkRailing(reg, metal, ctx, prov))
