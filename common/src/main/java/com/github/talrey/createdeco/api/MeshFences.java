@@ -39,7 +39,7 @@ public class MeshFences {
       .properties(props-> props.strength(5, (metal.equals("Netherite")) ? 1200 : 6).requiresCorrectToolForDrops()
         .sound(SoundType.CHAIN)
       )
-      .addLayer(()-> RenderType::cutoutMipped)
+      .addLayer(()-> RenderType::translucent)
       .tag(BlockTags.FENCES)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
       .item()
