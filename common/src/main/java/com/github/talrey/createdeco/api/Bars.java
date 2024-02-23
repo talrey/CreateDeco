@@ -54,7 +54,6 @@ public class Bars {
         .properties(props -> props.noOcclusion().strength(5, (metal.equals("Netherite")) ? 1200 : 6)
             .sound(SoundType.NETHERITE_BLOCK))
         .blockstate((ctx, prov)-> BlockStateGenerator.bar(base, suf, bartex, postex, ctx, prov))
-//        .tag(BlockTags.WALLS)
         .addLayer(()-> RenderType::cutoutMipped)
         .item()
         .model((ctx, prov) -> BlockStateGenerator.barItem(base, suf, bartex, ctx, prov))
