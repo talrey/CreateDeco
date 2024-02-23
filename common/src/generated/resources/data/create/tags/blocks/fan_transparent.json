@@ -1,6 +1,11 @@
 {
   "replace": false,
   "values": [
+    "createdeco:andesite_bars",
+    "createdeco:brass_bars",
+    "createdeco:copper_bars",
+    "createdeco:industrial_iron_bars",
+    "createdeco:zinc_bars",
     "createdeco:andesite_catwalk",
     "createdeco:andesite_catwalk_stairs",
     "createdeco:andesite_catwalk_railing",
