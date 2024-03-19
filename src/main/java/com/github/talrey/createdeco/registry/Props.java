@@ -26,6 +26,7 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -36,6 +37,7 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -51,6 +53,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
+import static net.minecraft.world.level.block.state.properties.AttachFace.*;
 
 public class Props {
   public static HashMap<DyeColor, BlockEntry<DecalBlock>> DECAL_BLOCKS = new HashMap<>();
@@ -185,19 +188,37 @@ public class Props {
       DECAL_BLOCKS.put(color, reg.block(color.name().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_decal", DecalBlock::new)
         .initialProperties(Material.METAL)
         .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN))
-        .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStates(state-> {
-          int y = 0;
-          switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-            case NORTH: y =   0; break;
-            case SOUTH: y = 180; break;
-            case WEST:  y = -90; break;
-            case EAST:  y =  90; break;
-          }
+        .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStatesExcept(state-> {
+          int x, y;
+          // must handle the
+          AttachFace face =  state.getValue(BlockStateProperties.ATTACH_FACE);
+          Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+
+          x = switch (face) {
+              case FLOOR -> 90;
+              case WALL -> 0;
+              case CEILING -> 270;
+          };
+
+          y = switch (dir) {
+              case EAST -> face == WALL ? 270 : 90;
+              case WEST -> face == WALL ? 90 : 270;
+              case SOUTH -> face == CEILING ? 180 : 0;
+              case NORTH -> face == FLOOR ? 0 : 180;
+              default -> 0;
+          };
+
+//          switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
+//            case NORTH: y =   0; break;
+//            case SOUTH: y = 180; break;
+//            case WEST:  y = -90; break;
+//            case EAST:  y =  90; break;
+//          }
           return ConfiguredModel.builder().modelFile(prov.models()
             .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
             .texture("face", prov.modLoc("block/palettes/decal/" + ctx.getName()))
             .texture("particle", prov.modLoc("block/palettes/decal/" + ctx.getName()))
-          ).rotationY(y).build(); }))
+          ).rotationX(x).rotationY(y).build(); }, BlockStateProperties.WATERLOGGED))
         .addLayer(()-> RenderType::cutoutMipped)
         .lang(prettyName(color.name()) + "Decal")
         .item()
