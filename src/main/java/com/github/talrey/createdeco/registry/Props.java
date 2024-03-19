@@ -190,7 +190,6 @@ public class Props {
         .properties(props-> props.noOcclusion().strength(0.5f).sound(SoundType.LANTERN))
         .blockstate((ctx,prov)-> prov.getVariantBuilder(ctx.get()).forAllStatesExcept(state-> {
           int x, y;
-          // must handle the
           AttachFace face =  state.getValue(BlockStateProperties.ATTACH_FACE);
           Direction dir = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
 
@@ -208,12 +207,6 @@ public class Props {
               default -> 0;
           };
 
-//          switch (state.getValue(BlockStateProperties.HORIZONTAL_FACING)) {
-//            case NORTH: y =   0; break;
-//            case SOUTH: y = 180; break;
-//            case WEST:  y = -90; break;
-//            case EAST:  y =  90; break;
-//          }
           return ConfiguredModel.builder().modelFile(prov.models()
             .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
             .texture("face", prov.modLoc("block/palettes/decal/" + ctx.getName()))

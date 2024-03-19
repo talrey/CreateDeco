@@ -35,28 +35,9 @@ public class DecalBlock extends FaceAttachedHorizontalDirectionalBlock implement
     );
   }
 
-//  public static boolean canSupportDecal (LevelAccessor world, BlockPos pos, Direction side) {
-//    return canSupportDecal(world, world.getBlockState(pos), pos, side);
-//  }
-//
-//  private static boolean canSupportDecal (LevelAccessor world, BlockState state, BlockPos pos, Direction side) {
-//    return state.isFaceSturdy(world, pos, side, SupportType.CENTER);
-//  }
-
-
-//  @Override
-//  public boolean canSurvive(BlockState p_60525_, LevelReader p_60526_, BlockPos p_60527_) {
-//    return super.canSurvive(p_60525_, p_60526_, p_60527_);
-//  }
-
   @Override
   public BlockState getStateForPlacement(BlockPlaceContext ctx) {
     BlockState stateForPlacement = super.getStateForPlacement(ctx);
-    if (stateForPlacement == null)
-      return null;
-//    if (stateForPlacement.getValue(FACE) == AttachFace.FLOOR)
-//      stateForPlacement = stateForPlacement.setValue(FACING, stateForPlacement.getValue(FACING)
-//              .getOpposite());
     return withWater(stateForPlacement, ctx);
   }
 
@@ -64,10 +45,6 @@ public class DecalBlock extends FaceAttachedHorizontalDirectionalBlock implement
   public BlockState updateShape(BlockState state, Direction dir, BlockState neighbor, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
     updateWater(world, state, pos);
     return super.updateShape(state, dir, neighbor, world, pos, neighborPos);
-//    if (!dir.equals(state.getValue(BlockStateProperties.HORIZONTAL_FACING))) return state;
-//    return neighbor.isFaceSturdy(world, neighborPos, state.getValue(BlockStateProperties.HORIZONTAL_FACING).getOpposite(), SupportType.CENTER)
-//      ? super.updateShape(state, dir, neighbor, world, pos, neighborPos)
-//      : Blocks.AIR.defaultBlockState();
   }
 
   @Override
@@ -92,16 +69,6 @@ public class DecalBlock extends FaceAttachedHorizontalDirectionalBlock implement
           };
       };
   }
-
-//  @Override
-//  public VoxelShape getCollisionShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext ctx) {
-//    return Shapes.empty();
-//  }
-
-//  @Override
-//  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
-//    return !state.getValue(BlockStateProperties.WATERLOGGED) && fluid == Fluids.WATER;
-//  }
 
   @Override
   public FluidState getFluidState(BlockState state) {

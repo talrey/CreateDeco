@@ -40,7 +40,6 @@ public class CreateDecoMod
     registration = new Registration();
     registration.registerItems(createDecoRegistrar);
     registration.registerBlocks(createDecoRegistrar);
-    // MovementCheckHandler.register();
   }
 
   @Mod.EventBusSubscriber(bus=Mod.EventBusSubscriber.Bus.MOD)
