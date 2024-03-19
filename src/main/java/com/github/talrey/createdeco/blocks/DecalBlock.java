@@ -95,10 +95,10 @@ public class DecalBlock extends Block implements ProperWaterloggedBlock {
     return NORTH;
   }
 
-  @Override
-  public VoxelShape getCollisionShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext ctx) {
-    return Shapes.empty();
-  }
+//  @Override
+//  public VoxelShape getCollisionShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext ctx) {
+//    return Shapes.empty();
+//  }
 
 //  @Override
 //  public boolean canPlaceLiquid (BlockGetter world, BlockPos pos, BlockState state, Fluid fluid) {
