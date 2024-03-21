@@ -200,12 +200,16 @@ public class Props {
           };
 
           y = switch (dir) {
-              case EAST -> face == WALL ? 270 : 90;
-              case WEST -> face == WALL ? 90 : 270;
-              case SOUTH -> face == CEILING ? 180 : 0;
-              case NORTH -> face == FLOOR ? 0 : 180;
+//              case NORTH -> 0; // this is redundant, but it illustrates how this is laid out
+              case EAST -> 90;
+              case SOUTH -> 180;
+              case WEST -> 270;
               default -> 0;
           };
+
+          // if on the wall, the entire model will be rotated, and so we must flip the direction
+          if (face == WALL)
+              y = (y + 180) % 360;
 
           return ConfiguredModel.builder().modelFile(prov.models()
             .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
