@@ -58,7 +58,8 @@ public class Bars {
         .item()
         .model((ctx, prov) -> BlockStateGenerator.barItem(base, suf, bartex, ctx, prov))
         .properties(p -> (metal.equals("Netherite")) ? p.fireResistant() : p)
-        .build();
+        .build()
+        .tag(BlockTags.MINEABLE_WITH_PICKAXE);
 
     if (!suffix.equals("overlay")) {
        block = block.tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag);
