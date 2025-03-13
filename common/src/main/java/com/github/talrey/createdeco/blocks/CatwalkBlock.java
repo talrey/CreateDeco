@@ -17,6 +17,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -286,18 +287,60 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     return state;
   }
 
+  private static boolean hasAnyRailings(BlockState state) {
+    boolean hasAnyRailings = false;
+
+    hasAnyRailings |= state.getValue(RAILING_NORTH);
+    hasAnyRailings |= state.getValue(RAILING_SOUTH);
+    hasAnyRailings |= state.getValue(RAILING_EAST);
+    hasAnyRailings |= state.getValue(RAILING_WEST);
+
+    return hasAnyRailings;
+  }
+
   public static boolean isEmpty(BlockState state) {
     boolean hasAnyElement = false;
 
     hasAnyElement |= state.getValue(CATWALK_TOP);
     hasAnyElement |= state.getValue(CATWALK_BOTTOM);
 
-    hasAnyElement |= state.getValue(RAILING_NORTH);
-    hasAnyElement |= state.getValue(RAILING_SOUTH);
-    hasAnyElement |= state.getValue(RAILING_EAST);
-    hasAnyElement |= state.getValue(RAILING_WEST);
+    hasAnyElement |= hasAnyRailings(state);
 
     return !hasAnyElement;
+  }
+
+  /**
+     Wrenching a catwalk block behaves differently depending on the block state.
+     If the catwalk block doesn't have any railings, then wrenching it will
+     toggle the catwalk state between the top and bottom version.
+
+     If it does have railings then we use the default implementation, which
+     rotates the block.
+   **/
+  @Override
+  public InteractionResult onWrenched (BlockState state, UseOnContext context) {
+    BlockPos pos   = context.getClickedPos();
+    Level level    = context.getLevel();
+
+    BlockState new_state;
+
+    boolean hasAnyRailings = hasAnyRailings(state);
+
+    if (!hasAnyRailings && state.getValue(CATWALK_TOP)) {
+      new_state = state
+	.setValue(CATWALK_TOP, false)
+	.setValue(CATWALK_BOTTOM, true);
+    } else if (!hasAnyRailings && state.getValue(CATWALK_BOTTOM)) {
+      new_state = state
+	.setValue(CATWALK_TOP, true)
+	.setValue(CATWALK_BOTTOM, false);
+    } else {
+      // Otherwise use the default interaction to rotate the block
+      return IWrenchable.super.onWrenched(state, context);
+    }
+
+    level.setBlock(pos, new_state, 3);
+    return InteractionResult.SUCCESS;
   }
 
   @Override
