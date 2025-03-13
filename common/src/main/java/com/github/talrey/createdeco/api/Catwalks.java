@@ -45,7 +45,9 @@ public class Catwalks {
   public static BlockBuilder<CatwalkBlock,?> build (
     CreateRegistrate reg, String metal
   ) {
-    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk", CatwalkBlock::new)
+    return reg.block(metal.toLowerCase(Locale.ROOT).
+		     replaceAll(" ", "_") + "_catwalk",
+		     p -> new CatwalkBlock(p, metal))
       .properties(props->
         props.strength(5, 6).requiresCorrectToolForDrops().noOcclusion()
           .sound(SoundType.NETHERITE_BLOCK)

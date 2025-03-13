@@ -64,8 +64,14 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
   public static final BooleanProperty RAILING_EAST  = BooleanProperty.create("railing_east");
   public static final BooleanProperty RAILING_WEST  = BooleanProperty.create("railing_west");
 
+  // A string indicating the material of this block. This is used in
+  // interactions between the catwalk block and catwalk items and railing items.
+  // Only items of the same material can be combined together.
+  public final String metal;
+
   public CatwalkBlock (Properties props, String metal) {
     super(props);
+    this.metal = metal;
     this.registerDefaultState(this.defaultBlockState()
         .setValue(BOTTOM, false)
         .setValue(WATERLOGGED, false)
