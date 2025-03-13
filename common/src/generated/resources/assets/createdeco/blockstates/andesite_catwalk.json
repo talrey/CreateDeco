@@ -28,19 +28,19 @@
     {
       "apply": {
         "model": "createdeco:block/andesite_catwalk_railing",
-        "y": -90
+        "y": 180
       },
       "when": {
-        "railing_south": "true"
+        "railing_east": "true"
       }
     },
     {
       "apply": {
         "model": "createdeco:block/andesite_catwalk_railing",
-        "y": 180
+        "y": 270
       },
       "when": {
-        "railing_east": "true"
+        "railing_south": "true"
       }
     },
     {
