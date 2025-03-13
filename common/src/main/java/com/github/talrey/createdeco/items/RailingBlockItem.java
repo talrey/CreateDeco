@@ -187,7 +187,9 @@ public class RailingBlockItem extends BlockItem {
 
     @Override
     public Predicate<BlockState> getStatePredicate () {
-      return state -> CatwalkBlock.isCatwalk(state.getBlock());
+      return state -> CatwalkBlock.isCatwalk(state.getBlock())
+        // We don't want to place rail blocks in catwalks that have a top catwalk
+        && !state.getValue(CatwalkBlock.CATWALK_TOP);
     }
 
     @Override
