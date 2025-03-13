@@ -221,6 +221,10 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
   }
 
   public static boolean isCatwalk (Block test) {
+    return test instanceof CatwalkBlock;
+  }
+
+  public static boolean isCatwalkOrStair (Block test) {
     return test instanceof CatwalkBlock || test instanceof CatwalkStairBlock;
   }
 
