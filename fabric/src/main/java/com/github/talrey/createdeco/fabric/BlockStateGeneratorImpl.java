@@ -4,6 +4,7 @@ import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.blocks.DecalBlock;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
+import com.github.talrey.createdeco.blocks.CatwalkBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
@@ -313,20 +314,37 @@ public class BlockStateGeneratorImpl {
     ResourceLocation catwalkTexture = prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk");
     ResourceLocation supportTexture = prov.modLoc("block/palettes/support/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_support");
 
-    BlockModelBuilder catwalk = prov.models()
+    BlockModelBuilder catwalk_top = prov.models()
         .withExistingParent(metal + "_catwalk", prov.modLoc("block/catwalk_top"))
         .texture("2", catwalkTexture)
         .texture("particle", catwalkTexture);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(catwalk_top).addModel()
+      .condition(CatwalkBlock.CATWALK_TOP, true).end();
+
+    BlockModelBuilder catwalk_bottom = prov.models()
+        .withExistingParent(metal + "_catwalk_down", prov.modLoc("block/catwalk_bottom"))
+        .texture("2", catwalkTexture)
+        .texture("particle", catwalkTexture);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(catwalk_bottom).addModel()
+      .condition(CatwalkBlock.CATWALK_BOTTOM, true).end();
+
+    BlockModelBuilder rail = prov.models()
+      .withExistingParent(metal + "_catwalk_railing", prov.modLoc("block/catwalk_rail"));
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail).rotationY( 90).addModel()
+      .condition(CatwalkBlock.RAILING_NORTH, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail).rotationY(180).addModel()
+      .condition(CatwalkBlock.RAILING_EAST,  true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail).rotationY(270).addModel()
+      .condition(CatwalkBlock.RAILING_SOUTH, true).end();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail).rotationY(  0).addModel()
+      .condition(CatwalkBlock.RAILING_WEST,  true).end();
 
     BlockModelBuilder support = prov.models()
         .withExistingParent(metal + "_catwalk_support", prov.modLoc("block/catwalk_support"))
         .texture("0", supportTexture)
         .texture("particle", supportTexture);
-
-
-    prov.getMultipartBuilder(ctx.get()).part().modelFile(catwalk).addModel().end();
     prov.getMultipartBuilder(ctx.get()).part().modelFile(support).addModel()
-      .condition(BlockStateProperties.BOTTOM, true).end();
+      .condition(CatwalkBlock.BOTTOM, true).end();
 
   }
 
