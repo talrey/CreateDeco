@@ -96,12 +96,12 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     this.registerDefaultState(this.defaultBlockState()
         .setValue(BOTTOM, false)
         .setValue(WATERLOGGED, false)
-        .setValue(CATWALK_TOP, true)
+        .setValue(CATWALK_TOP, false)
         .setValue(CATWALK_BOTTOM, true)
-        .setValue(RAILING_NORTH, true)
-        .setValue(RAILING_SOUTH, true)
-        .setValue(RAILING_EAST, true)
-        .setValue(RAILING_WEST, true)
+        .setValue(RAILING_NORTH, false)
+        .setValue(RAILING_SOUTH, false)
+        .setValue(RAILING_EAST, false)
+        .setValue(RAILING_WEST, false)
       );
   }
 
