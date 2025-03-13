@@ -20,11 +20,11 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class CatwalkBlockItem extends BlockItem {
-  private final int placementHelperID;
+  private final int extensionPlacementHelperID;
 
   public CatwalkBlockItem (CatwalkBlock block, Properties props) {
     super(block, props);
-    placementHelperID = PlacementHelpers.register(new CatwalkHelper());
+    extensionPlacementHelperID = PlacementHelpers.register(new CatwalkExtensionHelper());
   }
 
   @Override
@@ -35,7 +35,7 @@ public class CatwalkBlockItem extends BlockItem {
     Player player  = ctx.getPlayer();
 
     BlockState state        = world.getBlockState(pos);
-    IPlacementHelper helper = PlacementHelpers.get(placementHelperID);
+    IPlacementHelper helper = PlacementHelpers.get(extensionPlacementHelperID);
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
     if (helper.matchesState(state) && player != null) {
       return helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
@@ -44,7 +44,7 @@ public class CatwalkBlockItem extends BlockItem {
   }
 
   @MethodsReturnNonnullByDefault
-  public static class CatwalkHelper implements IPlacementHelper {
+  public static class CatwalkExtensionHelper implements IPlacementHelper {
     @Override
     public Predicate<ItemStack> getItemPredicate () {
       return CatwalkBlock::isCatwalk;
