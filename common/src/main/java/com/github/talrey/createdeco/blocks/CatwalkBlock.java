@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -29,14 +30,52 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     0d, 14d, 0d,
     16d, 16d, 16d
   );
+  private static final VoxelShape VOXEL_BOTTOM = Block.box(
+    0d, 0d, 0d,
+    16d, 2d, 16d
+  );
+  private static final VoxelShape VOXEL_RAILING_NORTH = Block.box(
+    0d, 0d, 0d,
+    16d, 14d, 2d
+  );
+  private static final VoxelShape VOXEL_RAILING_SOUTH = Block.box(
+    0d, 0d, 14d,
+    16d, 14d, 16d
+  );
+  private static final VoxelShape VOXEL_RAILING_EAST = Block.box(
+    14d, 0d, 0d,
+    16d, 14d, 16d
+  );
+  private static final VoxelShape VOXEL_RAILING_WEST = Block.box(
+    0d, 0d, 0d,
+    2d, 14d, 16d
+  );
+
   private static final VoxelShape SUPPORTED = Shapes.block();
+  // This property indicates whether there's a support block under it.
   public static final BooleanProperty BOTTOM = BlockStateProperties.BOTTOM;
 
-  public CatwalkBlock (Properties props) {
+  // Properties to indicate whether there's a catwalk on the top or bottom
+  public static final BooleanProperty CATWALK_TOP = BooleanProperty.create("catwalk_top");
+  public static final BooleanProperty CATWALK_BOTTOM = BooleanProperty.create("catwalk_bottom");
+  // Properties to indicate the presence of railings on any of the four sides
+  public static final BooleanProperty RAILING_NORTH = BooleanProperty.create("railing_north");
+  public static final BooleanProperty RAILING_SOUTH = BooleanProperty.create("railing_south");
+  public static final BooleanProperty RAILING_EAST  = BooleanProperty.create("railing_east");
+  public static final BooleanProperty RAILING_WEST  = BooleanProperty.create("railing_west");
+
+  public CatwalkBlock (Properties props, String metal) {
     super(props);
     this.registerDefaultState(this.defaultBlockState()
         .setValue(BOTTOM, false)
-        .setValue(WATERLOGGED, false));
+        .setValue(WATERLOGGED, false)
+        .setValue(CATWALK_TOP, true)
+        .setValue(CATWALK_BOTTOM, true)
+        .setValue(RAILING_NORTH, true)
+        .setValue(RAILING_SOUTH, true)
+        .setValue(RAILING_EAST, true)
+        .setValue(RAILING_WEST, true)
+      );
   }
 
   @Override
@@ -46,7 +85,25 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
 
   @Override
   public VoxelShape getInteractionShape (BlockState state, BlockGetter world, BlockPos pos) {
-    return state.getValue(BOTTOM) ? SUPPORTED : VOXEL_TOP;
+    VoxelShape shape = Shapes.empty();
+    if (state.getValue(BOTTOM))
+      shape = Shapes.join(shape, SUPPORTED, BooleanOp.OR);
+
+    if (state.getValue(CATWALK_TOP))
+      shape = Shapes.join(shape, VOXEL_TOP, BooleanOp.OR);
+    if (state.getValue(CATWALK_BOTTOM))
+      shape = Shapes.join(shape, VOXEL_BOTTOM, BooleanOp.OR);
+
+    if (state.getValue(RAILING_NORTH))
+      shape = Shapes.join(shape, VOXEL_RAILING_NORTH, BooleanOp.OR);
+    if (state.getValue(RAILING_SOUTH))
+      shape = Shapes.join(shape, VOXEL_RAILING_SOUTH, BooleanOp.OR);
+    if (state.getValue(RAILING_EAST))
+      shape = Shapes.join(shape, VOXEL_RAILING_EAST, BooleanOp.OR);
+    if (state.getValue(RAILING_WEST))
+      shape = Shapes.join(shape, VOXEL_RAILING_WEST, BooleanOp.OR);
+
+    return shape;
   }
 
 
@@ -83,6 +140,12 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
   protected void createBlockStateDefinition (StateDefinition.Builder<Block, BlockState> builder) {
     super.createBlockStateDefinition(builder);
     builder.add(BlockStateProperties.WATERLOGGED, BOTTOM);
+    builder.add(CATWALK_BOTTOM);
+    builder.add(CATWALK_TOP);
+    builder.add(RAILING_NORTH);
+    builder.add(RAILING_SOUTH);
+    builder.add(RAILING_EAST);
+    builder.add(RAILING_WEST);
   }
 
   @Override
@@ -119,5 +182,20 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     }
 
     return state;
+  }
+
+  // TODO: use this to delete empty blocks
+  public static boolean isEmpty(BlockState state) {
+    boolean isEmpty = true;
+
+    isEmpty |= state.getValue(CATWALK_TOP);
+    isEmpty |= state.getValue(CATWALK_BOTTOM);
+
+    isEmpty |= state.getValue(RAILING_NORTH);
+    isEmpty |= state.getValue(RAILING_SOUTH);
+    isEmpty |= state.getValue(RAILING_EAST);
+    isEmpty |= state.getValue(RAILING_WEST);
+
+    return isEmpty;
   }
 }
