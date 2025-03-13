@@ -46,11 +46,16 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
           0d, 0d, 0d,
           2d, 14d, 16d
   );
+  private static final VoxelShape VOXEL_DOWN = Block.box(
+          0d, 0d, 0d,
+          16d, 2d, 16d
+  );
 
   public static final BooleanProperty NORTH_FENCE = BlockStateProperties.NORTH;
   public static final BooleanProperty SOUTH_FENCE = BlockStateProperties.SOUTH;
   public static final BooleanProperty EAST_FENCE  = BlockStateProperties.EAST;
   public static final BooleanProperty WEST_FENCE  = BlockStateProperties.WEST;
+  public static final BooleanProperty DOWN = BooleanProperty.create("down");
 
   public CatwalkRailingBlock (Properties props) {
     super(props);
@@ -59,6 +64,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
             .setValue(SOUTH_FENCE, false)
             .setValue(EAST_FENCE,  false)
             .setValue(WEST_FENCE,  false)
+            .setValue(DOWN,  true)
             .setValue(BlockStateProperties.WATERLOGGED, false)
     );
   }
@@ -137,6 +143,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     builder.add(SOUTH_FENCE);
     builder.add(EAST_FENCE);
     builder.add(WEST_FENCE);
+    builder.add(DOWN);
     builder.add(BlockStateProperties.WATERLOGGED);
   }
 
@@ -169,6 +176,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     if (state.getValue(SOUTH_FENCE)) shape = Shapes.join(shape, VOXEL_SOUTH, BooleanOp.OR);
     if (state.getValue(EAST_FENCE))  shape = Shapes.join(shape, VOXEL_EAST,  BooleanOp.OR);
     if (state.getValue(WEST_FENCE))  shape = Shapes.join(shape, VOXEL_WEST,  BooleanOp.OR);
+    if (state.getValue(DOWN))        shape = Shapes.join(shape, VOXEL_DOWN,  BooleanOp.OR);
 
     return shape;
   }

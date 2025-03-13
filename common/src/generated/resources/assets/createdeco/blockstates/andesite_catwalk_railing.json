@@ -34,6 +34,14 @@
       "when": {
         "west": "true"
       }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/andesite_catwalk_down"
+      },
+      "when": {
+        "down": "true"
+      }
     }
   ]
 }
