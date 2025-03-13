@@ -197,6 +197,12 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
 	  );
 	}
       }
+      // Check if we removed the last element of the block.
+      // In that case, clear the block
+      if (isEmpty(state)) {
+	level.setBlock(pos, Blocks.AIR.defaultBlockState(), 0);
+      }
+
       return InteractionResult.SUCCESS;
     } else {
       return InteractionResult.PASS;
@@ -280,18 +286,17 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     return state;
   }
 
-  // TODO: use this to delete empty blocks
   public static boolean isEmpty(BlockState state) {
-    boolean isEmpty = true;
+    boolean hasAnyElement = false;
 
-    isEmpty |= state.getValue(CATWALK_TOP);
-    isEmpty |= state.getValue(CATWALK_BOTTOM);
+    hasAnyElement |= state.getValue(CATWALK_TOP);
+    hasAnyElement |= state.getValue(CATWALK_BOTTOM);
 
-    isEmpty |= state.getValue(RAILING_NORTH);
-    isEmpty |= state.getValue(RAILING_SOUTH);
-    isEmpty |= state.getValue(RAILING_EAST);
-    isEmpty |= state.getValue(RAILING_WEST);
+    hasAnyElement |= state.getValue(RAILING_NORTH);
+    hasAnyElement |= state.getValue(RAILING_SOUTH);
+    hasAnyElement |= state.getValue(RAILING_EAST);
+    hasAnyElement |= state.getValue(RAILING_WEST);
 
-    return isEmpty;
+    return !hasAnyElement;
   }
 }
