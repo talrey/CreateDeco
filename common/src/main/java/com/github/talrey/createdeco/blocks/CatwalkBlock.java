@@ -1,14 +1,18 @@
 package com.github.talrey.createdeco.blocks;
 
+import com.github.talrey.createdeco.BlockRegistry;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -20,17 +24,22 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.network.chat.Component;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 public class CatwalkBlock extends Block implements IWrenchable, ProperWaterloggedBlock {
-  private static final VoxelShape VOXEL_TOP = Block.box(
+  private static final VoxelShape VOXEL_CATWALK_TOP = Block.box(
     0d, 14d, 0d,
     16d, 16d, 16d
   );
-  private static final VoxelShape VOXEL_BOTTOM = Block.box(
+  private static final VoxelShape VOXEL_CATWALK_BOTTOM = Block.box(
     0d, 0d, 0d,
     16d, 2d, 16d
   );
@@ -64,6 +73,17 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
   public static final BooleanProperty RAILING_EAST  = BooleanProperty.create("railing_east");
   public static final BooleanProperty RAILING_WEST  = BooleanProperty.create("railing_west");
 
+  private static final HashMap<VoxelShape, BooleanProperty> SHAPE_PROPERTY_MAPPING = new HashMap<VoxelShape, BooleanProperty>();
+
+  static {
+    SHAPE_PROPERTY_MAPPING.put(VOXEL_CATWALK_TOP,    CATWALK_TOP);
+    SHAPE_PROPERTY_MAPPING.put(VOXEL_CATWALK_BOTTOM, CATWALK_BOTTOM);
+    SHAPE_PROPERTY_MAPPING.put(VOXEL_RAILING_NORTH, RAILING_NORTH);
+    SHAPE_PROPERTY_MAPPING.put(VOXEL_RAILING_SOUTH, RAILING_SOUTH);
+    SHAPE_PROPERTY_MAPPING.put(VOXEL_RAILING_EAST,  RAILING_EAST);
+    SHAPE_PROPERTY_MAPPING.put(VOXEL_RAILING_WEST,  RAILING_WEST);
+  }
+
   // A string indicating the material of this block. This is used in
   // interactions between the catwalk block and catwalk items and railing items.
   // Only items of the same material can be combined together.
@@ -96,9 +116,9 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
       shape = Shapes.join(shape, SUPPORTED, BooleanOp.OR);
 
     if (state.getValue(CATWALK_TOP))
-      shape = Shapes.join(shape, VOXEL_TOP, BooleanOp.OR);
+      shape = Shapes.join(shape, VOXEL_CATWALK_TOP, BooleanOp.OR);
     if (state.getValue(CATWALK_BOTTOM))
-      shape = Shapes.join(shape, VOXEL_BOTTOM, BooleanOp.OR);
+      shape = Shapes.join(shape, VOXEL_CATWALK_BOTTOM, BooleanOp.OR);
 
     if (state.getValue(RAILING_NORTH))
       shape = Shapes.join(shape, VOXEL_RAILING_NORTH, BooleanOp.OR);
@@ -112,6 +132,76 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     return shape;
   }
 
+  private Optional<VoxelShape> clickedShape(BlockState state, Vec3 subboxClickLocation) {
+    double min_distance = 1.0;
+
+    Optional<VoxelShape> closestShape = Optional.empty();
+
+    for (Map.Entry<VoxelShape, BooleanProperty> entry: SHAPE_PROPERTY_MAPPING.entrySet()) {
+      VoxelShape shape = entry.getKey();
+      BooleanProperty property = entry.getValue();
+
+      // Ignore shapes that are not enabled
+      if (!state.getValue(property)) continue;
+
+      Optional<Vec3> point = shape.closestPointTo(subboxClickLocation);
+      if (point.isEmpty()) continue;
+
+      double distance = point.get().distanceToSqr(subboxClickLocation);
+      if (distance < min_distance) {
+	closestShape = Optional.of(shape);
+	min_distance = distance;
+      }
+    }
+
+    return closestShape;
+  }
+
+  @Override
+  public InteractionResult onSneakWrenched (BlockState state, UseOnContext context) {
+    BlockPos pos   = context.getClickedPos();
+    Direction face = context.getClickedFace();
+    Level level    = context.getLevel();
+    Player player  = context.getPlayer();
+
+    // This position will initially be in [-0.5, 0.5].
+    Vec3 subbox    = context.getClickLocation().subtract(pos.getCenter());
+    // We want to map that to a position in [0, 1]
+    subbox = subbox.add(0.5, 0.5, 0.5);
+
+    if (level.isClientSide()) return InteractionResult.PASS;
+
+    // Check which of the shapes was clicked
+    Optional<VoxelShape> clickedShapeOption = clickedShape(state, subbox);
+
+    if (clickedShapeOption.isPresent()) {
+      VoxelShape clickedShape = clickedShapeOption.get();
+      BooleanProperty property = SHAPE_PROPERTY_MAPPING.get(clickedShape);
+      player.displayClientMessage(
+	Component.literal(
+	  String.format("property %1$s shape %2$s", property, clickedShape)
+	), false);
+      // Set the property to false
+      state = state.setValue(property, false);
+      level.setBlock(pos, state, 3);
+      playRemoveSound(level, pos);
+      if (!player.getAbilities().instabuild) {
+	// Return the corresponding item to the player
+	if (clickedShape == VOXEL_CATWALK_TOP || clickedShape == VOXEL_CATWALK_BOTTOM) {
+	  player.addItem(
+	    new ItemStack(BlockRegistry.CATWALKS.get(this.metal))
+	  );
+	} else {
+	  player.addItem(
+	    new ItemStack(BlockRegistry.CATWALK_RAILINGS.get(this.metal))
+	  );
+	}
+      }
+      return InteractionResult.SUCCESS;
+    } else {
+      return InteractionResult.PASS;
+    }
+  }
 
   private boolean isBottom(BlockGetter level, BlockPos pos) {
     return level.getBlockState(pos.below()).getBlock() instanceof SupportBlock;
