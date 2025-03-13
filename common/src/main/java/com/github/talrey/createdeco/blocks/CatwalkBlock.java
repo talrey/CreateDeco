@@ -299,4 +299,22 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
 
     return !hasAnyElement;
   }
+
+  @Override
+  public BlockState getRotatedBlockState(BlockState originalState, Direction targetedFace) {
+    if (targetedFace.getAxis() == Direction.Axis.Y) {
+      int state =
+              (originalState.getValue(RAILING_NORTH) ? 8 : 0) +
+                      (originalState.getValue(RAILING_EAST)  ? 4 : 0) +
+                      (originalState.getValue(RAILING_SOUTH) ? 2 : 0) +
+                      (originalState.getValue(RAILING_WEST)  ? 1 : 0);
+      return originalState
+              .setValue(RAILING_NORTH, (state & 1) == 1)
+              .setValue(RAILING_EAST,  (state & 8) == 8)
+              .setValue(RAILING_SOUTH, (state & 4) == 4)
+              .setValue(RAILING_WEST,  (state & 2) == 2);
+    }
+    return originalState;
+  }
+
 }
