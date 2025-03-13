@@ -287,7 +287,16 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     return state;
   }
 
-  private static boolean hasAnyRailings(BlockState state) {
+  public static boolean hasAnyCatwalks(BlockState state) {
+    boolean hasAnyCatwalks = false;
+
+    hasAnyCatwalks |= state.getValue(CATWALK_TOP);
+    hasAnyCatwalks |= state.getValue(CATWALK_BOTTOM);
+
+    return hasAnyCatwalks;
+  }
+
+  public static boolean hasAnyRailings(BlockState state) {
     boolean hasAnyRailings = false;
 
     hasAnyRailings |= state.getValue(RAILING_NORTH);
@@ -301,9 +310,7 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
   public static boolean isEmpty(BlockState state) {
     boolean hasAnyElement = false;
 
-    hasAnyElement |= state.getValue(CATWALK_TOP);
-    hasAnyElement |= state.getValue(CATWALK_BOTTOM);
-
+    hasAnyElement |= hasAnyCatwalks(state);
     hasAnyElement |= hasAnyRailings(state);
 
     return !hasAnyElement;
