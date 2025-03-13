@@ -55,13 +55,45 @@ public class Catwalks {
 
       .loot((table, block) -> {
         LootTable.Builder builder = LootTable.lootTable();
-        LootPool.Builder catwalksPool     = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
-        LootPool.Builder supportPool     = LootPool.lootPool().setRolls(ConstantValue.exactly(1));
-        LootItem.Builder<?> catwalks = LootItem.lootTableItem(block);
-        catwalks.apply(SetItemCountFunction.setCount(ConstantValue.exactly(1)));
 
-        catwalksPool.add(catwalks);
-        table.add(block, builder.withPool(catwalksPool).withPool(supportPool));
+        builder.withPool(
+          LootPool.lootPool()
+          .setRolls(ConstantValue.exactly(1.0F))
+          .when(LootItemBlockStatePropertyCondition
+                .hasBlockStateProperties(block)
+                .setProperties(
+                  StatePropertiesPredicate.Builder.properties()
+                  .hasProperty(CatwalkBlock.CATWALK_TOP, true)))
+          .add(LootItem.lootTableItem(block).apply(SetItemCountFunction.setCount(ConstantValue.exactly(1))))
+        );
+
+        builder.withPool(
+          LootPool.lootPool()
+          .setRolls(ConstantValue.exactly(1.0F))
+          .when(LootItemBlockStatePropertyCondition
+                .hasBlockStateProperties(block)
+                .setProperties(
+                  StatePropertiesPredicate.Builder.properties()
+                  .hasProperty(CatwalkBlock.CATWALK_BOTTOM, true)))
+          .add(LootItem.lootTableItem(block).apply(SetItemCountFunction.setCount(ConstantValue.exactly(1))))
+        );
+
+        for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
+          builder.withPool(
+            LootPool.lootPool()
+            .setRolls(ConstantValue.exactly(1.0F))
+            .when(LootItemBlockStatePropertyCondition
+                  .hasBlockStateProperties(block)
+                  .setProperties(
+                    StatePropertiesPredicate.Builder.properties()
+                    .hasProperty(CatwalkBlock.fromDirection(dir), true)))
+            .add(
+              LootItem.lootTableItem(BlockRegistry.CATWALK_RAILINGS.get(metal))
+              .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1))))
+          );
+        }
+
+        table.add(block, builder);
       })
       .addLayer(() -> RenderType::cutoutMipped)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
