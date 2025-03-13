@@ -287,6 +287,15 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     return state;
   }
 
+  public static BooleanProperty fromDirection (Direction face) {
+    return switch (face) {
+      case SOUTH -> RAILING_SOUTH;
+      case EAST  -> RAILING_EAST;
+      case WEST  -> RAILING_WEST;
+      default -> RAILING_NORTH;
+    };
+  }
+
   public static boolean hasAnyCatwalks(BlockState state) {
     boolean hasAnyCatwalks = false;
 
