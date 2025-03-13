@@ -67,7 +67,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
             .setValue(SOUTH_FENCE, false)
             .setValue(EAST_FENCE,  false)
             .setValue(WEST_FENCE,  false)
-            .setValue(DOWN,  true)
+            .setValue(DOWN,  false)
             .setValue(BlockStateProperties.WATERLOGGED, false)
     );
   }
@@ -222,6 +222,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     for (Direction dir : BlockStateProperties.HORIZONTAL_FACING.getPossibleValues()) {
       safe |= state.getValue(fromDirection(dir));
     }
+    safe |= state.getValue(DOWN);
     return !safe;
   }
 
