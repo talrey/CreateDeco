@@ -21,10 +21,12 @@ import java.util.function.Predicate;
 
 public class CatwalkBlockItem extends BlockItem {
   private final int extensionPlacementHelperID;
+  private final int catwalkPlacementHelperID;
 
   public CatwalkBlockItem (CatwalkBlock block, Properties props) {
     super(block, props);
     extensionPlacementHelperID = PlacementHelpers.register(new CatwalkExtensionHelper());
+    catwalkPlacementHelperID = PlacementHelpers.register(new CatwalkPlacementHelper());
   }
 
   @Override
@@ -35,13 +37,39 @@ public class CatwalkBlockItem extends BlockItem {
     Player player  = ctx.getPlayer();
 
     BlockState state        = world.getBlockState(pos);
-    IPlacementHelper helper = PlacementHelpers.get(extensionPlacementHelperID);
+    IPlacementHelper extension_helper = PlacementHelpers.get(extensionPlacementHelperID);
+    IPlacementHelper placement_helper = PlacementHelpers.get(catwalkPlacementHelperID);
     BlockHitResult ray = new BlockHitResult(ctx.getClickLocation(), face, pos, true);
-    if (helper.matchesState(state) && player != null) {
-      return helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
+    if (extension_helper.matchesState(state) && player != null) {
+      return extension_helper.getOffset(player, world, state, pos, ray).placeInWorld(world, this, player, ctx.getHand(), ray);
+    } else if (placement_helper.matchesState(state) && player != null) {
+      // This offset is only used to produce the ghost state, we don't use
+      // it to actually place the block.
+      PlacementOffset offset = placement_helper.getOffset(player, world, state, pos, ray);
+
+      // Update the block state and consume a catwalk item
+      state = state.setValue(CatwalkBlock.CATWALK_BOTTOM, true);
+      world.setBlock(pos, state, 3);
+      ItemStack stack = ctx.getItemInHand();
+      if (!player.getAbilities().instabuild) {
+	stack.shrink(1);
+      }
+
+      return InteractionResult.SUCCESS;
     }
     return super.useOn(ctx);
   }
+
+  /*
+    There are two placement helpers below. The first one is used to extend
+    catwalks horizontally. It applies to any catwalk blocks that have a catwalk
+    (top or bottom). When extending the catwalk, we copy the catwalk position,
+    so top catwalks will extend to create more top catwalks, and likewise for
+    bottom catwalks.
+
+    The second placement helper is used to place a bottom catwalk in a catwalk
+    block that only has railing items.
+   */
 
   @MethodsReturnNonnullByDefault
   public static class CatwalkExtensionHelper implements IPlacementHelper {
@@ -50,9 +78,13 @@ public class CatwalkBlockItem extends BlockItem {
       return CatwalkBlock::isCatwalk;
     }
 
+    // We only want to use this helper if the catwalk block has
+    // a catwalk (top or bottom). This way, this helper is mutually
+    // exclusive with the catwalk placement helper below.
     @Override
     public Predicate<BlockState> getStatePredicate () {
-      return state -> CatwalkBlock.isCatwalk(state.getBlock());
+      return state -> CatwalkBlock.isCatwalk(state.getBlock()) &&
+	CatwalkBlock.hasAnyCatwalks(state);
     }
 
     @Override
@@ -68,6 +100,42 @@ public class CatwalkBlockItem extends BlockItem {
         return PlacementOffset.success(newPos, offsetState -> offsetState);
       }
       return PlacementOffset.fail();
+    }
+  }
+
+  /**
+     This helper is used to place catwalks into catwalk blocks that only
+     contain railing items.
+   **/
+  @MethodsReturnNonnullByDefault
+  public static class CatwalkPlacementHelper implements IPlacementHelper {
+    @Override
+    public Predicate<ItemStack> getItemPredicate () {
+      return CatwalkBlock::isCatwalk;
+    }
+
+    // We only want to apply this helper if the block doesn't have any
+    // catwalks (top or bottom) in it. This way, the helper is mutually
+    // exclusive with the catwalk extension helper above.
+    @Override
+    public Predicate<BlockState> getStatePredicate () {
+      return state ->
+	CatwalkBlock.isCatwalk(state.getBlock()) &&
+	!CatwalkBlock.hasAnyCatwalks(state);
+    }
+
+    @Override
+    public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos, BlockHitResult ray) {
+      // The ghost state should only contain the bottom catwalk
+      BlockState ghost_state = state
+	.setValue(CatwalkBlock.CATWALK_TOP, false)
+	.setValue(CatwalkBlock.CATWALK_BOTTOM, true)
+	.setValue(CatwalkBlock.RAILING_NORTH, false)
+	.setValue(CatwalkBlock.RAILING_SOUTH, false)
+	.setValue(CatwalkBlock.RAILING_EAST, false)
+	.setValue(CatwalkBlock.RAILING_WEST, false);
+
+      return PlacementOffset.success(pos, offsetState -> ghost_state);
     }
   }
 }
