@@ -57,8 +57,11 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
   public static final BooleanProperty WEST_FENCE  = BlockStateProperties.WEST;
   public static final BooleanProperty DOWN = BooleanProperty.create("down");
 
-  public CatwalkRailingBlock (Properties props) {
+  public final String metal;
+
+  public CatwalkRailingBlock (Properties props, String metal) {
     super(props);
+    this.metal = metal;
     this.registerDefaultState(this.defaultBlockState()
             .setValue(NORTH_FENCE, false)
             .setValue(SOUTH_FENCE, false)

@@ -128,7 +128,10 @@ public class Catwalks {
   ) {
     String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
     String texture = reg.getModid() + ":block/palettes/catwalks/" + regName + "_catwalk";
-    return reg.block(metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_railing", CatwalkRailingBlock::new)
+    return reg.block(
+      metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk_railing",
+      p -> new CatwalkRailingBlock(p, metal)
+    )
       .properties(props->
         props.strength(5, 6)
           .requiresCorrectToolForDrops().noOcclusion().sound(SoundType.NETHERITE_BLOCK)
