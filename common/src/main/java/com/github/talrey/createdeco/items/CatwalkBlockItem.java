@@ -89,15 +89,24 @@ public class CatwalkBlockItem extends BlockItem {
 
     @Override
     public PlacementOffset getOffset(Player player, Level world, BlockState state, BlockPos pos, BlockHitResult ray) {
+      // The new block should have a catwalk in the same position as
+      // this block (so we copy that property), and no railings, because
+      // those need to be placed separately
+      BlockState newState = state
+	.setValue(CatwalkBlock.RAILING_NORTH, false)
+	.setValue(CatwalkBlock.RAILING_SOUTH, false)
+	.setValue(CatwalkBlock.RAILING_EAST, false)
+	.setValue(CatwalkBlock.RAILING_WEST, false);
+
       Direction face = ray.getDirection();
       if (face.getAxis() != Direction.Axis.Y) {
-        return PlacementOffset.success(pos.offset(face.getNormal()), offsetState -> offsetState);
+        return PlacementOffset.success(pos.offset(face.getNormal()), offsetState -> newState);
       }
       List<Direction> dirs = IPlacementHelper.orderedByDistanceExceptAxis(pos, ray.getLocation(), Direction.Axis.Y);
       for (Direction dir : dirs) {
         BlockPos newPos = pos.relative(dir);
         if (!CatwalkBlock.canPlaceCatwalk(world, newPos)) continue;
-        return PlacementOffset.success(newPos, offsetState -> offsetState);
+        return PlacementOffset.success(newPos, offsetState -> newState);
       }
       return PlacementOffset.fail();
     }
