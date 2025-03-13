@@ -178,10 +178,6 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     if (clickedShapeOption.isPresent()) {
       VoxelShape clickedShape = clickedShapeOption.get();
       BooleanProperty property = SHAPE_PROPERTY_MAPPING.get(clickedShape);
-      player.displayClientMessage(
-	Component.literal(
-	  String.format("property %1$s shape %2$s", property, clickedShape)
-	), false);
       // Set the property to false
       state = state.setValue(property, false);
       level.setBlock(pos, state, 3);
