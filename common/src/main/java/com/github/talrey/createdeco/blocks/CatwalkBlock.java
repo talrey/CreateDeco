@@ -21,6 +21,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -379,6 +381,63 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
               .setValue(RAILING_WEST,  (state & 2) == 2);
     }
     return originalState;
+  }
+
+  @Override
+  public BlockState rotate(BlockState state, Rotation rotation) {
+    // A bitmask that contains the state of the railings
+    int bits =
+      (state.getValue(RAILING_NORTH) ? 8 : 0) +
+      (state.getValue(RAILING_EAST)  ? 4 : 0) +
+      (state.getValue(RAILING_SOUTH) ? 2 : 0) +
+      (state.getValue(RAILING_WEST)  ? 1 : 0);
+    return switch (rotation) {
+      case CLOCKWISE_90 ->
+        state
+          .setValue(RAILING_NORTH, (bits & 1) == 1)
+          .setValue(RAILING_EAST,  (bits & 8) == 8)
+          .setValue(RAILING_SOUTH, (bits & 4) == 4)
+          .setValue(RAILING_WEST,  (bits & 2) == 2)
+          ;
+      case CLOCKWISE_180 ->
+        state
+          .setValue(RAILING_NORTH, (bits & 2) == 2)
+          .setValue(RAILING_EAST,  (bits & 1) == 1)
+          .setValue(RAILING_SOUTH, (bits & 8) == 8)
+          .setValue(RAILING_WEST,  (bits & 4) == 4)
+          ;
+      case COUNTERCLOCKWISE_90 ->
+        state
+          .setValue(RAILING_NORTH, (bits & 4) == 4)
+          .setValue(RAILING_EAST,  (bits & 2) == 2)
+          .setValue(RAILING_SOUTH, (bits & 1) == 1)
+          .setValue(RAILING_WEST,  (bits & 8) == 8)
+          ;
+      default -> state;
+    };
+  }
+
+  @Override
+  public BlockState mirror(BlockState state, Mirror mirror) {
+    // A bitmask that contains the state of the railings
+    int bits =
+      (state.getValue(RAILING_NORTH) ? 8 : 0) +
+      (state.getValue(RAILING_EAST)  ? 4 : 0) +
+      (state.getValue(RAILING_SOUTH) ? 2 : 0) +
+      (state.getValue(RAILING_WEST)  ? 1 : 0);
+    return switch (mirror) {
+      case LEFT_RIGHT ->
+        state
+          .setValue(RAILING_NORTH, (bits & 2) == 2)
+          .setValue(RAILING_SOUTH, (bits & 8) == 8)
+          ;
+      case FRONT_BACK ->
+        state
+          .setValue(RAILING_EAST, (bits & 1) == 1)
+          .setValue(RAILING_WEST, (bits & 4) == 4)
+          ;
+      default -> state;
+    };
   }
 
   @Override
