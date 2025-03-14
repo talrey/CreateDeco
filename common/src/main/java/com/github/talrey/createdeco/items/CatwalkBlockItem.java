@@ -77,7 +77,7 @@ public class CatwalkBlockItem extends BlockItem {
   }
 
   /*
-    There are two placement helpers below. The first one is used to extend
+    There are three placement helpers below. The first one is used to extend
     catwalks horizontally. It applies to any catwalk blocks that have a catwalk
     (top or bottom). When extending the catwalk, we copy the catwalk position,
     so top catwalks will extend to create more top catwalks, and likewise for
@@ -85,10 +85,13 @@ public class CatwalkBlockItem extends BlockItem {
 
     The second placement helper is used to place a bottom catwalk in a catwalk
     block that only has railing items.
+
+    The third one is used to replace CatwalkRailingBlocks with CatwalkBlocks
+    when interacting with a catwalk item on a railing block.
    */
 
   @MethodsReturnNonnullByDefault
-  public static class CatwalkExtensionHelper implements IPlacementHelper {
+  public class CatwalkExtensionHelper implements IPlacementHelper {
     @Override
     public Predicate<ItemStack> getItemPredicate () {
       return CatwalkBlock::isCatwalk;
@@ -100,7 +103,13 @@ public class CatwalkBlockItem extends BlockItem {
     @Override
     public Predicate<BlockState> getStatePredicate () {
       return state -> CatwalkBlock.isCatwalk(state.getBlock()) &&
-	CatwalkBlock.hasAnyCatwalks(state);
+        state.getBlock() instanceof CatwalkBlock catblock &&
+        CatwalkBlock.hasAnyCatwalks(state) &&
+        // We also check that the metal of the item matches the metal of the
+        // catwalk block.
+        CatwalkBlockItem.this.getBlock().equals(
+          BlockRegistry.CATWALKS.get(catblock.metal).get()
+        );
     }
 
     @Override
