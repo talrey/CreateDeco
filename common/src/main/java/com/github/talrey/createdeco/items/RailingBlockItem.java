@@ -179,7 +179,7 @@ public class RailingBlockItem extends BlockItem {
   }
 
   @MethodsReturnNonnullByDefault
-  public static class CatwalkRailingHelper implements IPlacementHelper {
+  public class CatwalkRailingHelper implements IPlacementHelper {
     @Override
     public Predicate<ItemStack> getItemPredicate () {
       return CatwalkRailingBlock::isRailing;
@@ -187,9 +187,16 @@ public class RailingBlockItem extends BlockItem {
 
     @Override
     public Predicate<BlockState> getStatePredicate () {
-      return state -> CatwalkBlock.isCatwalk(state.getBlock())
+      return state -> CatwalkBlock.isCatwalk(state.getBlock()) &&
+        // Check that the metal type of the block is the same as the
+        // block that corresponds to this item
+        (
+          state.getBlock() instanceof CatwalkBlock catblock &&
+          RailingBlockItem.this.getBlock() instanceof CatwalkRailingBlock thisrailblock &&
+          catblock.metal == thisrailblock.metal
+        ) &&
         // We don't want to place rail blocks in catwalks that have a top catwalk
-        && !state.getValue(CatwalkBlock.CATWALK_TOP);
+        !state.getValue(CatwalkBlock.CATWALK_TOP);
     }
 
     @Override

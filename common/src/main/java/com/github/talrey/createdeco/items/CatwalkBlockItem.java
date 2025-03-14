@@ -133,7 +133,7 @@ public class CatwalkBlockItem extends BlockItem {
      contain railing items.
    **/
   @MethodsReturnNonnullByDefault
-  public static class CatwalkPlacementHelper implements IPlacementHelper {
+  public class CatwalkPlacementHelper implements IPlacementHelper {
     @Override
     public Predicate<ItemStack> getItemPredicate () {
       return CatwalkBlock::isCatwalk;
@@ -145,8 +145,15 @@ public class CatwalkBlockItem extends BlockItem {
     @Override
     public Predicate<BlockState> getStatePredicate () {
       return state ->
-	CatwalkBlock.isCatwalk(state.getBlock()) &&
-	!CatwalkBlock.hasAnyCatwalks(state);
+        CatwalkBlock.isCatwalk(state.getBlock()) &&
+        // Check that the metal type of the block is the same as the
+        // block that corresponds to this item
+        (
+          state.getBlock() instanceof CatwalkBlock catblock &&
+          CatwalkBlockItem.this.getBlock() instanceof CatwalkBlock thiscatblock &&
+          catblock.metal == thiscatblock.metal
+        ) &&
+        !CatwalkBlock.hasAnyCatwalks(state);
     }
 
     @Override
@@ -169,7 +176,7 @@ public class CatwalkBlockItem extends BlockItem {
      This allows seamlessly replacing legacy blocks with catwalk blocks, without needing to breaking and replacing the block.
    **/
   @MethodsReturnNonnullByDefault
-  public static class CatwalkReplacementHelper implements IPlacementHelper {
+  public class CatwalkReplacementHelper implements IPlacementHelper {
     @Override
     public Predicate<ItemStack> getItemPredicate () {
       return CatwalkBlock::isCatwalk;
@@ -177,7 +184,14 @@ public class CatwalkBlockItem extends BlockItem {
 
     @Override
     public Predicate<BlockState> getStatePredicate () {
-      return state -> CatwalkRailingBlock.isRailing(state.getBlock());
+      return state -> CatwalkRailingBlock.isRailing(state.getBlock()) &&
+        // Check that the metal type of the block is the same as the
+        // block that corresponds to this item
+        (
+          state.getBlock() instanceof CatwalkRailingBlock railblock &&
+          CatwalkBlockItem.this.getBlock() instanceof CatwalkBlock thiscatblock &&
+          railblock.metal == thiscatblock.metal
+        );
     }
 
     @Override
