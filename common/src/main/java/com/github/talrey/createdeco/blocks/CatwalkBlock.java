@@ -1,8 +1,11 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.BlockRegistry;
+import com.github.talrey.createdeco.ItemRegistry;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
+import com.simibubi.create.content.schematics.requirement.ISpecialBlockItemRequirement;
+import com.simibubi.create.content.schematics.requirement.ItemRequirement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionResult;
@@ -19,6 +22,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -32,10 +36,11 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.network.chat.Component;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-public class CatwalkBlock extends Block implements IWrenchable, ProperWaterloggedBlock {
+public class CatwalkBlock extends Block implements IWrenchable, ProperWaterloggedBlock, ISpecialBlockItemRequirement {
   private static final VoxelShape VOXEL_CATWALK_TOP = Block.box(
     0d, 14d, 0d,
     16d, 16d, 16d
@@ -374,6 +379,28 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
               .setValue(RAILING_WEST,  (state & 2) == 2);
     }
     return originalState;
+  }
+
+  @Override
+  public ItemRequirement getRequiredItems(BlockState state, BlockEntity blockEntity) {
+    ArrayList<ItemStack> stacks = new ArrayList<>();
+
+    int catwalk_count = 0;
+    catwalk_count += state.getValue(CATWALK_TOP)? 1 : 0;
+    catwalk_count += state.getValue(CATWALK_BOTTOM)? 1 : 0;
+    stacks.add(new ItemStack(this.asItem(), catwalk_count));
+
+    int railing_count = 0;
+    railing_count += state.getValue(RAILING_NORTH)? 1 : 0;
+    railing_count += state.getValue(RAILING_EAST)? 1 : 0;
+    railing_count += state.getValue(RAILING_SOUTH)? 1 : 0;
+    railing_count += state.getValue(RAILING_WEST)? 1 : 0;
+    stacks.add(new ItemStack(
+                 BlockRegistry.CATWALK_RAILINGS.get(this.metal).get().asItem(),
+                 railing_count)
+    );
+
+    return new ItemRequirement(ItemRequirement.ItemUseType.CONSUME, stacks);
   }
 
 }
