@@ -214,7 +214,12 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
   }
 
   private boolean isBottom(BlockGetter level, BlockPos pos) {
-    return level.getBlockState(pos.below()).getBlock() instanceof SupportBlock;
+    return
+      (
+        !(level.getBlockState(pos).getBlock() instanceof CatwalkBlock)
+        || level.getBlockState(pos).getValue(CATWALK_TOP)
+      ) &&
+      level.getBlockState(pos.below()).getBlock() instanceof SupportBlock;
   }
 
   public static boolean isCatwalk (ItemStack test) {
