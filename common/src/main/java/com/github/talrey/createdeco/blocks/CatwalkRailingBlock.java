@@ -1,6 +1,8 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
+import com.simibubi.create.api.schematic.requirement.SpecialBlockItemRequirement;
+import com.simibubi.create.content.schematics.requirement.ItemRequirement;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -29,7 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWaterloggedBlock {
+public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWaterloggedBlock, SpecialBlockItemRequirement {
   private static final VoxelShape VOXEL_NORTH = Block.box(
           0d, 0d, 0d,
           16d, 14d, 2d
@@ -52,8 +55,11 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
   public static final BooleanProperty EAST_FENCE  = BlockStateProperties.EAST;
   public static final BooleanProperty WEST_FENCE  = BlockStateProperties.WEST;
 
-  public CatwalkRailingBlock (Properties props) {
+  public final String metal;
+
+  public CatwalkRailingBlock (Properties props, String metal) {
     super(props);
+    this.metal = metal;
     this.registerDefaultState(this.defaultBlockState()
             .setValue(NORTH_FENCE, false)
             .setValue(SOUTH_FENCE, false)
@@ -217,5 +223,19 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
   @Override
   public FluidState getFluidState(BlockState state) {
     return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
+  }
+
+  @Override
+  public ItemRequirement getRequiredItems(BlockState state, BlockEntity blockEntity) {
+    int count = 0;
+    count += state.getValue(NORTH_FENCE)? 1 : 0;
+    count += state.getValue(EAST_FENCE)? 1 : 0;
+    count += state.getValue(SOUTH_FENCE)? 1 : 0;
+    count += state.getValue(WEST_FENCE)? 1 : 0;
+
+    return new ItemRequirement(
+      ItemRequirement.ItemUseType.CONSUME,
+      new ItemStack(this.asItem(), count)
+    );
   }
 }

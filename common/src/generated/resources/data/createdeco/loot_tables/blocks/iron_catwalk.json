@@ -3,6 +3,15 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "createdeco:iron_catwalk",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "catwalk_top": "true"
+          }
+        }
+      ],
       "entries": [
         {
           "type": "minecraft:item",
@@ -20,7 +29,132 @@
     },
     {
       "bonus_rolls": 0.0,
-      "entries": [],
+      "conditions": [
+        {
+          "block": "createdeco:iron_catwalk",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "catwalk_bottom": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "createdeco:iron_catwalk"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "createdeco:iron_catwalk",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "railing_north": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "createdeco:iron_catwalk_railing"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "createdeco:iron_catwalk",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "railing_south": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "createdeco:iron_catwalk_railing"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "createdeco:iron_catwalk",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "railing_west": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "createdeco:iron_catwalk_railing"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "block": "createdeco:iron_catwalk",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "railing_east": "true"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "add": false,
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            }
+          ],
+          "name": "createdeco:iron_catwalk_railing"
+        }
+      ],
       "rolls": 1.0
     }
   ],

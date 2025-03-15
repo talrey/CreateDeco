@@ -3,6 +3,52 @@
     {
       "apply": {
         "model": "createdeco:block/andesite_catwalk"
+      },
+      "when": {
+        "catwalk_top": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/andesite_catwalk_down"
+      },
+      "when": {
+        "catwalk_bottom": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/andesite_catwalk_railing",
+        "y": 90
+      },
+      "when": {
+        "railing_north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/andesite_catwalk_railing",
+        "y": 180
+      },
+      "when": {
+        "railing_east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/andesite_catwalk_railing",
+        "y": 270
+      },
+      "when": {
+        "railing_south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "createdeco:block/andesite_catwalk_railing"
+      },
+      "when": {
+        "railing_west": "true"
       }
     },
     {
