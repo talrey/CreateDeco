@@ -144,13 +144,13 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
       if (!player.getAbilities().instabuild) player.addItem(new ItemStack(
         BlockRegistry.CATWALK_RAILINGS.get(metal)
       ));
-      playRemoveSound(level, pos);
+      IWrenchable.playRemoveSound(level, pos);
       return InteractionResult.SUCCESS;
     }
 
     level.removeBlock(pos, false);
     if (!player.getAbilities().instabuild) player.addItem(new ItemStack(state.getBlock().asItem()));
-    playRemoveSound(level, pos);
+    IWrenchable.playRemoveSound(level, pos);
     return InteractionResult.SUCCESS;
 
   }

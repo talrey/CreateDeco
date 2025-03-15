@@ -95,7 +95,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
       if (state.getValue(fromDirection(dir))) {
         state = state.setValue(fromDirection(dir), false);
         level.setBlock(pos, state, 3);
-        playRemoveSound(level, pos);
+        IWrenchable.playRemoveSound(level, pos);
         if (!player.getAbilities().instabuild) player.addItem(new ItemStack(state.getBlock().asItem()));
         return InteractionResult.SUCCESS;
       }
@@ -117,7 +117,7 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     }
 
     level.setBlock(pos, state, 3);
-    playRemoveSound(level, pos);
+    IWrenchable.playRemoveSound(level, pos);
     if (!player.getAbilities().instabuild) player.addItem(new ItemStack(state.getBlock().asItem()));
     return InteractionResult.SUCCESS;
   }

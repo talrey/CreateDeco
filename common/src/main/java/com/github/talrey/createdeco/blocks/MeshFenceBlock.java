@@ -23,7 +23,7 @@ public class MeshFenceBlock extends FenceBlock implements IWrenchable {
         Level level = context.getLevel();
 
         level.setBlockAndUpdate(context.getClickedPos(), state.setValue(UP, !state.getValue(UP)));
-        playRotateSound(level, context.getClickedPos());
+        IWrenchable.playRotateSound(level, context.getClickedPos());
 
         return InteractionResult.SUCCESS;
     }

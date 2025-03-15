@@ -328,9 +328,10 @@ public class BlockRegistry {
 						} else if (original.equals(TooltipModifier.EMPTY)) {
 							CreateDecoMod.LOGGER.info("placard tooltip was empty");
 						}
-						TooltipModifier.REGISTRY.register(placard.asItem(),
-								TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem())
-						);
+						//TODO - this fully crashes on Create 6.0
+//						TooltipModifier.REGISTRY.register(placard.asItem(),
+//								TooltipModifier.REGISTRY.get(AllBlocks.PLACARD.asItem())
+//						);
 					})
 					.register());
 		}
