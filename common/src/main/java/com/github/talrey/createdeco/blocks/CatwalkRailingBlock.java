@@ -1,7 +1,7 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
-import com.simibubi.create.content.schematics.requirement.ISpecialBlockItemRequirement;
+import com.simibubi.create.api.schematic.requirement.SpecialBlockItemRequirement;
 import com.simibubi.create.content.schematics.requirement.ItemRequirement;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
@@ -32,7 +32,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWaterloggedBlock, ISpecialBlockItemRequirement {
+public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWaterloggedBlock, SpecialBlockItemRequirement {
   private static final VoxelShape VOXEL_NORTH = Block.box(
           0d, 0d, 0d,
           16d, 14d, 2d

@@ -4,7 +4,7 @@ import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.ItemRegistry;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
-import com.simibubi.create.content.schematics.requirement.ISpecialBlockItemRequirement;
+import com.simibubi.create.api.schematic.requirement.SpecialBlockItemRequirement;
 import com.simibubi.create.content.schematics.requirement.ItemRequirement;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Optional;
 
-public class CatwalkBlock extends Block implements IWrenchable, ProperWaterloggedBlock, ISpecialBlockItemRequirement {
+public class CatwalkBlock extends Block implements IWrenchable, ProperWaterloggedBlock, SpecialBlockItemRequirement {
   private static final VoxelShape VOXEL_CATWALK_TOP = Block.box(
     0d, 14d, 0d,
     16d, 16d, 16d
@@ -188,7 +188,7 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
       // Set the property to false
       state = state.setValue(property, false);
       level.setBlock(pos, state, 3);
-      playRemoveSound(level, pos);
+      IWrenchable.playRemoveSound(level, pos);
       if (!player.getAbilities().instabuild) {
 	// Return the corresponding item to the player
 	if (clickedShape == VOXEL_CATWALK_TOP || clickedShape == VOXEL_CATWALK_BOTTOM) {
