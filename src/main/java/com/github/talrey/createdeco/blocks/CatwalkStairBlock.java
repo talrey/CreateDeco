@@ -16,6 +16,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -32,7 +33,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class CatwalkStairBlock extends Block implements IWrenchable, SimpleWaterloggedBlock {
+public class CatwalkStairBlock extends HorizontalDirectionalBlock implements IWrenchable, SimpleWaterloggedBlock {
 
   private static final VoxelShape BOX_NORTH = Shapes.join(
     Block.box(0d, 14d, 8d, 16d, 16d, 16d),

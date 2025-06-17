@@ -7,6 +7,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class DecalBlock extends Block implements SimpleWaterloggedBlock {
+public class DecalBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
   private static final VoxelShape NORTH = Block.box(
   1d, 1d, 0d,
   15d, 15d, 1d
