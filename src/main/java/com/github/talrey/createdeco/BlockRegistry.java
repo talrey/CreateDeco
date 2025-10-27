@@ -4,24 +4,35 @@ import com.github.talrey.createdeco.api.*;
 import com.github.talrey.createdeco.blocks.*;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllMountedStorageTypes;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.api.contraption.storage.item.MountedItemStorageType;
+import com.simibubi.create.api.packager.InventoryIdentifier;
 import com.simibubi.create.content.decoration.MetalLadderBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
 import com.simibubi.create.content.decoration.palettes.WindowBlock;
 import com.simibubi.create.content.decoration.placard.PlacardBlock;
 import com.simibubi.create.content.decoration.placard.PlacardRenderer;
+import com.simibubi.create.content.logistics.vault.ItemVaultBlockEntity;
+import com.simibubi.create.content.logistics.vault.ItemVaultMountedStorageType;
+import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.simibubi.create.foundation.item.TooltipModifier;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +95,8 @@ public class BlockRegistry {
 	public static HashMap<DyeColor, BlockEntry<ShippingContainerBlock>> SHIPPING_CONTAINERS = new HashMap<>();
 	public static HashMap<DyeColor, BlockEntityEntry<ShippingContainerBlock.Entity>> CONTAINER_ENTITIES = new HashMap<>();
 
+	public static final RegistryEntry<MountedItemStorageType<?>, ShippingContainerBlock.MountedStorageType> CONTAINER_MOUNTED_STORAGE = CreateDecoMod.REGISTRATE.mountedItemStorage("shipping_container", ShippingContainerBlock.MountedStorageType::new).register();;
+
 	public static DyeColor fromName (String color) {
 		for (DyeColor dye : BRICK_COLORS.keySet()) {
 			if (BRICK_COLORS.get(dye).equals(color)) return dye;
@@ -115,6 +128,17 @@ public class BlockRegistry {
 		// Bricks registration
 		CreateDecoMod.REGISTRATE.defaultCreativeTab(CreativeTabs.BRICKS_KEY);
 		registerBricks();
+		registerShippingContainers();
+	}
+
+	private static void registerInventoryIdentifiers() {
+		// connect vaults
+		for (BlockEntry<ShippingContainerBlock> container : SHIPPING_CONTAINERS.values()) {
+			InventoryIdentifier.REGISTRY.register(container.get(), (level, state, face) -> {
+				BlockEntity be = level.getBlockEntity(face.getPos());
+				return be instanceof ShippingContainerBlock.Entity vault ? vault.getInvId() : null;
+			});
+		}
 	}
 
 	private static void registerBars (String metal, Function<String, Item> getter) {
@@ -286,12 +310,15 @@ public class BlockRegistry {
 	}
 
 	private static void registerShippingContainers () {
+
 		for (DyeColor color : DyeColor.values()) {
+
 			SHIPPING_CONTAINERS.put(color, ShippingContainers.build(CreateDecoMod.REGISTRATE, color)
 					.recipe( (ctx, prov)-> {
 						ShippingContainers.recipeCrafting(color, ctx, prov);
 						ShippingContainers.recipeDyeing(color, ctx, prov);
 					})
+					.transform(MountedItemStorageType.mountedItemStorage(CONTAINER_MOUNTED_STORAGE))
 					.register()
 			);
 			CONTAINER_ENTITIES.put(color, CreateDecoMod.REGISTRATE.blockEntity(
@@ -392,5 +419,16 @@ public class BlockRegistry {
 				WALLS.get(color).put(bb.getName(), bb.register());
 			});
 		});
+	}
+
+	@EventBusSubscriber
+	public static class EventSubscriber {
+
+		@SubscribeEvent
+		private static void onCommonSetup(FMLCommonSetupEvent event) {
+			for (BlockEntry<ShippingContainerBlock> container : BlockRegistry.SHIPPING_CONTAINERS.values()) {
+				MountedItemStorageType.REGISTRY.register(container.get(), BlockRegistry.CONTAINER_MOUNTED_STORAGE.get());
+			}
+		}
 	}
 }

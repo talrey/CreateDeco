@@ -1,19 +1,24 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.BlockRegistry;
-import com.simibubi.create.AllBlockEntityTypes;
+import com.mojang.serialization.MapCodec;
+import com.simibubi.create.AllMountedStorageTypes;
 import com.simibubi.create.api.connectivity.ConnectivityHandler;
+import com.simibubi.create.api.contraption.storage.item.MountedItemStorageType;
 import com.simibubi.create.api.packager.InventoryIdentifier;
 import com.simibubi.create.content.logistics.vault.ItemVaultBlock;
 import com.simibubi.create.content.logistics.vault.ItemVaultBlockEntity;
+import com.simibubi.create.content.logistics.vault.ItemVaultMountedStorage;
 import com.simibubi.create.foundation.ICapabilityProvider;
 import com.simibubi.create.foundation.blockEntity.behaviour.inventory.VersionedInventoryWrapper;
+import com.simibubi.create.foundation.codec.CreateCodecs;
 import com.simibubi.create.foundation.utility.SameSizeCombinedInvWrapper;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -202,6 +207,46 @@ public class ShippingContainerBlock extends ItemVaultBlock {
       BoundingBox bounds = BoundingBox.fromCorners(this.worldPosition, farCorner);
       this.invId = new InventoryIdentifier.Bounds(bounds);
     }
+  }
+
+  public static class MountedStorage extends ItemVaultMountedStorage {
+
+	  public static final MapCodec<MountedStorage> CODEC = CreateCodecs.ITEM_STACK_HANDLER.xmap(
+			  MountedStorage::new, storage -> storage.wrapped
+	  ).fieldOf("value");
+
+    protected MountedStorage(MountedItemStorageType<?> type, ItemStackHandler handler) {
+      super(type, handler);
+    }
+
+    protected MountedStorage(ItemStackHandler handler) {
+      this(BlockRegistry.CONTAINER_MOUNTED_STORAGE.get(), handler);
+    }
+
+    @Override
+    public void unmount(Level level, BlockState state, BlockPos pos, @Nullable BlockEntity be) {
+      if (be instanceof Entity vault) {
+        vault.applyInventoryToBlock(this.wrapped);
+      }
+    }
+
+	  public static MountedStorage fromVault(ItemVaultBlockEntity vault) {
+		  // Vault inventories have a world-affecting onContentsChanged, copy to a safe one
+		  return new MountedStorage(copyToItemStackHandler(vault.getInventoryOfBlock()));
+	  }
+  }
+
+  public static class MountedStorageType extends MountedItemStorageType<MountedStorage> {
+
+	  public MountedStorageType() {
+		  super(MountedStorage.CODEC);
+	  }
+
+	  @Override
+	  @Nullable
+	  public MountedStorage mount(Level level, BlockState state, BlockPos pos, @Nullable BlockEntity be) {
+		  return be instanceof Entity vault ? MountedStorage.fromVault(vault) : null;
+	  }
   }
 }
 
