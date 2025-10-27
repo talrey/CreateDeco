@@ -7,6 +7,8 @@ import com.github.talrey.createdeco.connected.ShippingContainerCTBehavior;
 import com.github.talrey.createdeco.items.ShippingContainerBlockItem;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllMountedStorageTypes;
+import com.simibubi.create.api.contraption.storage.item.MountedItemStorageType;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -48,6 +50,7 @@ public class ShippingContainers {
       .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase().replaceAll("_", " ") + " Shipping Container")
 
       .blockstate((ctx, prov) -> BlockStateGenerator.shippingContainer(CreateDecoMod.REGISTRATE, color, ctx, prov))
+      .transform(MountedItemStorageType.mountedItemStorage(AllMountedStorageTypes.VAULT))
       .onRegister(connectedTextures(ShippingContainerCTBehavior::new));
   }
 
