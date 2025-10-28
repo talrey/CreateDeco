@@ -2,6 +2,7 @@ package com.github.talrey.createdeco.items;
 
 import com.github.talrey.createdeco.BlockRegistry;
 import com.github.talrey.createdeco.blocks.CoinStackBlock;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -35,14 +36,17 @@ public class CoinStackItem extends Item {
       return true;
     }
     else if (target.canBeReplaced(bictx)) {
+      if (!CoinStackBlock.canSurvive(ctx.getLevel(), ctx.getClickedPos())) return false;
       if (!ctx.getLevel().isClientSide()) ctx.getLevel().setBlockAndUpdate(ctx.getClickedPos(), BlockRegistry.COIN_BLOCKS.get(this.material).getDefaultState());
       return true;
     }
     else {
-      target = ctx.getLevel().getBlockState(ctx.getClickedPos().offset(ctx.getClickedFace().getNormal()));
+      BlockPos offset = ctx.getClickedPos().offset(ctx.getClickedFace().getNormal());
+      target = ctx.getLevel().getBlockState(offset);
       if (target.canBeReplaced(bictx)) {
+        if (!CoinStackBlock.canSurvive(ctx.getLevel(), offset)) return false;
         if (!ctx.getLevel().isClientSide()) ctx.getLevel().setBlockAndUpdate(
-          ctx.getClickedPos().offset(ctx.getClickedFace().getNormal()), BlockRegistry.COIN_BLOCKS.get(this.material).getDefaultState()
+          offset, BlockRegistry.COIN_BLOCKS.get(this.material).getDefaultState()
         );
         return true;
       }

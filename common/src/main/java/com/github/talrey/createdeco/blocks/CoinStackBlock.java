@@ -9,6 +9,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -104,5 +105,14 @@ public class CoinStackBlock extends Block implements ProperWaterloggedBlock {
     return ItemRegistry.COINSTACKS.containsKey(material)
       ? ItemRegistry.COINSTACKS.get(material).asStack()
       : new ItemStack(Items.AIR);
+  }
+
+  @Override
+  public boolean canSurvive (BlockState state, LevelReader level, BlockPos pos) {
+    return canSurvive(level, pos);
+  }
+
+  public static boolean canSurvive (LevelReader level, BlockPos pos) {
+    return !level.isEmptyBlock(pos.below());
   }
 }
