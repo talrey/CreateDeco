@@ -22,9 +22,9 @@ public class SpriteShifts {
   public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_SIDE = new HashMap<>();
   public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_BOTTOM = new HashMap<>();
 
-  static {
-    populateMaps();
-  }
+//  static {
+//    populateMaps();
+//  }
 
   private static Couple<CTSpriteShiftEntry> vault (DyeColor color, String face) {
     //final String prefixed = "block/vault/vault_" + name;
@@ -35,7 +35,7 @@ public class SpriteShifts {
     ));
   }
 
-  private static void populateMaps () {
+  public static void populateMaps () {
     for (DyeColor color : DyeColor.values()) {
       VAULT_TOP   .put(color, vault(color, "top"));
       VAULT_BOTTOM.put(color, vault(color, "bottom"));
