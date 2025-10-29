@@ -47,9 +47,9 @@ public class Wedges {
     ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 3)
         .pattern(" p")
         .pattern("pp")
-        .define('p', CDTags.of(metal, "plates").tag)
+        .define('p', CreateDecoTags.plate(metal))
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+            ItemPredicate.Builder.item().of(CreateDecoTags.plate(metal)).build()
         ))
         .save(prov);
 

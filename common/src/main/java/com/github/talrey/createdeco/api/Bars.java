@@ -99,9 +99,9 @@ public class Bars {
     ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 16)
             .pattern("ppp")
             .pattern("ppp")
-            .define('p', CDTags.of(metal, "plates").tag)
+            .define('p', CreateDecoTags.plate(metal))
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-                    ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+                    ItemPredicate.Builder.item().of(CreateDecoTags.plate(metal)).build()
             ))
             .save(prov, ctx.getName());
   }

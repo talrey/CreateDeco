@@ -27,10 +27,10 @@ public class MeshFences {
     ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 16)
         .pattern("psp")
         .pattern("psp")
-        .define('p', CDTags.of(metal, "plates").tag)
+        .define('p', CreateDecoTags.plate(metal))
         .define('s', Items.STRING)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+            ItemPredicate.Builder.item().of(CreateDecoTags.plate(metal)).build()
         ))
         .save(prov);
   }

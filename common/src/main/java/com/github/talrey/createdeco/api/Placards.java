@@ -28,10 +28,10 @@ public class Placards {
 
   public static <T extends Block> void recipeDyeing (DyeColor color, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov) {
     ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
-      .requires(CDTags.PLACARD)
+      .requires(CreateDecoTags.PLACARDS)
       .requires(DyeItem.byColor(color))
       .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-          ItemPredicate.Builder.item().of(CDTags.PLACARD).build()
+          ItemPredicate.Builder.item().of(CreateDecoTags.PLACARDS).build()
       ))
       .unlockedBy("has_dye", InventoryChangeTrigger.TriggerInstance.hasItems(
           ItemPredicate.Builder.item().of(DyeItem.byColor(color)).build()

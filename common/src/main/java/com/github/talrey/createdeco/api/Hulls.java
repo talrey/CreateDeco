@@ -50,10 +50,10 @@ public class Hulls {
         .pattern("mpm")
         .pattern(" m ")
         //.define('m', ingot.get())
-        .define('m', CDTags.of(metal, "plates").tag)
-        .define('p', CDTags.of(metal, "blocks").tag)
+        .define('m', CreateDecoTags.plate(metal))
+        .define('p', CreateDecoTags.blockItem(metal))
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "blocks").tag).build()
+            ItemPredicate.Builder.item().of(CreateDecoTags.blockItem(metal)).build()
         ))
         .save(prov);
   }
@@ -61,9 +61,9 @@ public class Hulls {
   public static <T extends Block> void recipeStonecutting (
       String metal, DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
   ) {
-    SingleItemRecipeBuilder.stonecutting(Ingredient.of(CDTags.of(metal, "blocks").tag), RecipeCategory.DECORATIONS, ctx.get(), 1)
+    SingleItemRecipeBuilder.stonecutting(Ingredient.of(CreateDecoTags.blockItem(metal)), RecipeCategory.DECORATIONS, ctx.get(), 1)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "blocks").tag).build()
+            ItemPredicate.Builder.item().of(CreateDecoTags.blockItem(metal)).build()
         ))
         .save(prov, metal.toLowerCase().replaceAll(" ", "_") + "_hull_from_stonecutting");
   }

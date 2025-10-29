@@ -33,7 +33,7 @@ public class Coins {
     return reg.item(regName, Item::new)
       .properties(p -> (metal.contains("Netherite")) ? p.fireResistant() : p)
       .recipe((ctx, prov)-> ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get(), 4)
-        .requires(coinstack.get())
+        .requires(CreateDecoTags.nugget(metal))
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(coinstack.get()))
         .save(prov)
       )

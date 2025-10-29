@@ -66,16 +66,16 @@ public class CageLamps {
             InventoryChangeTrigger.TriggerInstance.hasItems(nonstandardMaterial.get())
           )
           .define('n', nonstandardMaterial.get())
-          .define('p', CDTags.of(metal, "plates").tag)
+          .define('p', CreateDecoTags.plate(metalName))
           .save(prov);
       }
       else {
         cageLampRecipeBuilder(ctx.get(), light).unlockedBy("has_item",
             InventoryChangeTrigger.TriggerInstance.hasItems(
-              ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+              ItemPredicate.Builder.item().of(CreateDecoTags.plate(metalName)).build()
             ))
-          .define('n', CDTags.of(metal, "nuggets").tag)
-          .define('p', CDTags.of(metal, "plates").tag)
+          .define('n', CreateDecoTags.nugget(metalName))
+          .define('p', CreateDecoTags.plate(metalName))
           .save(prov);
       }
     };
