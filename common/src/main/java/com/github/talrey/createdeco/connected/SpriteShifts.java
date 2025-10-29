@@ -5,7 +5,9 @@ import com.github.talrey.createdeco.ItemRegistry;
 import com.simibubi.create.foundation.block.connected.AllCTTypes;
 import com.simibubi.create.foundation.block.connected.CTSpriteShiftEntry;
 import com.simibubi.create.foundation.block.connected.CTSpriteShifter;
+import com.simibubi.create.foundation.block.connected.CTType;
 import net.createmod.catnip.data.Couple;
+import net.createmod.catnip.platform.CatnipServices;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 
@@ -22,9 +24,9 @@ public class SpriteShifts {
   public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_SIDE = new HashMap<>();
   public static final HashMap<DyeColor, Couple<CTSpriteShiftEntry>> VAULT_BOTTOM = new HashMap<>();
 
-//  static {
-//    populateMaps();
-//  }
+  static {
+    populateMaps();
+  }
 
   private static Couple<CTSpriteShiftEntry> vault (DyeColor color, String face) {
     //final String prefixed = "block/vault/vault_" + name;
@@ -36,6 +38,7 @@ public class SpriteShifts {
   }
 
   public static void populateMaps () {
+    CreateDecoMod.LOGGER.info("Populating connected texture maps...");
     for (DyeColor color : DyeColor.values()) {
       VAULT_TOP   .put(color, vault(color, "top"));
       VAULT_BOTTOM.put(color, vault(color, "bottom"));
@@ -45,19 +48,27 @@ public class SpriteShifts {
 
     for (String metal : ItemRegistry.METAL_TYPES.keySet()) {
       String path = "block/palettes/sheet_metal/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_sheet_metal";
-      ResourceLocation blockTexture     = new ResourceLocation(CreateDecoMod.MOD_ID, path);
-      ResourceLocation connectedTexture = new ResourceLocation(CreateDecoMod.MOD_ID, path + "_connected");
-      SHEET_METAL_SIDES.put(metal, CTSpriteShifter.getCT(AllCTTypes.VERTICAL, blockTexture, connectedTexture));
+      ResourceLocation blockTexture     = ResourceLocation.tryBuild(CreateDecoMod.MOD_ID, path);
+      ResourceLocation connectedTexture = ResourceLocation.tryBuild(CreateDecoMod.MOD_ID, path + "_connected");
+      SHEET_METAL_SIDES.put(metal, make(AllCTTypes.VERTICAL, blockTexture, connectedTexture));
 
       path = "block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
-      blockTexture     = new ResourceLocation(CreateDecoMod.MOD_ID, path);
-      connectedTexture = new ResourceLocation(CreateDecoMod.MOD_ID, path + "_connected");
-      CATWALK_TOPS.put(metal, CTSpriteShifter.getCT(AllCTTypes.OMNIDIRECTIONAL, blockTexture, connectedTexture));
+      blockTexture     = ResourceLocation.tryBuild(CreateDecoMod.MOD_ID, path);
+      connectedTexture = ResourceLocation.tryBuild(CreateDecoMod.MOD_ID, path + "_connected");
+      CATWALK_TOPS.put(metal, make(AllCTTypes.OMNIDIRECTIONAL, blockTexture, connectedTexture));
 
       path = "block/palettes/windows/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_window";
-      blockTexture     = new ResourceLocation(CreateDecoMod.MOD_ID, path);
-      connectedTexture = new ResourceLocation(CreateDecoMod.MOD_ID, path + "_connected");
-      METAL_WINDOWS.put(metal, CTSpriteShifter.getCT(AllCTTypes.VERTICAL, blockTexture, connectedTexture));
+      blockTexture     = ResourceLocation.tryBuild(CreateDecoMod.MOD_ID, path);
+      connectedTexture = ResourceLocation.tryBuild(CreateDecoMod.MOD_ID, path + "_connected");
+      METAL_WINDOWS.put(metal, make(AllCTTypes.VERTICAL, blockTexture, connectedTexture));
     }
+  }
+
+  private static CTSpriteShiftEntry make (CTType type, ResourceLocation blockTexture, ResourceLocation connectedTexture) {
+    String key = blockTexture + "->" + connectedTexture + "+" + type.getId();
+    CTSpriteShiftEntry entry = new CTSpriteShiftEntry(type);
+    if (CatnipServices.PLATFORM.getEnv().isClient())
+      entry.set(blockTexture, connectedTexture);
+    return entry;
   }
 }
