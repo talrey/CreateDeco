@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"render_type": "translucent",
+	"render_type": "opaque",
 	"gui_light": "front",
 	"textures": {
 		"0": "createdeco:block/palettes/decal/decal_back",
