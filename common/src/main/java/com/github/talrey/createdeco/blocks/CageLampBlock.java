@@ -14,7 +14,9 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -75,9 +77,9 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
   @Override
   public BlockState getStateForPlacement (BlockPlaceContext ctx) {
     return withWater(defaultBlockState()
-        .setValue(BlockStateProperties.FACING, ctx.getClickedFace())
-        .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace())),
-      ctx);
+      .setValue(BlockStateProperties.FACING, ctx.getClickedFace())
+      .setValue(BlockStateProperties.LIT, ctx.getLevel().hasSignal(ctx.getClickedPos(), ctx.getClickedFace())),
+    ctx);
   }
 
   @Override
@@ -93,14 +95,15 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
   }
 
   @Override
-  public BlockState rotate(BlockState state, Rotation rotation) {
+  public BlockState rotate (BlockState state, Rotation rotation) {
     return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
   }
 
   @Override
-  public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
-    updateWater(pLevel, pState, pCurrentPos);
-    return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+  public BlockState updateShape (BlockState state, Direction from, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    updateWater(level, state, pos);
+    return !this.canSurvive(state, level, pos) ? Blocks.AIR.defaultBlockState() :
+      super.updateShape(state, from, neighbor, level, pos, neighborPos);
   }
 
   @Override
@@ -114,7 +117,7 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
   }
 
   @Override
-  public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbor, BlockPos neighborPos, boolean bool) {
+  public void neighborChanged (BlockState state, Level level, BlockPos pos, Block neighbor, BlockPos neighborPos, boolean bool) {
     Direction face = state.getValue(BlockStateProperties.FACING);
     if (pos.relative(face.getOpposite()).equals(neighborPos)) {
       BlockState next = toggle(state, level, pos);
@@ -158,5 +161,15 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
       BlockStateProperties.FACING,
       WATERLOGGED
     );
+  }
+
+  @Override
+  public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
+    return canSurvive(level, pos, (Direction)state.getValue(BlockStateProperties.FACING));
+  }
+
+  public static boolean canSurvive(LevelReader level, BlockPos pos, Direction facing) {
+    BlockPos opposite = pos.relative(facing.getOpposite());
+    return Block.canSupportCenter(level, opposite, facing.getOpposite());
   }
 }

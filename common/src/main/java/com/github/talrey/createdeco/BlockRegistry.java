@@ -4,7 +4,6 @@ import com.github.talrey.createdeco.api.*;
 import com.github.talrey.createdeco.blocks.*;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
-import com.simibubi.create.AllTags;
 import com.simibubi.create.content.decoration.MetalLadderBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
@@ -18,6 +17,8 @@ import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -393,4 +394,14 @@ public class BlockRegistry {
 			});
 		});
 	}
+
+//	private static TagKey<Block> of (String namespace, String path) {
+//		return BlockTags.create(
+//			ResourceLocation.fromNamespaceAndPath(namespace, path)
+//		);
+//	}
+//
+//	private static TagKey<Block> common (String path) {
+//		return of("c", path);
+//	}
 }

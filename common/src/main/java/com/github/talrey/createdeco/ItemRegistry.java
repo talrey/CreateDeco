@@ -1,14 +1,14 @@
 package com.github.talrey.createdeco;
 
-import com.github.talrey.createdeco.api.CDTags;
 import com.github.talrey.createdeco.api.Coins;
+import com.github.talrey.createdeco.api.CreateDecoTags;
 import com.github.talrey.createdeco.items.CoinStackItem;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.data.recipes.RecipeCategory;
 
 import java.util.HashMap;
 import java.util.function.Function;
@@ -32,10 +32,6 @@ public class ItemRegistry {
     CreateDecoMod.LOGGER.info("Registering items for " + CreateDecoMod.NAME);
     CreateDecoMod.REGISTRATE.defaultCreativeTab("props_tab");
 
-    registerSheets();
-    registerNuggets();
-    registerIngots();
-
     METAL_TYPES.put("Andesite", (str) -> AllItems.ANDESITE_ALLOY.get());
     METAL_TYPES.put("Zinc", (str) -> AllItems.ZINC_INGOT.get());
     METAL_TYPES.put("Copper", (str) -> Items.COPPER_INGOT);
@@ -51,28 +47,33 @@ public class ItemRegistry {
     COIN_METALS.put("Gold", (str) -> Items.GOLD_INGOT);
     COIN_METALS.put("Netherite", (str) -> Items.NETHERITE_INGOT);
 
+    CreateDecoTags.init();
+    registerSheets();
+    registerNuggets();
+    registerIngots();
+
     COIN_METALS.forEach(ItemRegistry::registerCoins);
   }
 
   private static void registerSheets () {
     ANDESITE_SHEET = CreateDecoMod.REGISTRATE.item("andesite_sheet", Item::new)
-        .tag(CDTags.of("andesite", "plates").tag)
+        .tag(CreateDecoTags.plate("Andesite"))
         .lang("Andesite Alloy Sheet")
         .register();
 
     ZINC_SHEET = CreateDecoMod.REGISTRATE.item("zinc_sheet", Item::new)
-      .tag(CDTags.of("zinc", "plates").tag)
+      .tag(CreateDecoTags.plate("Zinc"))
       .lang("Zinc Sheet")
       .register();
 
     NETHERITE_SHEET = CreateDecoMod.REGISTRATE.item("netherite_sheet", Item::new)
       .properties(Item.Properties::fireResistant)
-      .tag(CDTags.of("netherite", "plates").tag)
+      .tag(CreateDecoTags.plate("Netherite"))
       .lang("Netherite Sheet")
       .register();
 
     INDUSTRIAL_IRON_SHEET = CreateDecoMod.REGISTRATE.item("industrial_iron_sheet", Item::new)
-      .tag(CDTags.of("industrial_iron", "plates").tag)
+      .tag(CreateDecoTags.plate("Industrial Iron"))
       .lang("Industrial Iron Sheet")
       .register();
   }
@@ -80,13 +81,13 @@ public class ItemRegistry {
   private static void registerNuggets () {
     NETHERITE_NUGGET = CreateDecoMod.REGISTRATE.item("netherite_nugget", Item::new)
       .properties(Item.Properties::fireResistant)
-      .tag(CDTags.of("netherite", "nuggets").tag)
+      .tag(CreateDecoTags.nugget("Netherite"))
       .lang("Netherite Nugget")
       .recipe((ctx, prov) -> prov.storage(ctx, RecipeCategory.MISC, () -> Items.NETHERITE_INGOT))
       .register();
 
     INDUSTRIAL_IRON_NUGGET = CreateDecoMod.REGISTRATE.item("industrial_iron_nugget", Item::new)
-      .tag(CDTags.of("industrial_iron", "nuggets").tag)
+      .tag(CreateDecoTags.nugget("Industrial Iron"))
       .lang("Industrial Iron Nugget")
       .recipe((ctx, prov) -> prov.storage(ctx, RecipeCategory.MISC, INDUSTRIAL_IRON_INGOT))
       .register();
@@ -94,7 +95,7 @@ public class ItemRegistry {
 
   private static void registerIngots () {
     INDUSTRIAL_IRON_INGOT = CreateDecoMod.REGISTRATE.item("industrial_iron_ingot", Item::new)
-      .tag(CDTags.of("industrial_iron", "ingots").tag)
+      .tag(CreateDecoTags.ingot("Industrial Iron"))
       .lang("Industrial Iron Ingot")
       .recipe((ctx, prov) -> prov.storage(ctx, RecipeCategory.MISC, AllBlocks.INDUSTRIAL_IRON_BLOCK))
       .register();

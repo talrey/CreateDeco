@@ -195,10 +195,10 @@ public class Catwalks {
         .pattern(" p ")
         .pattern("pBp")
         .pattern(" p ")
-        .define('p', CDTags.of(metal, "plates").tag)
+        .define('p', CreateDecoTags.plate(metal))
         .define('B', barItem)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+            ItemPredicate.Builder.item().of(CreateDecoTags.plate(metal)).build()
         ))
         .save(prov, ctx.getName() + "_forge");
   }
@@ -212,10 +212,10 @@ public class Catwalks {
         .pattern("ppp")
         .pattern("B B")
         .pattern("B B")
-        .define('p', CDTags.of(metal, "plates").tag)
+        .define('p', CreateDecoTags.plate(metal))
         .define('B', barItem)
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+            ItemPredicate.Builder.item().of(CreateDecoTags.plate(metal)).build()
         ))
         .save(prov, ctx.getName() + "_forge");
   }

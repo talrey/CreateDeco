@@ -47,9 +47,9 @@ public class SheetMetal {
     ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ctx.get(), 4)
         .pattern("mm")
         .pattern("mm")
-        .define('m', CDTags.of(metal, "plates").tag)
+        .define('m', CreateDecoTags.plate(metal))
         .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-            ItemPredicate.Builder.item().of(CDTags.of(metal, "plates").tag).build()
+            ItemPredicate.Builder.item().of(CreateDecoTags.plate(metal)).build()
         ))
         .save(prov);
   }

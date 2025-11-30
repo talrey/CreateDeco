@@ -7,6 +7,8 @@ import com.github.talrey.createdeco.connected.ShippingContainerCTBehavior;
 import com.github.talrey.createdeco.items.ShippingContainerBlockItem;
 import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
+import com.simibubi.create.AllMountedStorageTypes;
+import com.simibubi.create.api.contraption.storage.item.MountedItemStorageType;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -24,8 +26,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.apache.commons.lang3.text.WordUtils;
 
+import java.util.Arrays;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static com.simibubi.create.foundation.data.CreateRegistrate.connectedTextures;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
@@ -34,7 +39,8 @@ public class ShippingContainers {
   public static BlockBuilder<ShippingContainerBlock,?> build (
     CreateRegistrate reg, DyeColor color
   ) {
-    String regName = color.getName().toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_shipping_container";
+    String regName = color.getName() + "_shipping_container";
+    String visName = WordUtils.capitalizeFully(color.getName().replaceAll("_", " "));
 
     return reg.block(regName, p -> new ShippingContainerBlock(p, color))
       .initialProperties(SharedProperties::softMetal)
@@ -45,9 +51,11 @@ public class ShippingContainers {
       .item(ShippingContainerBlockItem::new)
         .build()
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-      .lang(color.name().charAt(0) + color.name().substring(1).toLowerCase().replaceAll("_", " ") + " Shipping Container")
+      //String visName =  color.name().charAt(0) + color.name().substring(1).toLowerCase().replaceAll("_", " ")
+      .lang(visName + " Shipping Container")
 
       .blockstate((ctx, prov) -> BlockStateGenerator.shippingContainer(CreateDecoMod.REGISTRATE, color, ctx, prov))
+      .transform(MountedItemStorageType.mountedItemStorage(AllMountedStorageTypes.VAULT))
       .onRegister(connectedTextures(ShippingContainerCTBehavior::new));
   }
 
