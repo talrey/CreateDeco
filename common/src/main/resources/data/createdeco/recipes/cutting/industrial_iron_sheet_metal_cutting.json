@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "createdeco:industrial_iron_sheet_metal"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:industrial_iron_sheet",
+      "count": 4
+    }
+  ],
+  "processingTime": 50
+}

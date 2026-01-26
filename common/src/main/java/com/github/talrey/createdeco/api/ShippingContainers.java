@@ -55,7 +55,9 @@ public class ShippingContainers {
       .lang(visName + " Shipping Container")
 
       .blockstate((ctx, prov) -> BlockStateGenerator.shippingContainer(CreateDecoMod.REGISTRATE, color, ctx, prov))
-      .transform(MountedItemStorageType.mountedItemStorage(AllMountedStorageTypes.VAULT))
+      // NOTE: Vault mounting disabled for datagen - causes NPE due to Create initialization order
+      // TODO: Re-enable after datagen completes or find way to defer this registration
+      // .transform(MountedItemStorageType.mountedItemStorage(AllMountedStorageTypes.VAULT))
       .onRegister(connectedTextures(ShippingContainerCTBehavior::new));
   }
 

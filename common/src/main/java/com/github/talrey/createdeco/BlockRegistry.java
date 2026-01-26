@@ -159,7 +159,7 @@ public class BlockRegistry {
 				"block/palettes/cage_lamp/"
 						+ metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_lamp"
 		);
-		Supplier<Item> material = (metal == "Andesite" ? AllItems.ANDESITE_ALLOY : null);
+		Supplier<Item> material = (metal.equals("Andesite") ? AllItems.ANDESITE_ALLOY : null);
 
 		YELLOW_CAGE_LAMPS.put(metal, CageLamps.build(
 						CreateDecoMod.REGISTRATE, metal, DyeColor.YELLOW, cage, YELLOW_ON, YELLOW_OFF

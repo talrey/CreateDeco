@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "createdeco:zinc_sheet_metal"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:zinc_sheet",
+      "count": 4
+    }
+  ],
+  "processingTime": 50
+}

@@ -87,7 +87,7 @@ public class Windows {
             .define('#', Ingredient.of(CreateDecoTags.ingot(name.replace("_window", ""))))
             .define('X', CreateDecoTags.GLASS)
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-              (ItemLike) ItemPredicate.Builder.item().of(CreateDecoTags.ingot(name.replace("_window", "")))
+              ItemPredicate.Builder.item().of(CreateDecoTags.ingot(name.replace("_window", ""))).build()
             ))
             .save(p::accept))
         .initialProperties(() -> Blocks.GLASS)

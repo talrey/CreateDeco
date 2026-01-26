@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "createdeco:andesite_sheet_metal"
+    }
+  ],
+  "results": [
+    {
+      "item": "createdeco:andesite_sheet",
+      "count": 4
+    }
+  ],
+  "processingTime": 50
+}

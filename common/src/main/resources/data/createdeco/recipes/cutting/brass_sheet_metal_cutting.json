@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "createdeco:brass_sheet_metal"
+    }
+  ],
+  "results": [
+    {
+      "item": "create:brass_sheet",
+      "count": 4
+    }
+  ],
+  "processingTime": 50
+}

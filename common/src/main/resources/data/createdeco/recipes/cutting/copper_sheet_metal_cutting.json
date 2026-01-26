@@ -1,0 +1,15 @@
+{
+  "type": "create:cutting",
+  "ingredients": [
+    {
+      "item": "createdeco:copper_sheet_metal"
+    }
+  ],
+  "results": [
+    {
+      "item": "create:copper_sheet",
+      "count": 4
+    }
+  ],
+  "processingTime": 50
+}
