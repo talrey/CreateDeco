@@ -1,6 +1,5 @@
 package com.github.talrey.createdeco.mixin;
 
-import com.github.talrey.createdeco.CreateDecoMod;
 import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
 import com.simibubi.create.content.logistics.vault.ItemVaultBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;

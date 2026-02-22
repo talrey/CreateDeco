@@ -1,18 +1,23 @@
 package com.github.talrey.createdeco.fabric;
 
 import com.github.talrey.createdeco.CreateDecoMod;
+import com.simibubi.create.AllMountedStorageTypes;
 import io.github.fabricators_of_create.porting_lib.util.EnvExecutor;
 import net.fabricmc.api.ModInitializer;
 
 public class CreateDecoModFabric implements ModInitializer {
     @Override
     public void onInitialize() {
+        // Force Create's mounted storage types to be class-loaded and registered
+        // before we reference AllMountedStorageTypes.VAULT in our block builders.
+        AllMountedStorageTypes.register();
+
         CreativeTabsImpl.register();
         CreateDecoMod.init();
         CreateDecoMod.LOGGER.info(EnvExecutor.unsafeRunForDist(
                 () -> () -> "{} is accessing Porting Lib on a Fabric client!",
                 () -> () -> "{} is accessing Porting Lib on a Fabric server!"
-                ), CreateDecoMod.NAME);
+        ), CreateDecoMod.NAME);
         // on fabric, Registrates must be explicitly finalized and registered.
         CreateDecoMod.REGISTRATE.register();
     }
