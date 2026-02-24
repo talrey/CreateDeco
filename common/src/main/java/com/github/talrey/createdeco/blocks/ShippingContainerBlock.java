@@ -54,7 +54,7 @@ public class ShippingContainerBlock extends ItemVaultBlock {
   }
 
   @Nullable
-  public static Direction.Axis getVaultBlockAxis (BlockState state) {
+  public static Direction.Axis getItemVaultBlockAxis (BlockState state) {
     if (!isVault(state))
       return null;
     return state.getValue(HORIZONTAL_AXIS);

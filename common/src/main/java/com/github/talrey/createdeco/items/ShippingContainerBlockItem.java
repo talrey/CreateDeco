@@ -61,7 +61,7 @@ public class ShippingContainerBlockItem extends ItemVaultItem {
     if (width == 1) return;
 
     int blocksToPlace = 0;
-    Direction.Axis axis = ShippingContainerBlock.getVaultBlockAxis(placedOnState);
+    Direction.Axis axis = ShippingContainerBlock.getItemVaultBlockAxis(placedOnState);
     if (axis == null || axis != face.getAxis()) return;
 
     Direction facing = Direction.fromAxisAndDirection(axis, Direction.AxisDirection.POSITIVE);

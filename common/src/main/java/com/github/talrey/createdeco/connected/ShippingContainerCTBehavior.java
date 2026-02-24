@@ -18,12 +18,12 @@ public class ShippingContainerCTBehavior extends ConnectedTextureBehaviour.Base 
   public CTSpriteShiftEntry getShift (
     BlockState state, Direction direction, @Nullable TextureAtlasSprite sprite
   ) {
-    Direction.Axis vaultBlockAxis = ShippingContainerBlock.getVaultBlockAxis(state);
+    Direction.Axis ItemVaultBlockAxis = ShippingContainerBlock.getItemVaultBlockAxis(state);
     boolean small = !ShippingContainerBlock.isLarge(state);
     DyeColor color = ShippingContainerBlock.getColor(state);
-    if (vaultBlockAxis == null) return null;
+    if (ItemVaultBlockAxis == null) return null;
 
-    if (direction.getAxis() == vaultBlockAxis)
+    if (direction.getAxis() == ItemVaultBlockAxis)
       return SpriteShifts.VAULT_FRONT.get(color).get(small);
     if (direction == Direction.UP)
       return SpriteShifts.VAULT_TOP.get(color).get(small);
@@ -37,13 +37,13 @@ public class ShippingContainerCTBehavior extends ConnectedTextureBehaviour.Base 
   protected Direction getUpDirection (
     BlockAndTintGetter reader, BlockPos pos, BlockState state, Direction face
   ) {
-    Direction.Axis vaultBlockAxis = ShippingContainerBlock.getVaultBlockAxis(state);
-    boolean alongX = vaultBlockAxis == Direction.Axis.X;
+    Direction.Axis ItemVaultBlockAxis = ShippingContainerBlock.getItemVaultBlockAxis(state);
+    boolean alongX = ItemVaultBlockAxis == Direction.Axis.X;
     if (face.getAxis().isVertical() && alongX)
       return super.getUpDirection(reader, pos, state, face).getClockWise();
-    if (face.getAxis() == vaultBlockAxis || face.getAxis().isVertical())
+    if (face.getAxis() == ItemVaultBlockAxis || face.getAxis().isVertical())
       return super.getUpDirection(reader, pos, state, face);
-    return Direction.fromAxisAndDirection(vaultBlockAxis, alongX
+    return Direction.fromAxisAndDirection(ItemVaultBlockAxis, alongX
       ? Direction.AxisDirection.POSITIVE
       : Direction.AxisDirection.NEGATIVE
     );
@@ -53,10 +53,10 @@ public class ShippingContainerCTBehavior extends ConnectedTextureBehaviour.Base 
   protected Direction getRightDirection (
     BlockAndTintGetter reader, BlockPos pos, BlockState state, Direction face
   ) {
-    Direction.Axis vaultBlockAxis = ShippingContainerBlock.getVaultBlockAxis(state);
-    if (face.getAxis().isVertical() && vaultBlockAxis == Direction.Axis.X)
+    Direction.Axis ItemVaultBlockAxis = ShippingContainerBlock.getItemVaultBlockAxis(state);
+    if (face.getAxis().isVertical() && ItemVaultBlockAxis == Direction.Axis.X)
       return super.getRightDirection(reader, pos, state, face).getClockWise();
-    if (face.getAxis() == vaultBlockAxis || face.getAxis().isVertical())
+    if (face.getAxis() == ItemVaultBlockAxis || face.getAxis().isVertical())
       return super.getRightDirection(reader, pos, state, face);
     return Direction.fromAxisAndDirection(Direction.Axis.Y, face.getAxisDirection());
   }

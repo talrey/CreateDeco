@@ -29,7 +29,6 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -87,7 +86,7 @@ public class Windows {
             .define('#', Ingredient.of(CreateDecoTags.ingot(name.replace("_window", ""))))
             .define('X', CreateDecoTags.GLASS)
             .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
-              (ItemLike) ItemPredicate.Builder.item().of(CreateDecoTags.ingot(name.replace("_window", "")))
+              ItemPredicate.Builder.item().of(CreateDecoTags.ingot(name.replace("_window", ""))).build()
             ))
             .save(p::accept))
         .initialProperties(() -> Blocks.GLASS)

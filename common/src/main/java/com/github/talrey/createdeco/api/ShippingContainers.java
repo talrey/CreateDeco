@@ -9,6 +9,7 @@ import com.simibubi.create.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.AllMountedStorageTypes;
 import com.simibubi.create.api.contraption.storage.item.MountedItemStorageType;
+import com.simibubi.create.api.registry.CreateRegistries;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.simibubi.create.foundation.data.SharedProperties;
 import com.tterrag.registrate.builders.BlockBuilder;
@@ -55,7 +56,8 @@ public class ShippingContainers {
       .lang(visName + " Shipping Container")
 
       .blockstate((ctx, prov) -> BlockStateGenerator.shippingContainer(CreateDecoMod.REGISTRATE, color, ctx, prov))
-      .transform(MountedItemStorageType.mountedItemStorage(AllMountedStorageTypes.VAULT))
+            .onRegisterAfter(CreateRegistries.MOUNTED_ITEM_STORAGE_TYPE,
+                    block -> MountedItemStorageType.REGISTRY.register(block, AllMountedStorageTypes.VAULT.get()))
       .onRegister(connectedTextures(ShippingContainerCTBehavior::new));
   }
 
