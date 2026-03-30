@@ -1,8 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.7-SNAPSHOT" apply false
+    id "dev.architectury.loom" version "1.9-SNAPSHOT" apply false
     id "io.github.juuxel.loom-quiltflower" version "1.+" apply false // Quiltflower, a better decompiler
-    id "io.github.p03w.machete" version "1.+" // automatic jar compressing on build
 }
 
 architectury {
@@ -68,10 +67,5 @@ allprojects {
 
     java {
         withSourcesJar()
-    }
-
-    machete {
-        // disable machete locally for faster builds
-        enabled = buildNumber != null
     }
 }

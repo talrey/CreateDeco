@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "createdeco:long_verdant_bricks"
+  },
+  "result": "createdeco:long_verdant_brick_wall"
+}

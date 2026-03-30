@@ -11,13 +11,12 @@ public class CreateDecoModFabric implements ModInitializer {
         // Force Create's mounted storage types to be class-loaded and registered
         // before we reference AllMountedStorageTypes.VAULT in our block builders.
         AllMountedStorageTypes.register();
-
         CreativeTabsImpl.register();
         CreateDecoMod.init();
         CreateDecoMod.LOGGER.info(EnvExecutor.unsafeRunForDist(
                 () -> () -> "{} is accessing Porting Lib on a Fabric client!",
                 () -> () -> "{} is accessing Porting Lib on a Fabric server!"
-        ), CreateDecoMod.NAME);
+                ), CreateDecoMod.NAME);
         // on fabric, Registrates must be explicitly finalized and registered.
         CreateDecoMod.REGISTRATE.register();
     }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "b": {
+      "item": "minecraft:iron_bars"
+    },
+    "c": {
+      "item": "createdeco:iron_catwalk"
+    }
+  },
+  "pattern": [
+    " c",
+    "cb"
+  ],
+  "result": {
+    "count": 2,
+    "item": "createdeco:iron_catwalk_stairs"
+  },
+  "show_notification": true
+}
