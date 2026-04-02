@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 4,
+  "ingredient": {
+    "item": "minecraft:copper_ingot"
+  },
+  "result": "createdeco:copper_bars_overlay"
+}

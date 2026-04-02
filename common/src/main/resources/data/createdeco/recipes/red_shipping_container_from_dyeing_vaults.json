@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:red_dye"
+    },
+    {
+      "item": "create:item_vault"
+    }
+  ],
+  "result": {
+    "item": "createdeco:red_shipping_container"
+  }
+}

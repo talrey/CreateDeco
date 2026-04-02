@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -99,6 +100,7 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
     return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
   }
 
+
   @Override
   public BlockState updateShape (BlockState state, Direction from, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
     updateWater(level, state, pos);
@@ -171,5 +173,22 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
   public static boolean canSurvive(LevelReader level, BlockPos pos, Direction facing) {
     BlockPos opposite = pos.relative(facing.getOpposite());
     return Block.canSupportCenter(level, opposite, facing.getOpposite());
+  }
+
+  @Override
+  public BlockState mirror(BlockState state, Mirror mirror) {
+    Direction facing = state.getValue(FACING);
+    switch (mirror) {
+      case LEFT_RIGHT -> { // Mirror along Z-axis
+        if (facing == Direction.NORTH) facing = Direction.SOUTH;
+        else if (facing == Direction.SOUTH) facing = Direction.NORTH;
+      }
+      case FRONT_BACK -> { // Mirror along X-axis
+        if (facing == Direction.EAST) facing = Direction.WEST;
+        else if (facing == Direction.WEST) facing = Direction.EAST;
+      }
+      case NONE -> {} // do nothing
+    }
+    return state.setValue(FACING, facing);
   }
 }

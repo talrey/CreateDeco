@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "X": {
+      "item": "createdeco:cracked_scarlet_bricks"
+    }
+  },
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "result": {
+    "count": 6,
+    "item": "createdeco:cracked_scarlet_brick_wall"
+  },
+  "show_notification": true
+}

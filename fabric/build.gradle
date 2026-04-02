@@ -66,7 +66,7 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
     // Create - dependencies are added transitively
-    modImplementation("com.simibubi.create:create-fabric:${create_fabric_version}-mc${minecraft_version}")
+    modImplementation("com.simibubi.create:create-fabric:${create_fabric_version}")
 
     // Development QOL
     modLocalRuntime("maven.modrinth:lazydfu:${lazydfu_version}")
@@ -125,6 +125,7 @@ remapJar {
 jar {
     archiveClassifier = "dev"
 }
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 sourcesJar {
     def commonSources = project(":common").sourcesJar

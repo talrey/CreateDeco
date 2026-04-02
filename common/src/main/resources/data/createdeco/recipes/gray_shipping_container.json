@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:barrel"
+    },
+    "C": {
+      "item": "minecraft:gray_dye"
+    },
+    "S": {
+      "item": "create:iron_sheet"
+    }
+  },
+  "pattern": [
+    "CS",
+    "SB"
+  ],
+  "result": {
+    "item": "createdeco:gray_shipping_container"
+  },
+  "show_notification": true
+}

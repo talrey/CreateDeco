@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "createdeco:cracked_umber_bricks"
+  },
+  "result": "createdeco:cracked_umber_brick_wall"
+}

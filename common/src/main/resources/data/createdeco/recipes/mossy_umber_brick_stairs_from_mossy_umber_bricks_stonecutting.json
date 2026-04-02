@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "createdeco:mossy_umber_bricks"
+  },
+  "result": "createdeco:mossy_umber_brick_stairs"
+}

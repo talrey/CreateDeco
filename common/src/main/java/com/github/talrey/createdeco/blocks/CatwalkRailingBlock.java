@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -254,5 +255,34 @@ public class CatwalkRailingBlock extends Block implements IWrenchable, ProperWat
     }
     BlockState newState = defaultBlockState().setValue(NORTH_FENCE, north).setValue(SOUTH_FENCE, south).setValue(EAST_FENCE, east).setValue(WEST_FENCE, west);
     return newState;
+  }
+
+  @Override
+  public BlockState mirror(BlockState state, Mirror mirror) {
+    boolean north = state.getValue(NORTH_FENCE);
+    boolean south = state.getValue(SOUTH_FENCE);
+    boolean east  = state.getValue(EAST_FENCE);
+    boolean west  = state.getValue(WEST_FENCE);
+
+    switch (mirror) {
+      case LEFT_RIGHT -> { // mirror along Z-axis (north <-> south)
+        boolean tmp = north;
+        north = south;
+        south = tmp;
+        // east/west remain the same
+      }
+      case FRONT_BACK -> { // mirror along X-axis (east <-> west)
+        boolean tmp = east;
+        east = west;
+        west = tmp;
+        // north/south remain the same
+      }
+      case NONE -> {}
+    }
+
+    return state.setValue(NORTH_FENCE, north)
+            .setValue(SOUTH_FENCE, south)
+            .setValue(EAST_FENCE, east)
+            .setValue(WEST_FENCE, west);
   }
 }

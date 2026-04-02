@@ -1,6 +1,10 @@
 package com.github.talrey.createdeco;
 
+import com.github.talrey.createdeco.blocks.DecalBlock;
+import com.github.talrey.createdeco.blocks.ShippingContainerBlock;
+import com.github.talrey.createdeco.blocks.SupportWedgeBlock;
 import com.simibubi.create.content.decoration.palettes.ConnectedGlassPaneBlock;
+import com.simibubi.create.content.decoration.palettes.ConnectedPillarBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
@@ -8,235 +12,658 @@ import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import io.github.fabricators_of_create.porting_lib.models.generators.ConfiguredModel;
+import io.github.fabricators_of_create.porting_lib.models.generators.ModelFile;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.BlockModelBuilder;
+import io.github.fabricators_of_create.porting_lib.models.generators.block.MultiPartBlockStateBuilder;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SlabBlock;
-import net.minecraft.world.level.block.StairBlock;
-import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+
+
+
+import java.util.Locale;
+import java.util.function.Function;
 
 public class BlockStateGenerator {
-  @ExpectPlatform
-  public static void bar (
-    String base, String suf, ResourceLocation barTexture, ResourceLocation postTexture,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  public static void bar(
+          String base, String post, ResourceLocation barTexture, ResourceLocation postTexture,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
+    BlockModelBuilder sideModel = prov.models().withExistingParent(
+                    base + "_side", prov.mcLoc("block/iron_bars_side"))
+            .texture("bars", barTexture)
+            .texture("edge", postTexture)
+            .texture("particle", postTexture);
+    BlockModelBuilder sideAltModel = prov.models().withExistingParent(
+                    base + "_side_alt", prov.mcLoc("block/iron_bars_side_alt"))
+            .texture("bars", barTexture)
+            .texture("edge", postTexture)
+            .texture("particle", postTexture);
+
+    var model = builder.part().modelFile(prov.models().withExistingParent(base + "_post", prov.mcLoc("block/iron_bars_post"))
+            .texture("bars", postTexture).texture("particle", postTexture)
+    ).addModel();
+    model.conditions.put(BlockStateProperties.NORTH, false);
+    model.conditions.put(BlockStateProperties.SOUTH, false);
+    model.conditions.put(BlockStateProperties.EAST, false);
+    model.conditions.put(BlockStateProperties.WEST, false);
+    builder.part().modelFile(
+            prov.models().withExistingParent(base + "_post_ends", prov.mcLoc("block/iron_bars_post_ends"))
+                    .texture("edge", postTexture).texture("particle", postTexture)
+    ).addModel();
+    builder.part().modelFile(sideModel).addModel().conditions.put(BlockStateProperties.NORTH, true);
+    builder.part().modelFile(sideModel).rotationY(90).addModel().conditions.put(BlockStateProperties.EAST, true);
+    builder.part().modelFile(sideAltModel).addModel().conditions.put(BlockStateProperties.SOUTH, true);
+    builder.part().modelFile(sideAltModel).rotationY(90).addModel().conditions.put(BlockStateProperties.WEST, true);
+
+    if (!post.equals("")) {
+      BlockModelBuilder sideOverlayModel = prov.models().withExistingParent(
+                      base + post, prov.mcLoc("block/iron_bars_side"))
+              .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + post))
+              .texture("edge", postTexture)
+              .texture("particle", postTexture);
+      BlockModelBuilder sideOverlayAltModel = prov.models().withExistingParent(
+                      base + post + "_alt", prov.mcLoc("block/iron_bars_side_alt"))
+              .texture("bars", prov.modLoc("block/palettes/metal_bars/" + base + post))
+              .texture("edge", postTexture)
+              .texture("particle", postTexture);
+
+      builder.part().modelFile(sideOverlayModel).addModel().conditions.put(BlockStateProperties.NORTH, true);
+      builder.part().modelFile(sideOverlayModel).rotationY(90).addModel().conditions.put(BlockStateProperties.EAST, true);
+      builder.part().modelFile(sideOverlayAltModel).addModel().conditions.put(BlockStateProperties.SOUTH, true);
+      builder.part().modelFile(sideOverlayAltModel).rotationY(90).addModel().conditions.put(BlockStateProperties.WEST, true);
+    }
   }
 
-  @ExpectPlatform
-  public static void barItem (
-    String base, String suf, ResourceLocation bartex,
-    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  public static void barItem(
+          String base, String suf, ResourceLocation bartex,
+          DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
   ) {
-    throw new AssertionError();
+    if (suf.isEmpty()) {
+      prov.singleTexture(base, prov.mcLoc("item/generated"), "layer0", bartex);
+    } else {
+      prov.withExistingParent(base + suf, prov.mcLoc("item/generated"))
+              .texture("layer0", bartex)
+              .texture("layer1", prov.modLoc("block/palettes/metal_bars/" + base + suf));
+    }
   }
 
-  @ExpectPlatform
-  public static void sheetMetal (
-      String metal, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  public static void fence(
+          String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String postDir = "block/palettes/sheet_metal/";
+    String meshDir = "block/palettes/chain_link_fence/";
+    ResourceLocation post = prov.modLoc(postDir + regName + "_sheet_metal");
+    ResourceLocation mesh = prov.modLoc(meshDir + regName + "_chain_link");
+
+    char[][] states = {
+            // N    S      E      W
+            {'f', 'f', 'f', 'f'}, // solo
+            {'t', 'x', 't', 'x'},   // NE corner / tri / cross
+            {'t', 'x', 'x', 't'},   // NW corner / tri / cross
+            {'x', 't', 't', 'x'},   // SE corner / tri / cross
+            {'x', 't', 'x', 't'},   // SW corner / tri / cross
+            {'t', 'f', 'f', 'f'},  // N end
+            {'f', 't', 'f', 'f'},  // S end
+            {'f', 'f', 't', 'f'},  // E end
+            {'f', 'f', 'f', 't'}   // W end
+    };
+    BlockModelBuilder center = prov.models().withExistingParent(
+            ctx.getName() + "_post", prov.mcLoc("block/fence_post")
+    ).texture("texture", post);
+    BlockModelBuilder side = prov.models().withExistingParent(
+                    ctx.getName() + "_side", prov.modLoc("block/chainlink_fence_side")
+            ).texture("particle", mesh)
+            .texture("0", mesh);
+
+    MultiPartBlockStateBuilder builder = prov.getMultipartBuilder(ctx.get());
+    for (char[] state : states) {
+      MultiPartBlockStateBuilder.PartBuilder part = builder.part().modelFile(center).addModel();
+      if (state[0] == 't') {
+        part.conditions.put(BlockStateProperties.NORTH, true);
+      } else if (state[0] == 'f') {
+        part.conditions.put(BlockStateProperties.NORTH, false);
+      } // else 'x' don't care
+      if (state[1] == 't') {
+        part.conditions.put(BlockStateProperties.SOUTH, true);
+      } else if (state[1] == 'f') {
+        part.conditions.put(BlockStateProperties.SOUTH, false);
+      } // else 'x' don't care
+      if (state[2] == 't') {
+        part.conditions.put(BlockStateProperties.EAST, true);
+      } else if (state[2] == 'f') {
+        part.conditions.put(BlockStateProperties.EAST, false);
+      } // else 'x' don't care
+      if (state[3] == 't') {
+        part.conditions.put(BlockStateProperties.WEST, true);
+      } else if (state[3] == 'f') {
+        part.conditions.put(BlockStateProperties.WEST, false);
+      } // else 'x' don't care
+      //part.end();
+    }
+    builder.part().modelFile(center).addModel()
+            .conditions.put(BlockStateProperties.UP, true);
+    builder.part().modelFile(side).addModel()
+            .conditions.put(BlockStateProperties.EAST, true);
+    builder.part().modelFile(side)
+            .rotationY(90).addModel()
+            .conditions.put(BlockStateProperties.SOUTH, true);
+    builder.part().modelFile(side)
+            .rotationY(180).addModel()
+            .conditions.put(BlockStateProperties.WEST, true);
+    builder.part().modelFile(side)
+            .rotationY(270).addModel()
+            .conditions.put(BlockStateProperties.NORTH, true);
   }
 
-  @ExpectPlatform
-  public static void fence (
-    String metal, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  public static void cageLamp(
+          ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+      int y = 0;
+      int x = 90;
+      switch (state.getValue(BlockStateProperties.FACING)) {
+        case NORTH -> y = 0;
+        case SOUTH -> y = 180;
+        case WEST -> y = -90;
+        case EAST -> y = 90;
+        case DOWN -> x = 180;
+        default -> x = 0; // up
+      }
+      return ConfiguredModel.builder().modelFile(prov.models()
+              .withExistingParent(
+                      ctx.getName() + (state.getValue(BlockStateProperties.LIT) ? "" : "_off"),
+                      prov.modLoc("block/cage_lamp"))
+              .texture("cage", cage)
+              .texture("lamp", state.getValue(BlockStateProperties.LIT) ? lampOn : lampOff)
+              .texture("particle", cage)
+      ).rotationX(x).rotationY(y).build();
+    });
   }
 
-  @ExpectPlatform
-  public static void decal (
-      CreateRegistrate reg, String type,
-      DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void cageLamp (
-    ResourceLocation cage, ResourceLocation lampOn, ResourceLocation lampOff,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void catwalk (
-    CreateRegistrate reg, String metal,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void catwalkItem (
-    String metal, DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void catwalkStair (
-    String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void catwalkRailing (
-    CreateRegistrate reg, String metal,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void catwalkRailingItem (
-    CreateRegistrate reg, String metal,
-    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void door (
-    CreateRegistrate reg, String metal, boolean locked,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void doorItem (
-    CreateRegistrate reg, String metal,
-    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void hull (
-    CreateRegistrate reg, String metal,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void support (
-    CreateRegistrate reg, String metal,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
-  public static void supportWedge (
+  public static void catwalk(
           CreateRegistrate reg, String metal,
           DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    var name = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+
+    ResourceLocation catwalkTexture = prov.modLoc("block/palettes/catwalks/" + name + "_catwalk");
+    ResourceLocation supportTexture = prov.modLoc("block/palettes/support/" + name + "_support");
+
+    BlockModelBuilder catwalk = prov.models()
+            .withExistingParent(name + "_catwalk", prov.modLoc("block/catwalk_top"))
+            .texture("2", catwalkTexture)
+            .texture("particle", catwalkTexture);
+
+    BlockModelBuilder support = prov.models()
+            .withExistingParent(name + "_catwalk_support", prov.modLoc("block/catwalk_support"))
+            .texture("0", supportTexture)
+            .texture("particle", supportTexture);
+
+
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(catwalk).addModel();
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(support).addModel()
+            .conditions.put(BlockStateProperties.BOTTOM, true);
   }
 
-  @ExpectPlatform
-  public static void facade (
-      CreateRegistrate reg, String metal,
-      DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  public static void catwalkItem(
+          String metal, DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
   ) {
-    throw new AssertionError();
+    prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
+            .texture("texture",
+                    prov.modLoc("block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT)
+                            .replaceAll(" ", "_") + "_catwalk"
+                    )
+            );
   }
 
-  @ExpectPlatform
-  public static void trapdoorItem (
-    CreateRegistrate reg, String metal,
-    DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  public static void catwalkStair(
+          String texture, DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    ConfiguredModel.builder().modelFile(prov.models().getExistingFile(prov.modLoc(
+            ctx.getName()
+    )));
   }
 
-  @ExpectPlatform
-  public static void shippingContainer (
+  public static void catwalkRailing(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String texture = reg.getModid() + ":block/palettes/catwalks/" + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_") + "_catwalk";
+
+    BlockModelBuilder rail_lower = prov.models().withExistingParent(ctx.getName(),
+                    prov.modLoc("block/catwalk_rail"))
+            .texture("3", texture + "_rail")
+            .texture("particle", texture + "_rail");
+
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(90).addModel()
+            .conditions.put(BlockStateProperties.NORTH, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(-90).addModel()
+            .conditions.put(BlockStateProperties.SOUTH, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(180).addModel()
+            .conditions.put(BlockStateProperties.EAST, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(rail_lower).rotationY(0).addModel()
+            .conditions.put(BlockStateProperties.WEST, true);
+  }
+
+  public static void catwalkRailingItem(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName()));
+  }
+
+  public static void door(
+          CreateRegistrate reg, String metal, boolean locked,
+          DataGenContext<Block, DoorBlock> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = (locked ? "locked_" : "")
+            + metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    String path = "block/palettes/doors/" + regName;
+    prov.doorBlock(ctx.get(), prov.modLoc(path + "_door_bottom"), prov.modLoc(path + "_door_top"));
+  }
+
+  public static void doorItem(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    prov.singleTexture(ctx.getName(), prov.mcLoc("item/generated"),
+            "layer0", prov.modLoc("item/" + ctx.getName())
+    );
+  }
+
+  public static void hull(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = ctx.getName();
+    ResourceLocation front = prov.modLoc("block/palettes/hull/" + regName + "_front");
+    ResourceLocation side = prov.modLoc("block/palettes/hull/" + regName + "_side");
+    prov.getVariantBuilder(ctx.get())
+            .forAllStates(state -> {
+              Direction dir = state.getValue(BlockStateProperties.FACING);
+              return ConfiguredModel.builder()
+                      .modelFile(prov.models().withExistingParent(
+                                      ctx.getName(), prov.modLoc("train_hull"))
+                              .texture("0", front)
+                              .texture("1", side)
+                              .texture("particle", front))
+                      .rotationX(dir == Direction.DOWN ? 270 : dir.getAxis().isHorizontal() ? 0 : 90)
+                      .rotationY(dir.getAxis().isVertical() ? 0 : (((int) dir.toYRot()) + 0) % 360)
+                      .build();
+            });
+  }
+
+  public static void support(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = ctx.getName();
+    ResourceLocation texture = prov.modLoc("block/palettes/support/" + regName);
+
+    prov.directionalBlock(ctx.get(),
+            prov.models().withExistingParent(ctx.getName(), prov.modLoc("support"))
+                    .texture("0", texture)
+                    .texture("particle", texture));
+  }
+
+
+  public static void supportWedge(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    String regName = ctx.getName();
+    ResourceLocation wedge = prov.modLoc("block/palettes/support_wedges/" + regName);
+
+    prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+      int y = 0;
+      int x = 0;
+      var facing = state.getValue(SupportWedgeBlock.FACING);
+      var orientation = state.getValue(SupportWedgeBlock.ORIENTATION);
+      var horizontal = false;
+
+      switch (facing) {
+        case NORTH -> {    // No need for Direction.NORTH, just NORTH
+          switch (orientation) {
+            case 1 -> { x = 0; y = 0; }
+            case 2 -> { x = 0; y = 270; horizontal = true; }
+            case 3 -> { x = 270; y = 0; }
+            case 4 -> { x = 0; y = 0; horizontal = true; }
+          }
+        }
+        case SOUTH -> {    // No need for Direction.SOUTH, just SOUTH
+          switch (orientation) {
+            case 1 -> { x = 0; y = 180; }
+            case 2 -> { x = 0; y = 180; horizontal = true; }
+            case 3 -> { x = 270; y = 180; }
+            case 4 -> { x = 0; y = 90; horizontal = true; }
+          }
+        }
+        case EAST -> {     // No need for Direction.EAST, just EAST
+          switch (orientation) {
+            case 1 -> { x = 0; y = 90; }
+            case 2 -> { x = 0; y = 0; horizontal = true; }
+            case 3 -> { x = 270; y = 90; }
+            case 4 -> { x = 0; y = 90; horizontal = true; }
+          }
+        }
+        case WEST -> {     // No need for Direction.WEST, just WEST
+          switch (orientation) {
+            case 1 -> { x = 0; y = 270; }
+            case 2 -> { x = 0; y = 270; horizontal = true; }
+            case 3 -> { x = 270; y = 270; }
+            case 4 -> { x = 0; y = 180; horizontal = true; }
+          }
+        }
+      }
+      return ConfiguredModel.builder().modelFile(
+                      prov.models().withExistingParent(
+                                      ctx.getName() + (horizontal ? "_horizontal" : ""),
+                                      prov.modLoc("block/support_wedge" + (horizontal ? "_horizontal" : ""))
+                              )
+                              .texture("0", wedge)
+                              .texture("particle", wedge))
+              .rotationX(x)
+              .rotationY(y)
+              .build();
+    });
+  }
+
+  public static void trapdoorItem(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Item, ?> ctx, RegistrateItemModelProvider prov
+  ) {
+    String regName = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    prov.withExistingParent(ctx.getName(), prov.mcLoc("block/template_trapdoor_bottom"))
+            .texture("texture", prov.modLoc("block/palettes/doors/" + regName + "_trapdoor"));
+  }
+
+  public static void placard(
           CreateRegistrate reg, DyeColor color,
           DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    String regName = color.name().toLowerCase(Locale.ROOT)
+            .replaceAll(" ", "_") + "_placard";
+
+    prov.horizontalFaceBlock(ctx.get(),
+            prov.models().withExistingParent(regName, prov.modLoc("block/dyed_placard"))
+                    .texture("0", prov.modLoc("block/palettes/placard/" + regName))
+                    .texture("particle", prov.modLoc("block/palettes/placard/" + regName))
+    );
   }
 
-  @ExpectPlatform
-  public static void placard (
+  public static void shippingContainer(
           CreateRegistrate reg, DyeColor color,
           DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
+      String regName = color.name().toLowerCase(Locale.ROOT)
+              .replaceAll(" ", "_");
+
+      return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
+                              regName + "_shipping_container", prov.modLoc("block/shipping_container"))
+                      .texture("0", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_bottom_small"))
+                      .texture("1", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_front_small"))
+                      .texture("2", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_side_small"))
+                      .texture("3", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small"))
+                      .texture("particle", prov.modLoc("block/palettes/shipping_containers/" + regName + "/vault_top_small")))
+              .rotationY(state.getValue(ShippingContainerBlock.HORIZONTAL_AXIS) == Direction.Axis.X ? 90 : 0)
+              .build();
+    });
   }
 
-  @ExpectPlatform
-  public static void coinstackBlock (
-    ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  public static void coinstackBlock(
+          ResourceLocation side, ResourceLocation bottom, ResourceLocation top,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
   ) {
-    throw new AssertionError();
+    prov.getVariantBuilder(ctx.getEntry()).forAllStates(state -> {
+      int layer = state.getValue(BlockStateProperties.LAYERS);
+      return ConfiguredModel.builder().modelFile(prov.models().withExistingParent(
+                              ctx.getName() + "_" + layer, prov.modLoc("block/layers_bottom_top_" + layer)
+                      )
+                      .texture("side", side)
+                      .texture("bottom", bottom)
+                      .texture("top", top)
+      ).build();
+    });
   }
 
-  @ExpectPlatform
-  public static void brick (
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov, String color
+  public static void brick(
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov, String color
   ) {
-    throw new AssertionError();
+    prov.simpleBlock(ctx.get(), prov.models().cubeAll(ctx.getName(),
+            prov.modLoc("block/palettes/bricks/" + color + "/" + ctx.getName())
+    ));
   }
 
-  @ExpectPlatform
-  public static void brickStair (
-    DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String color
+  public static void brickStair(
+          DataGenContext<Block, StairBlock> ctx, RegistrateBlockstateProvider prov, String color
   ) {
-    throw new AssertionError();
+    prov.stairsBlock(ctx.get(),
+            prov.modLoc("block/palettes/bricks/" + color + "/"
+                    + ctx.getName().replaceAll("_stair", "")
+            )
+    );
   }
 
-  @ExpectPlatform
-  public static void brickSlab (
-    DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
+  public static void brickSlab(
+          DataGenContext<Block, SlabBlock> ctx, RegistrateBlockstateProvider prov, String color
   ) {
-    throw new AssertionError();
+    String block = ctx.getName().replaceAll("_slab", "s");
+    ResourceLocation blockModel = prov.modLoc("block/" + block);
+    ResourceLocation texture = prov.modLoc(
+            "block/palettes/bricks/" + color + "/" + block
+    );
+    prov.slabBlock(ctx.get(), blockModel, texture);
   }
 
-  @ExpectPlatform
-  public static void brickWall (
+  public static void brickWall(
           DataGenContext<Block, WallBlock> ctx, RegistrateBlockstateProvider prov, String color
   ) {
-    throw new AssertionError();
+    String block = ctx.getName().replaceAll("_wall", "s");
+    ResourceLocation texture = prov.modLoc(
+            "block/palettes/bricks/" + color + "/" + block
+    );
+    prov.wallBlock(ctx.get(), block, texture);
   }
 
-  @ExpectPlatform
-  public static void brickWallItem (
-    DataGenContext<Item, BlockItem> ctx, RegistrateItemModelProvider prov, String color
+  public static void window(
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov,
+          NonNullFunction<String, ResourceLocation> sideTexture,
+          NonNullFunction<String, ResourceLocation> endTexture
   ) {
-    throw new AssertionError();
+    prov.simpleBlock(ctx.get(), prov.models()
+            .cubeColumn(ctx.getName(), sideTexture.apply(ctx.getName()), endTexture.apply(ctx.getName()))
+    );
   }
 
-  @ExpectPlatform
-  public static void window (
-    DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov,
-    NonNullFunction<String, ResourceLocation> sideTexture,
-    NonNullFunction<String, ResourceLocation> endTexture
-  ) {
-    throw new AssertionError();
-  }
-
-  @ExpectPlatform
   public static NonNullBiConsumer<DataGenContext<Block, ConnectedGlassPaneBlock>, RegistrateBlockstateProvider> windowPane (
-    String CGPparents, String prefix, ResourceLocation sideTexture, ResourceLocation topTexture
+          String CGPparents, String prefix, ResourceLocation sideTexture, ResourceLocation topTexture
   ) {
-    throw new AssertionError();
+    Function<RegistrateBlockstateProvider, ModelFile>
+            post = getPaneModelProvider(CGPparents, prefix, "post", sideTexture, topTexture),
+            side = getPaneModelProvider(CGPparents, prefix, "side", sideTexture, topTexture),
+            sideAlt = getPaneModelProvider(CGPparents, prefix, "side_alt", sideTexture, topTexture),
+            noSide = getPaneModelProvider(CGPparents, prefix, "noside", sideTexture, topTexture),
+            noSideAlt = getPaneModelProvider(CGPparents, prefix, "noside_alt", sideTexture, topTexture);
+
+    return (c, p) -> p.paneBlock(c.get(),
+            post.apply(p),
+            side.apply(p),
+            sideAlt.apply(p),
+            noSide.apply(p),
+            noSideAlt.apply(p)
+    );
   }
 
-  @ExpectPlatform
-  public static void ladder (
-    DataGenContext<Block,?> ctx, RegistrateBlockstateProvider prov, String regName
+  private static Function<RegistrateBlockstateProvider, ModelFile> getPaneModelProvider (String CGPparents, String prefix, String partial, ResourceLocation sideTexture, ResourceLocation topTexture) {
+    return p -> p.models()
+            .withExistingParent(prefix + partial, CreateDecoMod.id(CGPparents + partial))
+            .texture("pane", sideTexture)
+            .texture("edge", topTexture);
+  }
+
+  public static void ladder(
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov, String regName
   ) {
-    throw new AssertionError();
+    prov.horizontalBlock(ctx.get(), prov.models()
+            .withExistingParent(ctx.getName(), prov.modLoc("block/ladder"))
+            .texture("0", prov.modLoc("block/palettes/ladders/ladder_" + regName + "_hoop"))
+            .texture("1", prov.modLoc("block/palettes/ladders/ladder_" + regName))
+            .texture("particle", prov.modLoc("block/palettes/ladders/ladder_" + regName))
+    );
+  }
+
+  public static void facade(
+          CreateRegistrate reg, String metal,
+          DataGenContext<Block, ?> ctx, RegistrateBlockstateProvider prov
+  ) {
+    var name = metal.toLowerCase(Locale.ROOT).replaceAll(" ", "_");
+    ResourceLocation catwalkTexture = prov.modLoc("block/palettes/catwalks/" + name + "_catwalk");
+
+    BlockModelBuilder facade = prov.models()
+            .withExistingParent(name + "_facade", prov.modLoc("block/facade"))
+            .texture("2", catwalkTexture)
+            .texture("particle", catwalkTexture);
+
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(facade).rotationY(0).addModel()
+            .conditions.put(BlockStateProperties.NORTH, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(facade).rotationY(180).addModel()
+            .conditions.put(BlockStateProperties.SOUTH, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(facade).rotationY(90).addModel()
+            .conditions.put(BlockStateProperties.EAST, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(facade).rotationY(-90).addModel()
+            .conditions.put(BlockStateProperties.WEST, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(facade).rotationX(-90).addModel()
+            .conditions.put(BlockStateProperties.UP, true);
+    prov.getMultipartBuilder(ctx.get()).part().modelFile(facade).rotationX(90).addModel()
+            .conditions.put(BlockStateProperties.DOWN, true);
+  }
+
+  public static void decal(CreateRegistrate reg, String prefix, DataGenContext<Block, DecalBlock> ctx, RegistrateBlockstateProvider prov) {
+    String texture = reg.getModid() + ":block/palettes/decals/decal_" + prefix;
+
+    prov.getVariantBuilder(ctx.get()).forAllStates(state -> {
+      int y = 69;
+      int x = 69;
+      Direction direction = state.getValue(DecalBlock.FACING);
+      switch (state.getValue(DecalBlock.FACE)) {
+        case FLOOR -> {
+          switch (direction) {
+            case EAST -> {
+              y = 90;
+              x = 90;
+            }
+            case WEST -> {
+              y = 270;
+              x = 90;
+            }
+            case SOUTH -> {
+              y = 180;
+              x = 90;
+            }
+            case NORTH -> {
+              y = 0;
+              x = 90;
+            }
+            case UP, DOWN -> {
+              y = 0;
+              x = 0;
+            }
+          }
+        }
+        case WALL -> {
+          switch (direction) {
+            case EAST -> {
+              y = 270;
+              x = 0;
+            }
+            case WEST -> {
+              y = 90;
+              x = 0;
+            }
+            case SOUTH -> {
+              y = 0;
+              x = 0;
+            }
+            case NORTH, UP, DOWN -> {
+              y = 180;
+              x = 0;
+            }
+          }
+        }
+        case CEILING -> {
+          switch (direction) {
+            case EAST -> {
+              y = 90;
+              x = 270;
+            }
+            case WEST -> {
+              y = 270;
+              x = 270;
+            }
+            case SOUTH -> {
+              y = 180;
+              x = 270;
+            }
+            case NORTH -> {
+              y = 0;
+              x = 270;
+            }
+            case UP, DOWN -> {
+              y = 0;
+              x = 0;
+            }
+          }
+        }
+      }
+      return ConfiguredModel.builder().modelFile(prov.models()
+              .withExistingParent(ctx.getName(), prov.modLoc("block/decal"))
+              .texture("0", reg.getModid() + ":block/palettes/decals/decal_back")
+              .texture("1", texture)
+              .texture("particle", texture)
+      ).rotationX(x).rotationY(y).build();
+    });
+  }
+
+  public static void brickWallItem(DataGenContext<Item, BlockItem> ctx, RegistrateItemModelProvider prov, String color) {
+    String block = ctx.getName().replaceAll("_wall", "s");
+    ResourceLocation texture = prov.modLoc(
+            "block/palettes/bricks/" + color + "/" + block
+    );
+    prov.wallInventory(ctx.getName(), texture);
+  }
+
+  public static void sheetMetal(String metal, DataGenContext<Block, ConnectedPillarBlock> ctx, RegistrateBlockstateProvider prov) {
+    var name = metal.toLowerCase().replace(" ", "_") + "_sheet_metal";
+    var side = CreateDecoMod.id("block/palettes/sheet_metal/" + name);
+    var end = CreateDecoMod.id("block/palettes/sheet_metal/" + name + "_top");
+    prov.getVariantBuilder(ctx.getEntry())
+            .forAllStatesExcept(state -> {
+                      Direction.Axis axis = state.getValue(BlockStateProperties.AXIS);
+                      if (axis == Direction.Axis.Y)
+                        return ConfiguredModel.builder()
+                                .modelFile(prov.models()
+                                        .cubeColumn(ctx.getName(), side, end))
+                                .uvLock(false)
+                                .build();
+                      return ConfiguredModel.builder()
+                              .modelFile(prov.models()
+                                      .cubeColumnHorizontal(ctx.getName() + "_horizontal", side, end))
+                              .uvLock(false)
+                              .rotationX(90)
+                              .rotationY(axis == Direction.Axis.X ? 90 : 0)
+                              .build();
+                    }, BlockStateProperties.WATERLOGGED, ConnectedPillarBlock.NORTH, ConnectedPillarBlock.SOUTH,
+                    ConnectedPillarBlock.EAST, ConnectedPillarBlock.WEST);
   }
 }

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 1,
+  "ingredient": {
+    "item": "createdeco:dean_brick_wall"
+  },
+  "result": "createdeco:short_dean_brick_wall"
+}

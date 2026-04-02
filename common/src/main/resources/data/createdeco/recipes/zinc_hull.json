@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "m": {
+      "tag": "c:plates/zinc"
+    },
+    "p": {
+      "tag": "c:zinc_blocks"
+    }
+  },
+  "pattern": [
+    " m ",
+    "mpm",
+    " m "
+  ],
+  "result": {
+    "count": 2,
+    "item": "createdeco:zinc_hull"
+  },
+  "show_notification": true
+}

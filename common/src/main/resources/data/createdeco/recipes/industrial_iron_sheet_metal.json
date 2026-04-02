@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "m": {
+      "tag": "c:plates/industrial_iron"
+    }
+  },
+  "pattern": [
+    "mm",
+    "mm"
+  ],
+  "result": {
+    "count": 4,
+    "item": "createdeco:industrial_iron_sheet_metal"
+  },
+  "show_notification": true
+}
