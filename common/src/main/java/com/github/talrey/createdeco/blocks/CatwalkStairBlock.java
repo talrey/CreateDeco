@@ -14,6 +14,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -157,5 +158,42 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
 
   public BlockState rotate(BlockState state, Rotation rotation) {
     return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
+  }
+
+  @Override
+  public BlockState mirror(BlockState state, Mirror mirror) {
+    Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+    boolean left  = state.getValue(RAILING_LEFT);
+    boolean right = state.getValue(RAILING_RIGHT);
+
+    switch (mirror) {
+      case LEFT_RIGHT -> { // mirror along Z-axis
+        // North <-> South flip
+        if (facing == Direction.NORTH) facing = Direction.SOUTH;
+        else if (facing == Direction.SOUTH) facing = Direction.NORTH;
+        // Swap left/right when facing north/south
+        if (facing == Direction.NORTH || facing == Direction.SOUTH) {
+          boolean tmp = left;
+          left = right;
+          right = tmp;
+        }
+      }
+      case FRONT_BACK -> { // mirror along X-axis
+        // East <-> West flip
+        if (facing == Direction.EAST) facing = Direction.WEST;
+        else if (facing == Direction.WEST) facing = Direction.EAST;
+        // Swap left/right when facing east/west
+        if (facing == Direction.EAST || facing == Direction.WEST) {
+          boolean tmp = left;
+          left = right;
+          right = tmp;
+        }
+      }
+      case NONE -> {} // do nothing
+    }
+
+    return state.setValue(BlockStateProperties.HORIZONTAL_FACING, facing)
+            .setValue(RAILING_LEFT, left)
+            .setValue(RAILING_RIGHT, right);
   }
 }
