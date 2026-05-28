@@ -178,7 +178,7 @@ public class ShippingContainerBlock extends ItemVaultBlock {
         return;
       }
 
-      boolean alongZ = ItemVaultBlock.getVaultBlockAxis(getBlockState()) == Direction.Axis.Z;
+      boolean alongZ = ShippingContainerBlock.getVaultBlockAxis(getBlockState()) == Direction.Axis.Z;
       IItemHandlerModifiable[] invs = new IItemHandlerModifiable[length * radius * radius];
       for (int yOffset = 0; yOffset < length; yOffset++) {
         for (int xOffset = 0; xOffset < radius; xOffset++) {
