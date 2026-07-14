@@ -185,6 +185,11 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
 
   }
 
+  @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
+  }
+
   public BlockState rotate(BlockState state, Rotation rotation) {
     return state.setValue(BlockStateProperties.HORIZONTAL_FACING, rotation.rotate(state.getValue(BlockStateProperties.HORIZONTAL_FACING)));
   }

@@ -174,6 +174,11 @@ public class CageLampBlock extends DirectionalBlock implements ProperWaterlogged
   }
 
   @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
+  }
+
+  @Override
   protected MapCodec<? extends DirectionalBlock> codec() {
         return null;
     }

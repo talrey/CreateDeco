@@ -137,6 +137,11 @@ public class SupportBlock extends DirectionalBlock implements ProperWaterloggedB
     return test instanceof SupportBlock;
   }
 
+  @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
+  }
+
   @MethodsReturnNonnullByDefault
   private static class PlacementHelper extends PoleHelper<Direction> {
     public PlacementHelper() {

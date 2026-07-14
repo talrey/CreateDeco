@@ -110,6 +110,11 @@ public class CoinStackBlock extends Block implements ProperWaterloggedBlock {
   protected boolean canSurvive (BlockState state, LevelReader level, BlockPos pos) {
     return canSurvive(level, pos);
   }
+  
+  @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
+  }
 
   public static boolean canSurvive (LevelReader level, BlockPos pos) {
     return !level.isEmptyBlock(pos.below());

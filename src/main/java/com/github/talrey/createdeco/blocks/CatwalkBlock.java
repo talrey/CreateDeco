@@ -98,6 +98,11 @@ public class CatwalkBlock extends Block implements IWrenchable, ProperWaterlogge
     return state.getValue(BlockStateProperties.WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
   }
 
+  @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
+  }
+
   public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
     BlockState blockState = state.setValue(BOTTOM, this.isBottom(level, pos));
     if (state != blockState) {
