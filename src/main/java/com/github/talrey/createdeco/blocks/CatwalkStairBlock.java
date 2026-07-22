@@ -1,6 +1,7 @@
 package com.github.talrey.createdeco.blocks;
 
 import com.github.talrey.createdeco.BlockRegistry;
+import com.github.talrey.createdeco.api.RailingColor;
 import com.simibubi.create.content.equipment.wrench.IWrenchable;
 import com.simibubi.create.foundation.block.ProperWaterloggedBlock;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -32,6 +35,9 @@ import org.jetbrains.annotations.Nullable;
 public class CatwalkStairBlock extends Block implements IWrenchable, ProperWaterloggedBlock {
   public static final BooleanProperty RAILING_LEFT = BooleanProperty.create("railing_left");
   public static final BooleanProperty RAILING_RIGHT = BooleanProperty.create("railing_right");
+
+  public static final EnumProperty<RailingColor> RAILING_LEFT_COLOR = EnumProperty.create("railing_left_color", RailingColor.class);
+  public static final EnumProperty<RailingColor> RAILING_RIGHT_COLOR = EnumProperty.create("railing_right_color", RailingColor.class);
 
   public final String metal;
 
@@ -78,13 +84,14 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
       .setValue(BlockStateProperties.WATERLOGGED, false)
       .setValue(RAILING_LEFT, false)
       .setValue(RAILING_RIGHT, false)
+      .setValue(RAILING_LEFT_COLOR, RailingColor.NATURAL)
+      .setValue(RAILING_RIGHT_COLOR, RailingColor.NATURAL)
     );
   }
 
   public static boolean isCatwalkStair (ItemStack test) {
     return (test.getItem() instanceof BlockItem be)
       && be.getBlock() instanceof CatwalkStairBlock;
-    //isCatwalk(((BlockItem)test.getItem()).getBlock());
   }
 
   public static boolean isCatwalkStair (Block test) {
@@ -109,6 +116,8 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
     builder.add(BlockStateProperties.WATERLOGGED);
     builder.add(RAILING_LEFT);
     builder.add(RAILING_RIGHT);
+    builder.add(RAILING_LEFT_COLOR);
+    builder.add(RAILING_RIGHT_COLOR);
   }
 
   @Override
@@ -167,13 +176,24 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
       if (dir == Direction.EAST) left = zPos > 0;
       if (dir == Direction.WEST) left = zPos < 0;
 
-      if (level.isClientSide() || !state.getValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT)) return InteractionResult.PASS;
+      BooleanProperty sideFlag = left ? RAILING_LEFT : RAILING_RIGHT;
+      EnumProperty<RailingColor> sideColor = left ? RAILING_LEFT_COLOR : RAILING_RIGHT_COLOR;
 
-      level.setBlock(pos, state.setValue(left ? CatwalkStairBlock.RAILING_LEFT : CatwalkStairBlock.RAILING_RIGHT, false), 3);
+      if (level.isClientSide() || !state.getValue(sideFlag)) return InteractionResult.PASS;
 
-      if (!player.getAbilities().instabuild) player.addItem(new ItemStack(
-        BlockRegistry.CATWALK_RAILINGS.get(metal)
-      ));
+      RailingColor removedColor = state.getValue(sideColor);
+
+      level.setBlock(pos, state
+        .setValue(sideFlag, false)
+        .setValue(sideColor, RailingColor.NATURAL), 3);
+
+      var railingEntry = removedColor.isNatural()
+        ? BlockRegistry.CATWALK_RAILINGS.get(metal)
+        : BlockRegistry.CATWALK_RAILINGS.get(removedColor.getRegistryKey());
+
+      if (!player.getAbilities().instabuild && railingEntry != null) {
+        player.addItem(new ItemStack(railingEntry));
+      }
       IWrenchable.playRemoveSound(level, pos);
       return InteractionResult.SUCCESS;
     }
@@ -183,6 +203,11 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
     IWrenchable.playRemoveSound(level, pos);
     return InteractionResult.SUCCESS;
 
+  }
+
+  @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
   }
 
   public BlockState rotate(BlockState state, Rotation rotation) {
