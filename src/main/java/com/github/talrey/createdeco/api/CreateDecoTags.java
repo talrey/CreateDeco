@@ -20,6 +20,7 @@ public class CreateDecoTags {
   private static final HashMap<String, TagKey<Item>> BLOCK_ITEM = new HashMap<>();
   private static final HashMap<String, TagKey<Block>> BLOCKS = new HashMap<>();
 
+  public static final TagKey<Block> PLACARDS_BLOCK = ofBlock(CreateDecoMod.MOD_ID, "placards");
   public static final TagKey<Item> PLACARDS = of(CreateDecoMod.MOD_ID, "placards");
   public static final TagKey<Block> BARS    = ofBlock("minecraft", "bars");
 
