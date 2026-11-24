@@ -49,7 +49,7 @@ public class BlockRegistry {
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<Block>>>      BRICKS = new HashMap<>();
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<StairBlock>>> STAIRS = new HashMap<>();
 	public static HashMap<DyeColor, HashMap<String, BlockEntry<SlabBlock>>>   SLABS = new HashMap<>();
-	public static HashMap<DyeColor, HashMap<String, BlockEntry<WallBlock>>>   WALLS= new HashMap<>();
+	public static HashMap<DyeColor, HashMap<String, BlockEntry<WallBlock>>>   WALLS = new HashMap<>();
 
 	public static HashMap<String, BlockEntry<DecalBlock>> DECALS = new HashMap<>();
 	public static HashMap<String, BlockEntry<CageLampBlock>> YELLOW_CAGE_LAMPS = new HashMap<>();
@@ -70,6 +70,7 @@ public class BlockRegistry {
 	public static HashMap<String, BlockEntry<CatwalkBlock>> CATWALKS                = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkStairBlock>> CATWALK_STAIRS     = new HashMap<>();
 	public static HashMap<String, BlockEntry<CatwalkRailingBlock>> CATWALK_RAILINGS = new HashMap<>();
+	public static HashMap<String, BlockEntry<CatwalkRailingBlock>> DYED_CATWALK_RAILINGS = new HashMap<>();
 
 	public static HashMap<String, BlockEntry<MetalLadderBlock>> LADDERS = new HashMap<>();
 	public static HashMap<String, BlockEntry<HullBlock>> HULLS          = new HashMap<>();
@@ -108,6 +109,7 @@ public class BlockRegistry {
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerCageLamps);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerSheetMetal);
 		ItemRegistry.METAL_TYPES.forEach(BlockRegistry::registerDoors);
+		registerDyedCatwalkRailings();
 		registerShippingContainers();
 		registerDecals();
 		registerPlacards();
@@ -217,6 +219,36 @@ public class BlockRegistry {
 //					Bars.recipeStonecutting(()->getter.apply("ingot"), ctx, prov);
 //				})
 //				.register());
+	}
+	
+	private static void registerDyedCatwalkRailings () {
+	    java.util.Map<String, net.minecraft.world.item.Item> colors = java.util.Map.ofEntries(
+	        java.util.Map.entry("Blue", net.minecraft.world.item.Items.BLUE_DYE),
+	        java.util.Map.entry("Green", net.minecraft.world.item.Items.GREEN_DYE),
+	        java.util.Map.entry("Orange", net.minecraft.world.item.Items.ORANGE_DYE),
+	        java.util.Map.entry("Purple", net.minecraft.world.item.Items.PURPLE_DYE),
+	        java.util.Map.entry("Red", net.minecraft.world.item.Items.RED_DYE),
+	        java.util.Map.entry("White", net.minecraft.world.item.Items.WHITE_DYE),
+	        java.util.Map.entry("Yellow", net.minecraft.world.item.Items.YELLOW_DYE)
+	    );
+
+	    colors.forEach((colorName, dyeItem) -> {
+	        BlockEntry<CatwalkRailingBlock> railing = com.github.talrey.createdeco.api.Catwalks.buildRailing(
+	                    CreateDecoMod.REGISTRATE, colorName)
+	                .lang(colorName + " Catwalk Railing")
+	                .recipe((ctx, prov) -> {
+	                    var andesiteRailing = com.github.talrey.createdeco.BlockRegistry.CATWALK_RAILINGS.get("Andesite");
+	               
+	                    if (andesiteRailing != null) {
+	                        com.github.talrey.createdeco.api.Catwalks.recipeDyeRailing(
+	                            andesiteRailing.get(), dyeItem, ctx, prov
+	                        );
+	                    }
+	                })
+	                .register();
+	                
+	         CATWALK_RAILINGS.put(colorName, railing);
+	    });
 	}
 
 	private static void registerSheetMetal (String metal, Function<String, Item> getter) {

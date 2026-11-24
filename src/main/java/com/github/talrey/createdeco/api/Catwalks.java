@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
@@ -220,4 +221,17 @@ public class Catwalks {
         ))
         .save(prov, ctx.getName() + "_forge");
   }
+  
+public static <T extends Block> void recipeDyeRailing (
+     ItemLike baseRailing, Item dye,
+     DataGenContext<Block, T> ctx, RegistrateRecipeProvider prov
+) {
+   ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, ctx.get())
+       .requires(baseRailing)
+       .requires(dye)
+       .unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(
+           ItemPredicate.Builder.item().of(baseRailing).build()
+       ))
+       .save(prov, ctx.getName() + "_dye");
+}
 }
