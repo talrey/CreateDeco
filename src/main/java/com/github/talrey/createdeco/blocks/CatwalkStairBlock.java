@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
@@ -183,6 +184,11 @@ public class CatwalkStairBlock extends Block implements IWrenchable, ProperWater
     IWrenchable.playRemoveSound(level, pos);
     return InteractionResult.SUCCESS;
 
+  }
+
+  @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
   }
 
   public BlockState rotate(BlockState state, Rotation rotation) {

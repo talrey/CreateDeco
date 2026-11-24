@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -109,6 +110,11 @@ public class CoinStackBlock extends Block implements ProperWaterloggedBlock {
   @Override
   protected boolean canSurvive (BlockState state, LevelReader level, BlockPos pos) {
     return canSurvive(level, pos);
+  }
+  
+  @Override
+  protected boolean isPathfindable(BlockState blockState, PathComputationType pathComputationType) {
+    return false;
   }
 
   public static boolean canSurvive (LevelReader level, BlockPos pos) {
