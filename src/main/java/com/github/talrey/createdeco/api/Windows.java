@@ -149,10 +149,11 @@ public class Windows {
         .save(p))
       .loot((t, g) -> t.dropWhenSilkTouch(g))
       .item()
-      .model((c, p) -> p.withExistingParent(c.getName(), CreateDecoMod.id("item/pane"))
-        .texture("pane", sideTexture)
-        .texture("edge", topTexture))
-      .build()
+        .model((c, p) -> p.withExistingParent(c.getName(), CreateDecoMod.id("item/pane"))
+          .texture("pane", sideTexture)
+          .texture("edge", topTexture))
+        .tag(Tags.Items.GLASS_PANES)
+        .build()
       .register();
   }
 
