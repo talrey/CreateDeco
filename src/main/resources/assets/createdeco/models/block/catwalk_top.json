@@ -5,7 +5,7 @@
 		"particle": "createdeco:create_deco/andesite_catwalk"
 	},
 	"ambientocclusion": false,
-	"render_type": "translucent",
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "floor",

@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout_mipped",
 	"textures": {
 		"2": "createdeco:block/palettes/catwalks/andesite_catwalk_rail",
 		"3": "createdeco:block/palettes/catwalks/andesite_catwalk_stairs",

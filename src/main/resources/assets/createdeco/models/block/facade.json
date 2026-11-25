@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"render_type": "translucent",
+	"render_type": "cutout_mipped",
 	"textures": {
 		"2": "createdeco:block/palettes/catwalks/andesite_catwalk",
 		"particle": "createdeco:create_deco/andesite_catwalk"

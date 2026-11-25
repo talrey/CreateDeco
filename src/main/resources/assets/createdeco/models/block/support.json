@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
 	"ambientocclusion": false,
-	"render_type": "translucent",
+	"render_type": "cutout_mipped",
 	"texture_size": [32, 32],
 	"textures": {
 		"0": "createdeco:block/palettes/support/andesite_support",

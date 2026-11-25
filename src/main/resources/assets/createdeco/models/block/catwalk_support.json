@@ -1,7 +1,7 @@
 {
 	"parent": "createdeco:block/support",
 	"ambientocclusion": false,
-	"render_type": "translucent",
+	"render_type": "cutout_mipped",
 	"textures": {
 		"0": "createdeco:block/palettes/support/andesite_support",
 		"particle": "createdeco:block/palettes/support/andesite_support"
