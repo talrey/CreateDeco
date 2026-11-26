@@ -118,7 +118,7 @@ public class Catwalks {
       })
       .addLayer(()-> RenderType::translucent)
       .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-      .tag(BlockTags.STAIRS)
+      .tag(CreateDecoTags.CATWALK_STAIRS)
       .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag)
       .blockstate((ctx,prov)-> BlockStateGenerator.catwalkStair(texture, ctx, prov))
       .item(CatwalkStairBlockItem::new).build();

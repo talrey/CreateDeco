@@ -22,6 +22,7 @@ public class CreateDecoTags {
 
   public static final TagKey<Item> PLACARDS = of(CreateDecoMod.MOD_ID, "placards");
   public static final TagKey<Block> BARS    = ofBlock("minecraft", "bars");
+  public static final TagKey<Block> CATWALK_STAIRS = ofBlock(CreateDecoMod.MOD_ID, "catwalk_stairs");
 
   public static void init () {
     for (String metal : ItemRegistry.METAL_TYPES.keySet()) {
