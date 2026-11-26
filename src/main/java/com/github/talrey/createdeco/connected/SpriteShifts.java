@@ -28,15 +28,6 @@ public class SpriteShifts {
     populateMaps();
   }
 
-  private static Couple<CTSpriteShiftEntry> vault (DyeColor color, String face) {
-    //final String prefixed = "block/vault/vault_" + name;
-    final String prefixed = "block/palettes/shipping_containers/" + color + "/vault_" + face;
-    return Couple.createWithContext(medium -> CTSpriteShifter.getCT(
-      AllCTTypes.RECTANGLE, CreateDecoMod.id(prefixed + "_small"),
-      CreateDecoMod.id(medium ? prefixed + "_medium" : prefixed + "_large")
-    ));
-  }
-
   public static void populateMaps () {
     CreateDecoMod.LOGGER.info("Populating connected texture maps...");
     for (DyeColor color : DyeColor.values()) {
@@ -70,5 +61,19 @@ public class SpriteShifts {
     if (CatnipServices.PLATFORM.getEnv().isClient())
       entry.set(blockTexture, connectedTexture);
     return entry;
+  }
+
+  private static Couple<CTSpriteShiftEntry> vault (DyeColor color, String face) {
+    //final String prefixed = "block/vault/vault_" + name;
+    final String prefixed = "block/palettes/shipping_containers/" + color + "/vault_" + face;
+      return Couple.createWithContext(medium -> {
+        CTSpriteShiftEntry entry = new CTSpriteShiftEntry(AllCTTypes.RECTANGLE);
+        if (CatnipServices.PLATFORM.getEnv().isClient())
+          entry.set(CreateDecoMod.id(prefixed + "_small"),
+                    CreateDecoMod.id(medium ? prefixed + "_medium" : prefixed + "_large")
+          );
+        return entry;
+      }
+    );
   }
 }
